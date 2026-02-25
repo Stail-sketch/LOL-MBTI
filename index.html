@@ -197,18 +197,7 @@
 
   /* ===== X SHARE ===== */
   .share-section{margin-bottom:24px;animation:fadeInUp .6s ease .7s both}
-  .share-card-preview{background:linear-gradient(135deg,#0A1428,#091428);border:1px solid var(--gold-dark);padding:24px 28px;margin-bottom:16px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));position:relative;overflow:hidden}
-  .share-card-preview::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(200,155,60,.02) 20px,rgba(200,155,60,.02) 21px)}
-  .share-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
-  .share-card-site{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.4em;color:rgba(200,155,60,.5);text-transform:uppercase}
-  .share-card-role-badge{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--blue)}
-  .share-card-champ{font-family:'Cinzel',serif;font-size:clamp(22px,4vw,36px);font-weight:900;color:var(--gold);text-shadow:0 0 20px rgba(200,155,60,.4);margin-bottom:2px}
-  .share-card-title{font-size:11px;color:var(--text);font-style:italic;margin-bottom:10px}
-  .share-card-pct{font-family:'Rajdhani',sans-serif;font-size:13px;color:var(--gold);margin-bottom:10px}
-  .share-card-pct span{font-size:22px;font-weight:700}
-  .share-card-type{display:inline-block;padding:3px 12px;background:rgba(200,155,60,.1);border:1px solid rgba(200,155,60,.3);font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--text-light)}
-  .share-card-reason{font-size:12px;color:var(--text);line-height:1.8;margin-top:10px;border-top:1px solid rgba(200,155,60,.1);padding-top:10px}
-  .btn-share-x{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;background:#000;color:#fff;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:.15em;cursor:pointer;border:1px solid rgba(255,255,255,.2);transition:all .3s ease;clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 50%,calc(100% - 8px) 100%,8px 100%,0% 50%)}
+.btn-share-x{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;background:#000;color:#fff;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:.15em;cursor:pointer;border:1px solid rgba(255,255,255,.2);transition:all .3s ease;clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 50%,calc(100% - 8px) 100%,8px 100%,0% 50%)}
   .btn-share-x:hover{background:#111;border-color:rgba(255,255,255,.5);transform:scale(1.04);box-shadow:0 4px 20px rgba(0,0,0,.5)}
   .x-icon{width:16px;height:16px;fill:#fff;flex-shrink:0}
 </style>
@@ -400,17 +389,6 @@
     </div>
     <!-- X シェア -->
     <div class="share-section">
-      <div class="share-card-preview" id="share-preview">
-        <div class="share-card-top">
-          <span class="share-card-site">召喚士の素質診断</span>
-          <span class="share-card-role-badge" id="share-role-badge"></span>
-        </div>
-        <div class="share-card-champ" id="share-champ-name"></div>
-        <div class="share-card-title" id="share-champ-title"></div>
-        <div class="share-card-pct">適合度 <span id="share-pct"></span>%</div>
-        <div class="share-card-type" id="share-type-name"></div>
-        <div class="share-card-reason" id="share-reason"></div>
-      </div>
       <div style="text-align:center">
 <button class="btn-share-x" onclick="shareToX()">
           <svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -760,7 +738,7 @@ function calculateResult(){
     const normalized={};
     Object.keys(scores).forEach(k=>{
       const dCount=window._dimCount[k]||1;
-      normalized[k]=Math.round((scores[k]/dCount)*100);
+      normalized[k]=Math.min(100,Math.round((scores[k]/dCount)*100));
     });
     const pool=CHAMPIONS.filter(c=>c.roles.includes(selectedRole));
     const ranked=pool.map(champ=>{
@@ -817,13 +795,6 @@ function showResult(champ,normalized,matchPct,alts){
 }
 
 function updateSharePreview(champ,matchPct,typeName){
-  const roleLabel={TOP:'TOP',JUNGLE:'JUNGLE',MID:'MID',ADC:'ADC',SUPPORT:'SUPPORT'};
-  document.getElementById('share-role-badge').textContent=roleLabel[selectedRole]||selectedRole;
-  document.getElementById('share-champ-name').textContent=champ.name;
-  document.getElementById('share-champ-title').textContent=`「${champ.title}」`;
-  document.getElementById('share-pct').textContent=matchPct;
-  document.getElementById('share-type-name').textContent=typeName?`召喚士タイプ：${typeName}`:'';
-  document.getElementById('share-reason').textContent=champ.reason.length>60?champ.reason.slice(0,60)+'…':champ.reason;
   window._shareData={champ,matchPct,typeName};
 }
 
