@@ -7,11 +7,11 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="召喚士の素質診断 | League of Legends">
 <meta property="og:description" content="あなたの性格・思考パターンを分析し、League of Legends でもっとも相性の良いチャンピオンを診断します。">
-<meta property="og:image" content="og-image.png">
+<meta property="og:image" content="image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="召喚士の素質診断 | League of Legends">
 <meta name="twitter:description" content="あなたのロールでもっとも相性の良いチャンピオンを診断します。">
-<meta name="twitter:image" content="og-image.png">
+<meta name="twitter:image" content="image.png">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{--gold:#C89B3C;--gold-light:#F0E6BE;--gold-dark:#785A28;--bg:#010A13;--bg2:#0A1428;--bg3:#091428;--blue:#0BC4E3;--text:#A09B8C;--text-light:#C8AA6E;--white:#F0E6BE;--red:#C8344A}
@@ -412,8 +412,7 @@
         <div class="share-card-reason" id="share-reason"></div>
       </div>
       <div style="text-align:center">
-        <p id="share-dl-notice" style="display:none;font-size:12px;color:var(--blue);margin-bottom:10px;letter-spacing:.05em">📥 画像をダウンロードしました。Xの投稿に添付してください</p>
-        <button class="btn-share-x" onclick="shareToX()">
+<button class="btn-share-x" onclick="shareToX()">
           <svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           Xでシェアする
         </button>
@@ -422,7 +421,6 @@
 
     <div class="result-actions">
       <button class="btn-secondary" onclick="retryDiagnosis()">もう一度診断する</button>
-      <button class="btn-secondary" onclick="changeRole()">ロールを変えて診断</button>
     </div>
   </div>
 </div>
@@ -829,148 +827,6 @@ function updateSharePreview(champ,matchPct,typeName){
   window._shareData={champ,matchPct,typeName};
 }
 
-function generateShareCanvas(champ,matchPct,role,typeName){
-  const W=1200,H=630;
-  const canvas=document.createElement('canvas');
-  canvas.width=W;canvas.height=H;
-  const ctx=canvas.getContext('2d');
-  const GOLD='#C89B3C',GOLD_LIGHT='#F0E6BE',GOLD_DARK='#785A28',BG='#010A13',BG2='#0A1428',BLUE='#0BC4E3',TEXT='#A09B8C';
-
-  // 背景
-  ctx.fillStyle=BG;
-  ctx.fillRect(0,0,W,H);
-
-  // 放射グラデーション（ゴールド）
-  const grd=ctx.createRadialGradient(W/2,H*0.3,0,W/2,H*0.3,W*0.5);
-  grd.addColorStop(0,'rgba(200,155,60,0.18)');
-  grd.addColorStop(1,'rgba(200,155,60,0)');
-  ctx.fillStyle=grd;
-  ctx.fillRect(0,0,W,H);
-
-  // ヘックスパターン（薄く）
-  ctx.save();
-  ctx.strokeStyle='rgba(200,155,60,0.05)';
-  ctx.lineWidth=1;
-  for(let x=0;x<W;x+=32){for(let y=0;y<H;y+=32){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+32,y);ctx.stroke();}}
-  ctx.restore();
-
-  // 外枠ボーダー
-  ctx.strokeStyle=GOLD_DARK;
-  ctx.lineWidth=2;
-  ctx.strokeRect(12,12,W-24,H-24);
-  // 内枠（細い）
-  ctx.strokeStyle='rgba(200,155,60,0.3)';
-  ctx.lineWidth=1;
-  ctx.strokeRect(20,20,W-40,H-40);
-
-  // コーナー装飾
-  const corner=24;
-  [[20,20],[W-20,20],[20,H-20],[W-20,H-20]].forEach(([cx,cy],i)=>{
-    ctx.beginPath();
-    ctx.strokeStyle=GOLD;
-    ctx.lineWidth=2;
-    const sx=i%2===0?1:-1,sy=i<2?1:-1;
-    ctx.moveTo(cx,cy+sy*corner);ctx.lineTo(cx,cy);ctx.lineTo(cx+sx*corner,cy);
-    ctx.stroke();
-  });
-
-  // サイト名（上部）
-  ctx.font='700 16px Rajdhani,sans-serif';
-  ctx.fillStyle='rgba(200,155,60,0.6)';
-  ctx.textAlign='center';
-  ctx.letterSpacing='0.4em';
-  ctx.fillText('召喚士の素質診断',W/2,58);
-
-  // ロール用の区切り線
-  ctx.beginPath();
-  ctx.moveTo(W/2-120,68);ctx.lineTo(W/2-8,68);
-  ctx.moveTo(W/2+8,68);ctx.lineTo(W/2+120,68);
-  ctx.strokeStyle='rgba(200,155,60,0.3)';ctx.lineWidth=1;ctx.stroke();
-  ctx.fillStyle=GOLD_DARK;
-  ctx.fillRect(W/2-5,64,10,8);
-  // ダイアモンド
-  ctx.save();ctx.translate(W/2,68);ctx.rotate(Math.PI/4);
-  ctx.fillStyle=GOLD;ctx.fillRect(-4,-4,8,8);
-  ctx.restore();
-
-  // ロールアイコン（大）
-  const roleIcons={TOP:'⚔️',JUNGLE:'🌿',MID:'⚡',ADC:'🏹',SUPPORT:'🛡️'};
-  const icon=roleIcons[role]||'⚔️';
-  ctx.font='90px serif';
-  ctx.textAlign='center';
-  ctx.fillText(icon,W/2,200);
-
-  // ロールバッジ
-  const badgeText=`${role}  ·  ${champ.title}`;
-  ctx.font='600 15px Rajdhani,sans-serif';
-  ctx.textAlign='center';
-  const bw=ctx.measureText(badgeText).width+40;
-  ctx.fillStyle='rgba(200,155,60,0.15)';
-  ctx.strokeStyle=GOLD_DARK;ctx.lineWidth=1;
-  ctx.beginPath();
-  if(ctx.roundRect){ctx.roundRect(W/2-bw/2,215,bw,30,3);}
-  else{ctx.rect(W/2-bw/2,215,bw,30);}
-  ctx.fill();ctx.stroke();
-  ctx.fillStyle=GOLD;
-  ctx.fillText(badgeText,W/2,235);
-
-  // チャンピオン名
-  ctx.font='bold 72px "Noto Serif JP",serif';
-  ctx.fillStyle=GOLD;
-  ctx.textAlign='center';
-  ctx.shadowColor='rgba(200,155,60,0.5)';
-  ctx.shadowBlur=24;
-  ctx.fillText(champ.name,W/2,322);
-  ctx.shadowBlur=0;
-
-  // 称号
-  ctx.font='italic 20px "Noto Serif JP",serif';
-  ctx.fillStyle=TEXT;
-  ctx.fillText(`「${champ.title}」`,W/2,355);
-
-  // 適合度バー
-  const barX=W/2-220,barY=385,barW=440,barH=8;
-  ctx.fillStyle='rgba(200,155,60,0.15)';
-  ctx.beginPath();
-  if(ctx.roundRect){ctx.roundRect(barX,barY,barW,barH,4);}else{ctx.rect(barX,barY,barW,barH);}
-  ctx.fill();
-  const fillW=barW*(matchPct/100);
-  const barGrd=ctx.createLinearGradient(barX,0,barX+fillW,0);
-  barGrd.addColorStop(0,GOLD_DARK);barGrd.addColorStop(0.5,GOLD);barGrd.addColorStop(1,BLUE);
-  ctx.fillStyle=barGrd;
-  ctx.beginPath();
-  if(ctx.roundRect){ctx.roundRect(barX,barY,fillW,barH,4);}else{ctx.rect(barX,barY,fillW,barH);}
-  ctx.fill();
-  // バーの先端の光点
-  ctx.beginPath();ctx.arc(barX+fillW,barY+4,5,0,Math.PI*2);
-  ctx.fillStyle=GOLD;ctx.shadowColor=GOLD;ctx.shadowBlur=10;ctx.fill();ctx.shadowBlur=0;
-  // 適合度テキスト
-  ctx.font='700 14px Rajdhani,sans-serif';
-  ctx.fillStyle=TEXT;ctx.textAlign='left';
-  ctx.fillText('適合度',barX,barY-8);
-  ctx.font='700 26px Rajdhani,sans-serif';
-  ctx.fillStyle=GOLD;ctx.textAlign='right';
-  ctx.fillText(matchPct+'%',barX+barW,barY-6);
-
-  // 召喚士タイプ（あれば）
-  if(typeName){
-    ctx.font='600 14px Rajdhani,sans-serif';
-    ctx.fillStyle=BLUE;ctx.textAlign='center';
-    ctx.fillText('召喚士タイプ : '+typeName,W/2,420);
-  }
-
-  // 下部ハッシュタグバッジ
-  ctx.fillStyle='rgba(0,0,0,0.5)';
-  ctx.fillRect(0,H-64,W,64);
-  ctx.beginPath();
-  ctx.moveTo(0,H-64);ctx.lineTo(W,H-64);
-  ctx.strokeStyle='rgba(200,155,60,0.3)';ctx.lineWidth=1;ctx.stroke();
-  ctx.font='700 18px Rajdhani,sans-serif';
-  ctx.fillStyle=GOLD;ctx.textAlign='center';
-  ctx.fillText('#LOL鑑定',W/2,H-32);
-
-  return canvas;
-}
 
 function shareToX(){
   const d=window._shareData||{};
@@ -987,31 +843,7 @@ function shareToX(){
   text+='\n#LOL鑑定 #LeagueOfLegends';
   text+='\n'+window.location.href;
   const twitterUrl='https://twitter.com/intent/tweet?text='+encodeURIComponent(text);
-
-  if(!champ){window.open(twitterUrl,'_blank','noopener,noreferrer');return;}
-
-  const canvas=generateShareCanvas(champ,pct,selectedRole,typeName);
-
-  canvas.toBlob(async(blob)=>{
-    const file=new File([blob],'lol-kandei.png',{type:'image/png'});
-    // Web Share API（モバイル等）
-    if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
-      try{
-        await navigator.share({files:[file],title:'召喚士の素質診断',text});
-        return;
-      }catch(e){/* fallthrough */}
-    }
-    // フォールバック: 画像ダウンロード + Twitter URL を開く
-    const a=document.createElement('a');
-    a.href=URL.createObjectURL(blob);
-    a.download='lol-kandei.png';
-    a.click();
-    URL.revokeObjectURL(a.href);
-    // ダウンロード案内を一時表示
-    const notice=document.getElementById('share-dl-notice');
-    if(notice){notice.style.display='block';setTimeout(()=>{notice.style.display='none';},6000);}
-    setTimeout(()=>window.open(twitterUrl,'_blank','noopener,noreferrer'),400);
-  },'image/png');
+  window.open(twitterUrl,'_blank','noopener,noreferrer');
 }
 
 function showAlt(champ,normalized){
@@ -1052,8 +884,7 @@ function buildLegend(norm){
   });
 }
 
-function retryDiagnosis(){activeQuestions=buildActiveQuestions(selectedQCount);window._dimCount={};['E','N','F','J','A','R','C','P'].forEach(d=>{window._dimCount[d]=activeQuestions.filter(q=>q.dim===d).length;});currentQ=0;scores={E:0,N:0,F:0,J:0,A:0,R:0,C:0,P:0};document.getElementById('q-total').textContent=activeQuestions.length;showScreen('question-screen');renderQuestion();}
-function changeRole(){showScreen('role-screen');}
+function retryDiagnosis(){selectedRole=null;selectedQCount=null;currentQ=0;scores={E:0,N:0,F:0,J:0,A:0,R:0,C:0,P:0};activeQuestions=[];showScreen('start-screen');}
 
 // ===== SUMMONER TYPES =====
 function getSummonerType(normalized){
@@ -1287,111 +1118,6 @@ const SUMMONER_TYPES = [
 ];
 // 12 types
 
-// ===== OG IMAGE GENERATOR =====
-function generateOGImage(){
-  const W=1200,H=630;
-  const canvas=document.createElement('canvas');
-  canvas.width=W;canvas.height=H;
-  const ctx=canvas.getContext('2d');
-  const GOLD='#C89B3C',GOLD_LIGHT='#F0E6BE',GOLD_DARK='#785A28',BG='#010A13',TEXT='#A09B8C',TEXT_LIGHT='#C8AA6E';
-
-  // 背景
-  ctx.fillStyle=BG;
-  ctx.fillRect(0,0,W,H);
-
-  // 放射グラデーション（上部ゴールド）
-  const grdTop=ctx.createRadialGradient(W/2,0,0,W/2,0,W*0.6);
-  grdTop.addColorStop(0,'rgba(200,155,60,0.18)');
-  grdTop.addColorStop(1,'rgba(200,155,60,0)');
-  ctx.fillStyle=grdTop;ctx.fillRect(0,0,W,H);
-
-  // ヘックスグリッド（薄く）
-  ctx.save();
-  ctx.strokeStyle='rgba(200,155,60,0.04)';ctx.lineWidth=1;
-  for(let x=0;x<W;x+=32){for(let y=0;y<H;y+=32){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+32,y);ctx.stroke();}}
-  ctx.restore();
-
-  // 外枠
-  ctx.strokeStyle=GOLD_DARK;ctx.lineWidth=2;ctx.strokeRect(10,10,W-20,H-20);
-  ctx.strokeStyle='rgba(200,155,60,0.25)';ctx.lineWidth=1;ctx.strokeRect(18,18,W-36,H-36);
-
-  // コーナー装飾（L字）
-  const c=28;
-  [[10,10],[W-10,10],[10,H-10],[W-10,H-10]].forEach(([x,y],i)=>{
-    const sx=i%2===0?1:-1,sy=i<2?1:-1;
-    ctx.beginPath();ctx.strokeStyle=GOLD;ctx.lineWidth=2;
-    ctx.moveTo(x,y+sy*c);ctx.lineTo(x,y);ctx.lineTo(x+sx*c,y);ctx.stroke();
-  });
-
-  // クラウンアイコン（SVGをCanvasで再現）
-  // 元SVG viewBox="0 0 80 80"、中央配置でスケール1.6
-  const crownScale=1.6,crownX=W/2,crownY=178;
-  ctx.save();ctx.translate(crownX,crownY);ctx.scale(crownScale,crownScale);ctx.translate(-40,-40);
-  // 影グロー
-  ctx.shadowColor='rgba(200,155,60,0.6)';ctx.shadowBlur=20;
-  // ポリゴン（王冠の形）
-  ctx.beginPath();
-  [[40,8],[55,32],[72,18],[65,55],[15,55],[8,18],[25,32]].forEach(([px,py],i)=>i===0?ctx.moveTo(px,py):ctx.lineTo(px,py));
-  ctx.closePath();ctx.strokeStyle=GOLD;ctx.lineWidth=2.5/crownScale;ctx.stroke();
-  ctx.shadowBlur=0;
-  // 台座の矩形
-  ctx.fillStyle='rgba(200,155,60,0.4)';ctx.fillRect(15,55,50,8);
-  // 円3つ
-  [[40,8,4],[72,18,3],[8,18,3]].forEach(([cx,cy,r])=>{ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle=GOLD;ctx.fill();});
-  ctx.restore();
-
-  // サブタイトル
-  ctx.font='600 14px Rajdhani,sans-serif';
-  ctx.fillStyle=TEXT_LIGHT;ctx.textAlign='center';
-  ctx.fillText('SUMMONER PERSONALITY ANALYSIS',W/2,248);
-
-  // メインタイトル
-  ctx.font='bold 68px "Noto Serif JP",serif';
-  ctx.fillStyle=GOLD;ctx.textAlign='center';
-  ctx.shadowColor='rgba(200,155,60,0.5)';ctx.shadowBlur=30;
-  ctx.fillText('召喚士の素質診断',W/2,330);
-  ctx.shadowBlur=0;
-
-  // ディバイダー
-  const dw=200,dy=355;
-  ctx.strokeStyle='rgba(200,155,60,0.5)';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(W/2-dw,dy);ctx.lineTo(W/2-12,dy);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(W/2+12,dy);ctx.lineTo(W/2+dw,dy);ctx.stroke();
-  ctx.save();ctx.translate(W/2,dy);ctx.rotate(Math.PI/4);
-  ctx.fillStyle=GOLD;ctx.fillRect(-5,-5,10,10);ctx.restore();
-
-  // スタッツ行
-  const stats=[['50','最大質問数'],['167','チャンピオン'],['8','性格軸'],['5','ロール']];
-  const sw=220,startX=W/2-sw*1.5;
-  stats.forEach(([num,label],i)=>{
-    const sx=startX+sw*i;
-    ctx.font='700 42px Rajdhani,sans-serif';
-    ctx.fillStyle=GOLD;ctx.textAlign='center';
-    ctx.shadowColor='rgba(200,155,60,0.3)';ctx.shadowBlur=12;
-    ctx.fillText(num,sx,430);ctx.shadowBlur=0;
-    ctx.font='600 13px Rajdhani,sans-serif';
-    ctx.fillStyle=TEXT;ctx.fillText(label,sx,450);
-  });
-
-  // 下部フッター
-  ctx.fillStyle='rgba(0,0,0,0.45)';ctx.fillRect(0,H-56,W,56);
-  ctx.strokeStyle='rgba(200,155,60,0.2)';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(0,H-56);ctx.lineTo(W,H-56);ctx.stroke();
-  ctx.font='700 16px Rajdhani,sans-serif';
-  ctx.fillStyle='rgba(200,155,60,0.7)';ctx.textAlign='center';
-  ctx.fillText('#LOL鑑定  |  League of Legends',W/2,H-22);
-
-  // ダウンロード
-  const a=document.createElement('a');
-  a.href=canvas.toDataURL('image/png');
-  a.download='og-image.png';
-  a.click();
-}
-
-// ?generate-og パラメータがあれば自動実行
-if(new URLSearchParams(window.location.search).has('generate-og')){
-  window.addEventListener('load',()=>setTimeout(generateOGImage,500));
-}
 
 </script>
 </body>
