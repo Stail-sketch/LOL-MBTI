@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>召喚士の素質診断 | League of Legends</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="召喚士の素質診断 | League of Legends">
+<meta property="og:description" content="あなたの性格・思考パターンを分析し、League of Legends でもっとも相性の良いチャンピオンを診断します。">
+<meta property="og:image" content="og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="召喚士の素質診断 | League of Legends">
+<meta name="twitter:description" content="あなたのロールでもっとも相性の良いチャンピオンを診断します。">
+<meta name="twitter:image" content="og-image.png">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{--gold:#C89B3C;--gold-light:#F0E6BE;--gold-dark:#785A28;--bg:#010A13;--bg2:#0A1428;--bg3:#091428;--blue:#0BC4E3;--text:#A09B8C;--text-light:#C8AA6E;--white:#F0E6BE;--red:#C8344A}
@@ -404,6 +412,7 @@
         <div class="share-card-reason" id="share-reason"></div>
       </div>
       <div style="text-align:center">
+        <p id="share-dl-notice" style="display:none;font-size:12px;color:var(--blue);margin-bottom:10px;letter-spacing:.05em">📥 画像をダウンロードしました。Xの投稿に添付してください</p>
         <button class="btn-share-x" onclick="shareToX()">
           <svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           Xでシェアする
@@ -420,14 +429,14 @@
 
 <script>
 const CHAMPIONS = [
-  {id:"Aatrox",name:"アアトロックス",title:"ダーキン・ブレイド",roles:["TOP"],scores:{E:50,N:40,F:15,J:50,A:90,R:80,C:25,P:60},reason:"圧倒的な積極性と高いリスク志向。あなたは戦場に身を投じることを恐れず、自分の力を信じて前進し続ける。ダーキンの剣のように、破壊と再生を繰り返しながら頂点を目指す魂の持ち主だ。"},
+  {id:"Aatrox",name:"エaaイトロックス",title:"ダーキン・ブレイド",roles:["TOP"],scores:{E:50,N:40,F:15,J:50,A:90,R:80,C:25,P:60},reason:"圧倒的な積極性と高いリスク志向。あなたは戦場に身を投じることを恐れず、自分の力を信じて前進し続ける。ダーキンの剣のように、破壊と再生を繰り返しながら頂点を目指す魂の持ち主だ。"},
   {id:"Ambessa",name:"アンベッサ",title:"戦争の女家長",roles:["TOP"],scores:{E:70,N:40,F:20,J:70,A:90,R:70,C:30,P:55},reason:"強い外向性と計画的な積極性。あなたは支配することを当然と感じ、戦場を自分のルールで動かす。アンベッサの帝王的な存在感はあなたのリーダーシップと戦闘本能から生まれる。"},
   {id:"Camille",name:"カミール",title:"鋼の影",roles:["TOP"],scores:{E:50,N:70,F:10,J:95,A:80,R:50,C:25,P:65},reason:"緻密な計画性と直感力、感情を排した冷徹な実行力があなたの武器。完璧な準備のもとで動くカミールのスタイルはあなたの知性と決断力の結晶だ。"},
   {id:"Chogath",name:"チョ=ガス",title:"虚空の恐怖",roles:["TOP"],scores:{E:35,N:50,F:15,J:60,A:70,R:45,C:30,P:90},reason:"圧倒的な忍耐力で時間をかけて大きくなり、最終的に全てを飲み込む存在。あなたは長期的なビジョンを持ち、着実に力を積み上げることに喜びを見出す。"},
   {id:"Darius",name:"ダリウス",title:"ノクサスの手",roles:["TOP"],scores:{E:65,N:20,F:20,J:60,A:95,R:70,C:30,P:55},reason:"圧倒的な積極性と勝利への執念。あなたはリスクを恐れず正面から向かっていく勇気を持ち、誰も止められない力を持つ。ノクサスの支配者のように、力こそが全てだと信じている。"},
   {id:"DrMundo",name:"ドクター・ムンド",title:"ザウンの狂気",roles:["TOP"],scores:{E:60,N:20,F:15,J:20,A:75,R:85,C:20,P:75},reason:"計算を無視したリスク志向と揺るぎない忍耐力。あなたは痛みを快感に変え、どんな状況でも諦めない。ムンドのように、全てを強さに変えてしまう不思議な魅力がある。"},
   {id:"Fiora",name:"フィオラ",title:"グランドデュエリスト",roles:["TOP"],scores:{E:60,N:45,F:15,J:90,A:85,R:60,C:20,P:65},reason:"完璧な計画性と一騎打ちへの情熱。あなたは論理と技術を磨くことに喜びを見出し、相手の弱点を冷静に見極めてから動く。フィオラの精密無比な剣術はあなたの完璧主義の極みだ。"},
-  {id:"Gangplank",name:"ギャングプランク",title:"ビルジウォーターの海賊王",roles:["TOP"],scores:{E:70,N:60,F:20,J:80,A:80,R:75,C:20,P:60},reason:"自由な直感とリスクを楽しむ精神、そして緻密な戦略性の融合。あなたは誰にも縛られず、世界規模の大局を一人で動かすことを好む。海賊王のように、全てが自分のものだ。"},
+  {id:"Gangplank",name:"ガングプランク",title:"ビルジウォーターの海賊王",roles:["TOP"],scores:{E:70,N:60,F:20,J:80,A:80,R:75,C:20,P:60},reason:"自由な直感とリスクを楽しむ精神、そして緻密な戦略性の融合。あなたは誰にも縛られず、世界規模の大局を一人で動かすことを好む。海賊王のように、全てが自分のものだ。"},
   {id:"Garen",name:"ガレン",title:"デマーシアの力",roles:["TOP"],scores:{E:50,N:20,F:40,J:80,A:80,R:35,C:60,P:75},reason:"揺るぎない信念と安定した計画性。あなたは派手さより確実性を重んじ、チームのために正面から戦う。ガレンのシンプルで強固なスタイルはあなたの誠実さと積極性の体現だ。"},
   {id:"Gnar",name:"ナー",title:"失われたヴァスタヤ",roles:["TOP"],scores:{E:75,N:55,F:55,J:40,A:70,R:65,C:55,P:45},reason:"感情の起伏が激しく、エネルギッシュで社交的。あなたはふとした瞬間に爆発的な力を発揮し、かわいらしさと恐ろしさを共存させる。ナーの二面性はあなたの多彩な感情の表れだ。"},
   {id:"Gwen",name:"グウェン",title:"縫い上げられた彫刻",roles:["TOP"],scores:{E:60,N:55,F:55,J:65,A:80,R:65,C:35,P:70},reason:"温かな感情性と積極的な戦闘スタイルが共存する個性。あなたは誰かのために戦うとき最大の力を発揮し、自分だけの空間で無敵の強さを示す。"},
@@ -435,22 +444,22 @@ const CHAMPIONS = [
   {id:"Irelia",name:"イレリア",title:"刀剣の舞者",roles:["TOP","MID"],scores:{E:70,N:60,F:40,J:55,A:90,R:80,C:35,P:50},reason:"高い積極性と流れるような直感的な判断力。あなたは敵陣に単身で飛び込む勇気を持ち、リスクを楽しみながら美しい動きで相手を圧倒する。刀剣の舞はあなたの冒険心そのものだ。"},
   {id:"Jax",name:"ジャックス",title:"最強の戦士",roles:["TOP","JUNGLE"],scores:{E:55,N:50,F:30,J:60,A:85,R:75,C:30,P:70},reason:"時間をかけて最強になるスケーリングと揺るぎない積極性の組み合わせ。あなたは正々堂々と力勝負を挑み、準備が整えば誰にも負けない。ジャックスのように挑戦を続ける者が最強だ。"},
   {id:"Jayce",name:"ジェイス",title:"明日の護り手",roles:["TOP","MID"],scores:{E:70,N:70,F:45,J:80,A:70,R:60,C:45,P:60},reason:"高い直感力と計画性、柔軟な対応力。あなたは変化を恐れず、状況に合わせて最適な戦い方を選ぶ。ジェイスの二つの形態はあなたの多面的な適応力を映し出す。"},
-  {id:"KSante",name:"ケイサンテ",title:"ミレサの誇り",roles:["TOP"],scores:{E:65,N:60,F:50,J:75,A:75,R:55,C:60,P:65},reason:"バランスのとれた能力と誇り高い精神性。あなたは守ることと攻めることを状況に応じて切り替え、チームを鼓舞しながら戦場を制圧する。"},
+  {id:"KSante",name:"カサンテ",title:"ミレサの誇り",roles:["TOP"],scores:{E:65,N:60,F:50,J:75,A:75,R:55,C:60,P:65},reason:"バランスのとれた能力と誇り高い精神性。あなたは守ることと攻めることを状況に応じて切り替え、チームを鼓舞しながら戦場を制圧する。"},
   {id:"Kennen",name:"ケネン",title:"稲妻の心",roles:["TOP","MID"],scores:{E:75,N:55,F:40,J:50,A:80,R:75,C:50,P:40},reason:"素早い判断と爆発的な積極性。あなたは考えるより先に動き、チームのために勢いよく飛び込む。ケネンの電光石火のスタイルはあなたのエネルギーと機動力の表れだ。"},
   {id:"Kled",name:"クレッド",title:"名誉なき騎士",roles:["TOP"],scores:{E:80,N:30,F:20,J:35,A:95,R:90,C:25,P:35},reason:"極限の積極性と恐れを知らないリスク志向。あなたは退くという選択肢を知らず、状況が悪くなるほど燃え上がる。クレッドの「逃げたら恥！」という哲学はあなたの猛烈な戦闘本能そのものだ。"},
   {id:"Malphite",name:"マルファイト",title:"巨岩の怪物",roles:["TOP","SUPPORT"],scores:{E:40,N:30,F:45,J:70,A:65,R:40,C:70,P:85},reason:"じっくりと力を蓄え、完璧なタイミングで全てをぶつける忍耐型。あなたは計画的かつ着実に動き、チームのために盾となることを選ぶ。マルファイトは揺るがない岩のごとくあなたを表現する。"},
   {id:"Mordekaiser",name:"モルデカイザー",title:"鉄の傀儡師",roles:["TOP"],scores:{E:40,N:50,F:15,J:70,A:80,R:55,C:15,P:80},reason:"孤独な強さと揺るぎない忍耐力。あなたは一人で世界を相手にすることを厭わず、自分の帝国を着実に築き上げる。モルデカイザーの冥界の支配者としての孤高はあなたの個人主義の極致だ。"},
   {id:"Nasus",name:"ナサス",title:"砂漠の収穫者",roles:["TOP"],scores:{E:30,N:65,F:40,J:90,A:55,R:30,C:30,P:95},reason:"圧倒的な忍耐力と長期的な計画性。あなたは急がず、コツコツと力を積み上げ、時が来れば誰も抗えない存在になる。ナサスのように、時間は常に自分の味方だと信じている。"},
   {id:"Olaf",name:"オラフ",title:"狂乱のバーサーカー",roles:["TOP","JUNGLE"],scores:{E:75,N:30,F:25,J:30,A:90,R:90,C:25,P:45},reason:"計算を超えたリスク志向と爆発的な積極性。あなたは危機的状況になるほど力が増し、全力で突進することが一番の喜びだ。オラフのバーサーカースタイルはあなたの無謀な勇気の化身だ。"},
-  {id:"Ornn",name:"オルン",title:"炎と氷の鍛冶師",roles:["TOP"],scores:{E:30,N:45,F:55,J:90,A:55,R:30,C:75,P:90},reason:"卓越した計画性と忍耐力、チームへの深い献身。あなたは準備を怠らず、時間をかけて仲間を強くすることに喜びを見出す。オルンの職人魂はあなたの誠実さと協調性の結晶だ。"},
+  {id:"Ornn",name:"オーン",title:"炎と氷の鍛冶師",roles:["TOP"],scores:{E:30,N:45,F:55,J:90,A:55,R:30,C:75,P:90},reason:"卓越した計画性と忍耐力、チームへの深い献身。あなたは準備を怠らず、時間をかけて仲間を強くすることに喜びを見出す。オルンの職人魂はあなたの誠実さと協調性の結晶だ。"},
   {id:"Poppy",name:"ポッピー",title:"謎のハンマーの持ち主",roles:["TOP","SUPPORT"],scores:{E:60,N:40,F:55,J:65,A:70,R:45,C:65,P:70},reason:"誠実な信念と仲間を守る使命感、確かな積極性の持ち主。あなたは自分に正直で、大切なものを守るために全力を尽くす。ポッピーの純粋な強さはあなたの誠実さと勇気から生まれる。"},
   {id:"Quinn",name:"クイン",title:"デマーシアの翼",roles:["TOP"],scores:{E:65,N:60,F:45,J:70,A:75,R:70,C:40,P:55},reason:"機動力と計画性、直感的な状況判断が高水準で融合。あなたは敵の意表を突いた動きで主導権を握り、視野の広さで戦場全体をコントロールする。"},
   {id:"Renekton",name:"レネクトン",title:"砂漠の処刑人",roles:["TOP"],scores:{E:70,N:30,F:15,J:45,A:90,R:75,C:25,P:35},reason:"爆発的な積極性と序盤の圧倒的な強さ。あなたは立ち上がりが早く、相手を飲み込む勢いで序盤から主導権を握る。レネクトンの怒りは抑えられない衝動そのものだ。"},
   {id:"Riven",name:"リヴェン",title:"追放された傭兵",roles:["TOP"],scores:{E:55,N:55,F:35,J:55,A:90,R:80,C:20,P:55},reason:"高い積極性と自己流のスタイルへのこだわり。あなたは技術と意志の力で全てを解決し、誰に頼ることなく突き進む。リヴェンの追放された者としての孤独な強さはあなたの自立心の象徴だ。"},
   {id:"Rumble",name:"ランブル",title:"機械の悪魔",roles:["TOP","MID"],scores:{E:65,N:55,F:30,J:55,A:75,R:65,C:30,P:55},reason:"情熱的な性格と独自の戦略センス。あなたは自分の信念を貫きながら、創意工夫で上を行く相手に食らいつく。ランブルの手作りメカには、あなたの反骨精神と創造性が詰まっている。"},
-  {id:"Sett",name:"セット",title:"ボス",roles:["TOP","SUPPORT"],scores:{E:80,N:30,F:40,J:40,A:90,R:70,C:50,P:55},reason:"強烈な存在感と圧倒的な積極性。あなたはボスとして自然と周りを引きつけ、力でもって物事を解決する。セットの「俺が法律だ」というスタイルはあなたの支配欲と外向性の極みだ。"},
+  {id:"Sett",name:"セト",title:"ボス",roles:["TOP","SUPPORT"],scores:{E:80,N:30,F:40,J:40,A:90,R:70,C:50,P:55},reason:"強烈な存在感と圧倒的な積極性。あなたはボスとして自然と周りを引きつけ、力でもって物事を解決する。セットの「俺が法律だ」というスタイルはあなたの支配欲と外向性の極みだ。"},
   {id:"Shen",name:"シェン",title:"眼の番人",roles:["TOP"],scores:{E:30,N:60,F:70,J:80,A:50,R:30,C:90,P:80},reason:"仲間を守る強い使命感と深い協調性。あなたはどこにいてもチームのピンチに駆けつけ、忍耐強く仲間を支え続ける。シェンの精神はあなたの協調性と共感性の最高形態だ。"},
-  {id:"Singed",name:"サイジド",title:"狂気の化学者",roles:["TOP"],scores:{E:55,N:65,F:15,J:80,A:70,R:85,C:15,P:70},reason:"独自の直感と計算されたリスク志向、誰も理解できない戦略性。あなたは相手の意表を突いた動きで混乱をもたらし、自分のルールで戦場を支配する。"},
+  {id:"Singed",name:"シンジド",title:"狂気の化学者",roles:["TOP"],scores:{E:55,N:65,F:15,J:80,A:70,R:85,C:15,P:70},reason:"独自の直感と計算されたリスク志向、誰も理解できない戦略性。あなたは相手の意表を突いた動きで混乱をもたらし、自分のルールで戦場を支配する。"},
   {id:"Sion",name:"サイオン",title:"不死の突撃兵",roles:["TOP","SUPPORT"],scores:{E:55,N:30,F:40,J:60,A:80,R:65,C:55,P:75},reason:"圧倒的な耐久力と計画的な積極性。あなたは一度動き始めると止まらず、チームのために巨大な壁となる。サイオンの不死の突撃はあなたの忍耐強さと積極性の融合だ。"},
   {id:"Teemo",name:"ティーモ",title:"スウィフトスカウト",roles:["TOP"],scores:{E:65,N:60,F:30,J:75,A:60,R:80,C:20,P:70},reason:"独自の発想とリスクを楽しむ精神、地道な準備の積み重ね。あなたは一人で世界を相手にすることを恐れず、誰も予測できない方法で相手を翻弄する。"},
   {id:"Tryndamere",name:"トリンダメア",title:"バーバリアン・キング",roles:["TOP"],scores:{E:65,N:25,F:30,J:30,A:90,R:90,C:20,P:50},reason:"全か無かのリスク志向と爆発的な積極性。あなたは運命を切り開くことを好み、究極の瞬間に向けて全てを賭ける。トリンダメアの最後の足掻きはあなたの諦めない魂そのものだ。"},
@@ -461,7 +470,7 @@ const CHAMPIONS = [
   {id:"Amumu",name:"アムム",title:"悲しい小ミイラ",roles:["JUNGLE","SUPPORT"],scores:{E:30,N:50,F:90,J:60,A:50,R:40,C:70,P:70},reason:"深い共感性と仲間への強い愛情。あなたは誰かのために戦うとき最大の力を発揮し、チームの絆を何より大切にする。アムムの切なさと優しさはあなたの豊かな感情性と協調性の鏡だ。"},
   {id:"BelVeth",name:"ベル=ヴェス",title:"虚空の皇帝",roles:["JUNGLE"],scores:{E:40,N:85,F:10,J:75,A:85,R:70,C:15,P:65},reason:"宇宙規模の直感力と冷徹な戦略性。あなたは全体を見渡す圧倒的な洞察力で物事の本質を掴み、誰も辿り着けない真実に向かって突き進む。"},
   {id:"Brand",name:"ブランド",title:"燃え盛る復讐",roles:["JUNGLE","SUPPORT"],scores:{E:50,N:55,F:25,J:65,A:75,R:70,C:30,P:60},reason:"燃え盛る情熱と計画的な攻撃性。あなたは時に爆発的な力で周囲を巻き込み、戦場全体に影響を与える存在だ。ブランドの炎のような気性はあなたの情熱と積極性から燃え上がる。"},
-  {id:"Briar",name:"ブライア",title:"愛なき者",roles:["JUNGLE","TOP"],scores:{E:70,N:25,F:20,J:20,A:95,R:95,C:20,P:30},reason:"本能のままに動く圧倒的な積極性とリスク志向。あなたは計算や戦略より直感と衝動で動き、その無謀さが最大の武器になる。ブライアの制御不能な力はあなたの解放された魂の表れだ。"},
+  {id:"Briar",name:"ブライアー",title:"愛なき者",roles:["JUNGLE","TOP"],scores:{E:70,N:25,F:20,J:20,A:95,R:95,C:20,P:30},reason:"本能のままに動く圧倒的な積極性とリスク志向。あなたは計算や戦略より直感と衝動で動き、その無謀さが最大の武器になる。ブライアの制御不能な力はあなたの解放された魂の表れだ。"},
   {id:"Diana",name:"ダイアナ",title:"月の復讐者",roles:["JUNGLE","MID"],scores:{E:35,N:70,F:35,J:65,A:80,R:65,C:25,P:60},reason:"内向的だが燃える積極性と高い直感力。あなたは自分だけの真実を信じ、既存の価値観に反抗しながら自分の道を切り開く。ダイアナの月の刃はあなたの反骨精神と意志の象徴だ。"},
   {id:"Ekko",name:"エコー",title:"時間を曲げる少年",roles:["JUNGLE","MID"],scores:{E:70,N:80,F:55,J:55,A:75,R:70,C:50,P:45},reason:"高い直感力と創造性、そして仲間を大切にする感情性。あなたは天才的なひらめきで局面を打開し、常に新しい可能性を探求する。エコーの時間操作はあなたの直感と創意工夫の産物だ。"},
   {id:"Elise",name:"エリス",title:"蜘蛛の女王",roles:["JUNGLE"],scores:{E:55,N:70,F:20,J:80,A:80,R:65,C:20,P:55},reason:"高い直感力と緻密な計画性、そして巧みな変身能力。あなたは相手を罠にかける準備を怠らず、完璧なタイミングで仕掛ける。エリスの蜘蛛の巣はあなたの計画性と直感の産物だ。"},
@@ -481,16 +490,16 @@ const CHAMPIONS = [
   {id:"MasterYi",name:"マスター・イー",title:"ウーコンの剣士",roles:["JUNGLE"],scores:{E:30,N:55,F:40,J:75,A:80,R:65,C:20,P:90},reason:"圧倒的な忍耐力と揺るぎない計画性。あなたは長期にわたる鍛錬を続け、完璧に準備が整った時に全てを解き放つ。マスター・イーの禅の境地はあなたの忍耐と自己鍛錬の極みだ。"},
   {id:"Nidalee",name:"ニダリー",title:"野生の狩人",roles:["JUNGLE"],scores:{E:55,N:65,F:35,J:60,A:75,R:70,C:25,P:50},reason:"野性的な直感と機動力、計算されたハンティングスタイル。あなたは自由に動き回りながら最も有利な状況を作り出す。ニダリーの野生の本能はあなたの直感と自由な精神を体現する。"},
   {id:"Nocturne",name:"ノクターン",title:"永遠の悪夢",roles:["JUNGLE"],scores:{E:30,N:55,F:15,J:70,A:85,R:70,C:15,P:65},reason:"内向的だが燃える積極性と、計画された恐怖。あなたは孤独を力に変え、相手の心理を操りながら完璧なタイミングで全てを終わらせる。ノクターンの永遠の悪夢はあなたの孤独な戦略性の産物だ。"},
-  {id:"Nunu",name:"ヌヌ＆ウィランプ",title:"最大の冒険",roles:["JUNGLE"],scores:{E:85,N:55,F:80,J:35,A:60,R:65,C:80,P:45},reason:"溢れる外向性と仲間への愛情、自由な冒険心。あなたは誰とでも仲良くなれる社交性と、楽しいことへの純粋な好奇心を持つ。ヌヌとウィランプの冒険はあなたの社交性と感情の豊かさの純粋な表れだ。"},
+  {id:"Nunu",name:"ヌヌ＆ウィルンプ",title:"最大の冒険",roles:["JUNGLE"],scores:{E:85,N:55,F:80,J:35,A:60,R:65,C:80,P:45},reason:"溢れる外向性と仲間への愛情、自由な冒険心。あなたは誰とでも仲良くなれる社交性と、楽しいことへの純粋な好奇心を持つ。ヌヌとウィランプの冒険はあなたの社交性と感情の豊かさの純粋な表れだ。"},
   {id:"RekSai",name:"レク=サイ",title:"虚空の女王",roles:["JUNGLE"],scores:{E:40,N:50,F:15,J:65,A:85,R:70,C:30,P:60},reason:"本能的な積極性と計算された動き。あなたは地中から突然現れるように相手の盲点を突き、圧倒的な機動力で逃げ場をなくす。レク=サイの狩りはあなたの積極性と本能の融合だ。"},
   {id:"Rengar",name:"レンガー",title:"誇りある狩人",roles:["JUNGLE","TOP"],scores:{E:55,N:55,F:20,J:75,A:90,R:80,C:15,P:55},reason:"純粋な狩猟への情熱と緻密な計画性、圧倒的な積極性。あなたは最高の獲物を追い求め、完璧なタイミングで飛びかかる。レンガーの誇りはあなたの狩猟本能と計画性が生み出す凶悪な芸術だ。"},
-  {id:"Sejuani",name:"セジュアーニ",title:"冬の怒り",roles:["JUNGLE","TOP"],scores:{E:65,N:35,F:40,J:65,A:75,R:55,C:60,P:65},reason:"計画的な積極性とチームへの使命感。あなたはフリュールジョルドの厳しさを体に刻み、仲間を率いて突進する。セジュアーニの嵐のような突撃はあなたのリーダーシップと積極性の融合だ。"},
+  {id:"Sejuani",name:"セジュアニ",title:"冬の怒り",roles:["JUNGLE","TOP"],scores:{E:65,N:35,F:40,J:65,A:75,R:55,C:60,P:65},reason:"計画的な積極性とチームへの使命感。あなたはフリュールジョルドの厳しさを体に刻み、仲間を率いて突進する。セジュアーニの嵐のような突撃はあなたのリーダーシップと積極性の融合だ。"},
   {id:"Shaco",name:"シャコ",title:"悪魔の道化師",roles:["JUNGLE"],scores:{E:40,N:75,F:15,J:85,A:70,R:90,C:10,P:60},reason:"誰も予測できない独自の戦略と、極限のリスクを楽しむ精神。あなたは論理的に計画しながら、常識の外側で勝負する。シャコのように相手の想像を超えることが最高の喜びだ。"},
   {id:"Shyvana",name:"シヴァーナ",title:"半竜の戦士",roles:["JUNGLE"],scores:{E:45,N:40,F:35,J:55,A:80,R:65,C:35,P:70},reason:"内なる力を時間をかけて解放する忍耐型の積極性。あなたは静かに力を蓄え、変身のタイミングで全てをぶつける。シヴァーナの竜への変身はあなたの忍耐と爆発的な積極性の象徴だ。"},
   {id:"Skarner",name:"スカーナー",title:"水晶の先鋒",roles:["JUNGLE"],scores:{E:50,N:45,F:40,J:70,A:75,R:55,C:60,P:65},reason:"計画的な積極性とチームへの貢献意識。あなたは準備が整ったとき突進し、仲間のために確実な仕事をこなす。スカーナーの水晶の力はあなたの計画性と協調性の融合だ。"},
   {id:"Trundle",name:"トランドル",title:"トロールの王",roles:["JUNGLE","TOP","SUPPORT"],scores:{E:60,N:30,F:20,J:55,A:75,R:60,C:35,P:70},reason:"粗削りな積極性と揺るぎない忍耐力。あなたは洗練さより効果を優先し、相手の強さを奪いながら自分が最強になる。トランドルの奪う力はあなたの実用主義と積極性を体現する。"},
   {id:"Udyr",name:"ウディア",title:"精霊の守護者",roles:["JUNGLE"],scores:{E:50,N:60,F:45,J:50,A:80,R:65,C:50,P:65},reason:"自然との調和と積極的な戦闘本能の融合。あなたは四つの精霊の力を使い分け、状況に応じて最適な形を選ぶ柔軟性を持つ。ウディアの変幻自在なスタイルはあなたの適応力の表れだ。"},
-  {id:"Vi",name:"ヴィ",title:"ピルトーバーの執行官",roles:["JUNGLE"],scores:{E:80,N:30,F:50,J:40,A:90,R:70,C:60,P:40},reason:"強い外向性と圧倒的な積極性、チームを引っ張る存在感。あなたは前に出ることを恐れず、リスクを取って真っ先に飛び込む。ヴィの「パンチが全ての答え」はあなたの行動力と熱さを完璧に表現している。"},
+  {id:"Vi",name:"ヴァイ",title:"ピルトーバーの執行官",roles:["JUNGLE"],scores:{E:80,N:30,F:50,J:40,A:90,R:70,C:60,P:40},reason:"強い外向性と圧倒的な積極性、チームを引っ張る存在感。あなたは前に出ることを恐れず、リスクを取って真っ先に飛び込む。ヴィの「パンチが全ての答え」はあなたの行動力と熱さを完璧に表現している。"},
   {id:"Viego",name:"ヴィエゴ",title:"廃王",roles:["JUNGLE"],scores:{E:45,N:60,F:65,J:50,A:80,R:75,C:20,P:55},reason:"深い感情性と激しい積極性の複雑な融合。あなたは愛するものへの執着が力の源となり、その感情が時に暴走する。ヴィエゴの狂おしい愛はあなたの感情の深さと積極性から生まれる。"},
   {id:"Warwick",name:"ワーウィック",title:"血に誓いし獣",roles:["JUNGLE"],scores:{E:55,N:45,F:30,J:50,A:85,R:70,C:35,P:60},reason:"本能的な狩猟欲求と積極的な追撃。あなたは一度目標を定めたら諦めず、嗅覚のように鋭い状況判断で確実に仕留める。ワーウィックの血の匂いを嗅ぐ能力はあなたの鋭敏な積極性の表れだ。"},
   {id:"XinZhao",name:"シン・ジャオ",title:"センチネルの槍",roles:["JUNGLE"],scores:{E:65,N:40,F:50,J:55,A:85,R:70,C:55,P:50},reason:"誠実な積極性と仲間への忠義。あなたは正々堂々と前から挑み、仲間のために命を懸けることを誇りとする。シン・ジャオの三段突きはあなたの積極性と誠実さの産物だ。"},
@@ -500,13 +509,13 @@ const CHAMPIONS = [
   {id:"Akshan",name:"アクシャン",title:"ローグ・センティネル",roles:["MID"],scores:{E:75,N:60,F:55,J:60,A:70,R:65,C:50,P:50},reason:"陽気な社交性と仲間のための正義感、機動力のある戦い方。あなたは仲間のためなら何度でも戦場に舞い戻り、明るいエネルギーでチームを鼓舞する。"},
   {id:"Anivia",name:"アニビア",title:"クライオフェニックス",roles:["MID"],scores:{E:35,N:65,F:40,J:85,A:45,R:30,C:45,P:90},reason:"圧倒的な忍耐力と計画性、高い直感力。あなたは焦らず陣地を固め、圧倒的な壁で相手の進路を完全にコントロールする。アニビアの不死の精神はあなたの忍耐と計画性の象徴だ。"},
   {id:"Annie",name:"アニー",title:"ダーク・チャイルド",roles:["MID"],scores:{E:65,N:45,F:50,J:75,A:70,R:55,C:40,P:60},reason:"計画的な積極性とシンプルで強固なスタイル。あなたは準備を怠らず、完璧なタイミングで全力を解き放つ。アニーのシンプルだが破壊的な魔法はあなたの計画性と積極性の純粋な表現だ。"},
-  {id:"AurelionSol",name:"オーレリオン・ソル",title:"星の鍛冶師",roles:["MID"],scores:{E:50,N:95,F:25,J:65,A:55,R:50,C:20,P:85},reason:"宇宙規模の直感力と圧倒的な忍耐力。あなたは星を創造するほどの大局的な視点を持ち、時間をかけて無限の力を解放する。オーレリオン・ソルの傲慢さはあなたの自信と壮大な直感の表れだ。"},
+  {id:"AurelionSol",name:"オレリオン・ソル",title:"星の鍛冶師",roles:["MID"],scores:{E:50,N:95,F:25,J:65,A:55,R:50,C:20,P:85},reason:"宇宙規模の直感力と圧倒的な忍耐力。あなたは星を創造するほどの大局的な視点を持ち、時間をかけて無限の力を解放する。オーレリオン・ソルの傲慢さはあなたの自信と壮大な直感の表れだ。"},
   {id:"Azir",name:"アジール",title:"砂漠の皇帝",roles:["MID"],scores:{E:55,N:75,F:30,J:90,A:65,R:45,C:45,P:80},reason:"圧倒的な計画性と高い直感力、帝王としての誇り。あなたは緻密な戦略を用いて戦場をコントロールし、壮大なビジョンのもとに軍を動かす。アジールの砂の兵士はあなたの計画性と直感の具現化だ。"},
   {id:"Cassiopeia",name:"カシオペア",title:"毒の女",roles:["MID"],scores:{E:40,N:65,F:20,J:75,A:65,R:50,C:20,P:85},reason:"計画的な忍耐力と高い直感力、冷徹な戦略性。あなたは時間をかけて相手を蝕み、逃げ場のない状況を作り出す。カシオペアの毒はあなたの忍耐と計算された残酷さの産物だ。"},
   {id:"Corki",name:"コーキ",title:"プラウラー",roles:["MID"],scores:{E:70,N:55,F:40,J:65,A:70,R:65,C:40,P:55},reason:"明るい積極性と計算された火力の持ち主。あなたは陽気なエネルギーで戦場を飛び回りながら、確実に戦果を上げる。コーキのように、楽しみながら勝つことがベストだと思っている。"},
   {id:"Fizz",name:"フィズ",title:"海の厄介者",roles:["MID"],scores:{E:75,N:60,F:45,J:45,A:80,R:85,C:35,P:35},reason:"爆発的なリスク志向と明るい積極性。あなたは危険な状況に飛び込むことを楽しみ、俊敏な動きで相手を翻弄する。フィズの無鉄砲な冒険心はあなたの自由な精神そのものだ。"},
   {id:"Galio",name:"ガリオ",title:"コロッサスの感情",roles:["MID","SUPPORT"],scores:{E:65,N:50,F:65,J:65,A:70,R:55,C:75,P:65},reason:"仲間への強い感情と計画的な積極性、チームへの使命感。あなたは仲間が危機に陥ったとき最大の力を発揮し、どこへでも駆けつける。ガリオの咆哮はあなたの協調性と感情性の爆発だ。"},
-  {id:"Hwei",name:"フゥェイ",title:"絶望の表現者",roles:["MID"],scores:{E:45,N:85,F:60,J:75,A:55,R:50,C:40,P:70},reason:"豊かな直感力と感情性、芸術家的な計画性。あなたは感情を力に変え、多彩な表現で戦場を彩る。フゥェイの複雑な感情の絵筆はあなたの内面世界の豊かさと直感の産物だ。"},
+  {id:"Hwei",name:"フェイ",title:"絶望の表現者",roles:["MID"],scores:{E:45,N:85,F:60,J:75,A:55,R:50,C:40,P:70},reason:"豊かな直感力と感情性、芸術家的な計画性。あなたは感情を力に変え、多彩な表現で戦場を彩る。フゥェイの複雑な感情の絵筆はあなたの内面世界の豊かさと直感の産物だ。"},
   {id:"Kassadin",name:"カサディン",title:"虚空の先遊者",roles:["MID"],scores:{E:30,N:70,F:40,J:70,A:65,R:60,C:25,P:90},reason:"圧倒的な忍耐力と高い直感力。あなたは序盤の苦境を耐え忍び、時が来れば無限のワープで全てを制圧する。カサディンのように、真の力が解放されるまで待ち続けることができる者が最後に笑う。"},
   {id:"Katarina",name:"カタリナ",title:"凶刃の殺し屋",roles:["MID"],scores:{E:65,N:60,F:25,J:45,A:90,R:85,C:15,P:40},reason:"爆発的な積極性と高いリスク志向、直感的な動き。あなたはチャンスを見逃さず、一気に全てを片付ける爽快感を求める。カタリナの無限コンボはあなたの積極性と直感が生み出す嵐だ。"},
   {id:"Kayle",name:"ケイル",title:"裁きの天使",roles:["MID","TOP"],scores:{E:40,N:55,F:35,J:85,A:55,R:35,C:40,P:95},reason:"圧倒的な忍耐力と計画性。あなたは序盤の弱さを甘受し、長い鍛錬の末に神の域に達することを知っている。ケイルのように、究極の力は究極の忍耐の先にある。"},
@@ -515,7 +524,7 @@ const CHAMPIONS = [
   {id:"Lux",name:"ラックス",title:"光の魔道士",roles:["MID","SUPPORT"],scores:{E:80,N:60,F:70,J:70,A:60,R:40,C:70,P:50},reason:"明るく社交的な外向性と、仲間を思う豊かな感情性。あなたは計画的に動きながらも人との繋がりを大切にし、チームに光をもたらす存在だ。ラックスの輝きはあなたの社交性と共感力が生み出す光そのものだ。"},
   {id:"Malzahar",name:"マルザハール",title:"虚空の予言者",roles:["MID"],scores:{E:35,N:75,F:20,J:80,A:60,R:45,C:25,P:85},reason:"深い直感力と計画的な支配欲。あなたは大局を見通し、時間をかけて相手を虚空に引き込む。マルザハールの予言はあなたの直感と計画性が生み出す避けられない宿命だ。"},
   {id:"Mel",name:"メル",title:"魂の反射鏡",roles:["MID"],scores:{E:60,N:65,F:50,J:70,A:60,R:55,C:50,P:65},reason:"直感力と計画性のバランス、感情と論理の融合。あなたは相手の力を逆用する独自の戦い方を持ち、反射的な思考で状況を打開する。メルの鏡はあなたのバランス感覚と直感の表れだ。"},
-  {id:"Naafiri",name:"ナーフィリ",title:"誓いの刃",roles:["MID","JUNGLE"],scores:{E:60,N:50,F:25,J:55,A:90,R:80,C:40,P:45},reason:"群れを率いる積極性と本能的な攻撃性。あなたはシンプルな突進力で相手を圧倒し、チームと連携して獲物を仕留める。ナーフィリの群れの力はあなたの積極性と本能の解放だ。"},
+  {id:"Naafiri",name:"ナフィーリ",title:"誓いの刃",roles:["MID","JUNGLE"],scores:{E:60,N:50,F:25,J:55,A:90,R:80,C:40,P:45},reason:"群れを率いる積極性と本能的な攻撃性。あなたはシンプルな突進力で相手を圧倒し、チームと連携して獲物を仕留める。ナーフィリの群れの力はあなたの積極性と本能の解放だ。"},
   {id:"Neeko",name:"ニーコ",title:"不思議な変身者",roles:["MID","SUPPORT"],scores:{E:70,N:70,F:65,J:55,A:65,R:60,C:55,P:50},reason:"高い直感力と豊かな感情性、そして遊び心あふれる個性。あなたは多様な表情を持ち、相手の予測を外し続けることを楽しむ。ニーコの変幻自在な姿はあなたの多彩な内面世界の反映だ。"},
   {id:"Orianna",name:"オリアナ",title:"機械の乙女",roles:["MID"],scores:{E:40,N:80,F:45,J:90,A:55,R:40,C:60,P:80},reason:"圧倒的な計画性と高い直感力、精密なコントロール。あなたは複雑な状況を整理して最適解を導き、完璧なタイミングで全てを動かす。オリアナのボールはあなたの計画性と直感の究極の道具だ。"},
   {id:"Qiyana",name:"キヤナ",title:"エレメントの女王",roles:["MID"],scores:{E:70,N:60,F:20,J:65,A:90,R:80,C:20,P:45},reason:"女王としての高い積極性と圧倒的な自信、リスクを恐れない気性。あなたは自分が最高だという信念のもと、華麗に敵を蹴散らす。キヤナの傲慢な美しさはあなたの積極性と自己肯定の象徴だ。"},
@@ -531,12 +540,12 @@ const CHAMPIONS = [
   {id:"VelKoz",name:"ヴェル=コズ",title:"虚空の眼",roles:["MID","SUPPORT"],scores:{E:30,N:90,F:15,J:80,A:55,R:45,C:25,P:80},reason:"圧倒的な直感力と分析力、計画的な観察眼。あなたはあらゆる現象を分析し、真実を追求することに無上の喜びを見出す。ヴェル=コズの分解ビームはあなたの直感と計画性の究極の表現だ。"},
   {id:"Vex",name:"ヴェックス",title:"退屈なグルームキン",roles:["MID"],scores:{E:20,N:65,F:30,J:70,A:65,R:55,C:20,P:70},reason:"内向的でひねくれた個性と独自の直感力。あなたは世間の楽観主義に辟易しながら、自分の世界観で着実に相手を制圧する。ヴェックスの絶望力はあなたの内向性と皮肉な視点の純粋な表れだ。"},
   {id:"Viktor",name:"ヴィクター",title:"機械の先駆者",roles:["MID"],scores:{E:20,N:90,F:10,J:90,A:60,R:50,C:20,P:90},reason:"極限の直感力と計画性、そして圧倒的な忍耐力。あなたは内向的で感情より論理を重んじ、長期的なビジョンを緻密に実行する。ヴィクターの「真の進化は揺るぎない意志から」はあなたの本質を貫いている。"},
-  {id:"Vladimir",name:"ヴラジミール",title:"緋の強欲",roles:["MID","TOP"],scores:{E:50,N:60,F:20,J:70,A:65,R:45,C:20,P:90},reason:"長期的な計画性と圧倒的な忍耐力。あなたは時間を味方につけ、序盤を耐え忍んだ後に手のつけられない存在になる。ヴラジミールの血の魔法はあなたの忍耐と計画性が生み出す不老不死の力だ。"},
+  {id:"Vladimir",name:"ブラッドミア",title:"緋の強欲",roles:["MID","TOP"],scores:{E:50,N:60,F:20,J:70,A:65,R:45,C:20,P:90},reason:"長期的な計画性と圧倒的な忍耐力。あなたは時間を味方につけ、序盤を耐え忍んだ後に手のつけられない存在になる。ヴラジミールの血の魔法はあなたの忍耐と計画性が生み出す不老不死の力だ。"},
   {id:"Xerath",name:"ゼラス",title:"魔力の化身",roles:["MID","SUPPORT"],scores:{E:35,N:75,F:20,J:85,A:55,R:40,C:25,P:85},reason:"深い直感力と計画的な遠距離支配。あなたは安全な距離から圧倒的な力を解き放ち、相手が届かない位置で完璧なコントロールを発揮する。"},
   {id:"Yasuo",name:"ヤスオ",title:"許されざる者",roles:["MID","ADC","TOP"],scores:{E:60,N:55,F:40,J:35,A:85,R:90,C:20,P:40},reason:"極限のリスク志向と爆発的な積極性。あなたはルールに縛られず、流れに身を任せながら大胆に勝負に出る。ヤスオのハイリスク・ハイリターンな生き様はあなたの冒険心と積極性の象徴だ。"},
   {id:"Yone",name:"ヨネ",title:"不運の剣士",roles:["MID","TOP"],scores:{E:50,N:65,F:45,J:55,A:85,R:75,C:25,P:55},reason:"内なる葛藤と力強い積極性の融合。あなたは二つの魂を持ちながらも前へ進み続け、運命に抗う意志を燃やし続ける。ヨネの永遠の戦いはあなたの内面の葛藤と積極性の表れだ。"},
   {id:"Zed",name:"ゼド",title:"影の支配者",roles:["MID","JUNGLE"],scores:{E:40,N:65,F:10,J:80,A:90,R:70,C:10,P:60},reason:"感情を排した冷徹な計画性と圧倒的な積極性。あなたは一人で全てをコントロールし、完璧な準備のもとで相手を仕留める。ゼドの「影は真実を語る」はあなたの論理と積極性の最終形態だ。"},
-  {id:"Ziggs",name:"ジグス",title:"爆弾狂のヤードル",roles:["MID","SUPPORT","ADC"],scores:{E:75,N:60,F:40,J:65,A:65,R:75,C:40,P:55},reason:"爆発的なリスク志向と明るい積極性。あなたは破壊の楽しさを見出し、大きな爆発とともに戦場をコントロールする。ジグスの爆弾はあなたのエネルギーと遊び心の爆発だ。"},
+  {id:"Ziggs",name:"ジグス",title:"爆弾狂のヨードル",roles:["MID","SUPPORT","ADC"],scores:{E:75,N:60,F:40,J:65,A:65,R:75,C:40,P:55},reason:"爆発的なリスク志向と明るい積極性。あなたは破壊の楽しさを見出し、大きな爆発とともに戦場をコントロールする。ジグスの爆弾はあなたのエネルギーと遊び心の爆発だ。"},
   {id:"Zoe",name:"ゾーイ",title:"黄昏の側面",roles:["MID"],scores:{E:80,N:85,F:55,J:35,A:65,R:70,C:35,P:35},reason:"溢れる外向性と圧倒的な直感力、自由奔放な個性。あなたは宇宙的な好奇心を持ち、誰も予測できない方向から現れる。ゾーイの無邪気な混乱はあなたの直感と自由な精神の最高の表現だ。"},
   {id:"Aphelios",name:"アフェリオス",title:"信念の武器",roles:["ADC"],scores:{E:20,N:70,F:45,J:85,A:65,R:50,C:35,P:90},reason:"圧倒的な忍耐力と高い直感力、複雑な計画性。あなたは沈黙の中で力を磨き、多様な状況に対応する準備を怠らない。アフェリオスの複雑な武器は、あなたの計画性と直感の複雑な融合だ。"},
   {id:"Ashe",name:"アッシュ",title:"フロストアーチャー",roles:["ADC","SUPPORT"],scores:{E:50,N:55,F:55,J:75,A:55,R:40,C:65,P:70},reason:"計画的な視野の広さとチームへの貢献意識。あなたは常に大局を見据えてチームを支援し、確実に仕事を積み上げる。アッシュの矢はあなたの計画性と協調性が向かう先を常に示している。"},
@@ -820,6 +829,149 @@ function updateSharePreview(champ,matchPct,typeName){
   window._shareData={champ,matchPct,typeName};
 }
 
+function generateShareCanvas(champ,matchPct,role,typeName){
+  const W=1200,H=630;
+  const canvas=document.createElement('canvas');
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext('2d');
+  const GOLD='#C89B3C',GOLD_LIGHT='#F0E6BE',GOLD_DARK='#785A28',BG='#010A13',BG2='#0A1428',BLUE='#0BC4E3',TEXT='#A09B8C';
+
+  // 背景
+  ctx.fillStyle=BG;
+  ctx.fillRect(0,0,W,H);
+
+  // 放射グラデーション（ゴールド）
+  const grd=ctx.createRadialGradient(W/2,H*0.3,0,W/2,H*0.3,W*0.5);
+  grd.addColorStop(0,'rgba(200,155,60,0.18)');
+  grd.addColorStop(1,'rgba(200,155,60,0)');
+  ctx.fillStyle=grd;
+  ctx.fillRect(0,0,W,H);
+
+  // ヘックスパターン（薄く）
+  ctx.save();
+  ctx.strokeStyle='rgba(200,155,60,0.05)';
+  ctx.lineWidth=1;
+  for(let x=0;x<W;x+=32){for(let y=0;y<H;y+=32){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+32,y);ctx.stroke();}}
+  ctx.restore();
+
+  // 外枠ボーダー
+  ctx.strokeStyle=GOLD_DARK;
+  ctx.lineWidth=2;
+  ctx.strokeRect(12,12,W-24,H-24);
+  // 内枠（細い）
+  ctx.strokeStyle='rgba(200,155,60,0.3)';
+  ctx.lineWidth=1;
+  ctx.strokeRect(20,20,W-40,H-40);
+
+  // コーナー装飾
+  const corner=24;
+  [[20,20],[W-20,20],[20,H-20],[W-20,H-20]].forEach(([cx,cy],i)=>{
+    ctx.beginPath();
+    ctx.strokeStyle=GOLD;
+    ctx.lineWidth=2;
+    const sx=i%2===0?1:-1,sy=i<2?1:-1;
+    ctx.moveTo(cx,cy+sy*corner);ctx.lineTo(cx,cy);ctx.lineTo(cx+sx*corner,cy);
+    ctx.stroke();
+  });
+
+  // サイト名（上部）
+  ctx.font='700 16px Rajdhani,sans-serif';
+  ctx.fillStyle='rgba(200,155,60,0.6)';
+  ctx.textAlign='center';
+  ctx.letterSpacing='0.4em';
+  ctx.fillText('召喚士の素質診断',W/2,58);
+
+  // ロール用の区切り線
+  ctx.beginPath();
+  ctx.moveTo(W/2-120,68);ctx.lineTo(W/2-8,68);
+  ctx.moveTo(W/2+8,68);ctx.lineTo(W/2+120,68);
+  ctx.strokeStyle='rgba(200,155,60,0.3)';ctx.lineWidth=1;ctx.stroke();
+  ctx.fillStyle=GOLD_DARK;
+  ctx.fillRect(W/2-5,64,10,8);
+  // ダイアモンド
+  ctx.save();ctx.translate(W/2,68);ctx.rotate(Math.PI/4);
+  ctx.fillStyle=GOLD;ctx.fillRect(-4,-4,8,8);
+  ctx.restore();
+
+  // ロールアイコン（大）
+  const roleIcons={TOP:'⚔️',JUNGLE:'🌿',MID:'⚡',ADC:'🏹',SUPPORT:'🛡️'};
+  const icon=roleIcons[role]||'⚔️';
+  ctx.font='90px serif';
+  ctx.textAlign='center';
+  ctx.fillText(icon,W/2,200);
+
+  // ロールバッジ
+  const badgeText=`${role}  ·  ${champ.title}`;
+  ctx.font='600 15px Rajdhani,sans-serif';
+  ctx.textAlign='center';
+  const bw=ctx.measureText(badgeText).width+40;
+  ctx.fillStyle='rgba(200,155,60,0.15)';
+  ctx.strokeStyle=GOLD_DARK;ctx.lineWidth=1;
+  ctx.beginPath();
+  if(ctx.roundRect){ctx.roundRect(W/2-bw/2,215,bw,30,3);}
+  else{ctx.rect(W/2-bw/2,215,bw,30);}
+  ctx.fill();ctx.stroke();
+  ctx.fillStyle=GOLD;
+  ctx.fillText(badgeText,W/2,235);
+
+  // チャンピオン名
+  ctx.font='bold 72px "Noto Serif JP",serif';
+  ctx.fillStyle=GOLD;
+  ctx.textAlign='center';
+  ctx.shadowColor='rgba(200,155,60,0.5)';
+  ctx.shadowBlur=24;
+  ctx.fillText(champ.name,W/2,322);
+  ctx.shadowBlur=0;
+
+  // 称号
+  ctx.font='italic 20px "Noto Serif JP",serif';
+  ctx.fillStyle=TEXT;
+  ctx.fillText(`「${champ.title}」`,W/2,355);
+
+  // 適合度バー
+  const barX=W/2-220,barY=385,barW=440,barH=8;
+  ctx.fillStyle='rgba(200,155,60,0.15)';
+  ctx.beginPath();
+  if(ctx.roundRect){ctx.roundRect(barX,barY,barW,barH,4);}else{ctx.rect(barX,barY,barW,barH);}
+  ctx.fill();
+  const fillW=barW*(matchPct/100);
+  const barGrd=ctx.createLinearGradient(barX,0,barX+fillW,0);
+  barGrd.addColorStop(0,GOLD_DARK);barGrd.addColorStop(0.5,GOLD);barGrd.addColorStop(1,BLUE);
+  ctx.fillStyle=barGrd;
+  ctx.beginPath();
+  if(ctx.roundRect){ctx.roundRect(barX,barY,fillW,barH,4);}else{ctx.rect(barX,barY,fillW,barH);}
+  ctx.fill();
+  // バーの先端の光点
+  ctx.beginPath();ctx.arc(barX+fillW,barY+4,5,0,Math.PI*2);
+  ctx.fillStyle=GOLD;ctx.shadowColor=GOLD;ctx.shadowBlur=10;ctx.fill();ctx.shadowBlur=0;
+  // 適合度テキスト
+  ctx.font='700 14px Rajdhani,sans-serif';
+  ctx.fillStyle=TEXT;ctx.textAlign='left';
+  ctx.fillText('適合度',barX,barY-8);
+  ctx.font='700 26px Rajdhani,sans-serif';
+  ctx.fillStyle=GOLD;ctx.textAlign='right';
+  ctx.fillText(matchPct+'%',barX+barW,barY-6);
+
+  // 召喚士タイプ（あれば）
+  if(typeName){
+    ctx.font='600 14px Rajdhani,sans-serif';
+    ctx.fillStyle=BLUE;ctx.textAlign='center';
+    ctx.fillText('召喚士タイプ : '+typeName,W/2,420);
+  }
+
+  // 下部ハッシュタグバッジ
+  ctx.fillStyle='rgba(0,0,0,0.5)';
+  ctx.fillRect(0,H-64,W,64);
+  ctx.beginPath();
+  ctx.moveTo(0,H-64);ctx.lineTo(W,H-64);
+  ctx.strokeStyle='rgba(200,155,60,0.3)';ctx.lineWidth=1;ctx.stroke();
+  ctx.font='700 18px Rajdhani,sans-serif';
+  ctx.fillStyle=GOLD;ctx.textAlign='center';
+  ctx.fillText('#LOL鑑定',W/2,H-32);
+
+  return canvas;
+}
+
 function shareToX(){
   const d=window._shareData||{};
   const champ=d.champ;
@@ -832,9 +984,34 @@ function shareToX(){
   text+=`「${champ?champ.title:''}」\n`;
   text+=`適合度：${pct}%\n`;
   if(typeName) text+=`召喚士タイプ：${typeName}\n`;
-  text+='\n#LOL診断 #LeagueOfLegends';
-  const url='https://twitter.com/intent/tweet?text='+encodeURIComponent(text);
-  window.open(url,'_blank','noopener,noreferrer');
+  text+='\n#LOL鑑定 #LeagueOfLegends';
+  text+='\n'+window.location.href;
+  const twitterUrl='https://twitter.com/intent/tweet?text='+encodeURIComponent(text);
+
+  if(!champ){window.open(twitterUrl,'_blank','noopener,noreferrer');return;}
+
+  const canvas=generateShareCanvas(champ,pct,selectedRole,typeName);
+
+  canvas.toBlob(async(blob)=>{
+    const file=new File([blob],'lol-kandei.png',{type:'image/png'});
+    // Web Share API（モバイル等）
+    if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+      try{
+        await navigator.share({files:[file],title:'召喚士の素質診断',text});
+        return;
+      }catch(e){/* fallthrough */}
+    }
+    // フォールバック: 画像ダウンロード + Twitter URL を開く
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='lol-kandei.png';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    // ダウンロード案内を一時表示
+    const notice=document.getElementById('share-dl-notice');
+    if(notice){notice.style.display='block';setTimeout(()=>{notice.style.display='none';},6000);}
+    setTimeout(()=>window.open(twitterUrl,'_blank','noopener,noreferrer'),400);
+  },'image/png');
 }
 
 function showAlt(champ,normalized){
@@ -1109,6 +1286,112 @@ const SUMMONER_TYPES = [
   },
 ];
 // 12 types
+
+// ===== OG IMAGE GENERATOR =====
+function generateOGImage(){
+  const W=1200,H=630;
+  const canvas=document.createElement('canvas');
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext('2d');
+  const GOLD='#C89B3C',GOLD_LIGHT='#F0E6BE',GOLD_DARK='#785A28',BG='#010A13',TEXT='#A09B8C',TEXT_LIGHT='#C8AA6E';
+
+  // 背景
+  ctx.fillStyle=BG;
+  ctx.fillRect(0,0,W,H);
+
+  // 放射グラデーション（上部ゴールド）
+  const grdTop=ctx.createRadialGradient(W/2,0,0,W/2,0,W*0.6);
+  grdTop.addColorStop(0,'rgba(200,155,60,0.18)');
+  grdTop.addColorStop(1,'rgba(200,155,60,0)');
+  ctx.fillStyle=grdTop;ctx.fillRect(0,0,W,H);
+
+  // ヘックスグリッド（薄く）
+  ctx.save();
+  ctx.strokeStyle='rgba(200,155,60,0.04)';ctx.lineWidth=1;
+  for(let x=0;x<W;x+=32){for(let y=0;y<H;y+=32){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+32,y);ctx.stroke();}}
+  ctx.restore();
+
+  // 外枠
+  ctx.strokeStyle=GOLD_DARK;ctx.lineWidth=2;ctx.strokeRect(10,10,W-20,H-20);
+  ctx.strokeStyle='rgba(200,155,60,0.25)';ctx.lineWidth=1;ctx.strokeRect(18,18,W-36,H-36);
+
+  // コーナー装飾（L字）
+  const c=28;
+  [[10,10],[W-10,10],[10,H-10],[W-10,H-10]].forEach(([x,y],i)=>{
+    const sx=i%2===0?1:-1,sy=i<2?1:-1;
+    ctx.beginPath();ctx.strokeStyle=GOLD;ctx.lineWidth=2;
+    ctx.moveTo(x,y+sy*c);ctx.lineTo(x,y);ctx.lineTo(x+sx*c,y);ctx.stroke();
+  });
+
+  // クラウンアイコン（SVGをCanvasで再現）
+  // 元SVG viewBox="0 0 80 80"、中央配置でスケール1.6
+  const crownScale=1.6,crownX=W/2,crownY=178;
+  ctx.save();ctx.translate(crownX,crownY);ctx.scale(crownScale,crownScale);ctx.translate(-40,-40);
+  // 影グロー
+  ctx.shadowColor='rgba(200,155,60,0.6)';ctx.shadowBlur=20;
+  // ポリゴン（王冠の形）
+  ctx.beginPath();
+  [[40,8],[55,32],[72,18],[65,55],[15,55],[8,18],[25,32]].forEach(([px,py],i)=>i===0?ctx.moveTo(px,py):ctx.lineTo(px,py));
+  ctx.closePath();ctx.strokeStyle=GOLD;ctx.lineWidth=2.5/crownScale;ctx.stroke();
+  ctx.shadowBlur=0;
+  // 台座の矩形
+  ctx.fillStyle='rgba(200,155,60,0.4)';ctx.fillRect(15,55,50,8);
+  // 円3つ
+  [[40,8,4],[72,18,3],[8,18,3]].forEach(([cx,cy,r])=>{ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle=GOLD;ctx.fill();});
+  ctx.restore();
+
+  // サブタイトル
+  ctx.font='600 14px Rajdhani,sans-serif';
+  ctx.fillStyle=TEXT_LIGHT;ctx.textAlign='center';
+  ctx.fillText('SUMMONER PERSONALITY ANALYSIS',W/2,248);
+
+  // メインタイトル
+  ctx.font='bold 68px "Noto Serif JP",serif';
+  ctx.fillStyle=GOLD;ctx.textAlign='center';
+  ctx.shadowColor='rgba(200,155,60,0.5)';ctx.shadowBlur=30;
+  ctx.fillText('召喚士の素質診断',W/2,330);
+  ctx.shadowBlur=0;
+
+  // ディバイダー
+  const dw=200,dy=355;
+  ctx.strokeStyle='rgba(200,155,60,0.5)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(W/2-dw,dy);ctx.lineTo(W/2-12,dy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(W/2+12,dy);ctx.lineTo(W/2+dw,dy);ctx.stroke();
+  ctx.save();ctx.translate(W/2,dy);ctx.rotate(Math.PI/4);
+  ctx.fillStyle=GOLD;ctx.fillRect(-5,-5,10,10);ctx.restore();
+
+  // スタッツ行
+  const stats=[['50','最大質問数'],['167','チャンピオン'],['8','性格軸'],['5','ロール']];
+  const sw=220,startX=W/2-sw*1.5;
+  stats.forEach(([num,label],i)=>{
+    const sx=startX+sw*i;
+    ctx.font='700 42px Rajdhani,sans-serif';
+    ctx.fillStyle=GOLD;ctx.textAlign='center';
+    ctx.shadowColor='rgba(200,155,60,0.3)';ctx.shadowBlur=12;
+    ctx.fillText(num,sx,430);ctx.shadowBlur=0;
+    ctx.font='600 13px Rajdhani,sans-serif';
+    ctx.fillStyle=TEXT;ctx.fillText(label,sx,450);
+  });
+
+  // 下部フッター
+  ctx.fillStyle='rgba(0,0,0,0.45)';ctx.fillRect(0,H-56,W,56);
+  ctx.strokeStyle='rgba(200,155,60,0.2)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(0,H-56);ctx.lineTo(W,H-56);ctx.stroke();
+  ctx.font='700 16px Rajdhani,sans-serif';
+  ctx.fillStyle='rgba(200,155,60,0.7)';ctx.textAlign='center';
+  ctx.fillText('#LOL鑑定  |  League of Legends',W/2,H-22);
+
+  // ダウンロード
+  const a=document.createElement('a');
+  a.href=canvas.toDataURL('image/png');
+  a.download='og-image.png';
+  a.click();
+}
+
+// ?generate-og パラメータがあれば自動実行
+if(new URLSearchParams(window.location.search).has('generate-og')){
+  window.addEventListener('load',()=>setTimeout(generateOGImage,500));
+}
 
 </script>
 </body>
