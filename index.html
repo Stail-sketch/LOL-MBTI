@@ -149,6 +149,10 @@
   .ext-title{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);margin-bottom:4px;letter-spacing:.08em}
   .ext-subtitle{font-size:12px;color:var(--text);margin-bottom:18px;font-style:italic}
   .ext-body{font-size:14px;color:var(--text);line-height:2}
+  /* CATCHPHRASE */
+  .catchphrase-card{background:rgba(0,0,0,.35);border:1px solid rgba(200,155,60,.35);padding:28px 32px;text-align:center;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));margin-top:4px}
+  .catchphrase-label{font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:.25em;color:var(--text);text-transform:uppercase;margin-bottom:16px}
+  .catchphrase-quote{font-family:'Noto Serif JP',serif;font-size:clamp(17px,3vw,23px);color:var(--gold);line-height:1.9;font-weight:700;text-shadow:0 0 24px rgba(200,155,60,.35)}
   .sw-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px}
   @media(max-width:500px){.sw-grid{grid-template-columns:1fr}}
   .sw-box{padding:14px 18px;border:1px solid}
@@ -330,6 +334,15 @@
       <div class="ext-title" id="type-name"></div>
       <div class="ext-subtitle" id="type-subtitle"></div>
       <div class="ext-body" id="type-playstyle"></div>
+    </div>
+
+    <!-- 25問+ : キャッチコピー -->
+    <div class="ext-section hidden" id="sec-catchphrase">
+      <div class="ext-label">Battle Creed</div>
+      <div class="ext-title" style="margin-bottom:14px">あなたの戦い方を一言で表すと…</div>
+      <div class="catchphrase-card">
+        <div class="catchphrase-quote" id="catchphrase-quote"></div>
+      </div>
     </div>
 
     <!-- 30問+ : 強み・弱み -->
@@ -847,7 +860,7 @@ function showResult(normalized){
   addBtn.style.display=currentPhaseEnd<40?'block':'none';
   const is25=currentPhaseEnd>=25;
   const is40=currentPhaseEnd>=40;
-  ['sec-type','sec-sw'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is25));
+  ['sec-type','sec-catchphrase','sec-sw'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is25));
   ['sec-allies','sec-enemies','sec-famous','sec-axis'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is40));
   let detectedTypeName='';
   if(is25){
@@ -975,6 +988,9 @@ function renderTypeSection(type){
   const weak=document.getElementById('sw-weak');
   str.innerHTML=type.strengths.map(s=>`<div class="sw-item">${s}</div>`).join('');
   weak.innerHTML=type.weaknesses.map(w=>`<div class="sw-item">${w}</div>`).join('');
+  const phrases=type.catchphrases||[];
+  const phrase=phrases[Math.floor(Math.random()*phrases.length)]||'';
+  document.getElementById('catchphrase-quote').textContent=phrase;
 }
 
 function buildAffinityCard(champId,kind){
@@ -1085,6 +1101,7 @@ const SUMMONER_TYPES = [
     strengths:["圧倒的な個人スキルと判断力","逆境でも崩れない精神的タフネス"],
     weaknesses:["他人への依存・サポートを求めることが苦手","個人プレイを優先しすぎてチームと歯車が噛み合わないことがある"],
     famous:["ヴァイ。拳だけで全てを解決しようとする姿は、あなたの「俺がやる」という強烈な信念と完全に重なる。","ダリウス。力と圧倒的な存在感でレーンを支配するその姿は、あなたの「俺がやる」という信念と完璧に重なる。","フィオラ。決闘者として個人の技量と誇りだけで立つ姿は、あなたの孤高の強さと一致する。"],
+    catchphrases:["「勝利は、全て俺の手で掴む。」","「チームを頼る前に、俺が勝ちきる。」","「俺が動けば、試合は終わる。」"],
     allies:["Thresh","Lulu","Renata","Karma","Taric"],
     enemies:["Malzahar","Mordekaiser","Janna","Zilean","Camille"]
   },
@@ -1097,6 +1114,7 @@ const SUMMONER_TYPES = [
     strengths:["自然と湧き出るリーダーシップ","状況に応じて攻守を切り替える判断力"],
     weaknesses:["一人で全てを抱え込もうとする傾向","仲間がついてこないときにフラストレーションを感じやすい"],
     famous:["ジェイス。ビジョンを持ち、人々を導こうとするその姿はあなたのカリスマ性と指導力の鏡だ。","ジャーヴァンIV。王族の誇りを背負い、仲間の先頭に立って突き進むその姿はあなたのリーダーシップを体現している。","ガリオ。仲間が窮地に立てば大陸を超えて駆けつける。あなたのカリスマと結束力は彼の魂そのものだ。"],
+    catchphrases:["「俺の声で、仲間は動く。」","「先頭に立つことが、最強の戦術だ。」","「勝利はチームで掴む。だから俺が引っ張る。」"],
     allies:["Amumu","Malphite","JarvanIV","Sejuani","Galio"],
     enemies:["Fiora","Tryndamere","Jax","Nasus","Yorick"]
   },
@@ -1109,6 +1127,7 @@ const SUMMONER_TYPES = [
     strengths:["長期的な視野とゲームプランの構築力","感情に流されない冷静な状況判断"],
     weaknesses:["予測不能な相手や混乱した状況への対応が苦手","細かすぎる計画が崩れたときのリカバリーに時間がかかる"],
     famous:["レナータ・グラスク。全てを計算し、感情を見せずに盤面を動かす。あなたの冷徹な戦略性はまさにこのタイプだ。","アジール。滅びた帝国を再建する壮大な計画と冷徹な指揮はあなたの戦略家としての本質と重なる。","ツイステッド・フェイト。全てのカードを読み、誰よりも先に手を打つ。あなたの読みと計略の深さは彼そのものだ。"],
+    catchphrases:["「勝負は動く前に、すでに決まっている。」","「感情を捨てろ。盤面だけを見ろ。」","「一手先ではなく、十手先を読め。」"],
     allies:["Azir","Orianna","Viktor","Twisted Fate","Lissandra"],
     enemies:["Yasuo","Shaco","LeBlanc","Zoe","Fizz"]
   },
@@ -1121,6 +1140,7 @@ const SUMMONER_TYPES = [
     strengths:["瞬時の状況把握と予測不能な判断力","高プレッシャー下でのひらめき"],
     weaknesses:["論理的な一貫性に欠けることがある","直感が外れたときのリカバリープランが薄い"],
     famous:["エコー。既存の枠組みを壊し、天才的な直感で解決策を見つける姿はあなたそのものだ。","ゾーイ。宇宙の直感に従い、既存の枠組みを意に介さずに動く彼女はあなたの型破りな閃きと共鳴する。","シャコ。誰も予測できないプレイで相手の裏をかき続ける姿は、あなたの予測不能な天才性の反映だ。"],
+    catchphrases:["「理屈より、この直感を信じろ。」","「答えは考えるより先に、体が知っている。」","「ルールは、破るためにある。」"],
     allies:["LeeSin","Ahri","Ekko","Kayn","Kindred"],
     enemies:["Caitlyn","Jhin","Azir","Viktor","Orianna"]
   },
@@ -1133,6 +1153,7 @@ const SUMMONER_TYPES = [
     strengths:["どんな状況でも揺れないチームへの献身","長期的な安定感と忍耐力"],
     weaknesses:["自分の意見を主張することが苦手","守ることに集中しすぎて攻める機会を逃すことがある"],
     famous:["ブラウム。強さとは盾であること。あなたの献身と守護の精神は、フレヨルドの心そのものだ。","タリック。仲間の盾となり、その命を守るために力を尽くす。あなたの献身と守護の精神は彼の誓いと重なる。","ポッピー。英雄の盾を守り続け、どんな強敵にも怯まない姿はあなたの守護者としての本質を映している。"],
+    catchphrases:["「仲間が立っている限り、俺たちは負けない。」","「盾になることが、俺の最強の武器だ。」","「守り抜いた先に、本当の勝利がある。」"],
     allies:["Jinx","Vayne","KogMaw","Aphelios","Xayah"],
     enemies:["Pyke","Draven","Zed","Katarina","Samira"]
   },
@@ -1145,6 +1166,7 @@ const SUMMONER_TYPES = [
     strengths:["極限状態での爆発的なパフォーマンス","相手に計算させる余地を与えない突破力"],
     weaknesses:["過剰なリスクテイクでチームを巻き込むことがある","長期戦・持久戦での判断力が落ちる"],
     famous:["オラフ。Valoran中を旅して強敵を探し続ける姿は、あなたの戦闘狂としての本能と完璧に一致する。","トリンダメア。怒りを力に変え、死の恐怖すら超越して戦い続ける姿はあなたの戦闘狂の本能と完全に一致する。","ジャックス。真の強さへの執念と、一対一で誰にも負けない自信はあなたの闘争本能そのものだ。"],
+    catchphrases:["「止まれば負ける。だから俺は前だけを向く。」","「危険なほど、血が滾る。」","「リスクを恐れる者に、真の勝利はない。」"],
     allies:["Leona","Nautilus","Alistar","JarvanIV","Blitzcrank"],
     enemies:["Janna","Lulu","Gragas","Zilean","Soraka"]
   },
@@ -1157,6 +1179,7 @@ const SUMMONER_TYPES = [
     strengths:["どんな逆境でも続く圧倒的な忍耐力","長期的な準備と計画の実行力"],
     weaknesses:["序盤の判断が受け身になりすぎる","スローペースが裏目に出るとき(相手が早いゲームを仕掛けたとき)"],
     famous:["ナサス。ただひたすら積み上げ、時が来れば誰も止められない存在になる。あなたの忍耐は真の力だ。","マルファイト。岩のように揺るがず、完璧な時機を計ったコンボで試合を変える。あなたの忍耐は彼の岩盤と同じだ。","ブラッドミア。着実に力を蓄え、やがて誰も止められない存在になる。あなたのスケーリング戦略と重なる。"],
+    catchphrases:["「焦らない。積み上げた力は、必ず実を結ぶ。」","「時間は俺の味方だ。」","「積み上げた力は、決して裏切らない。」"],
     allies:["Kassadin","Kayle","Vladimir","Aurelion Sol","Veigar"],
     enemies:["Darius","Renekton","LeeSin","Elise","Graves"]
   },
@@ -1169,6 +1192,7 @@ const SUMMONER_TYPES = [
     strengths:["チームの状態を誰よりも把握する共感力","逆境でもチームの士気を保つ精神的なサポート力"],
     weaknesses:["感情的な共鳴が強すぎて判断が乱れることがある","自己犠牲が過ぎてリソースが尽きるケースがある"],
     famous:["ソラカ。与え続けることに喜びを見出し、傷つくたびに立ち上がる。あなたの共感と献身は彼女の精神と共鳴する。","ジャンナ。嵐の女神として常に仲間の傍らに立ち、守り続ける。あなたの共感と献身は彼女の風のように温かい。","ユーミ。信頼する仲間と一体となり、その力を最大限に引き出す。あなたの共感力と結びつく力は彼女の絆と重なる。"],
+    catchphrases:["「仲間の笑顔が、俺の最大の勝利だ。」","「心が繋がった瞬間、俺たちは無敵になる。」","「与えることに、本当の強さがある。」"],
     allies:["Aphelios","KogMaw","Vayne","Tristana","Jinx"],
     enemies:["Zed","Katarina","Talon","Akali","Qiyana"]
   },
@@ -1181,6 +1205,7 @@ const SUMMONER_TYPES = [
     strengths:["一点集中の精度と判断の速さ","個人としての完成度の高さ"],
     weaknesses:["チームとの連携が薄くなりがち","ターゲットに固執して全体像を見失うことがある"],
     famous:["ヴェイン。悪を狩るために孤独を選び、信念のためなら全てを捨てる。あなたの孤独な強さは彼女の魂と共鳴する。","ゼド。影に潜み、完璧な瞬間だけに姿を現す。あなたの孤独な狩人としての本質は彼の忍びの心と重なる。","タロン。ターゲットを決めたら迷いなく刃を突き立てる。あなたの一点突破の精度と信念は彼のそれと同じだ。"],
+    catchphrases:["「獲物を決めたら、迷わない。」","「孤独は弱さじゃない。研ぎ澄まされた刃だ。」","「完璧な瞬間だけに、俺は動く。」"],
     allies:["Thresh","Blitzcrank","Pyke","Nautilus","Leona"],
     enemies:["Lulu","Janna","Karma","Seraphine","Soraka"]
   },
@@ -1193,6 +1218,7 @@ const SUMMONER_TYPES = [
     strengths:["プレイの精度と再現性の高さ","細部まで考え抜かれた戦略的思考"],
     weaknesses:["完璧主義が重枷になり即断即決が遅れることがある","想定外の展開にストレスを感じやすい"],
     famous:["ジン。全ての動きを美しい4幕の劇として演出する彼の美学は、あなたの完璧主義と計画性の鑑だ。","カミール。精密な動きと完璧な戦術でターゲットを仕留める姿は、あなたの芸術的な計画性と完璧主義を映している。","カリスタ。槍の一本一本を精確に積み重ねる彼女の戦い方は、あなたの完璧主義と緻密な美学と共鳴する。"],
+    catchphrases:["「美しくない勝利に、意味はない。」","「完璧な一手が、全てを変える。」","「俺の戦いは、芸術だ。」"],
     allies:["Orianna","Azir","Viktor","Twisted Fate","Jhin"],
     enemies:["Shaco","Zoe","Yasuo","Fizz","LeBlanc"]
   },
@@ -1205,6 +1231,7 @@ const SUMMONER_TYPES = [
     strengths:["常識外のアプローチで相手の裏をかく発想力","未知の状況でのアドリブ力"],
     weaknesses:["一貫性のないプレイがチームを混乱させることがある","リスク管理が甘くなりやすい"],
     famous:["エズリアル。地図を持たずに遺跡へ飛び込み、自分の力で道を切り開く。あなたの冒険心と直感は彼そのものだ。","ケイン。境界を越え、自分だけの道を切り開きながら進化し続ける姿はあなたの自由な精神と重なる。","キンドレッド。大地と空の間を自由に駆け、誰にも縛られない。あなたの冒険心と解放感は彼らと共鳴する。"],
+    catchphrases:["「地図のない冒険こそが、本当の戦いだ。」","「セオリー？関係ない。俺のやり方で行く。」","「退屈な安全より、刺激的な危険を選ぶ。」"],
     allies:["LeeSin","Kayn","Ekko","Vi","Riven"],
     enemies:["Caitlyn","Jhin","Azir","Orianna","Lissandra"]
   },
@@ -1217,6 +1244,7 @@ const SUMMONER_TYPES = [
     strengths:["どんな状況・チームにも適応できる柔軟性","特定の弱点がなく安定したパフォーマンス"],
     weaknesses:["突出した強みがないため決め手に欠けることがある","自分のスタイルを確立しにくく迷走するケースも"],
     famous:["アッシュ。シンプルでありながら、どんな状況でも安定した力を発揮する。あなたの適応力は彼女の普遍的な強さと似ている。","ガレン。シンプルで力強く、どんな状況でも安定して戦える。あなたの適応力は彼の揺るぎない普遍的な強さと重なる。","ルシアン。多様な戦術と柔軟な対応力で、どんな敵にも渡り合える。あなたの万能性は彼のバランスの取れた強さと共鳴する。"],
+    catchphrases:["「どんな状況でも、俺は答えを見つける。」","「型にはまらないことが、俺の型だ。」","「柔軟性こそが、俺の最強の武器だ。」"],
     allies:["Thresh","Ashe","Lux","JarvanIV","Karma"],
     enemies:["Nasus","Samira","Yasuo","Veigar","Katarina"]
   },
