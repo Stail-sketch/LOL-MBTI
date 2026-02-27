@@ -153,6 +153,25 @@
   .catchphrase-card{background:rgba(0,0,0,.35);border:1px solid rgba(200,155,60,.35);padding:28px 32px;text-align:center;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));margin-top:4px}
   .catchphrase-label{font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:.25em;color:var(--text);text-transform:uppercase;margin-bottom:16px}
   .catchphrase-quote{font-family:'Noto Serif JP',serif;font-size:clamp(17px,3vw,23px);color:var(--gold);line-height:1.9;font-weight:700;text-shadow:0 0 24px rgba(200,155,60,.35)}
+  /* PERCEPTION */
+  .perception-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+  @media(max-width:500px){.perception-grid{grid-template-columns:1fr}}
+  .perception-box{padding:16px 18px;border:1px solid;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+  .perception-box.ally{border-color:rgba(11,196,227,.4);background:rgba(11,196,227,.05)}
+  .perception-box.enemy{border-color:rgba(200,52,74,.4);background:rgba(200,52,74,.05)}
+  .perception-box-label{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.25em;text-transform:uppercase;margin-bottom:10px}
+  .perception-box.ally .perception-box-label{color:var(--blue)}
+  .perception-box.enemy .perception-box-label{color:var(--red)}
+  .perception-text{font-size:13px;color:var(--text);line-height:1.9;font-style:italic}
+  /* SYNERGY / OPPOSITE */
+  .synergy-card{background:linear-gradient(135deg,rgba(11,196,227,.08),rgba(11,196,227,.03));border:1px solid rgba(11,196,227,.35);padding:24px 28px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+  .synergy-type-name{font-family:'Cinzel',serif;font-size:20px;color:var(--blue);margin-bottom:4px;letter-spacing:.06em}
+  .synergy-type-sub{font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--text);opacity:.7;margin-bottom:14px}
+  .synergy-reason{font-size:14px;color:var(--text);line-height:1.9}
+  .opposite-card{background:linear-gradient(135deg,rgba(200,155,60,.08),rgba(200,155,60,.03));border:1px solid rgba(200,155,60,.4);padding:24px 28px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+  .opposite-type-name{font-family:'Cinzel',serif;font-size:20px;color:var(--gold);margin-bottom:4px;letter-spacing:.06em}
+  .opposite-type-sub{font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--text);opacity:.7;margin-bottom:14px}
+  .opposite-reason{font-size:14px;color:var(--text);line-height:1.9}
   .sw-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px}
   @media(max-width:500px){.sw-grid{grid-template-columns:1fr}}
   .sw-box{padding:14px 18px;border:1px solid}
@@ -345,12 +364,50 @@
       </div>
     </div>
 
+    <!-- 25問+ : 他者からの印象 -->
+    <div class="ext-section hidden" id="sec-perception">
+      <div class="ext-label">After Game Chat</div>
+      <div class="ext-title" style="margin-bottom:14px">試合後、あなたはこう思われているかも</div>
+      <div class="perception-grid">
+        <div class="perception-box ally">
+          <div class="perception-box-label">🤝 味方から</div>
+          <div class="perception-text" id="perception-ally"></div>
+        </div>
+        <div class="perception-box enemy">
+          <div class="perception-box-label">⚔️ 敵から</div>
+          <div class="perception-text" id="perception-enemy"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- 30問+ : 強み・弱み -->
     <div class="ext-section hidden" id="sec-sw">
       <div class="ext-label">Strengths &amp; Weaknesses</div>
       <div class="sw-grid">
         <div class="sw-box str"><div class="sw-box-label">⬡ 強み</div><div id="sw-str"></div></div>
         <div class="sw-box weak"><div class="sw-box-label">⬡ 弱み</div><div id="sw-weak"></div></div>
+      </div>
+    </div>
+
+    <!-- 40問+ : 相性の良い召喚士タイプ -->
+    <div class="ext-section hidden" id="sec-synergy">
+      <div class="ext-label">Summoner Synergy</div>
+      <div class="ext-title" style="margin-bottom:14px">あなたのタイプと組むと最強</div>
+      <div class="synergy-card">
+        <div class="synergy-type-name" id="synergy-type-name"></div>
+        <div class="synergy-type-sub" id="synergy-type-sub"></div>
+        <div class="synergy-reason" id="synergy-reason"></div>
+      </div>
+    </div>
+
+    <!-- 40問+ : 逆診断 -->
+    <div class="ext-section hidden" id="sec-opposite">
+      <div class="ext-label">Shadow Self</div>
+      <div class="ext-title" style="margin-bottom:14px">あなたと真逆の召喚士タイプ</div>
+      <div class="opposite-card">
+        <div class="opposite-type-name" id="opposite-type-name"></div>
+        <div class="opposite-type-sub" id="opposite-type-sub"></div>
+        <div class="opposite-reason" id="opposite-reason"></div>
       </div>
     </div>
 
@@ -860,8 +917,8 @@ function showResult(normalized){
   addBtn.style.display=currentPhaseEnd<40?'block':'none';
   const is25=currentPhaseEnd>=25;
   const is40=currentPhaseEnd>=40;
-  ['sec-type','sec-catchphrase','sec-sw'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is25));
-  ['sec-allies','sec-enemies','sec-famous','sec-axis'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is40));
+  ['sec-type','sec-catchphrase','sec-perception','sec-sw'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is25));
+  ['sec-synergy','sec-opposite','sec-allies','sec-enemies','sec-famous','sec-axis'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is40));
   let detectedTypeName='';
   if(is25){
     const type=getSummonerType(normalized);
@@ -991,6 +1048,10 @@ function renderTypeSection(type){
   const phrases=type.catchphrases||[];
   const phrase=phrases[Math.floor(Math.random()*phrases.length)]||'';
   document.getElementById('catchphrase-quote').textContent=phrase;
+  const percs=type.perceptions||[];
+  const perc=percs[Math.floor(Math.random()*percs.length)]||{};
+  document.getElementById('perception-ally').textContent=perc.ally||'';
+  document.getElementById('perception-enemy').textContent=perc.enemy||'';
 }
 
 function buildAffinityCard(champId,kind){
@@ -1036,6 +1097,24 @@ function showChampDetail(champId,kind){
 }
 
 function renderFullSection(type,normalized){
+  // シナジー召喚士タイプ
+  if(type.synergy){
+    const syn=SUMMONER_TYPES.find(t=>t.id===type.synergy.id);
+    if(syn){
+      document.getElementById('synergy-type-name').textContent=syn.name;
+      document.getElementById('synergy-type-sub').textContent=syn.subtitle;
+      document.getElementById('synergy-reason').textContent=type.synergy.reason;
+    }
+  }
+  // 逆診断
+  if(type.opposite){
+    const opp=SUMMONER_TYPES.find(t=>t.id===type.opposite.id);
+    if(opp){
+      document.getElementById('opposite-type-name').textContent=opp.name;
+      document.getElementById('opposite-type-sub').textContent=opp.subtitle;
+      document.getElementById('opposite-reason').textContent=type.opposite.reason;
+    }
+  }
   // 相性・天敵
   const alliesGrid=document.getElementById('allies-grid');
   alliesGrid.innerHTML='';
@@ -1102,6 +1181,13 @@ const SUMMONER_TYPES = [
     weaknesses:["他人への依存・サポートを求めることが苦手","個人プレイを優先しすぎてチームと歯車が噛み合わないことがある"],
     famous:["ヴァイ。拳だけで全てを解決しようとする姿は、あなたの「俺がやる」という強烈な信念と完全に重なる。","ダリウス。力と圧倒的な存在感でレーンを支配するその姿は、あなたの「俺がやる」という信念と完璧に重なる。","フィオラ。決闘者として個人の技量と誇りだけで立つ姿は、あなたの孤高の強さと一致する。"],
     catchphrases:["「勝利は、全て俺の手で掴む。」","「チームを頼る前に、俺が勝ちきる。」","「俺が動けば、試合は終わる。」"],
+    perceptions:[
+      {ally:"「こいつが動けば試合終わる。頼んだ。」正直あなたに全部任せたくなる。",enemy:"「一人でやってくる。でも止められない。」あなたに倒されると一番悔しい。"},
+      {ally:"「あいつがやってくれる。俺たちは付いていくだけでいい。」あなたの存在がチームの安心感。",enemy:"「また一人で突っ込んできた。でも本当に強い。」脅威として常に意識される。"},
+      {ally:"「ミスしても立て直す。本物だ。」あなたの個人スキルがチームを信じさせる。",enemy:"「あいつさえ倒せれば勝てる。でもそれができない。」あなたが壁になっている。"},
+    ],
+    synergy:{id:"empath",reason:"孤高の覇者が前に立ち、守護天使が後ろを固める。このコンビに誰も追いつけない。"},
+    opposite:{id:"guardian",reason:"仲間を守ることに全てを捧げる守護者は、個人の力で全てを完結させようとする覇者とは正反対の価値観を持つ存在だ。"},
     allies:["Thresh","Lulu","Renata","Karma","Taric"],
     enemies:["Malzahar","Mordekaiser","Janna","Zilean","Camille"]
   },
@@ -1115,6 +1201,13 @@ const SUMMONER_TYPES = [
     weaknesses:["一人で全てを抱え込もうとする傾向","仲間がついてこないときにフラストレーションを感じやすい"],
     famous:["ジェイス。ビジョンを持ち、人々を導こうとするその姿はあなたのカリスマ性と指導力の鏡だ。","ジャーヴァンIV。王族の誇りを背負い、仲間の先頭に立って突き進むその姿はあなたのリーダーシップを体現している。","ガリオ。仲間が窮地に立てば大陸を超えて駆けつける。あなたのカリスマと結束力は彼の魂そのものだ。"],
     catchphrases:["「俺の声で、仲間は動く。」","「先頭に立つことが、最強の戦術だ。」","「勝利はチームで掴む。だから俺が引っ張る。」"],
+    perceptions:[
+      {ally:"「あの人の声が聞こえたら安心する。」あなたのリーダーシップがチームを一つにする。",enemy:"「あいつが指示出すと連携が取れてくる。封じないと。」指揮官として恐れられている。"},
+      {ally:"「自分で動いて、仲間も引っ張る。理想のキャプテン。」あなたの存在がチームに勢いをもたらす。",enemy:"「チームを動かしてくる。一番厄介なタイプだ。」あなたを最優先ターゲットにされる。"},
+      {ally:"「負けそうになっても、この人がいると諦めたくなくなる。」あなたの言葉がチームを鼓舞する。",enemy:"「あのコールが的確すぎる。ゲームプランを崩してくる。」あなたの戦略眼が脅威として認識される。"},
+    ],
+    synergy:{id:"strategist",reason:"現場を指揮する司令官と、裏で全てを設計する参謀。前線と頭脳が揃えば、試合は最初から決まっている。"},
+    opposite:{id:"hunter",reason:"声を上げてチームを動かす指揮官と、孤独に獲物を仕留める狩人は、戦い方も価値観も正反対だ。"},
     allies:["Amumu","Malphite","JarvanIV","Sejuani","Galio"],
     enemies:["Fiora","Tryndamere","Jax","Nasus","Yorick"]
   },
@@ -1128,6 +1221,13 @@ const SUMMONER_TYPES = [
     weaknesses:["予測不能な相手や混乱した状況への対応が苦手","細かすぎる計画が崩れたときのリカバリーに時間がかかる"],
     famous:["レナータ・グラスク。全てを計算し、感情を見せずに盤面を動かす。あなたの冷徹な戦略性はまさにこのタイプだ。","アジール。滅びた帝国を再建する壮大な計画と冷徹な指揮はあなたの戦略家としての本質と重なる。","ツイステッド・フェイト。全てのカードを読み、誰よりも先に手を打つ。あなたの読みと計略の深さは彼そのものだ。"],
     catchphrases:["「勝負は動く前に、すでに決まっている。」","「感情を捨てろ。盤面だけを見ろ。」","「一手先ではなく、十手先を読め。」"],
+    perceptions:[
+      {ally:"「こいつが考えてくれてるから何も心配しなくていい。」あなたの静かな計算がチームの安心感を生む。",enemy:"「気づいたら詰められてた。いつの間に……。」あなたの罠に誰もが気づかず落ちる。"},
+      {ally:"「全部読んでる。試合の流れを知ってる。」あなたの盤面理解がチームを動かす。",enemy:"「なんか嫌な予感がしてたら案の定。」あなたの存在が敵の不安を生み出す。"},
+      {ally:"「無駄な動きがない。あの人の判断を信じていい。」あなたの精密な思考がチームを勝利へ導く。",enemy:"「ランダムに動いてるわけじゃない。全部計算されてる。」あなたの緻密さが敵を震え上がらせる。"},
+    ],
+    synergy:{id:"commander",reason:"完璧な計画も、実行に移す指揮官がいなければ始まらない。参謀と司令官が組めば、計略は現実になる。"},
+    opposite:{id:"berserker",reason:"感情と本能で突き進む闘士は、全てを計算し尽くして動く軍師とは対極の存在だ。"},
     allies:["Azir","Orianna","Viktor","Twisted Fate","Lissandra"],
     enemies:["Yasuo","Shaco","LeBlanc","Zoe","Fizz"]
   },
@@ -1141,6 +1241,13 @@ const SUMMONER_TYPES = [
     weaknesses:["論理的な一貫性に欠けることがある","直感が外れたときのリカバリープランが薄い"],
     famous:["エコー。既存の枠組みを壊し、天才的な直感で解決策を見つける姿はあなたそのものだ。","ゾーイ。宇宙の直感に従い、既存の枠組みを意に介さずに動く彼女はあなたの型破りな閃きと共鳴する。","シャコ。誰も予測できないプレイで相手の裏をかき続ける姿は、あなたの予測不能な天才性の反映だ。"],
     catchphrases:["「理屈より、この直感を信じろ。」","「答えは考えるより先に、体が知っている。」","「ルールは、破るためにある。」"],
+    perceptions:[
+      {ally:"「意味不明だったけど、気づいたら試合有利になってた。」あなたの直感プレイが試合を動かす。",enemy:"「動きが読めない。次に何してくるか全然わからない。」あなたの予測不能さが敵を混乱させる。"},
+      {ally:"「あんな発想誰も思いつかない。天才かよ。」あなたのひらめきがチームに驚きと勝機をもたらす。",enemy:"「普通じゃない動きばかりしてくる。対策できない。」あなたのセオリー無視が対策を困難にする。"},
+      {ally:"「なんか信じられないことをやってのけた。この人やばい。」あなたの瞬間的な判断がチームを沸かせる。",enemy:"「絶対こう来るはずって思ったら外された。読めない。」あなたの直感が敵の読みを裏切り続ける。"},
+    ],
+    synergy:{id:"guardian",reason:"閃きを守護者の盾で守れ。直感の天才は、安心できる後ろ盾があってこそ最大の力を発揮できる。"},
+    opposite:{id:"fortress",reason:"じっくりと積み上げることを信条とする要塞は、直感と一瞬の閃きで全てを決める天才とは真逆の時間感覚を持つ。"},
     allies:["LeeSin","Ahri","Ekko","Kayn","Kindred"],
     enemies:["Caitlyn","Jhin","Azir","Viktor","Orianna"]
   },
@@ -1154,6 +1261,13 @@ const SUMMONER_TYPES = [
     weaknesses:["自分の意見を主張することが苦手","守ることに集中しすぎて攻める機会を逃すことがある"],
     famous:["ブラウム。強さとは盾であること。あなたの献身と守護の精神は、フレヨルドの心そのものだ。","タリック。仲間の盾となり、その命を守るために力を尽くす。あなたの献身と守護の精神は彼の誓いと重なる。","ポッピー。英雄の盾を守り続け、どんな強敵にも怯まない姿はあなたの守護者としての本質を映している。"],
     catchphrases:["「仲間が立っている限り、俺たちは負けない。」","「盾になることが、俺の最強の武器だ。」","「守り抜いた先に、本当の勝利がある。」"],
+    perceptions:[
+      {ally:"「いつもそこにいてくれる。安心感が違う。」あなたの存在がチームに落ち着きをもたらす。",enemy:"「あの壁をどう崩すか。本当に固い。」あなたの守りが敵の攻め手を封じる。"},
+      {ally:"「死にそうだったのに助けてもらった。マジ神。」あなたの守護がチームを絶体絶命から救う。",enemy:"「あいつがいると全然仕事できない。邪魔すぎる。」あなたの守りが敵の計画を狂わせる。"},
+      {ally:"「この人がいると安心してプレイできる。頼りにしてる。」あなたの献身がチームの自信を支える。",enemy:"「倒せない。ずっとそこにいる。」あなたの揺るぎない守りが敵の戦意を削ぐ。"},
+    ],
+    synergy:{id:"berserker",reason:"固い壁を背負った闘士の突撃は、誰にも止められない。守護者が守り抜く限り、闘士は無限に暴れ続けられる。"},
+    opposite:{id:"adventurer",reason:"地図のない自由な道を突き進む冒険者は、仲間を守ることだけに専念する守護者とは正反対の生き方をしている。"},
     allies:["Jinx","Vayne","KogMaw","Aphelios","Xayah"],
     enemies:["Pyke","Draven","Zed","Katarina","Samira"]
   },
@@ -1167,6 +1281,13 @@ const SUMMONER_TYPES = [
     weaknesses:["過剰なリスクテイクでチームを巻き込むことがある","長期戦・持久戦での判断力が落ちる"],
     famous:["オラフ。Valoran中を旅して強敵を探し続ける姿は、あなたの戦闘狂としての本能と完璧に一致する。","トリンダメア。怒りを力に変え、死の恐怖すら超越して戦い続ける姿はあなたの戦闘狂の本能と完全に一致する。","ジャックス。真の強さへの執念と、一対一で誰にも負けない自信はあなたの闘争本能そのものだ。"],
     catchphrases:["「止まれば負ける。だから俺は前だけを向く。」","「危険なほど、血が滾る。」","「リスクを恐れる者に、真の勝利はない。」"],
+    perceptions:[
+      {ally:"「突っ込みすぎて怖いけど、なぜか勝ってる。すごい。」あなたの爆発力がチームを前へ引っ張る。",enemy:"「止まらない。どうやって倒せばいいんだ。」あなたの突進が敵の防衛ラインを崩壊させる。"},
+      {ally:"「ヤバい状況でも突っ込んでいく。メンタルが違う。」あなたの勢いがチームの士気を上げる。",enemy:"「あいつに付いていくしかない。勢いで押し切られた。」あなたの圧力が敵を後退させる。"},
+      {ally:"「一番血が滾ってる。試合を壊してくれる存在。」あなたの攻撃性がゲームを加速させる。",enemy:"「リスク無視で仕掛けてくる。読めないし怖い。」あなたの無謀さが逆に敵の計算を狂わせる。"},
+    ],
+    synergy:{id:"empath",reason:"突撃一辺倒の闘士を天使が支える。止まらない力に癒しと守りが加わると、文字通り鬼に金棒だ。"},
+    opposite:{id:"strategist",reason:"全てを計算し尽くして動く冷静な軍師は、感情と本能で突き進む闘士とは正反対の思考回路を持つ。"},
     allies:["Leona","Nautilus","Alistar","JarvanIV","Blitzcrank"],
     enemies:["Janna","Lulu","Gragas","Zilean","Soraka"]
   },
@@ -1180,6 +1301,13 @@ const SUMMONER_TYPES = [
     weaknesses:["序盤の判断が受け身になりすぎる","スローペースが裏目に出るとき(相手が早いゲームを仕掛けたとき)"],
     famous:["ナサス。ただひたすら積み上げ、時が来れば誰も止められない存在になる。あなたの忍耐は真の力だ。","マルファイト。岩のように揺るがず、完璧な時機を計ったコンボで試合を変える。あなたの忍耐は彼の岩盤と同じだ。","ブラッドミア。着実に力を蓄え、やがて誰も止められない存在になる。あなたのスケーリング戦略と重なる。"],
     catchphrases:["「焦らない。積み上げた力は、必ず実を結ぶ。」","「時間は俺の味方だ。」","「積み上げた力は、決して裏切らない。」"],
+    perceptions:[
+      {ally:"「序盤はおとなしいけど、後半に頼りになる。」あなたのスケーリングがチームの切り札になる。",enemy:"「あいつを放置したら終わった。なんであんなに強くなったんだ。」あなたの成長が敵の判断ミスを誘う。"},
+      {ally:"「絶対に崩れない。岩みたいな安心感。」あなたの安定感がチームの土台を作る。",enemy:"「もう手が付けられない。早めに対処すべきだった。」あなたの後半の力が敵を後悔させる。"},
+      {ally:"「どんなに遅れても諦めない。信頼できる。」あなたの粘り強さがチームに希望を与える。",enemy:"「序盤勝ったと思ったのに、気づいたら逆転されてた。」あなたの忍耐力が試合をひっくり返す。"},
+    ],
+    synergy:{id:"commander",reason:"指揮官が前線で試合を引っ張る間に、要塞はじっくり力を積み上げる。二人の時間軸が噛み合ったとき、最強の布陣が完成する。"},
+    opposite:{id:"intuitive",reason:"直感と一瞬の閃きで全てを決める天才は、コツコツと積み上げることに価値を見出す要塞とは真逆の生き方をしている。"},
     allies:["Kassadin","Kayle","Vladimir","Aurelion Sol","Veigar"],
     enemies:["Darius","Renekton","LeeSin","Elise","Graves"]
   },
@@ -1193,6 +1321,13 @@ const SUMMONER_TYPES = [
     weaknesses:["感情的な共鳴が強すぎて判断が乱れることがある","自己犠牲が過ぎてリソースが尽きるケースがある"],
     famous:["ソラカ。与え続けることに喜びを見出し、傷つくたびに立ち上がる。あなたの共感と献身は彼女の精神と共鳴する。","ジャンナ。嵐の女神として常に仲間の傍らに立ち、守り続ける。あなたの共感と献身は彼女の風のように温かい。","ユーミ。信頼する仲間と一体となり、その力を最大限に引き出す。あなたの共感力と結びつく力は彼女の絆と重なる。"],
     catchphrases:["「仲間の笑顔が、俺の最大の勝利だ。」","「心が繋がった瞬間、俺たちは無敵になる。」","「与えることに、本当の強さがある。」"],
+    perceptions:[
+      {ally:"「この人がいないと試合にならない。本当に助かってる。」あなたの支えがチームを機能させる。",enemy:"「あのサポートを無力化しないと何もできない。」あなたの存在が敵の最優先ターゲットになる。"},
+      {ally:"「いつも気にかけてくれてる。チームの心が繋がってる。」あなたの共感力がチームを一つにする。",enemy:"「味方を全員ケアしてくる。仕事させてもらえない。」あなたの献身が敵の攻略を困難にする。"},
+      {ally:"「あの人のサポートがあるから自分のプレイに集中できる。」あなたのバックアップがチームを解放する。",enemy:"「あのヒールとシールドがうっとうしい。どうにかして。」あなたの守りが敵をひたすら悩ませる。"},
+    ],
+    synergy:{id:"ruler",reason:"覇者の力を最大限に引き出すのは、共感と献身の守護天使だ。支えがあってこそ、孤高の力は本当の意味で輝く。"},
+    opposite:{id:"ruler",reason:"チームとの繋がりを全てに優先する守護天使と、個の力だけで全てを解決しようとする孤高の覇者は、まさに光と影の関係だ。"},
     allies:["Aphelios","KogMaw","Vayne","Tristana","Jinx"],
     enemies:["Zed","Katarina","Talon","Akali","Qiyana"]
   },
@@ -1206,6 +1341,13 @@ const SUMMONER_TYPES = [
     weaknesses:["チームとの連携が薄くなりがち","ターゲットに固執して全体像を見失うことがある"],
     famous:["ヴェイン。悪を狩るために孤独を選び、信念のためなら全てを捨てる。あなたの孤独な強さは彼女の魂と共鳴する。","ゼド。影に潜み、完璧な瞬間だけに姿を現す。あなたの孤独な狩人としての本質は彼の忍びの心と重なる。","タロン。ターゲットを決めたら迷いなく刃を突き立てる。あなたの一点突破の精度と信念は彼のそれと同じだ。"],
     catchphrases:["「獲物を決めたら、迷わない。」","「孤独は弱さじゃない。研ぎ澄まされた刃だ。」","「完璧な瞬間だけに、俺は動く。」"],
+    perceptions:[
+      {ally:"「静かだけど、確実に仕事してる。頼もしい。」あなたの精度の高さがチームの安心感になる。",enemy:"「あいつにだけは狙われたくない。気づいたら死んでる。」あなたの暗殺精度が敵の恐怖を生む。"},
+      {ally:"「チームの邪魔をしない。その代わり確実に仕留める。」あなたのプロフェッショナルな動きがチームを助ける。",enemy:"「姿を消して、気づいたらKillされてた。恐ろしい。」あなたの一撃必殺が敵を常に緊張させる。"},
+      {ally:"「無駄口叩かないで結果を出す。カッコいい。」あなたの仕事ぶりがチームのメンバーに信頼を与える。",enemy:"「マークしてたのにいつの間にかいなくなってた。嫌な相手。」あなたの動きが敵の計算を狂わせる。"},
+    ],
+    synergy:{id:"strategist",reason:"軍師の計画に乗った狩人の一撃は、誰にも防げない。完璧なタイミングで全てが決まる、最も静かで最も恐ろしいコンビだ。"},
+    opposite:{id:"commander",reason:"声を上げてチームを動かす指揮官は、沈黙の中に孤独で獲物を仕留める狩人とは、全く異なる世界に生きている。"},
     allies:["Thresh","Blitzcrank","Pyke","Nautilus","Leona"],
     enemies:["Lulu","Janna","Karma","Seraphine","Soraka"]
   },
@@ -1219,6 +1361,13 @@ const SUMMONER_TYPES = [
     weaknesses:["完璧主義が重枷になり即断即決が遅れることがある","想定外の展開にストレスを感じやすい"],
     famous:["ジン。全ての動きを美しい4幕の劇として演出する彼の美学は、あなたの完璧主義と計画性の鑑だ。","カミール。精密な動きと完璧な戦術でターゲットを仕留める姿は、あなたの芸術的な計画性と完璧主義を映している。","カリスタ。槍の一本一本を精確に積み重ねる彼女の戦い方は、あなたの完璧主義と緻密な美学と共鳴する。"],
     catchphrases:["「美しくない勝利に、意味はない。」","「完璧な一手が、全てを変える。」","「俺の戦いは、芸術だ。」"],
+    perceptions:[
+      {ally:"「プレイが綺麗すぎる。見てて気持ちいい。」あなたの精密なプレイがチームの目を引く。",enemy:"「隙がない。完璧すぎて崩せない。」あなたの完璧主義が敵に隙を見せない。"},
+      {ally:"「動きに一切無駄がない。芸術だ。」あなたの精度の高さがチームに勝利をもたらす。",enemy:"「どう攻略すればいいかわからない。全部読まれてる感じがする。」あなたの思考が敵を圧倒する。"},
+      {ally:"「慎重すぎる時もあるけど、ここぞで決めてくれる。」あなたの完璧主義が試合の鍵を握る。",enemy:"「あのプレイ精度、対策が追いつかない。厄介極まりない。」あなたの精確さが敵の戦略を無効化する。"},
+    ],
+    synergy:{id:"guardian",reason:"完璧なプレイを守護者が守ることで、芸術家の精度は倍になる。美しい技と鉄壁の守りが合わされば、隙のない試合が完成する。"},
+    opposite:{id:"adventurer",reason:"自由と型破りを愛する冒険者は、完璧さと美しさにこだわる芸術家とは正反対の価値観で戦場に立っている。"},
     allies:["Orianna","Azir","Viktor","Twisted Fate","Jhin"],
     enemies:["Shaco","Zoe","Yasuo","Fizz","LeBlanc"]
   },
@@ -1232,6 +1381,13 @@ const SUMMONER_TYPES = [
     weaknesses:["一貫性のないプレイがチームを混乱させることがある","リスク管理が甘くなりやすい"],
     famous:["エズリアル。地図を持たずに遺跡へ飛び込み、自分の力で道を切り開く。あなたの冒険心と直感は彼そのものだ。","ケイン。境界を越え、自分だけの道を切り開きながら進化し続ける姿はあなたの自由な精神と重なる。","キンドレッド。大地と空の間を自由に駆け、誰にも縛られない。あなたの冒険心と解放感は彼らと共鳴する。"],
     catchphrases:["「地図のない冒険こそが、本当の戦いだ。」","「セオリー？関係ない。俺のやり方で行く。」","「退屈な安全より、刺激的な危険を選ぶ。」"],
+    perceptions:[
+      {ally:"「何するか全然わからないけど、気づいたら試合有利になってる。」あなたの奇策がチームに突破口を開く。",enemy:"「セオリーを無視してくる。対策が立てられない。」あなたの自由な動きが敵の準備を無意味にする。"},
+      {ally:"「普通じゃない動きをするけど、なぜか上手くいく。」あなたの発想力がチームを前進させる。",enemy:"「こいつ相手にセオリーは通用しない。困る。」あなたの型破りさが敵を頭抱えさせる。"},
+      {ally:"「試合を楽しんでるのが伝わる。一緒にいると燃えてくる。」あなたのエネルギーがチームを活気づける。",enemy:"「楽しそうにやってるのが一番腹立つ。でも強い。」あなたの自由さが敵の集中力を乱す。"},
+    ],
+    synergy:{id:"intuitive",reason:"直感同士の連携は、誰も予測できない奇跡を生む。セオリーも計画も必要ない。二人で感じたまま動けばそれが最強だ。"},
+    opposite:{id:"artist",reason:"美しさと完璧さを追求し、一切の妥協を許さない芸術家は、自由奔放に型を破って進む冒険者とは全く違う世界に生きている。"},
     allies:["LeeSin","Kayn","Ekko","Vi","Riven"],
     enemies:["Caitlyn","Jhin","Azir","Orianna","Lissandra"]
   },
@@ -1245,6 +1401,13 @@ const SUMMONER_TYPES = [
     weaknesses:["突出した強みがないため決め手に欠けることがある","自分のスタイルを確立しにくく迷走するケースも"],
     famous:["アッシュ。シンプルでありながら、どんな状況でも安定した力を発揮する。あなたの適応力は彼女の普遍的な強さと似ている。","ガレン。シンプルで力強く、どんな状況でも安定して戦える。あなたの適応力は彼の揺るぎない普遍的な強さと重なる。","ルシアン。多様な戦術と柔軟な対応力で、どんな敵にも渡り合える。あなたの万能性は彼のバランスの取れた強さと共鳴する。"],
     catchphrases:["「どんな状況でも、俺は答えを見つける。」","「型にはまらないことが、俺の型だ。」","「柔軟性こそが、俺の最強の武器だ。」"],
+    perceptions:[
+      {ally:"「何でもできる安心感。困ったらこの人に聞けばいい。」あなたの万能さがチームのリソースになる。",enemy:"「弱点がない。どこから攻めればいいんだ。」あなたのバランスが敵の戦略を悩ませる。"},
+      {ally:"「どんな状況でも安定してる。頼りになる。」あなたの安定感がチームの柱になる。",enemy:"「対策を立てても対応してくる。厄介だ。」あなたの適応力が敵の計画を崩す。"},
+      {ally:"「チームに何が足りないかわかってくれてる。空気が読める人。」あなたの柔軟性がチームを補完する。",enemy:"「あいつに型がない。読めないから困る。」あなたの変幻自在さが敵を翻弄する。"},
+    ],
+    synergy:{id:"adventurer",reason:"型破りな冒険者の奇策を、万能の適応者が柔軟に補佐する。どんな状況にも対応できる二人のコンビに、弱点は存在しない。"},
+    opposite:{id:"ruler",reason:"全てのパラメーターを一点に極限まで集中させる孤高の覇者は、どんな状況にも中庸に適応する万能者とは真逆の存在だ。"},
     allies:["Thresh","Ashe","Lux","JarvanIV","Karma"],
     enemies:["Nasus","Samira","Yasuo","Veigar","Katarina"]
   },
