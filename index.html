@@ -836,14 +836,11 @@ function buildLaneResultsCache(normalized){
 function showResult(normalized){
   showScreen('result-screen');
   const roleIcons={TOP:'⚔️',JUNGLE:'🌿',MID:'⚡',ADC:'🏹',SUPPORT:'🛡️',ANY:'👑'};
-  const laneTabs=document.getElementById('lane-tabs');
-  laneTabs.style.display=selectedLane==='ANY'?'none':'flex';
-  if(selectedLane!=='ANY'){
-    document.querySelectorAll('.lane-tab').forEach(t=>t.classList.remove('active'));
-    const activeTabEl=document.querySelector(`.lane-tab[onclick="switchLaneTab('${selectedLane}')"]`);
-    if(activeTabEl)activeTabEl.classList.add('active');
-  }
-  const displayLane=selectedLane||'TOP';
+  document.getElementById('lane-tabs').style.display='flex';
+  const displayLane=selectedLane==='ANY'?getBestLane():(selectedLane||'TOP');
+  document.querySelectorAll('.lane-tab').forEach(t=>t.classList.remove('active'));
+  const activeTabEl=document.querySelector(`.lane-tab[onclick="switchLaneTab('${displayLane}')"]`);
+  if(activeTabEl)activeTabEl.classList.add('active');
   const cache=laneResultsCache[displayLane];
   renderChampionCard(cache.champ,cache.matchPct,displayLane,roleIcons);
   const addBtn=document.getElementById('btn-add-diagnosis');
@@ -874,7 +871,16 @@ function renderChampionCard(champ,matchPct,lane,roleIcons){
   setTimeout(()=>{document.getElementById('match-bar').style.width=matchPct+'%';},900);
 }
 
+function getBestLane(){
+  const lanes=['TOP','JUNGLE','MID','ADC','SUPPORT'];
+  return lanes.reduce((best,l)=>{
+    if(!laneResultsCache[l])return best;
+    return(!best||laneResultsCache[l].matchPct>laneResultsCache[best].matchPct)?l:best;
+  },lanes[0]);
+}
+
 function switchLaneTab(lane){
+  if(lane==='ANY')lane=getBestLane();
   if(!laneResultsCache[lane])return;
   const roleIcons={TOP:'⚔️',JUNGLE:'🌿',MID:'⚡',ADC:'🏹',SUPPORT:'🛡️',ANY:'👑'};
   document.querySelectorAll('.lane-tab').forEach(t=>t.classList.remove('active'));
