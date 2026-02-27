@@ -63,6 +63,9 @@
   #question-screen{background:radial-gradient(ellipse at 0% 50%,rgba(11,196,227,.05) 0%,transparent 50%),radial-gradient(ellipse at 100% 50%,rgba(200,155,60,.05) 0%,transparent 50%)}
   .question-container{max-width:680px;width:100%}
   .progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+  .back-btn{background:none;border:none;cursor:pointer;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.1em;padding:4px 8px;opacity:.6;transition:opacity .2s;display:flex;align-items:center;gap:4px}
+  .back-btn:hover:not(:disabled){opacity:1;color:var(--gold)}
+  .back-btn:disabled{opacity:.2;cursor:default}
   .progress-label{font-family:'Rajdhani',sans-serif;font-size:13px;color:var(--text);letter-spacing:.1em}
   .progress-num{font-family:'Rajdhani',sans-serif;font-size:13px;color:var(--gold)}
   .progress-bar-outer{height:4px;background:rgba(200,155,60,.15);border-radius:2px;margin-bottom:8px;overflow:hidden}
@@ -266,6 +269,7 @@
 <div id="question-screen" class="screen">
   <div class="question-container">
     <div class="progress-header">
+      <button class="back-btn" id="back-btn" onclick="goBack()" disabled>&#8592; 戻る</button>
       <span class="progress-label" id="dim-label">外向性</span>
       <span class="progress-num"><span id="q-current">1</span> / <span id="q-total">48</span></span>
     </div>
@@ -692,6 +696,7 @@ let scores={V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0};
 let allActiveQuestions=[]; // 40問まで利用
 let laneResultsCache={};  // 全レーン結果キャッシュ
 let lastNormalized=null;
+let answerHistory=[];     // [{dim, isHigh}] フェーズ内の回答履歴（戻る機能用）
 
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
 
@@ -708,7 +713,7 @@ function initQuestions(){
 function startDiagnosis(){
   selectedLane=null;currentPhase=1;currentQ=0;currentPhaseEnd=10;
   scores={V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0};
-  laneResultsCache={};lastNormalized=null;
+  laneResultsCache={};lastNormalized=null;answerHistory=[];
   allActiveQuestions=initQuestions();
   showScreen('question-screen');renderQuestion();
 }
@@ -735,6 +740,7 @@ function renderQuestion(){
   document.getElementById('dimension-tag').textContent=di.en;
   const card=document.getElementById('question-card');
   card.style.animation='none';card.offsetHeight;card.style.animation='';
+  document.getElementById('back-btn').disabled=(currentQ===0);
 }
 
 function answer(chosen){
@@ -743,12 +749,14 @@ function answer(chosen){
   if(btnA.disabled)return;
   btnA.disabled=true;
   btnB.disabled=true;
+  document.getElementById('back-btn').disabled=true;
   const offset=currentPhase===1?0:currentPhase===2?10:25;
   const q=allActiveQuestions[offset+currentQ];
   const btn=chosen===1?btnA:btnB;
   btn.classList.add('selected');
   const isHigh=(q.hi==='a'&&chosen===1)||(q.hi==='b'&&chosen===0);
   if(isHigh)scores[q.dim]++;
+  answerHistory.push({dim:q.dim,isHigh});
   const phaseTotal=currentPhase===1?10:15;
   setTimeout(()=>{
     currentQ++;
@@ -764,6 +772,14 @@ function answer(chosen){
       renderQuestion();
     }
   },300);
+}
+
+function goBack(){
+  if(currentQ===0)return;
+  const last=answerHistory.pop();
+  if(last.isHigh)scores[last.dim]--;
+  currentQ--;
+  renderQuestion();
 }
 
 function selectLane(lane,el){
@@ -875,6 +891,7 @@ function continueToNextPhase(){
   currentPhase++;
   currentQ=0;
   currentPhaseEnd=currentPhase===2?25:40;
+  answerHistory=[];
   showScreen('question-screen');
   renderQuestion();
 }
