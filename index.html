@@ -13,6 +13,7 @@
 <meta name="twitter:description" content="あなたのロールでもっとも相性の良いチャンピオンを診断します。">
 <meta name="twitter:image" content="https://stail-sketch.github.io/LOL-MBTI/image.png?v=2">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root{--gold:#C89B3C;--gold-light:#F0E6BE;--gold-dark:#785A28;--bg:#010A13;--bg2:#0A1428;--bg3:#091428;--blue:#0BC4E3;--text:#A09B8C;--text-light:#C8AA6E;--white:#F0E6BE;--red:#C8344A}
   *{margin:0;padding:0;box-sizing:border-box}
@@ -214,12 +215,6 @@
   .axis-en{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.2em;font-weight:700;margin-bottom:4px}
 
   /* FAMOUS */
-  .famous-card{background:rgba(0,0,0,.3);border:1px solid rgba(11,196,227,.25);padding:32px 24px;text-align:center;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));margin-top:4px}
-  .famous-chara-name{font-family:'Cinzel',serif;font-size:clamp(28px,5vw,44px);font-weight:900;color:var(--blue);text-shadow:0 0 30px rgba(11,196,227,.4);letter-spacing:.1em;margin-bottom:16px;display:block;line-height:1.2}
-  .famous-divider{display:flex;align-items:center;gap:10px;margin:0 auto 16px;max-width:300px}
-  .famous-divider-line{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(11,196,227,.3),transparent)}
-  .famous-divider-dot{width:6px;height:6px;background:var(--blue);transform:rotate(45deg);flex-shrink:0}
-  .famous-desc{font-size:14px;color:var(--text);line-height:2;text-align:left}
 
   /* LANE TABS */
   .lane-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
@@ -243,6 +238,58 @@
   .footer-disclaimer a{color:rgba(200,155,60,.6);text-decoration:underline}
   .footer-disclaimer a:hover{color:rgba(200,155,60,1)}
   .footer-privacy,.footer-note{font-size:10px;color:rgba(255,255,255,.3);line-height:1.6}
+  /* ===== DOWNLOAD BUTTON ===== */
+  .btn-download{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;background:linear-gradient(135deg,rgba(200,155,60,.18),rgba(200,155,60,.06));color:var(--gold);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:.15em;cursor:pointer;border:1px solid rgba(200,155,60,.55);transition:all .3s ease;clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 50%,calc(100% - 8px) 100%,8px 100%,0% 50%)}
+  .btn-download:hover{background:rgba(200,155,60,.25);border-color:var(--gold);box-shadow:0 0 20px rgba(200,155,60,.25)}
+  .btn-download:disabled{opacity:.45;cursor:default}
+  /* ===== EXPORT CARD ===== */
+  #card-export{position:fixed;left:-9999px;top:0;width:375px;font-family:'Noto Serif JP',serif;z-index:-1}
+  .ce-wrap{width:375px;background:#010A13;border:1px solid rgba(200,155,60,.3);overflow:hidden}
+  .ce-gold-bar{height:4px;background:linear-gradient(90deg,#4A3214 0%,#785A28 25%,#C89B3C 45%,#F0E6BE 50%,#C89B3C 55%,#785A28 75%,#4A3214 100%)}
+  .ce-head{display:flex;justify-content:space-between;align-items:center;padding:13px 20px 11px;border-bottom:1px solid rgba(200,155,60,.15)}
+  .ce-head-label{font-family:'Rajdhani',sans-serif;font-size:9px;letter-spacing:.35em;color:#0BC4E3;text-transform:uppercase}
+  .ce-head-url{font-family:'Rajdhani',sans-serif;font-size:8px;color:#A09B8C;letter-spacing:.06em}
+  .ce-champ{padding:26px 20px 20px;text-align:center;background:linear-gradient(180deg,rgba(200,155,60,.07) 0%,transparent 70%)}
+  .ce-icon-ring{width:96px;height:96px;border-radius:50%;overflow:hidden;border:3px solid rgba(200,155,60,.55);box-shadow:0 0 28px rgba(200,155,60,.3);margin:0 auto 14px}
+  .ce-icon-ring img{width:100%;height:100%;object-fit:cover;display:block}
+  .ce-cn{font-family:'Cinzel',serif;font-size:21px;color:#F0E6BE;letter-spacing:.08em;margin-bottom:3px}
+  .ce-ct{font-size:11px;color:#A09B8C;margin-bottom:16px;font-style:italic}
+  .ce-meta{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:10px}
+  .ce-match-block{text-align:center}
+  .ce-match-num{font-family:'Cinzel',serif;font-size:26px;color:#C89B3C;font-weight:700;line-height:1}
+  .ce-match-lbl{font-family:'Rajdhani',sans-serif;font-size:7px;letter-spacing:.25em;color:#A09B8C;margin-top:2px;text-transform:uppercase}
+  .ce-vsep{width:1px;height:36px;background:rgba(200,155,60,.2)}
+  .ce-lane-tag{font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.2em;padding:5px 14px;border:1px solid rgba(200,155,60,.45);color:#C89B3C;background:rgba(200,155,60,.1)}
+  .ce-prog{height:3px;background:rgba(255,255,255,.07);margin:0 20px}
+  .ce-prog-fill{height:3px;background:linear-gradient(90deg,#4A3214,#C89B3C,#F0E6BE)}
+  .ce-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(200,155,60,.25),transparent);margin:0 20px}
+  .ce-section{padding:17px 20px 15px}
+  .ce-sec-lbl{font-family:'Rajdhani',sans-serif;font-size:9px;letter-spacing:.35em;color:#0BC4E3;text-transform:uppercase;margin-bottom:7px}
+  .ce-type-name{font-family:'Cinzel',serif;font-size:16px;color:#F0E6BE;letter-spacing:.05em;margin-bottom:2px}
+  .ce-type-sub{font-size:11px;color:#A09B8C;margin-bottom:12px;font-style:italic}
+  .ce-sw-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .ce-sw-box{padding:9px 11px;border:1px solid}
+  .ce-sw-box.s{border-color:rgba(11,196,227,.35);background:rgba(11,196,227,.06)}
+  .ce-sw-box.w{border-color:rgba(200,52,74,.35);background:rgba(200,52,74,.06)}
+  .ce-sw-ttl{font-family:'Rajdhani',sans-serif;font-size:8px;letter-spacing:.25em;text-transform:uppercase;margin-bottom:6px}
+  .ce-sw-box.s .ce-sw-ttl{color:#0BC4E3}
+  .ce-sw-box.w .ce-sw-ttl{color:#C8344A}
+  .ce-sw-item{font-size:10px;color:#A09B8C;padding-left:9px;position:relative;line-height:1.55;margin-bottom:2px}
+  .ce-sw-item::before{content:'';position:absolute;left:0;top:7px;width:4px;height:1px}
+  .ce-sw-box.s .ce-sw-item::before{background:#0BC4E3}
+  .ce-sw-box.w .ce-sw-item::before{background:#C8344A}
+  .ce-radar-wrap{text-align:center;padding:6px 0}
+  .ce-aff-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+  .ce-aff-chip{display:flex;flex-direction:column;align-items:center;width:56px}
+  .ce-aff-ring{width:44px;height:44px;border-radius:50%;overflow:hidden;border:2px solid}
+  .ce-aff-ring img{width:100%;height:100%;object-fit:cover;display:block}
+  .ce-aff-ring.al{border-color:rgba(11,196,227,.55)}
+  .ce-aff-ring.en{border-color:rgba(200,52,74,.55)}
+  .ce-aff-nm{font-family:'Rajdhani',sans-serif;font-size:8px;color:#A09B8C;margin-top:4px;text-align:center;line-height:1.3;word-break:break-all;max-width:50px}
+  .ce-foot{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;border-top:1px solid rgba(200,155,60,.12)}
+  .ce-foot-url{font-family:'Rajdhani',sans-serif;font-size:8px;color:#A09B8C;letter-spacing:.06em}
+  .ce-creed{font-family:'Noto Serif JP',serif;font-size:clamp(14px,3.5vw,18px);color:#C89B3C;line-height:1.9;font-weight:700;text-align:center;padding:10px 4px;text-shadow:0 0 18px rgba(200,155,60,.3)}
+  .ce-foot-logo{font-family:'Cinzel',serif;font-size:9px;color:#C89B3C;letter-spacing:.12em}
 </style>
 </head>
 <body>
@@ -425,16 +472,6 @@
       <div class="affinity-grid" id="enemies-grid"></div>
     </div>
 
-    <!-- 50問のみ : 有名キャラ比較 -->
-    <div class="ext-section hidden" id="sec-famous">
-      <div class="ext-label">You Remind Us Of...</div>
-      <div class="ext-title" style="margin-bottom:14px">あなたに近い人物</div>
-      <div class="famous-card" id="famous-card">
-        <span class="famous-chara-name" id="famous-chara-name"></span>
-        <div class="famous-divider"><div class="famous-divider-line"></div><div class="famous-divider-dot"></div><div class="famous-divider-line"></div></div>
-        <div class="famous-desc" id="famous-text"></div>
-      </div>
-    </div>
 
     <!-- 50問のみ : 8軸詳細 -->
     <div class="ext-section hidden" id="sec-axis">
@@ -451,6 +488,7 @@
       </div>
     </div>
     <div class="result-actions">
+      <button class="btn-download" id="btn-download" onclick="downloadCard()">⬇ 結果カードを保存</button>
       <button class="btn-share-x" onclick="shareToX()"><svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Xでシェアする</button>
       <button class="btn-primary" id="btn-add-diagnosis" onclick="continueToNextPhase()" style="display:none">さらに答えて精度を上げる</button>
       <button class="btn-secondary" onclick="retryDiagnosis()">もう一度診断する</button>
@@ -918,7 +956,7 @@ function showResult(normalized){
   const is25=currentPhaseEnd>=25;
   const is40=currentPhaseEnd>=40;
   ['sec-type','sec-catchphrase','sec-perception','sec-sw'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is25));
-  ['sec-synergy','sec-opposite','sec-allies','sec-enemies','sec-famous','sec-axis'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is40));
+  ['sec-synergy','sec-opposite','sec-allies','sec-enemies','sec-axis'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is40));
   let detectedTypeName='';
   if(is25){
     const type=getSummonerType(normalized);
@@ -974,6 +1012,84 @@ function continueToNextPhase(){
 
 function updateSharePreview(champ,matchPct,typeName,lane){
   window._shareData={champ,matchPct,typeName,lane:lane!==undefined?lane:selectedLane};
+}
+
+// ===== CARD DOWNLOAD =====
+function drawRadarOnCard(norm){
+  const canvas=document.getElementById('ce-radar');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height,cx=W/2,cy=H/2,r=Math.min(W,H)/2-20;
+  ctx.clearRect(0,0,W,H);
+  const keys=['V','I','H','T','A','W','S','D'];
+  const n=keys.length;
+  const angles=keys.map((_,i)=>(i/n)*2*Math.PI-Math.PI/2);
+  for(let lv=1;lv<=5;lv++){ctx.beginPath();angles.forEach((a,i)=>{const lr=r*lv/5,x=cx+Math.cos(a)*lr,y=cy+Math.sin(a)*lr;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.closePath();ctx.strokeStyle='rgba(200,155,60,.15)';ctx.lineWidth=1;ctx.stroke();}
+  angles.forEach(a=>{ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);ctx.strokeStyle='rgba(200,155,60,.2)';ctx.lineWidth=1;ctx.stroke();});
+  ctx.beginPath();keys.forEach((k,i)=>{const val=0.25+(norm[k]/100)*0.75,x=cx+Math.cos(angles[i])*r*val,y=cy+Math.sin(angles[i])*r*val;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.closePath();ctx.fillStyle='rgba(200,155,60,.2)';ctx.fill();ctx.strokeStyle='rgba(200,155,60,.8)';ctx.lineWidth=2;ctx.stroke();
+  keys.forEach((k,i)=>{const val=0.25+(norm[k]/100)*0.75,x=cx+Math.cos(angles[i])*r*val,y=cy+Math.sin(angles[i])*r*val;ctx.beginPath();ctx.arc(x,y,3,0,2*Math.PI);ctx.fillStyle=DIMENSIONS.find(d=>d.key===k).color;ctx.fill();});
+  ctx.font='9px Rajdhani,sans-serif';ctx.fillStyle='rgba(200,155,60,.7)';ctx.textAlign='center';
+  keys.forEach((k,i)=>{const lr=r+14,x=cx+Math.cos(angles[i])*lr,y=cy+Math.sin(angles[i])*lr+3;ctx.fillText(k,x,y);});
+}
+
+async function downloadCard(){
+  const btn=document.getElementById('btn-download');
+  btn.disabled=true;btn.textContent='生成中…';
+  try{
+    const norm=lastNormalized||{};
+    const d=window._shareData||{};
+    const champ=d.champ;
+    if(!champ){btn.disabled=false;btn.textContent='⬇ 結果カードを保存';return;}
+    const is25=currentPhaseEnd>=25;
+    const is40=currentPhaseEnd>=40;
+    const displayLane=selectedLane==='ANY'?getBestLane():(selectedLane||'TOP');
+
+    // champion block
+    const iconEl=document.getElementById('ce-icon');
+    iconEl.src=`champion_icons/${champ.id}.png`;
+    document.getElementById('ce-champ-name').textContent=champ.name;
+    document.getElementById('ce-champ-title').textContent=`「${champ.title}」`;
+    document.getElementById('ce-match-num').textContent=d.matchPct+'%';
+    document.getElementById('ce-prog-fill').style.width=d.matchPct+'%';
+    document.getElementById('ce-lane-tag').textContent=displayLane;
+
+    const show=id=>{const el=document.getElementById(id);if(el)el.style.display='';};
+    const hide=id=>{const el=document.getElementById(id);if(el)el.style.display='none';};
+
+    // summoner type block
+    if(is25){
+      show('ce-div-type');show('ce-type-sec');
+      const type=getSummonerType(norm);
+      document.getElementById('ce-type-name').textContent=type.name;
+      document.getElementById('ce-type-sub').textContent=type.subtitle;
+      document.getElementById('ce-sw-str').innerHTML=type.strengths.map(s=>`<div class="ce-sw-item">${s}</div>`).join('');
+      document.getElementById('ce-sw-weak').innerHTML=type.weaknesses.map(w=>`<div class="ce-sw-item">${w}</div>`).join('');
+    }else{hide('ce-div-type');hide('ce-type-sec');}
+
+    // radar + affinity block
+    if(is40){
+      show('ce-div-radar');show('ce-radar-sec');show('ce-div-aff');show('ce-aff-sec');
+      drawRadarOnCard(norm);
+      document.getElementById('ce-creed').textContent=document.getElementById('catchphrase-quote').textContent||'';
+    }else{hide('ce-div-radar');hide('ce-radar-sec');hide('ce-div-aff');hide('ce-aff-sec');}
+
+    // wait for images
+    await document.fonts.ready;
+    const imgs=[...document.querySelectorAll('#card-export img')];
+    await Promise.all(imgs.map(img=>new Promise(r=>{
+      if(img.complete&&img.naturalWidth>0)r();
+      else{img.onload=r;img.onerror=r;}
+    })));
+
+    const canvas=await html2canvas(document.querySelector('#card-export .ce-wrap'),{
+      backgroundColor:'#010A13',scale:2,useCORS:true,allowTaint:false,logging:false,
+      width:375,
+    });
+    const link=document.createElement('a');
+    link.download=`lol-diagnosis-${champ.name}.png`;
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  }catch(e){console.error(e);}
+  btn.disabled=false;btn.textContent='⬇ 結果カードを保存';
 }
 
 function shareToX(){
@@ -1122,15 +1238,6 @@ function renderFullSection(type,normalized){
   const enemiesGrid=document.getElementById('enemies-grid');
   enemiesGrid.innerHTML='';
   type.enemies.forEach(id=>enemiesGrid.appendChild(buildAffinityCard(id,'enemy')));
-  // 有名人
-  // famous: 配列の場合はランダム選択、最初のピリオド/。で名前と説明を分割
-  const famousArr=Array.isArray(type.famous)?type.famous:[type.famous];
-  const famousFull=famousArr[Math.floor(Math.random()*famousArr.length)];
-  const splitIdx=famousFull.search(/[。.]/);
-  const faChar=splitIdx>0?famousFull.slice(0,splitIdx):famousFull.split('、')[0];
-  const faDesc=splitIdx>0?famousFull.slice(splitIdx+1).trim():famousFull;
-  document.getElementById('famous-chara-name').textContent=faChar;
-  document.getElementById('famous-text').textContent=faDesc;
   // 8軸詳細
   const axisList=document.getElementById('axis-list');
   axisList.innerHTML='';
@@ -1228,7 +1335,7 @@ const SUMMONER_TYPES = [
     ],
     synergy:{id:"commander",reason:"完璧な計画も、実行に移す指揮官がいなければ始まらない。参謀と司令官が組めば、計略は現実になる。"},
     opposite:{id:"berserker",reason:"感情と本能で突き進む闘士は、全てを計算し尽くして動く軍師とは対極の存在だ。"},
-    allies:["Azir","Orianna","Viktor","Twisted Fate","Lissandra"],
+    allies:["Azir","Orianna","Viktor","TwistedFate","Lissandra"],
     enemies:["Yasuo","Shaco","LeBlanc","Zoe","Fizz"]
   },
   {
@@ -1308,7 +1415,7 @@ const SUMMONER_TYPES = [
     ],
     synergy:{id:"commander",reason:"指揮官が前線で試合を引っ張る間に、要塞はじっくり力を積み上げる。二人の時間軸が噛み合ったとき、最強の布陣が完成する。"},
     opposite:{id:"intuitive",reason:"直感と一瞬の閃きで全てを決める天才は、コツコツと積み上げることに価値を見出す要塞とは真逆の生き方をしている。"},
-    allies:["Kassadin","Kayle","Vladimir","Aurelion Sol","Veigar"],
+    allies:["Kassadin","Kayle","Vladimir","AurelionSol","Veigar"],
     enemies:["Darius","Renekton","LeeSin","Elise","Graves"]
   },
   {
@@ -1368,7 +1475,7 @@ const SUMMONER_TYPES = [
     ],
     synergy:{id:"guardian",reason:"完璧なプレイを守護者が守ることで、芸術家の精度は倍になる。美しい技と鉄壁の守りが合わされば、隙のない試合が完成する。"},
     opposite:{id:"adventurer",reason:"自由と型破りを愛する冒険者は、完璧さと美しさにこだわる芸術家とは正反対の価値観で戦場に立っている。"},
-    allies:["Orianna","Azir","Viktor","Twisted Fate","Jhin"],
+    allies:["Orianna","Azir","Viktor","TwistedFate","Jhin"],
     enemies:["Shaco","Zoe","Yasuo","Fizz","LeBlanc"]
   },
   {
@@ -1438,5 +1545,58 @@ const SUMMONER_TYPES = [
     </p>
   </div>
 </footer>
+
+<!-- ===== EXPORT CARD (hidden, rendered by html2canvas) ===== -->
+<div id="card-export">
+  <div class="ce-wrap">
+    <div class="ce-gold-bar"></div>
+    <div class="ce-head">
+      <span class="ce-head-label">Summoner's Rift Diagnosis</span>
+      <span class="ce-head-url">stail-sketch.github.io/LOL-MBTI</span>
+    </div>
+    <!-- champion block (always shown) -->
+    <div class="ce-champ">
+      <div class="ce-icon-ring"><img id="ce-icon" src="" alt="" crossorigin="anonymous"></div>
+      <div class="ce-cn" id="ce-champ-name"></div>
+      <div class="ce-ct" id="ce-champ-title"></div>
+      <div class="ce-meta">
+        <div class="ce-match-block">
+          <div class="ce-match-num" id="ce-match-num">--%</div>
+          <div class="ce-match-lbl">Match Rate</div>
+        </div>
+        <div class="ce-vsep"></div>
+        <div class="ce-lane-tag" id="ce-lane-tag">--</div>
+      </div>
+      <div class="ce-prog"><div class="ce-prog-fill" id="ce-prog-fill" style="width:0%"></div></div>
+    </div>
+    <!-- summoner type block (25Q+) -->
+    <div class="ce-divider" id="ce-div-type"></div>
+    <div class="ce-section" id="ce-type-sec">
+      <div class="ce-sec-lbl">Summoner Type</div>
+      <div class="ce-type-name" id="ce-type-name"></div>
+      <div class="ce-type-sub" id="ce-type-sub"></div>
+      <div class="ce-sw-row">
+        <div class="ce-sw-box s"><div class="ce-sw-ttl">Strengths</div><div id="ce-sw-str"></div></div>
+        <div class="ce-sw-box w"><div class="ce-sw-ttl">Weaknesses</div><div id="ce-sw-weak"></div></div>
+      </div>
+    </div>
+    <!-- radar block (40Q+) -->
+    <div class="ce-divider" id="ce-div-radar"></div>
+    <div class="ce-section" id="ce-radar-sec">
+      <div class="ce-sec-lbl">Personality Profile</div>
+      <div class="ce-radar-wrap"><canvas id="ce-radar" width="220" height="220"></canvas></div>
+    </div>
+    <!-- battle creed block (40Q+) -->
+    <div class="ce-divider" id="ce-div-aff"></div>
+    <div class="ce-section" id="ce-aff-sec">
+      <div class="ce-sec-lbl">Battle Creed</div>
+      <div class="ce-creed" id="ce-creed"></div>
+    </div>
+    <div class="ce-foot">
+      <span class="ce-foot-url">stail-sketch.github.io/LOL-MBTI</span>
+      <span class="ce-foot-logo">#LOL鑑定</span>
+    </div>
+  </div>
+</div>
 </body>
 </html>
