@@ -100,6 +100,7 @@
   .champion-banner{width:100%;height:180px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(200,155,60,.08) 0%,rgba(9,20,40,1) 100%)}
   .champion-banner::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(200,155,60,.03) 20px,rgba(200,155,60,.03) 21px)}
   .champion-banner-role{font-size:64px;filter:drop-shadow(0 0 24px rgba(200,155,60,.5));animation:crownPulse 3s ease-in-out infinite}
+  .champion-banner-img{width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid rgba(200,155,60,.5);box-shadow:0 0 30px rgba(200,155,60,.4);animation:crownPulse 3s ease-in-out infinite}
   .champion-banner-glow{position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(200,155,60,.15),transparent 70%);pointer-events:none}
   .champion-splash-overlay{display:none}
   .champion-info{padding:28px 32px;position:relative}
@@ -165,11 +166,13 @@
   .affinity-card.ally{border-color:rgba(11,196,227,.4);background:rgba(11,196,227,.05)}
   .affinity-card.enemy{border-color:rgba(200,52,74,.4);background:rgba(200,52,74,.05)}
   .affinity-icon{font-size:26px;margin-bottom:8px;display:block}
+  .affinity-icon-img{width:48px;height:48px;border-radius:50%;object-fit:cover;margin:0 auto 8px;display:block}
+  .affinity-card.ally .affinity-icon-img{border:2px solid rgba(11,196,227,.5);box-shadow:0 0 10px rgba(11,196,227,.3)}
+  .affinity-card.enemy .affinity-icon-img{border:2px solid rgba(200,52,74,.5);box-shadow:0 0 10px rgba(200,52,74,.3)}
   .affinity-name{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.08em;line-height:1.4}
   .affinity-card.ally .affinity-name{color:var(--blue)}
   .affinity-card.enemy .affinity-name{color:var(--red)}
   .affinity-title{font-size:10px;color:var(--text);margin-top:4px;line-height:1.4}
-
   /* AXIS DETAIL */
   .axis-list{display:flex;flex-direction:column;gap:14px;margin-top:4px}
   .axis-row{display:grid;grid-template-columns:80px 1fr;gap:12px;align-items:start}
@@ -834,7 +837,7 @@ function showResult(normalized){
 
 function renderChampionCard(champ,matchPct,lane,roleIcons){
   const banner=document.getElementById('champion-banner');
-  banner.innerHTML=`<div class="champion-banner-glow"></div><span class="champion-banner-role">${roleIcons[lane]||'⚔️'}</span>`;
+  banner.innerHTML=`<div class="champion-banner-glow"></div><img class="champion-banner-img" src="champion_icons/${champ.id}.png" alt="${champ.name}" onerror="this.style.display='none'">`;
   document.getElementById('result-role-badge').textContent=`${lane==='ANY'?'ALL ROLES':lane}`;
   document.getElementById('result-name').textContent=champ.name;
   document.getElementById('result-title').textContent=`「${champ.title}」`;
@@ -941,10 +944,9 @@ function renderTypeSection(type){
 
 function buildAffinityCard(champId,kind){
   const champ=CHAMPIONS.find(c=>c.id===champId)||{id:champId,name:champId,title:''};
-  const icon=kind==='ally'?'💙':'⚔️';
   const card=document.createElement('div');
   card.className=`affinity-card ${kind}`;
-  card.innerHTML=`<span class="affinity-icon">${icon}</span><div class="affinity-name">${champ.name||champId}</div><div class="affinity-title">${champ.title||''}</div>`;
+  card.innerHTML=`<img class="affinity-icon-img" src="champion_icons/${champId}.png" alt="${champ.name||champId}" onerror="this.style.display='none'"><div class="affinity-name">${champ.name||champId}</div><div class="affinity-title">${champ.title||''}</div>`;
   card.onclick=()=>window.open(`?champ=${encodeURIComponent(champId)}&kind=${kind}`,'_blank');
   return card;
 }
@@ -968,7 +970,7 @@ function showChampDetail(champId,kind){
   const isAlly=kind==='ally';
   document.getElementById('cd-label').textContent=isAlly?'Soul Resonance':'Natural Enemy';
   document.getElementById('cd-title').textContent=isAlly?'あなたと相性の良いチャンピオン':'あなたの天敵チャンピオン';
-  document.getElementById('cd-banner').innerHTML=`<div class="champion-banner-glow"></div><span class="champion-banner-role">${isAlly?'💙':'⚔️'}</span>`;
+  document.getElementById('cd-banner').innerHTML=`<div class="champion-banner-glow"></div><img class="champion-banner-img" src="champion_icons/${champ.id}.png" alt="${champ.name}" onerror="this.style.display='none'">`;
   document.getElementById('cd-role-badge').textContent=champ.roles.join(' / ');
   document.getElementById('cd-name').textContent=champ.name;
   document.getElementById('cd-title-text').textContent=`「${champ.title}」`;
