@@ -45,8 +45,9 @@
   .section-title{font-family:'Cinzel',serif;font-size:clamp(20px,3vw,32px);color:var(--gold);text-align:center;margin-bottom:10px;letter-spacing:.1em}
   .section-desc{text-align:center;color:var(--text);font-size:13px;margin-bottom:40px;letter-spacing:.05em}
   .roles-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;max-width:900px;width:100%}
+  .roles-grid .role-card:last-child{grid-column:3}
   @media(max-width:700px){.roles-grid{grid-template-columns:repeat(3,1fr)}}
-  @media(max-width:420px){.roles-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:420px){.roles-grid{grid-template-columns:repeat(2,1fr)}.roles-grid .role-card:last-child{grid-column:auto}}
   .role-card{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--gold-dark);padding:24px 16px;text-align:center;cursor:pointer;transition:all .3s ease;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));position:relative;overflow:hidden}
   .role-card::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(200,155,60,.15),transparent);opacity:0;transition:opacity .3s}
   .role-card:hover::after{opacity:1}
@@ -122,7 +123,7 @@
   .legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
   .legend-text{font-size:12px;color:var(--text)}
   .legend-val{font-family:'Rajdhani',sans-serif;font-size:13px;color:var(--gold);margin-left:auto;font-weight:600}
-  .result-actions{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;animation:fadeInUp .6s ease .6s both;margin-bottom:40px}
+  .result-actions{display:flex;flex-direction:column;align-items:center;gap:16px;animation:fadeInUp .6s ease .6s both;margin-bottom:40px}
   #qcount-screen{background:radial-gradient(ellipse at 50% 30%,rgba(11,196,227,.08) 0%,transparent 60%),radial-gradient(ellipse at 50% 80%,rgba(200,155,60,.08) 0%,transparent 60%)}
   .qcount-grid{display:grid;grid-template-columns:1fr;gap:14px;max-width:600px;width:100%}
   .qcount-card{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--gold-dark);padding:20px 28px;cursor:pointer;transition:all .3s ease;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));display:grid;grid-template-columns:80px 1fr;align-items:center;gap:16px;position:relative;overflow:hidden}
@@ -159,7 +160,7 @@
 
   /* CHAMP AFFINITY GRID */
   .affinity-grid{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
-  .affinity-card{flex:1;min-width:110px;max-width:160px;background:rgba(0,0,0,.35);border:1px solid;cursor:default;transition:transform .2s;padding:16px 12px;text-align:center;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+  .affinity-card{flex:1;min-width:110px;max-width:160px;background:rgba(0,0,0,.35);border:1px solid;cursor:pointer;transition:transform .2s;padding:16px 12px;text-align:center;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
   .affinity-card:hover{transform:translateY(-3px)}
   .affinity-card.ally{border-color:rgba(11,196,227,.4);background:rgba(11,196,227,.05)}
   .affinity-card.enemy{border-color:rgba(200,52,74,.4);background:rgba(200,52,74,.05)}
@@ -181,6 +182,7 @@
   .axis-bar-fill{height:100%;border-radius:2px;transition:width 1s ease}
   .axis-val{font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;min-width:32px;text-align:right}
   .axis-desc{font-size:12px;color:var(--text);line-height:1.7}
+  .axis-en{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.2em;font-weight:700;margin-bottom:4px}
 
   /* FAMOUS */
   .famous-card{background:rgba(0,0,0,.3);border:1px solid rgba(11,196,227,.25);padding:32px 24px;text-align:center;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));margin-top:4px}
@@ -223,7 +225,7 @@
   <p class="main-subtitle">Summoner Personality Analysis</p>
   <h1 class="main-title">サモナーの素質診断</h1>
   <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
-  <p class="description">あなたの性格・思考パターン・行動特性を分析し、<br>League of Legends でもっとも相性の良いチャンピオンを導き出します。<br>10問ずつ段階的に深掘りし、最大<strong style="color:var(--gold)">50問</strong>まで挑戦できます。</p>
+  <p class="description">あなたの性格・思考パターン・行動特性を分析し、<br>League of Legends でもっとも相性の良いチャンピオンを導き出します。<br>まず10問の基本診断からスタート。<br>段階的に深掘りし、最大<strong style="color:var(--gold)">50問</strong>まで挑戦できます。</p>
   <button class="btn-primary" onclick="startDiagnosis()">診断を始める</button>
   <div class="stats-preview">
     <div class="stat-item"><span class="stat-num">50</span><span class="stat-label">最大質問数</span></div>
@@ -362,19 +364,45 @@
         <div class="radar-legend" id="radar-legend"></div>
       </div>
     </div>
-    <!-- X シェア -->
-    <div class="share-section">
-      <div style="text-align:center">
-<button class="btn-share-x" onclick="shareToX()">
-          <svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          Xでシェアする
-        </button>
-      </div>
-    </div>
-
     <div class="result-actions">
+      <button class="btn-share-x" onclick="shareToX()"><svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Xでシェアする</button>
       <button class="btn-primary" id="btn-add-diagnosis" onclick="continueToNextPhase()" style="display:none">さらに20問で精度を上げる</button>
       <button class="btn-secondary" onclick="retryDiagnosis()">もう一度診断する</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHAMPION DETAIL (新タブ用) -->
+<div id="champ-detail-screen" class="screen">
+  <div class="result-container">
+    <div class="result-header">
+      <p class="result-label" id="cd-label"></p>
+      <h2 class="section-title" id="cd-title"></h2>
+    </div>
+    <div class="champion-card">
+      <div class="champion-banner" id="cd-banner"></div>
+      <div class="champion-info">
+        <div id="cd-role-badge" class="champion-role-badge"></div>
+        <h2 class="champion-name" id="cd-name"></h2>
+        <p class="champion-title" id="cd-title-text"></p>
+        <div class="reason-box">
+          <p class="reason-title">⬡ このチャンピオンについて</p>
+          <p id="cd-reason"></p>
+        </div>
+      </div>
+    </div>
+    <div class="ext-section" id="cd-sec-type">
+      <div class="ext-label">Summoner Type</div>
+      <div class="ext-title" id="cd-type-name"></div>
+      <div class="ext-subtitle" id="cd-type-subtitle"></div>
+      <div class="ext-body" id="cd-type-playstyle"></div>
+    </div>
+    <div class="ext-section" id="cd-sec-sw">
+      <div class="ext-label">Strengths &amp; Weaknesses</div>
+      <div class="sw-grid">
+        <div class="sw-box str"><div class="sw-box-label">⬡ 強み</div><div id="cd-sw-str"></div></div>
+        <div class="sw-box weak"><div class="sw-box-label">⬡ 弱み</div><div id="cd-sw-weak"></div></div>
+      </div>
     </div>
   </div>
 </div>
@@ -807,7 +835,7 @@ function showResult(normalized){
 function renderChampionCard(champ,matchPct,lane,roleIcons){
   const banner=document.getElementById('champion-banner');
   banner.innerHTML=`<div class="champion-banner-glow"></div><span class="champion-banner-role">${roleIcons[lane]||'⚔️'}</span>`;
-  document.getElementById('result-role-badge').textContent=`${lane==='ANY'?'ALL ROLES':lane}  •  ${champ.title}`;
+  document.getElementById('result-role-badge').textContent=`${lane==='ANY'?'ALL ROLES':lane}`;
   document.getElementById('result-name').textContent=champ.name;
   document.getElementById('result-title').textContent=`「${champ.title}」`;
   document.getElementById('result-reason').textContent=champ.reason;
@@ -824,7 +852,7 @@ function switchLaneTab(lane){
   const cache=laneResultsCache[lane];
   renderChampionCard(cache.champ,cache.matchPct,lane,roleIcons);
   window.scrollTo(0,0);
-  updateSharePreview(cache.champ,cache.matchPct,'');
+  updateSharePreview(cache.champ,cache.matchPct,'',lane);
 }
 
 
@@ -836,8 +864,8 @@ function continueToNextPhase(){
   renderQuestion();
 }
 
-function updateSharePreview(champ,matchPct,typeName){
-  window._shareData={champ,matchPct,typeName,lane:selectedLane};
+function updateSharePreview(champ,matchPct,typeName,lane){
+  window._shareData={champ,matchPct,typeName,lane:lane!==undefined?lane:selectedLane};
 }
 
 function shareToX(){
@@ -867,8 +895,8 @@ function drawRadar(norm){
   const angles=keys.map((_,i)=>(i/n)*2*Math.PI-Math.PI/2);
   for(let lv=1;lv<=5;lv++){ctx.beginPath();angles.forEach((a,i)=>{const lr=r*lv/5,x=cx+Math.cos(a)*lr,y=cy+Math.sin(a)*lr;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.closePath();ctx.strokeStyle='rgba(200,155,60,.15)';ctx.lineWidth=1;ctx.stroke();}
   angles.forEach(a=>{ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);ctx.strokeStyle='rgba(200,155,60,.2)';ctx.lineWidth=1;ctx.stroke();});
-  ctx.beginPath();keys.forEach((k,i)=>{const val=norm[k]/100,x=cx+Math.cos(angles[i])*r*val,y=cy+Math.sin(angles[i])*r*val;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.closePath();ctx.fillStyle='rgba(200,155,60,.2)';ctx.fill();ctx.strokeStyle='rgba(200,155,60,.8)';ctx.lineWidth=2;ctx.stroke();
-  keys.forEach((k,i)=>{const val=norm[k]/100,x=cx+Math.cos(angles[i])*r*val,y=cy+Math.sin(angles[i])*r*val;ctx.beginPath();ctx.arc(x,y,3,0,2*Math.PI);ctx.fillStyle='#C89B3C';ctx.fill();});
+  ctx.beginPath();keys.forEach((k,i)=>{const val=0.15+(norm[k]/100)*0.85,x=cx+Math.cos(angles[i])*r*val,y=cy+Math.sin(angles[i])*r*val;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.closePath();ctx.fillStyle='rgba(200,155,60,.2)';ctx.fill();ctx.strokeStyle='rgba(200,155,60,.8)';ctx.lineWidth=2;ctx.stroke();
+  keys.forEach((k,i)=>{const val=0.15+(norm[k]/100)*0.85,x=cx+Math.cos(angles[i])*r*val,y=cy+Math.sin(angles[i])*r*val;ctx.beginPath();ctx.arc(x,y,3,0,2*Math.PI);ctx.fillStyle=DIMENSIONS.find(d=>d.key===k).color;ctx.fill();});
   ctx.font='9px Rajdhani,sans-serif';ctx.fillStyle='rgba(200,155,60,.7)';ctx.textAlign='center';
   keys.forEach((k,i)=>{const lr=r+14,x=cx+Math.cos(angles[i])*lr,y=cy+Math.sin(angles[i])*lr+3;ctx.fillText(k,x,y);});
 }
@@ -917,7 +945,41 @@ function buildAffinityCard(champId,kind){
   const card=document.createElement('div');
   card.className=`affinity-card ${kind}`;
   card.innerHTML=`<span class="affinity-icon">${icon}</span><div class="affinity-name">${champ.name||champId}</div><div class="affinity-title">${champ.title||''}</div>`;
+  card.onclick=()=>window.open(`?champ=${encodeURIComponent(champId)}&kind=${kind}`,'_blank');
   return card;
+}
+
+function findNearestSummonerType(scores){
+  const dims=['V','I','H','T','A','W','S','D'];
+  let best=null,bestDist=Infinity;
+  SUMMONER_TYPES.forEach(t=>{
+    let dist=0;
+    dims.forEach(k=>{const d=(scores[k]||0)-(t.profile[k]||0);dist+=d*d;});
+    if(dist<bestDist){bestDist=dist;best=t;}
+  });
+  return best;
+}
+
+function showChampDetail(champId,kind){
+  const champ=CHAMPIONS.find(c=>c.id===champId);
+  if(!champ)return;
+  const type=findNearestSummonerType(champ.scores);
+  showScreen('champ-detail-screen');
+  const isAlly=kind==='ally';
+  document.getElementById('cd-label').textContent=isAlly?'Soul Resonance':'Natural Enemy';
+  document.getElementById('cd-title').textContent=isAlly?'あなたと相性の良いチャンピオン':'あなたの天敵チャンピオン';
+  document.getElementById('cd-banner').innerHTML=`<div class="champion-banner-glow"></div><span class="champion-banner-role">${isAlly?'💙':'⚔️'}</span>`;
+  document.getElementById('cd-role-badge').textContent=champ.roles.join(' / ');
+  document.getElementById('cd-name').textContent=champ.name;
+  document.getElementById('cd-title-text').textContent=`「${champ.title}」`;
+  document.getElementById('cd-reason').textContent=champ.reason||'';
+  if(type){
+    document.getElementById('cd-type-name').textContent=type.name;
+    document.getElementById('cd-type-subtitle').textContent=type.subtitle;
+    document.getElementById('cd-type-playstyle').textContent=type.playstyle;
+    document.getElementById('cd-sw-str').innerHTML=type.strengths.map(s=>`<div class="sw-item">${s}</div>`).join('');
+    document.getElementById('cd-sw-weak').innerHTML=type.weaknesses.map(w=>`<div class="sw-item">${w}</div>`).join('');
+  }
 }
 
 function renderFullSection(type,normalized){
@@ -949,6 +1011,7 @@ function renderFullSection(type,normalized){
         <div class="axis-name">${d.name}</div>
       </div>
       <div class="axis-row-right">
+        <div class="axis-en" style="color:${d.color}">${d.en}</div>
         <div class="axis-bar-wrap">
           <div class="axis-bar-bg"><div class="axis-bar-fill" style="width:${val}%;background:${d.color}"></div></div>
           <div class="axis-val" style="color:${d.color}">${val}</div>
@@ -996,7 +1059,7 @@ const SUMMONER_TYPES = [
     strengths:["自然と湧き出るリーダーシップ","状況に応じて攻守を切り替える判断力"],
     weaknesses:["一人で全てを抱え込もうとする傾向","仲間がついてこないときにフラストレーションを感じやすい"],
     famous:"Arcaneのジェイス。ビジョンを持ち、人々を導こうとするその姿はあなたのカリスマ性と指導力の鏡だ。",
-    allies:["Amumu","Malphite","Jarvan IV","Sejuani","Galio"],
+    allies:["Amumu","Malphite","JarvanIV","Sejuani","Galio"],
     enemies:["Fiora","Tryndamere","Jax","Nasus","Yorick"]
   },
   {
@@ -1020,7 +1083,7 @@ const SUMMONER_TYPES = [
     strengths:["瞬時の状況把握と予測不能な判断力","高プレッシャー下でのひらめき"],
     weaknesses:["論理的な一貫性に欠けることがある","直感が外れたときのリカバリープランが薄い"],
     famous:"Arcaneのエコー。既存の枠組みを壊し、天才的な直感で解決策を見つける姿はあなたそのものだ。",
-    allies:["Lee Sin","Ahri","Ekko","Kayn","Kindred"],
+    allies:["LeeSin","Ahri","Ekko","Kayn","Kindred"],
     enemies:["Caitlyn","Jhin","Azir","Viktor","Orianna"]
   },
   {
@@ -1044,7 +1107,7 @@ const SUMMONER_TYPES = [
     strengths:["極限状態での爆発的なパフォーマンス","相手に計算させる余地を与えない突破力"],
     weaknesses:["過剰なリスクテイクでチームを巻き込むことがある","長期戦・持久戦での判断力が落ちる"],
     famous:"オラフ。Valoran中を旅して強敵を探し続ける姿は、あなたの戦闘狂としての本能と完璧に一致する。",
-    allies:["Leona","Nautilus","Alistar","Jarvan IV","Blitzcrank"],
+    allies:["Leona","Nautilus","Alistar","JarvanIV","Blitzcrank"],
     enemies:["Janna","Lulu","Gragas","Zilean","Soraka"]
   },
   {
@@ -1057,7 +1120,7 @@ const SUMMONER_TYPES = [
     weaknesses:["序盤の判断が受け身になりすぎる","スローペースが裏目に出るとき(相手が早いゲームを仕掛けたとき)"],
     famous:"ナサス。ただひたすら積み上げ、時が来れば誰も止められない存在になる。あなたの忍耐は真の力だ。",
     allies:["Kassadin","Kayle","Vladimir","Aurelion Sol","Veigar"],
-    enemies:["Darius","Renekton","Lee Sin","Elise","Graves"]
+    enemies:["Darius","Renekton","LeeSin","Elise","Graves"]
   },
   {
     id:"empath",
@@ -1104,7 +1167,7 @@ const SUMMONER_TYPES = [
     strengths:["常識外のアプローチで相手の裏をかく発想力","未知の状況でのアドリブ力"],
     weaknesses:["一貫性のないプレイがチームを混乱させることがある","リスク管理が甘くなりやすい"],
     famous:"エズリアル。地図を持たずに遺跡へ飛び込み、自分の力で道を切り開く。あなたの冒険心と直感は彼そのものだ。",
-    allies:["Lee Sin","Kayn","Ekko","Vi","Riven"],
+    allies:["LeeSin","Kayn","Ekko","Vi","Riven"],
     enemies:["Caitlyn","Jhin","Azir","Orianna","Lissandra"]
   },
   {
@@ -1116,13 +1179,19 @@ const SUMMONER_TYPES = [
     strengths:["どんな状況・チームにも適応できる柔軟性","特定の弱点がなく安定したパフォーマンス"],
     weaknesses:["突出した強みがないため決め手に欠けることがある","自分のスタイルを確立しにくく迷走するケースも"],
     famous:"アッシュ。シンプルでありながら、どんな状況でも安定した力を発揮する。あなたの適応力は彼女の普遍的な強さと似ている。",
-    allies:["Thresh","Ashe","Lux","Jarvan IV","Karma"],
+    allies:["Thresh","Ashe","Lux","JarvanIV","Karma"],
     enemies:["Nasus","Samira","Yasuo","Veigar","Katarina"]
   },
 ];
 // 12 types
 
-
+// URL routing for champion detail pages
+(function(){
+  const p=new URLSearchParams(location.search);
+  const champId=p.get('champ');
+  const kind=p.get('kind')||'ally';
+  if(champId)showChampDetail(decodeURIComponent(champId),kind);
+})();
 </script>
 </body>
 </html>
