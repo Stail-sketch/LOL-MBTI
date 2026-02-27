@@ -654,13 +654,16 @@ const QUESTION_DATA=[
 
 // ===== 離脱防止 =====
 history.pushState(null,'',location.href);
+function isGuardedScreen(){
+  return ['question-screen','loading-screen','result-screen'].some(
+    id=>document.getElementById(id).classList.contains('active')
+  );
+}
 window.addEventListener('beforeunload',function(e){
-  if(document.getElementById('question-screen').classList.contains('active')){
-    e.preventDefault();e.returnValue='';
-  }
+  if(isGuardedScreen()){e.preventDefault();e.returnValue='';}
 });
 window.addEventListener('popstate',function(){
-  if(document.getElementById('question-screen').classList.contains('active')){
+  if(isGuardedScreen()){
     if(!confirm('診断を中断しますか？\n回答データが失われます。')){
       history.pushState(null,'',location.href);
     }else{
