@@ -1423,6 +1423,7 @@ async function downloadCard(){
     document.getElementById('ce-match-num').textContent=d.matchPct+'%';
     document.getElementById('ce-prog-fill').style.width=d.matchPct+'%';
     document.getElementById('ce-lane-tag').textContent=displayLane;
+    document.getElementById('ce-foot-logo').textContent=isEN?'#LoLAnalyze':'#LOL鑑定';
 
     const show=id=>{const el=document.getElementById(id);if(el)el.style.display='';};
     const hide=id=>{const el=document.getElementById(id);if(el)el.style.display='none';};
@@ -2287,7 +2288,7 @@ function renderRankings({total,champions,types,roles}){
     </div>
     <div class="ce-foot">
       <span class="ce-foot-url">stail-sketch.github.io/LOL-MBTI</span>
-      <span class="ce-foot-logo">#LOL鑑定</span>
+      <span class="ce-foot-logo" id="ce-foot-logo">#LOL鑑定</span>
     </div>
   </div>
 </div>
