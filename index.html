@@ -14,6 +14,8 @@
 <meta name="twitter:image" content="https://stail-sketch.github.io/LOL-MBTI/image.png?v=2">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <style>
   :root{--gold:#C89B3C;--gold-light:#F0E6BE;--gold-dark:#785A28;--bg:#010A13;--bg2:#0A1428;--bg3:#091428;--blue:#0BC4E3;--text:#A09B8C;--text-light:#C8AA6E;--white:#F0E6BE;--red:#C8344A}
   *{margin:0;padding:0;box-sizing:border-box}
@@ -152,7 +154,6 @@
   .ext-body{font-size:14px;color:var(--text);line-height:2}
   /* CATCHPHRASE */
   .catchphrase-card{background:rgba(0,0,0,.35);border:1px solid rgba(200,155,60,.35);padding:28px 32px;text-align:center;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));margin-top:4px}
-  .catchphrase-label{font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:.25em;color:var(--text);text-transform:uppercase;margin-bottom:16px}
   .catchphrase-quote{font-family:'Noto Serif JP',serif;font-size:clamp(17px,3vw,23px);color:var(--gold);line-height:1.9;font-weight:700;text-shadow:0 0 24px rgba(200,155,60,.35)}
   /* PERCEPTION */
   .perception-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
@@ -290,6 +291,19 @@
   .ce-foot-url{font-family:'Rajdhani',sans-serif;font-size:8px;color:#A09B8C;letter-spacing:.06em}
   .ce-creed{font-family:'Noto Serif JP',serif;font-size:clamp(14px,3.5vw,18px);color:#C89B3C;line-height:1.9;font-weight:700;text-align:center;padding:10px 4px;text-shadow:0 0 18px rgba(200,155,60,.3)}
   .ce-foot-logo{font-family:'Cinzel',serif;font-size:9px;color:#C89B3C;letter-spacing:.12em}
+  /* RANKING */
+  .ranking-section{margin-top:20px;padding:28px 32px;background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid rgba(200,155,60,.2);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));animation:fadeInUp .6s ease both}
+  .ranking-section.hidden{display:none}
+  .rank-total-row{font-family:'Rajdhani',sans-serif;font-size:13px;color:var(--text);letter-spacing:.08em;margin:12px 0 20px;text-align:center}
+  .rank-total-num{font-family:'Cinzel',serif;font-size:22px;color:var(--gold);margin-left:10px}
+  .rank-block{margin-bottom:20px}
+  .rank-block-title{font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:.2em;color:var(--blue);text-transform:uppercase;margin-bottom:10px}
+  .rank-list{display:flex;flex-direction:column;gap:8px}
+  .rank-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(0,0,0,.25);border:1px solid rgba(200,155,60,.12)}
+  .rank-num{font-family:'Cinzel',serif;font-size:14px;color:var(--gold);width:18px;text-align:center;flex-shrink:0}
+  .rank-champ-icon{width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid rgba(200,155,60,.35);flex-shrink:0}
+  .rank-name{font-family:'Noto Serif JP',serif;font-size:13px;color:var(--white);flex:1}
+  .rank-count{font-family:'Rajdhani',sans-serif;font-size:12px;color:var(--text);letter-spacing:.05em}
 </style>
 </head>
 <body>
@@ -394,7 +408,7 @@
       </div>
     </div>
 
-    <!-- 30問+ : サモナータイプ -->
+    <!-- 25問+ : サモナータイプ -->
     <div class="ext-section hidden" id="sec-type">
       <div class="ext-label">Summoner Type</div>
       <div class="ext-title" id="type-name"></div>
@@ -427,7 +441,7 @@
       </div>
     </div>
 
-    <!-- 30問+ : 強み・弱み -->
+    <!-- 25問+ : 強み・弱み -->
     <div class="ext-section hidden" id="sec-sw">
       <div class="ext-label">Strengths &amp; Weaknesses</div>
       <div class="sw-grid">
@@ -493,6 +507,27 @@
       <button class="btn-share-x" onclick="shareToX()"><svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Xでシェアする</button>
       <button class="btn-secondary" onclick="retryDiagnosis()">もう一度診断する</button>
     </div>
+
+    <!-- Community Stats (40問のみ表示) -->
+    <div class="ranking-section hidden" id="ranking-section">
+      <div class="ext-label">Community Stats</div>
+      <div class="ext-title" style="margin-bottom:4px">みんなの診断結果</div>
+      <div class="rank-total-row">
+        総診断回数 <span id="rank-total" class="rank-total-num">--</span>
+      </div>
+      <div class="rank-block">
+        <div class="rank-block-title">🏆 人気チャンピオン TOP5</div>
+        <div id="rank-champions" class="rank-list"></div>
+      </div>
+      <div class="rank-block">
+        <div class="rank-block-title">⬡ 人気サモナータイプ TOP5</div>
+        <div id="rank-types" class="rank-list"></div>
+      </div>
+      <div class="rank-block" style="margin-bottom:0">
+        <div class="rank-block-title">🗺️ 人気ロール TOP3</div>
+        <div id="rank-roles" class="rank-list"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -532,6 +567,20 @@
 </div>
 
 <script>
+// ===== FIREBASE =====
+const firebaseConfig={
+  apiKey:"AIzaSyCRaYGkHRjiIdMciatsLvhcicH_Ngy3Kc8",
+  authDomain:"lol-mbti-4e6b2.firebaseapp.com",
+  databaseURL:"https://lol-mbti-4e6b2-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"lol-mbti-4e6b2",
+  storageBucket:"lol-mbti-4e6b2.firebasestorage.app",
+  messagingSenderId:"500085932537",
+  appId:"1:500085932537:web:ac28513e2d2274b0a83d28",
+  measurementId:"G-9PPHF9LNH7"
+};
+firebase.initializeApp(firebaseConfig);
+const db=firebase.database();
+
 const CHAMPIONS = [
   {id:"Urgot",name:"アーゴット",title:"運命の仲裁者",roles:["TOP"],scores:{V:45,I:45,H:15,T:75,A:80,W:50,S:30,D:75},reason:"冷徹な計画性と揺るぎない意志。あなたは弱者を淘汰し、真に強いものだけが生き残るという哲学を体現する。アーゴットの機械的な正確さはあなたの論理性と忍耐力から生まれる。"},
   {id:"Ahri",name:"アーリ",title:"九尾の狐",roles:["MID"],scores:{V:80,I:70,H:60,T:50,A:70,W:60,S:40,D:50},reason:"高い直感力と社交的な魅力、感情と論理のバランス。あなたは状況を直感で読み、相手の心理を読みながら動く。アーリの神秘的な知性と適応力は、あなたの直感と外向性が生み出す最高の化学反応だ。"},
@@ -957,6 +1006,7 @@ function showResult(normalized){
   const is40=currentPhaseEnd>=40;
   ['sec-type','sec-catchphrase','sec-perception','sec-sw'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is25));
   ['sec-synergy','sec-opposite','sec-allies','sec-enemies','sec-axis'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is40));
+  document.getElementById('ranking-section').classList.toggle('hidden',!is40);
   let detectedTypeName='';
   if(is25){
     const type=getSummonerType(normalized);
@@ -966,6 +1016,10 @@ function showResult(normalized){
   }
   drawRadar(normalized);buildLegend(normalized);
   updateSharePreview(cache.champ,cache.matchPct,detectedTypeName);
+  if(is40){
+    sendDiagnosisResult(cache.champ,detectedTypeName,selectedLane);
+    loadRankings();
+  }
 }
 
 function renderChampionCard(champ,matchPct,lane,roleIcons){
@@ -1153,17 +1207,15 @@ function getSummonerType(normalized){
   return best;
 }
 
+
 function renderTypeSection(type){
   document.getElementById('type-name').textContent=type.name;
   document.getElementById('type-subtitle').textContent=type.subtitle;
   document.getElementById('type-playstyle').textContent=type.playstyle;
-  const str=document.getElementById('sw-str');
-  const weak=document.getElementById('sw-weak');
-  str.innerHTML=type.strengths.map(s=>`<div class="sw-item">${s}</div>`).join('');
-  weak.innerHTML=type.weaknesses.map(w=>`<div class="sw-item">${w}</div>`).join('');
+  document.getElementById('sw-str').innerHTML=type.strengths.map(s=>`<div class="sw-item">${s}</div>`).join('');
+  document.getElementById('sw-weak').innerHTML=type.weaknesses.map(w=>`<div class="sw-item">${w}</div>`).join('');
   const phrases=type.catchphrases||[];
-  const phrase=phrases[Math.floor(Math.random()*phrases.length)]||'';
-  document.getElementById('catchphrase-quote').textContent=phrase;
+  document.getElementById('catchphrase-quote').textContent=phrases[Math.floor(Math.random()*phrases.length)]||'';
   const percs=type.perceptions||[];
   const perc=percs[Math.floor(Math.random()*percs.length)]||{};
   document.getElementById('perception-ally').textContent=perc.ally||'';
@@ -1528,6 +1580,57 @@ const SUMMONER_TYPES = [
   const kind=p.get('kind')||'ally';
   if(champId)showChampDetail(decodeURIComponent(champId),kind);
 })();
+
+// ===== FIREBASE FUNCTIONS =====
+function sendDiagnosisResult(champ,typeName,role){
+  const displayRole=role==='ANY'?getBestLane():(role||'TOP');
+  db.ref('diagnoses').push({
+    champId:champ.id,
+    champName:champ.name,
+    typeName:typeName||'',
+    role:displayRole,
+    timestamp:firebase.database.ServerValue.TIMESTAMP
+  }).catch(e=>console.warn('Firebase送信失敗:',e));
+}
+
+function loadRankings(){
+  db.ref('diagnoses').limitToLast(1000).once('value',snapshot=>{
+    const data=snapshot.val();
+    if(!data){renderRankings({total:0,champions:[],types:[],roles:[]});return;}
+    const entries=Object.values(data).filter(e=>e.questionCount===40);
+    const champCount={},typeCount={},roleCount={};
+    entries.forEach(e=>{
+      if(e.champId)champCount[e.champId]=(champCount[e.champId]||0)+1;
+      if(e.typeName)typeCount[e.typeName]=(typeCount[e.typeName]||0)+1;
+      if(e.role)roleCount[e.role]=(roleCount[e.role]||0)+1;
+    });
+    const top=(obj,n)=>Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
+    renderRankings({
+      total:entries.length,
+      champions:top(champCount,5),
+      types:top(typeCount,5),
+      roles:top(roleCount,3)
+    });
+  });
+}
+
+function renderRankings({total,champions,types,roles}){
+  document.getElementById('rank-total').textContent=total.toLocaleString()+' 回';
+  const cEl=document.getElementById('rank-champions');
+  cEl.innerHTML=champions.map(([id,cnt],i)=>{
+    const c=CHAMPIONS.find(x=>x.id===id)||{id,name:id};
+    return `<div class="rank-item"><span class="rank-num">${i+1}</span><img class="rank-champ-icon" src="champion_icons/${id}.png" alt="${c.name}" onerror="this.style.display='none'"><span class="rank-name">${c.name}</span><span class="rank-count">${cnt}回</span></div>`;
+  }).join('');
+  const tEl=document.getElementById('rank-types');
+  tEl.innerHTML=types.map(([name,cnt],i)=>
+    `<div class="rank-item"><span class="rank-num">${i+1}</span><span class="rank-name">${name}</span><span class="rank-count">${cnt}回</span></div>`
+  ).join('');
+  const rEl=document.getElementById('rank-roles');
+  const roleIcon={TOP:'⚔️',JUNGLE:'🌿',MID:'⚡',ADC:'🏹',SUPPORT:'🛡️'};
+  rEl.innerHTML=roles.map(([role,cnt],i)=>
+    `<div class="rank-item"><span class="rank-num">${i+1}</span><span class="rank-name">${roleIcon[role]||''} ${role}</span><span class="rank-count">${cnt}回</span></div>`
+  ).join('');
+}
 </script>
 
 <footer class="site-footer">
