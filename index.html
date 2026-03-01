@@ -291,6 +291,11 @@
   .ce-foot-url{font-family:'Rajdhani',sans-serif;font-size:8px;color:#A09B8C;letter-spacing:.06em}
   .ce-creed{font-family:'Noto Serif JP',serif;font-size:clamp(14px,3.5vw,18px);color:#C89B3C;line-height:1.9;font-weight:700;text-align:center;padding:10px 4px;text-shadow:0 0 18px rgba(200,155,60,.3)}
   .ce-foot-logo{font-family:'Cinzel',serif;font-size:9px;color:#C89B3C;letter-spacing:.12em}
+  /* CHAMP LINK */
+  .champ-official-link{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.12em;color:var(--text);text-decoration:none;text-transform:uppercase;border-bottom:1px solid rgba(200,155,60,.25);padding-bottom:2px;transition:color .2s,border-color .2s}
+  .champ-official-link:hover{color:var(--gold);border-color:var(--gold)}
+  .champ-official-link svg{flex-shrink:0;transition:transform .2s}
+  .champ-official-link:hover svg{transform:translate(2px,-2px)}
   /* RANKING */
   .ranking-section{margin-top:20px;padding:28px 32px;background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid rgba(200,155,60,.2);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));animation:fadeInUp .6s ease both}
   .ranking-section.hidden{display:none}
@@ -396,6 +401,7 @@
         <div id="result-role-badge" class="champion-role-badge"></div>
         <h2 class="champion-name" id="result-name"></h2>
         <p class="champion-title" id="result-title"></p>
+        <a id="champ-official-link" class="champ-official-link" href="#" target="_blank" rel="noopener noreferrer">チャンピオンの詳しい解説はこちら<svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10L10 1M10 1H4M10 1V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="match-score">
           <span class="match-label">適合度</span>
           <div class="match-bar-outer"><div class="match-bar-inner" id="match-bar" style="width:0%"></div></div>
@@ -1022,12 +1028,24 @@ function showResult(normalized){
   }
 }
 
+const CHAMP_ID_TO_URL={
+  AurelionSol:'aurelion-sol',MissFortune:'miss-fortune',TwistedFate:'twisted-fate',
+  JarvanIV:'jarvan-iv',LeeSin:'lee-sin',MasterYi:'master-yi',TahmKench:'tahm-kench',
+  XinZhao:'xin-zhao',KogMaw:'kog-maw',RekSai:'rek-sai',DrMundo:'dr-mundo',
+  KSante:'k-sante',BelVeth:'bel-veth',VelKoz:'vel-koz',Chogath:'cho-gath'
+};
+function champOfficialUrl(id){
+  const slug=CHAMP_ID_TO_URL[id]||id.toLowerCase();
+  return`https://www.leagueoflegends.com/ja-jp/champions/${slug}/`;
+}
+
 function renderChampionCard(champ,matchPct,lane,roleIcons){
   const banner=document.getElementById('champion-banner');
   banner.innerHTML=`<div class="champion-banner-glow"></div><img class="champion-banner-img" src="champion_icons/${champ.id}.png" alt="${champ.name}" onerror="this.style.display='none'">`;
   document.getElementById('result-role-badge').textContent=`${lane==='ANY'?'ALL ROLES':lane}`;
   document.getElementById('result-name').textContent=champ.name;
   document.getElementById('result-title').textContent=`「${champ.title}」`;
+  document.getElementById('champ-official-link').href=champOfficialUrl(champ.id);
   document.getElementById('result-reason').textContent=champ.reason;
   document.getElementById('match-pct').textContent=matchPct+'%';
   setTimeout(()=>{document.getElementById('match-bar').style.width=matchPct+'%';},900);
