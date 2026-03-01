@@ -1597,7 +1597,7 @@ function loadRankings(){
   db.ref('diagnoses').limitToLast(1000).once('value',snapshot=>{
     const data=snapshot.val();
     if(!data){renderRankings({total:0,champions:[],types:[],roles:[]});return;}
-    const entries=Object.values(data).filter(e=>e.questionCount===40);
+    const entries=Object.values(data);
     const champCount={},typeCount={},roleCount={};
     entries.forEach(e=>{
       if(e.champId)champCount[e.champId]=(champCount[e.champId]||0)+1;
