@@ -291,6 +291,12 @@
   .ce-foot-url{font-family:'Rajdhani',sans-serif;font-size:8px;color:#A09B8C;letter-spacing:.06em}
   .ce-creed{font-family:'Noto Serif JP',serif;font-size:clamp(14px,3.5vw,18px);color:#C89B3C;line-height:1.9;font-weight:700;text-align:center;padding:10px 4px;text-shadow:0 0 18px rgba(200,155,60,.3)}
   .ce-foot-logo{font-family:'Cinzel',serif;font-size:9px;color:#C89B3C;letter-spacing:.12em}
+  /* LANG TOGGLE */
+  #lang-toggle{position:fixed;top:16px;right:16px;z-index:100;display:flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;letter-spacing:.15em;background:rgba(1,10,19,.8);border:1px solid rgba(200,155,60,.25);padding:6px 12px;backdrop-filter:blur(6px)}
+  #lang-toggle button{background:none;border:none;cursor:pointer;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;letter-spacing:.15em;padding:0;transition:color .2s}
+  #lang-toggle button.active{color:var(--gold)}
+  #lang-toggle button:hover{color:var(--gold)}
+  #lang-toggle span{color:rgba(200,155,60,.35);font-size:11px}
   /* CHAMP LINK */
   .champ-official-link{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.12em;color:var(--text);text-decoration:none;text-transform:uppercase;border-bottom:1px solid rgba(200,155,60,.25);padding-bottom:2px;transition:color .2s,border-color .2s}
   .champ-official-link:hover{color:var(--gold);border-color:var(--gold)}
@@ -312,6 +318,11 @@
 </style>
 </head>
 <body>
+<div id="lang-toggle">
+  <button id="lang-jp" class="active" onclick="setLang('jp')">JP</button>
+  <span>|</span>
+  <button id="lang-en" onclick="setLang('en')">EN</button>
+</div>
 <div id="particles"></div>
 <div class="hex-bg"></div>
 
@@ -326,30 +337,30 @@
       <circle cx="8" cy="18" r="3" fill="#C89B3C"/>
     </svg>
   </div>
-  <p class="main-subtitle">Summoner Personality Analysis</p>
-  <h1 class="main-title">サモナーの素質診断</h1>
+  <p class="main-subtitle" id="main-subtitle">Summoner Personality Analysis</p>
+  <h1 class="main-title" id="main-title">サモナーの素質診断</h1>
   <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
-  <p class="description">あなたの性格・思考パターン・行動特性を分析し、<br>League of Legends でもっとも相性の良いチャンピオンを導き出します。<br>まず10問の基本診断からスタート。<br>段階的に深掘りし、最大<strong style="color:var(--gold)">40問</strong>まで挑戦できます。</p>
-  <button class="btn-primary" onclick="startDiagnosis()">診断を始める</button>
+  <p class="description" id="main-desc">あなたの性格・思考パターン・行動特性を分析し、<br>League of Legends でもっとも相性の良いチャンピオンを導き出します。<br>まず10問の基本診断からスタート。<br>段階的に深掘りし、最大<strong style="color:var(--gold)">40問</strong>まで挑戦できます。</p>
+  <button class="btn-primary" id="btn-start" onclick="startDiagnosis()">診断を始める</button>
   <div class="stats-preview">
-    <div class="stat-item"><span class="stat-num">40</span><span class="stat-label">最大質問数</span></div>
-    <div class="stat-item"><span class="stat-num">167</span><span class="stat-label">チャンピオン</span></div>
-    <div class="stat-item"><span class="stat-num">8</span><span class="stat-label">性格軸</span></div>
-    <div class="stat-item"><span class="stat-num">5</span><span class="stat-label">ロール</span></div>
+    <div class="stat-item"><span class="stat-num">40</span><span class="stat-label" id="stat-label-0">最大質問数</span></div>
+    <div class="stat-item"><span class="stat-num">167</span><span class="stat-label" id="stat-label-1">チャンピオン</span></div>
+    <div class="stat-item"><span class="stat-num">8</span><span class="stat-label" id="stat-label-2">性格軸</span></div>
+    <div class="stat-item"><span class="stat-num">5</span><span class="stat-label" id="stat-label-3">ロール</span></div>
   </div>
 </div>
 
 <!-- LANE SELECT (10問後) -->
 <div id="lane-screen" class="screen">
-  <h2 class="section-title">あなたのロールを選んでください</h2>
-  <p class="section-desc">10問の診断結果をもとに、どのレーンで診断しますか？</p>
+  <h2 class="section-title" id="lane-title">あなたのロールを選んでください</h2>
+  <p class="section-desc" id="lane-desc">10問の診断結果をもとに、どのレーンで診断しますか？</p>
   <div class="roles-grid">
-    <div class="role-card" onclick="selectLane('TOP',this)"><span class="role-icon">⚔️</span><div class="role-name">TOP</div><div class="role-desc">最前線の戦士</div></div>
-    <div class="role-card" onclick="selectLane('JUNGLE',this)"><span class="role-icon">🌿</span><div class="role-name">JUNGLE</div><div class="role-desc">森の戦略家</div></div>
-    <div class="role-card" onclick="selectLane('MID',this)"><span class="role-icon">⚡</span><div class="role-name">MID</div><div class="role-desc">中央の支配者</div></div>
-    <div class="role-card" onclick="selectLane('ADC',this)"><span class="role-icon">🏹</span><div class="role-name">ADC</div><div class="role-desc">持続火力の担い手</div></div>
-    <div class="role-card" onclick="selectLane('SUPPORT',this)"><span class="role-icon">🛡️</span><div class="role-name">SUPPORT</div><div class="role-desc">仲間を守る縁の下</div></div>
-    <div class="role-card" onclick="selectLane('ANY',this)"><span class="role-icon">👑</span><div class="role-name">どこでも</div><div class="role-desc">全167体から診断</div></div>
+    <div class="role-card" onclick="selectLane('TOP',this)"><span class="role-icon">⚔️</span><div class="role-name">TOP</div><div class="role-desc" id="role-desc-TOP">最前線の戦士</div></div>
+    <div class="role-card" onclick="selectLane('JUNGLE',this)"><span class="role-icon">🌿</span><div class="role-name">JUNGLE</div><div class="role-desc" id="role-desc-JUNGLE">森の戦略家</div></div>
+    <div class="role-card" onclick="selectLane('MID',this)"><span class="role-icon">⚡</span><div class="role-name">MID</div><div class="role-desc" id="role-desc-MID">中央の支配者</div></div>
+    <div class="role-card" onclick="selectLane('ADC',this)"><span class="role-icon">🏹</span><div class="role-name">ADC</div><div class="role-desc" id="role-desc-ADC">持続火力の担い手</div></div>
+    <div class="role-card" onclick="selectLane('SUPPORT',this)"><span class="role-icon">🛡️</span><div class="role-name">SUPPORT</div><div class="role-desc" id="role-desc-SUPPORT">仲間を守る縁の下</div></div>
+    <div class="role-card" onclick="selectLane('ANY',this)"><span class="role-icon">👑</span><div class="role-name" id="role-name-ANY">どこでも</div><div class="role-desc" id="role-desc-ANY">全167体から診断</div></div>
   </div>
   <button class="btn-secondary" id="lane-next-btn" onclick="proceedFromLane()" disabled>結果を見る</button>
 </div>
@@ -385,7 +396,7 @@
   <div class="result-container">
     <div class="result-header">
       <p class="result-label">Your Champion Match</p>
-      <h2 class="section-title">あなたのチャンピオンが決まりました</h2>
+      <h2 class="section-title" id="result-screen-title">あなたのチャンピオンが決まりました</h2>
     </div>
     <!-- レーンタブ -->
     <div class="lane-tabs" id="lane-tabs" style="display:none">
@@ -401,14 +412,14 @@
         <div id="result-role-badge" class="champion-role-badge"></div>
         <h2 class="champion-name" id="result-name"></h2>
         <p class="champion-title" id="result-title"></p>
-        <a id="champ-official-link" class="champ-official-link" href="#" target="_blank" rel="noopener noreferrer">チャンピオンの詳しい解説はこちら<svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10L10 1M10 1H4M10 1V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a id="champ-official-link" class="champ-official-link" href="#" target="_blank" rel="noopener noreferrer"><span id="champ-link-text">チャンピオンの詳しい解説はこちら</span><svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10L10 1M10 1H4M10 1V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="match-score">
-          <span class="match-label">適合度</span>
+          <span class="match-label" id="match-label-el">適合度</span>
           <div class="match-bar-outer"><div class="match-bar-inner" id="match-bar" style="width:0%"></div></div>
           <span class="match-pct" id="match-pct"></span>
         </div>
         <div class="reason-box">
-          <p class="reason-title">⬡ あなたとこのチャンピオンが共鳴する理由</p>
+          <p class="reason-title" id="reason-title-el">⬡ あなたとこのチャンピオンが共鳴する理由</p>
           <p id="result-reason"></p>
         </div>
       </div>
@@ -425,7 +436,7 @@
     <!-- 25問+ : キャッチコピー -->
     <div class="ext-section hidden" id="sec-catchphrase">
       <div class="ext-label">Battle Creed</div>
-      <div class="ext-title" style="margin-bottom:14px">あなたの戦い方を一言で表すと…</div>
+      <div class="ext-title" id="creed-title" style="margin-bottom:14px">あなたの戦い方を一言で表すと…</div>
       <div class="catchphrase-card">
         <div class="catchphrase-quote" id="catchphrase-quote"></div>
       </div>
@@ -434,14 +445,14 @@
     <!-- 25問+ : 他者からの印象 -->
     <div class="ext-section hidden" id="sec-perception">
       <div class="ext-label">After Game Chat</div>
-      <div class="ext-title" style="margin-bottom:14px">試合後、あなたはこう思われているかも</div>
+      <div class="ext-title" id="perception-main-title" style="margin-bottom:14px">試合後、あなたはこう思われているかも</div>
       <div class="perception-grid">
         <div class="perception-box ally">
-          <div class="perception-box-label">🤝 味方から</div>
+          <div class="perception-box-label" id="perception-ally-label">🤝 味方から</div>
           <div class="perception-text" id="perception-ally"></div>
         </div>
         <div class="perception-box enemy">
-          <div class="perception-box-label">⚔️ 敵から</div>
+          <div class="perception-box-label" id="perception-enemy-label">⚔️ 敵から</div>
           <div class="perception-text" id="perception-enemy"></div>
         </div>
       </div>
@@ -451,15 +462,15 @@
     <div class="ext-section hidden" id="sec-sw">
       <div class="ext-label">Strengths &amp; Weaknesses</div>
       <div class="sw-grid">
-        <div class="sw-box str"><div class="sw-box-label">⬡ 強み</div><div id="sw-str"></div></div>
-        <div class="sw-box weak"><div class="sw-box-label">⬡ 弱み</div><div id="sw-weak"></div></div>
+        <div class="sw-box str"><div class="sw-box-label" id="sw-str-label">⬡ 強み</div><div id="sw-str"></div></div>
+        <div class="sw-box weak"><div class="sw-box-label" id="sw-weak-label">⬡ 弱み</div><div id="sw-weak"></div></div>
       </div>
     </div>
 
     <!-- 40問+ : 相性の良い召喚士タイプ -->
     <div class="ext-section hidden" id="sec-synergy">
       <div class="ext-label">Summoner Synergy</div>
-      <div class="ext-title" style="margin-bottom:14px">あなたのタイプと組むと最強</div>
+      <div class="ext-title" id="synergy-main-title" style="margin-bottom:14px">あなたのタイプと組むと最強</div>
       <div class="synergy-card">
         <div class="synergy-type-name" id="synergy-type-name"></div>
         <div class="synergy-type-sub" id="synergy-type-sub"></div>
@@ -470,7 +481,7 @@
     <!-- 40問+ : 逆診断 -->
     <div class="ext-section hidden" id="sec-opposite">
       <div class="ext-label">Shadow Self</div>
-      <div class="ext-title" style="margin-bottom:14px">あなたと真逆の召喚士タイプ</div>
+      <div class="ext-title" id="opposite-main-title" style="margin-bottom:14px">あなたと真逆の召喚士タイプ</div>
       <div class="opposite-card">
         <div class="opposite-type-name" id="opposite-type-name"></div>
         <div class="opposite-type-sub" id="opposite-type-sub"></div>
@@ -481,14 +492,14 @@
     <!-- 50問のみ : 相性の良いチャンピオン -->
     <div class="ext-section hidden" id="sec-allies">
       <div class="ext-label">Soul Resonance</div>
-      <div class="ext-title" style="margin-bottom:14px">相性の良いチャンピオン</div>
+      <div class="ext-title" id="allies-main-title" style="margin-bottom:14px">相性の良いチャンピオン</div>
       <div class="affinity-grid" id="allies-grid"></div>
     </div>
 
     <!-- 50問のみ : 天敵チャンピオン -->
     <div class="ext-section hidden" id="sec-enemies">
       <div class="ext-label">Natural Enemy</div>
-      <div class="ext-title" style="margin-bottom:14px">あなたの天敵チャンピオン</div>
+      <div class="ext-title" id="enemies-main-title" style="margin-bottom:14px">あなたの天敵チャンピオン</div>
       <div class="affinity-grid" id="enemies-grid"></div>
     </div>
 
@@ -496,12 +507,12 @@
     <!-- 50問のみ : 8軸詳細 -->
     <div class="ext-section hidden" id="sec-axis">
       <div class="ext-label">Detailed Analysis</div>
-      <div class="ext-title" style="margin-bottom:18px">あなたの8軸詳細解説</div>
+      <div class="ext-title" id="axis-main-title" style="margin-bottom:18px">あなたの8軸詳細解説</div>
       <div class="axis-list" id="axis-list"></div>
     </div>
 
     <div class="radar-section">
-      <p class="radar-title">⬡ あなたの性格プロファイル</p>
+      <p class="radar-title" id="radar-title-el">⬡ あなたの性格プロファイル</p>
       <div class="radar-wrapper">
         <canvas id="radarCanvas" width="220" height="220"></canvas>
         <div class="radar-legend" id="radar-legend"></div>
@@ -509,28 +520,28 @@
     </div>
     <div class="result-actions">
       <button class="btn-primary" id="btn-add-diagnosis" onclick="continueToNextPhase()" style="display:none">さらに答えて精度を上げる</button>
-      <button class="btn-download" id="btn-download" onclick="downloadCard()">⬇ 結果カードを保存</button>
-      <button class="btn-share-x" onclick="shareToX()"><svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Xでシェアする</button>
-      <button class="btn-secondary" onclick="retryDiagnosis()">もう一度診断する</button>
+      <button class="btn-download" id="btn-download" onclick="downloadCard()"><span id="download-btn-text">⬇ 結果カードを保存</span></button>
+      <button class="btn-share-x" id="btn-share-x" onclick="shareToX()"><svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span id="share-btn-text">Xでシェアする</span></button>
+      <button class="btn-secondary" id="btn-retry" onclick="retryDiagnosis()">もう一度診断する</button>
     </div>
 
     <!-- Community Stats (40問のみ表示) -->
     <div class="ranking-section hidden" id="ranking-section">
       <div class="ext-label">Community Stats</div>
-      <div class="ext-title" style="margin-bottom:4px">みんなの診断結果</div>
+      <div class="ext-title" id="rank-main-title" style="margin-bottom:4px">みんなの診断結果</div>
       <div class="rank-total-row">
-        総診断回数 <span id="rank-total" class="rank-total-num">--</span>
+        <span id="rank-total-label">総診断回数</span> <span id="rank-total" class="rank-total-num">--</span>
       </div>
       <div class="rank-block">
-        <div class="rank-block-title">🏆 人気チャンピオン TOP5</div>
+        <div class="rank-block-title" id="rank-champ-title">🏆 人気チャンピオン TOP5</div>
         <div id="rank-champions" class="rank-list"></div>
       </div>
       <div class="rank-block">
-        <div class="rank-block-title">⬡ 人気サモナータイプ TOP5</div>
+        <div class="rank-block-title" id="rank-types-title">⬡ 人気サモナータイプ TOP5</div>
         <div id="rank-types" class="rank-list"></div>
       </div>
       <div class="rank-block" style="margin-bottom:0">
-        <div class="rank-block-title">🗺️ 人気ロール TOP3</div>
+        <div class="rank-block-title" id="rank-roles-title">🗺️ 人気ロール TOP3</div>
         <div id="rank-roles" class="rank-list"></div>
       </div>
     </div>
@@ -586,6 +597,66 @@ const firebaseConfig={
 };
 firebase.initializeApp(firebaseConfig);
 const db=firebase.database();
+
+// ===== LANG TOGGLE =====
+const LANG_DATA={
+  jp:{
+    subtitle:'Summoner Personality Analysis',
+    title:'サモナーの素質診断',
+    desc:'あなたの性格・思考パターン・行動特性を分析し、<br>League of Legends でもっとも相性の良いチャンピオンを導き出します。<br>まず10問の基本診断からスタート。<br>段階的に深掘りし、最大<strong style="color:var(--gold)">40問</strong>まで挑戦できます。',
+    startBtn:'診断を始める',
+    statLabels:['最大質問数','チャンピオン','性格軸','ロール'],
+    laneTitle:'あなたのロールを選んでください',
+    laneDesc:'10問の診断結果をもとに、どのレーンで診断しますか？',
+  },
+  en:{
+    subtitle:'Summoner Personality Analysis',
+    title:'Find Your Champion',
+    desc:'Analyze your personality, playstyle, and decision-making to find the champion that resonates with you most in League of Legends.<br>Start with 10 questions — go deeper up to <strong style="color:var(--gold)">40 questions</strong> for a full profile.',
+    startBtn:'Start Analysis',
+    statLabels:['Max Questions','Champions','Traits','Roles'],
+    laneTitle:'Choose Your Role',
+    laneDesc:'Based on your answers, which lane do you want to play?',
+    roleDescs:{TOP:'Frontline fighter who controls the top lane',JUNGLE:'Strategist who dominates the jungle',MID:'Mid-lane carry who dictates tempo',ADC:'Ranged carry in the bottom lane',SUPPORT:'Guardian who enables teammates'},
+    roleNameAny:'Any Role',roleDescAny:'All 167 Champions available',
+    resultTitle:'Your Champion Has Been Revealed',
+    champLink:'View Champion Details',
+    matchLabel:'Match Rate',
+    reasonTitle:'⬡ Why This Champion Resonates With You',
+    creedTitle:'Your battle style, in one word…',
+    perceptionTitle:'After the match, others might see you as...',
+    fromAlly:'🤝 From Teammates',fromEnemy:'⚔️ From Enemies',
+    strengthLabel:'⬡ Strengths',weaknessLabel:'⬡ Weaknesses',
+    synergyTitle:'Your Ultimate Duo Type',oppositeTitle:'Your Opposite Summoner Type',
+    alliesTitle:'Compatible Champions',enemiesTitle:'Your Natural Enemies',
+    axisTitle:'Your 8-Axis Breakdown',radarTitle:'⬡ Your Personality Profile',
+    addDiagBtn:'Answer More for a Deeper Read',
+    downloadBtn:'⬇ Save Result Card',shareBtn:'Share on X',retryBtn:'Start Over',
+    rankTitle:'Community Results',rankTotalLabel:'Total Analyses',
+    rankChampTitle:'🏆 Top Champions',rankTypesTitle:'⬡ Top Summoner Types',rankRolesTitle:'🗺️ Top Roles',
+    laneNextBtn:'See Results',backBtn:'← Back',
+  }
+};
+let currentLang='jp';
+function setLang(lang){
+  currentLang=lang;
+  document.getElementById('lang-jp').classList.toggle('active',lang==='jp');
+  document.getElementById('lang-en').classList.toggle('active',lang==='en');
+  const L=LANG_DATA[lang];
+  document.getElementById('main-subtitle').textContent=L.subtitle;
+  document.getElementById('main-title').textContent=L.title;
+  document.getElementById('main-desc').innerHTML=L.desc;
+  document.getElementById('btn-start').textContent=L.startBtn;
+  L.statLabels.forEach((t,i)=>{const el=document.getElementById('stat-label-'+i);if(el)el.textContent=t;});
+  document.getElementById('lane-title').textContent=L.laneTitle;
+  document.getElementById('lane-desc').textContent=L.laneDesc;
+  const set=(id,t)=>{const el=document.getElementById(id);if(el)el.textContent=t;};
+  if(L.roleDescs){['TOP','JUNGLE','MID','ADC','SUPPORT'].forEach(r=>set('role-desc-'+r,L.roleDescs[r]||''));}
+  set('role-name-ANY',L.roleNameAny||'どこでも');
+  set('role-desc-ANY',L.roleDescAny||'全167体から診断');
+  set('lane-next-btn',L.laneNextBtn||'結果を見る');
+  set('back-btn',L.backBtn||'← 戻る');
+}
 
 const CHAMPIONS = [
   {id:"Urgot",name:"アーゴット",title:"運命の仲裁者",roles:["TOP"],scores:{V:45,I:45,H:15,T:75,A:80,W:50,S:30,D:75},reason:"冷徹な計画性と揺るぎない意志。あなたは弱者を淘汰し、真に強いものだけが生き残るという哲学を体現する。アーゴットの機械的な正確さはあなたの論理性と忍耐力から生まれる。"},
@@ -758,6 +829,177 @@ const CHAMPIONS = [
 ];
 // Total: 167 champions
 
+// ===== CHAMPIONS EN =====
+const CHAMPIONS_EN={
+  Urgot:{nameEn:"Urgot",title:"The Dreadnought",reason:"Cold-blooded calculation and iron will. You embody a philosophy where only the strongest survive — weakness is meant to be eliminated. Urgot's mechanical precision mirrors your unrelenting logic and endurance."},
+  Ahri:{nameEn:"Ahri",title:"The Nine-Tailed Fox",reason:"High intuition, social charm, and a perfect balance of heart and logic. You read situations on instinct and move by reading your opponent's psychology. Ahri's mystical intelligence and adaptability are the perfect chemistry born from your intuition and extroversion."},
+  Ivern:{nameEn:"Ivern",title:"The Green Father",reason:"Deep love for teammates, overwhelming cooperativeness, and an emotionality in harmony with nature. You choose nurturing over fighting and find your greatest joy in sharing happiness with others. Ivern's gentleness is a reflection of your pure soul."},
+  Akali:{nameEn:"Akali",title:"The Rogue Assassin",reason:"High intuition, planned assertiveness, and individualistic strength. You trust only in your own power and strike at the perfect moment. Akali's movements vanishing into the mist are the fusion of your planning and intuition."},
+  Akshan:{nameEn:"Akshan",title:"The Rogue Sentinel",reason:"Social cheerfulness, a sense of justice for friends, and a mobile fighting style. You return to the battlefield again and again for your teammates, inspiring the team with bright, relentless energy."},
+  Azir:{nameEn:"Azir",title:"The Emperor of the Sands",reason:"Overwhelming planning ability, high intuition, and an emperor's pride. You control the battlefield with meticulous strategy and move your army under a grand vision. Azir's sand soldiers are the manifestation of your planning and intuition."},
+  Ashe:{nameEn:"Ashe",title:"The Frost Archer",reason:"Planned broad vision and team contribution awareness. You always support the team with the big picture in mind, steadily accumulating results. Ashe's arrows always point in the direction your planning and teamwork are headed."},
+  Annie:{nameEn:"Annie",title:"The Dark Child",reason:"Planned assertiveness and a simple but powerful style. You never neglect preparation and unleash full force at the perfect moment. Annie's simple but destructive magic is a pure expression of your planning and assertiveness."},
+  Anivia:{nameEn:"Anivia",title:"The Cryophoenix",reason:"Overwhelming patience and planning, combined with high intuition. You fortify positions without rushing and completely control opponents' paths with imposing walls. Anivia's undying spirit is a symbol of your patience and planning."},
+  Aphelios:{nameEn:"Aphelios",title:"The Weapon of the Faithful",reason:"Overwhelming patience, high intuition, and complex planning. You hone your strength in silence and never neglect preparation for diverse situations. Aphelios's complex arsenal is a reflection of the intricate fusion of your planning and intuition."},
+  Amumu:{nameEn:"Amumu",title:"The Sad Mummy",reason:"Deep empathy and strong love for teammates. You unleash your greatest power when fighting for someone and value the team's bonds above all. Amumu's melancholy and gentleness mirror your rich emotionality and cooperativeness."},
+  Alistar:{nameEn:"Alistar",title:"The Minotaur",reason:"Fusion of powerful assertiveness and deep dedication to teammates. You come forward to protect the team and push back opponents with overwhelming presence. Alistar's fury is the pure power of your cooperativeness and assertiveness combined."},
+  Ambessa:{nameEn:"Ambessa",title:"The Iron Widow",reason:"Strong extroversion and planned assertiveness. You feel it natural to dominate and move the battlefield by your own rules. Ambessa's imperial presence comes from your leadership and combat instinct."},
+  Evelynn:{nameEn:"Evelynn",title:"Agony's Embrace",reason:"Thorough planning, calculated assertiveness, and cold individualism. You complete perfect preparation before the opponent even notices and end everything with a single strike. Evelynn's seduction and deletion are the final form of your planning."},
+  Illaoi:{nameEn:"Illaoi",title:"The Kraken Priestess",reason:"Overwhelming presence and aggressive assertiveness. You show no mercy to those who invade your territory, exposing their true nature by testing them. Illaoi's ancient power overflows from your assertiveness."},
+  Irelia:{nameEn:"Irelia",title:"The Blade Dancer",reason:"High assertiveness and fluid intuitive judgment. You have the courage to dive alone into enemy lines and overwhelm opponents with beautiful movements while enjoying the risk. The blade dance is your adventurous spirit itself."},
+  Vi:{nameEn:"Vi",title:"The Piltover Enforcer",reason:"Strong extroversion, overwhelming assertiveness, and the presence to lead the team. You're not afraid to come forward — you're the first to take risks and dive in. Vi's 'punch solves everything' perfectly expresses your drive and passion."},
+  Varus:{nameEn:"Varus",title:"The Arrow of Retribution",reason:"Deep emotionality and planned precision. You convert grief from losing what you love into strength, executing justice with precise strikes. Varus's arrows are the ultimate oath born from the fusion of your emotion and planning."},
+  Viego:{nameEn:"Viego",title:"The Ruined King",reason:"Complex fusion of deep emotionality and intense assertiveness. Your obsession with what you love becomes the source of your power, and those emotions sometimes run wild. Viego's frenzied love comes from the depth of your emotion and assertiveness."},
+  Viktor:{nameEn:"Viktor",title:"The Machine Herald",reason:"Extreme intuition, planning, and overwhelming patience. You're introverted and value logic over emotion, meticulously executing long-term visions. Viktor's 'true evolution comes from unwavering will' runs through your very essence."},
+  MonkeyKing:{nameEn:"Wukong",title:"The Monkey King",reason:"Clever deception and an active combat style. You combine the wit to catch opponents off guard with the courage to dive in head-on. Wukong's carefree strength is the fusion of your quick thinking and adventurous spirit."},
+  Vayne:{nameEn:"Vayne",title:"The Night Hunter",reason:"Introverted yet burning assertiveness, combined with unwavering patience and planning. You keep your emotions inside and wait for the perfect moment under careful preparation. Vayne's 'never stop until evil is hunted' is your solitary strength itself."},
+  Vex:{nameEn:"Vex",title:"The Gloomist",reason:"Introverted, quirky personality and unique intuition. Weary of the world's optimism, you steadily suppress opponents with your own worldview. Vex's power of gloom is a pure expression of your introversion and ironic perspective."},
+  VelKoz:{nameEn:"Vel'Koz",title:"The Eye of the Void",reason:"Overwhelming intuition, analytical ability, and a planned observational eye. You analyze every phenomenon and find supreme pleasure in pursuing truth. Vel'Koz's disintegration beam is the ultimate expression of your intuition and planning."},
+  Udyr:{nameEn:"Udyr",title:"The Spirit Walker",reason:"Fusion of harmony with nature and active combat instinct. You use the power of four spirits and possess the flexibility to choose the optimal form for each situation. Udyr's ever-changing style is an expression of your adaptability."},
+  Aatrox:{nameEn:"Aatrox",title:"The Darkin Blade",reason:"Overwhelming assertiveness and high risk orientation. You're not afraid to throw yourself into battle and keep advancing by trusting your own strength. Like the Darkin blade, you're a soul that aims for the top through repeated destruction and rebirth."},
+  Ekko:{nameEn:"Ekko",title:"The Boy Who Shattered Time",reason:"High intuition, creativity, and the emotionality of genuinely caring for teammates. You break through situations with genius inspiration and constantly explore new possibilities. Ekko's time manipulation is a product of your intuition and ingenuity."},
+  Ezreal:{nameEn:"Ezreal",title:"The Prodigal Explorer",reason:"Adventurous spirit, high intuition, and bright social extroversion. You enjoy risk and step into new places relying on instinct. Ezreal's 'I carve my own path with my own power' is a crystallization of your curiosity and intuition."},
+  Elise:{nameEn:"Elise",title:"The Spider Queen",reason:"High intuition, meticulous planning, and skillful transformation ability. You never neglect preparation to trap opponents and strike at the perfect timing. Elise's spider web is a product of your planning and intuition."},
+  Ornn:{nameEn:"Ornn",title:"The Fire below the Mountain",reason:"Outstanding planning, patience, and deep dedication to the team. You never neglect preparation and find joy in strengthening teammates over time. Ornn's craftsman spirit is a crystallization of your sincerity and cooperativeness."},
+  Olaf:{nameEn:"Olaf",title:"The Berserker",reason:"Risk orientation beyond calculation and explosive assertiveness. Your power increases as the situation becomes more critical, and charging with full force is your greatest joy. Olaf's berserker style is the incarnation of your reckless courage."},
+  Orianna:{nameEn:"Orianna",title:"The Lady of Clockwork",reason:"Overwhelming planning, high intuition, and precise control. You organize complex situations to derive optimal solutions and move everything at the perfect timing. Orianna's ball is the ultimate tool of your planning and intuition."},
+  AurelionSol:{nameEn:"Aurelion Sol",title:"The Star Forger",reason:"Intuition on a cosmic scale and overwhelming patience. You have such a macroscopic perspective you could create stars, releasing infinite power over time. Aurelion Sol's arrogance is an expression of your confidence and grand intuition."},
+  Khazix:{nameEn:"Kha'Zix",title:"The Voidreaver",reason:"The coldness of a solitary hunter and a planned orientation toward evolution. As a self-contained existence, you identify the most vulnerable target and deliver a perfect strike. Kha'Zix's solitary evolution is the extreme of your individualism."},
+  Karthus:{nameEn:"Karthus",title:"The Deathsinger",reason:"Overwhelming patience and long-term vision. Without fearing even death, you steadily accumulate results over time. Karthus's chanting is an eternal power born from your unwavering patience."},
+  Kaisa:{nameEn:"Kai'Sa",title:"Daughter of the Void",reason:"High adaptability, planned evolution, and active combat style. You change yourself according to the situation and release power in the optimal form. Kai'Sa's evolving strength is a fusion of your adaptability and assertiveness."},
+  Kassadin:{nameEn:"Kassadin",title:"The Void Walker",reason:"Overwhelming patience and high intuition. You endure hardship in the early game and then, when the time comes, control everything with infinite blinks. Like Kassadin, those who can keep waiting until their true power is unleashed are the ones who laugh last."},
+  KSante:{nameEn:"K'Sante",title:"The Pride of Nazumah",reason:"Balanced abilities and proud mentality. You switch between defense and offense according to the situation, inspiring the team while controlling the battlefield."},
+  Cassiopeia:{nameEn:"Cassiopeia",title:"The Serpent's Embrace",reason:"Planned patience, high intuition, and cold strategism. You wear down opponents over time and create situations with no escape. Cassiopeia's poison is a product of your patience and calculated cruelty."},
+  Katarina:{nameEn:"Katarina",title:"The Sinister Blade",reason:"Explosive assertiveness, high risk orientation, and intuitive movement. You never miss a chance and seek the exhilaration of finishing everything at once. Katarina's relentless resets are the storm born from your assertiveness and intuition."},
+  Camille:{nameEn:"Camille",title:"The Steel Shadow",reason:"Meticulous planning, intuition, and coldly emotionless execution ability are your weapons. Camille's style of moving under perfect preparation is a crystallization of your intellect and decisiveness."},
+  Galio:{nameEn:"Galio",title:"The Colossus",reason:"Strong emotion for teammates, planned assertiveness, and a sense of mission to the team. You unleash your greatest power when teammates are in crisis and rush to wherever they need you. Galio's roar is an explosion of your cooperativeness and emotionality."},
+  Kalista:{nameEn:"Kalista",title:"The Spear of Vengeance",reason:"Deep bond with trusted teammates and strong assertiveness. You value keeping oaths above all else and demonstrate true strength through coordination with your partner. Kalista's oath is proof of the fusion of your cooperativeness and assertiveness."},
+  Karma:{nameEn:"Karma",title:"The Enlightened One",reason:"Deep emotionality and planned cooperativeness. You maintain harmony between team and individual while leading the team with mental stability. Karma's duality is a beautiful balance of your emotion and planning."},
+  Garen:{nameEn:"Garen",title:"The Might of Demacia",reason:"Unwavering conviction and stable planning. You value reliability over flashiness and fight head-on for the team. Garen's simple but robust style is the embodiment of your sincerity and assertiveness."},
+  Gangplank:{nameEn:"Gangplank",title:"The Saltwater Scourge",reason:"Free intuition, a spirit that enjoys risk, and meticulous strategism fused together. You don't want to be bound by anyone and prefer to move the global picture on your own. Like the pirate king, everything is yours."},
+  Qiyana:{nameEn:"Qiyana",title:"Empress of the Elements",reason:"High assertiveness and overwhelming confidence as a queen, with a temperament unafraid of risk. You scatter enemies brilliantly under the belief that you are the best. Qiyana's arrogant beauty is a symbol of your assertiveness and self-affirmation."},
+  Kindred:{nameEn:"Kindred",title:"The Eternal Hunters",reason:"High intuition, a unique worldview, and introverted depth. You have eyes that see through the essence of things and steadily accumulate results at your own pace. Kindred's mystical perspective reflects your intuition and solitary strength."},
+  Quinn:{nameEn:"Quinn",title:"Demacia's Wings",reason:"High-level fusion of mobility, planning, and intuitive situation assessment. You gain initiative with movements that catch opponents off guard and control the entire battlefield with broad vision."},
+  Gwen:{nameEn:"Gwen",title:"The Hallowed Seamstress",reason:"A personality where warm emotionality and active combat style coexist. You unleash your greatest power when fighting for someone and show invincible strength in your own space."},
+  Gragas:{nameEn:"Gragas",title:"The Rabble Rouser",reason:"Bright, social extroversion and unpredictable risk orientation like alcohol. You liven up the team with an easygoing personality while making bold moves that change the game. You resonate with Gragas's way of living."},
+  Graves:{nameEn:"Graves",title:"The Outlaw",reason:"A tough, active attitude and calculated risk orientation. You trust your own strength to fight head-on and take calculated risks when necessary. Graves's outlaw style is an expression of your freedom and assertiveness."},
+  Kled:{nameEn:"Kled",title:"The Cantankerous Cavalier",reason:"Extreme assertiveness and fearless risk orientation. You don't know the option of retreating and burn hotter as the situation worsens. Kled's philosophy of 'retreat is disgraceful!' is your fierce combat instinct itself."},
+  Caitlyn:{nameEn:"Caitlyn",title:"The Sheriff of Piltover",reason:"Meticulous planning and a long-term perspective, patiently waiting for opportunity. You value logic over emotion and precisely take down targets from a perfect position. Caitlyn's 'build the evidence carefully and confirm' embodies your planning and patience."},
+  Kayle:{nameEn:"Kayle",title:"The Righteous",reason:"Overwhelming patience and planning. You accept early weakness and know that ultimate power lies beyond long training. Like Kayle, the ultimate strength is beyond ultimate patience."},
+  Kayn:{nameEn:"Kayn",title:"The Shadow Reaper",reason:"A will toward duality and choice, and an active desire for growth. You're not afraid to confront your own essence and transform into a stronger self. Kayn's conflict is a fusion of your inner complexity and assertiveness."},
+  Kennen:{nameEn:"Kennen",title:"The Heart of the Tempest",reason:"Quick judgment and explosive assertiveness. You move before thinking and dive in energetically for the team. Kennen's lightning fast style is an expression of your energy and mobility."},
+  Corki:{nameEn:"Corki",title:"The Daring Bombardier",reason:"Bright assertiveness and calculated firepower. You fly around the battlefield with cheerful energy while reliably achieving results. You believe winning while having fun, like Corki, is the best."},
+  KogMaw:{nameEn:"Kog'Maw",title:"The Mouth of the Abyss",reason:"Gentle personality and sustained firepower. You advance the battle favorably without rushing and demonstrate maximum strength under a support's protection. Kog'Maw's innocent curiosity is a cute expression of your patience."},
+  Sion:{nameEn:"Sion",title:"The Undead Juggernaut",reason:"Overwhelming durability and planned assertiveness. Once you start moving, you don't stop and become a huge wall for the team. Sion's undead charge is a fusion of your endurance and assertiveness."},
+  Zyra:{nameEn:"Zyra",title:"Rise of the Thorns",reason:"Planned strategism and natural intuition. You carefully prepare and lead the team to an advantageous position with maximum influence. Zyra's plants are quiet dominance cultivated by your planning and patience."},
+  Sylas:{nameEn:"Sylas",title:"The Unshackled",reason:"Rebellious spirit, strong assertiveness, and intuition that steals opponents' power. You resist authority and find joy in taking everything from those who have. Sylas's chains are a symbol of your assertiveness and rebellious heart."},
+  Zac:{nameEn:"Zac",title:"The Secret Weapon",reason:"Cooperation with the team and bright, assertive energy. You find joy in sacrificing yourself for teammates and take risks to protect them. Zac's innocent strength comes from your social nature and cooperativeness."},
+  Samira:{nameEn:"Samira",title:"The Desert Rose",reason:"Extreme assertiveness, risk orientation, and an intense desire for self-expression. You burn hotter in dangerous situations and scatter enemies in the most stylish way. Samira's style points are your reckless aesthetics itself."},
+  Xayah:{nameEn:"Xayah",title:"The Rebel",reason:"Balance of emotion and logic, equilibrium of planning and intuition. You demonstrate stable judgment in any situation and release your true power when paired with someone you trust. Xayah's balance perfectly reflects your multifaceted personality."},
+  Shyvana:{nameEn:"Shyvana",title:"The Half-Dragon",reason:"Patient assertiveness that releases inner power over time. You accumulate strength quietly and unleash everything at the moment of transformation. Shyvana's transformation into a dragon is a symbol of your patience and explosive assertiveness."},
+  Sivir:{nameEn:"Sivir",title:"The Battle Mistress",reason:"Planned assertiveness and team contribution consciousness. You support the team with stable play and control the battlefield with wide-area attacks. Sivir's war boomerang is an expression of your planning and cooperativeness."},
+  Jayce:{nameEn:"Jayce",title:"The Defender of Tomorrow",reason:"High intuition, planning, and flexible adaptability. You're not afraid of change and choose the optimal way to fight according to the situation. Jayce's two forms reflect your multifaceted adaptability."},
+  Shen:{nameEn:"Shen",title:"The Eye of Twilight",reason:"Strong sense of mission to protect teammates and deep cooperativeness. You rush to the team's crisis from wherever you are and patiently support teammates. Shen's spirit is the highest form of your cooperativeness and empathy."},
+  Ziggs:{nameEn:"Ziggs",title:"The Hexplosives Expert",reason:"Explosive risk orientation and bright assertiveness. You find joy in destruction and control the battlefield with big explosions. Ziggs's bombs are an explosion of your energy and playfulness."},
+  JarvanIV:{nameEn:"Jarvan IV",title:"The Exemplar of Demacia",reason:"Royal assertiveness and sense of responsibility to the team. You naturally demonstrate leadership and assert yourself for teammates while fighting strategically. Jarvan's flag is a symbol of your leadership and sense of mission."},
+  Shaco:{nameEn:"Shaco",title:"The Demon Jester",reason:"A unique strategy no one can predict and a spirit that enjoys extreme risk. You plan logically while competing outside common sense. Like Shaco, surpassing opponents' imagination is the greatest joy."},
+  Jax:{nameEn:"Jax",title:"Grandmaster at Arms",reason:"A combination of scaling to become the strongest over time and unwavering assertiveness. You challenge head-on with straightforward power, and with preparation in place, no one can beat you. Like Jax, those who keep challenging are the strongest."},
+  Janna:{nameEn:"Janna",title:"The Storm's Fury",reason:"Deep contribution to the team, emotional empathy, and a preference for stability. You choose reliability over flashiness and find the greatest value in protecting teammates. Janna's quiet wind is the most beautiful form of your cooperativeness and emotionality."},
+  Zilean:{nameEn:"Zilean",title:"The Chronokeeper",reason:"Overwhelming patience, planning, high intuition, and emotional connection. You move with a long-term perspective, waiting for the perfect timing to act. Zilean's 'time changes everything' is the ultimate form of your planning and patience."},
+  Jhin:{nameEn:"Jhin",title:"The Virtuoso",reason:"Overwhelming planning and artistic intuition. You have an obsessive commitment to perfection and direct everything as a beautifully planned performance. Jhin's four bullets are the ultimate product of your planning and artistic intuition."},
+  XinZhao:{nameEn:"Xin Zhao",title:"The Seneschal of Demacia",reason:"Sincere assertiveness and loyalty to teammates. You challenge honorably head-on and pride yourself on risking your life for teammates. Xin Zhao's three-talon strike is a product of your assertiveness and sincerity."},
+  Jinx:{nameEn:"Jinx",title:"The Loose Cannon",reason:"Explosive risk orientation and extroverted energy. You move on instinct rather than planning and unleash maximum power in chaos. Jinx's 'excitement over boredom' is your free spirit itself."},
+  Singed:{nameEn:"Singed",title:"The Mad Chemist",reason:"Unique intuition and calculated risk orientation, with a strategy no one can understand. You bring confusion with movements that catch opponents off guard and dominate the battlefield by your own rules."},
+  Syndra:{nameEn:"Syndra",title:"The Dark Sovereign",reason:"A solitary ruler who releases inner power through meticulous planning. You don't get swept away by emotions and fight alone by trusting your own conviction and strength. Syndra's 'limitations do not exist' is the explosive power of your planning and assertiveness combined."},
+  Swain:{nameEn:"Swain",title:"The Noxian Grand General",reason:"High intuition and overwhelming planning. You keep making the best moves while grasping all information and dominate after completely understanding your opponents. Swain's raven eye is a fearsome fusion of your intuition and planning."},
+  Skarner:{nameEn:"Skarner",title:"The Primordial Shard",reason:"Planned assertiveness and team contribution consciousness. You charge when ready and reliably complete work for teammates. Skarner's crystal power is a fusion of your planning and cooperativeness."},
+  Smolder:{nameEn:"Smolder",title:"The Fiery Fledgling",reason:"Desire for growth and an emotionally rich personality. You gradually build strength and demonstrate cuteness and power simultaneously. Smolder's growth story is an expression of your curiosity and perseverance."},
+  Thresh:{nameEn:"Thresh",title:"The Chain Warden",reason:"High intuition, strategic thinking, and a temperament that prefers active engagement. You move proactively by reading the flow of the game while maintaining balance between team and individual. Thresh's thirst for souls is a fusion of your intuition and strategism."},
+  Sejuani:{nameEn:"Sejuani",title:"Fury of the North",reason:"Planned assertiveness and sense of mission to the team. You forge the harshness of the Freljord into your body and charge ahead leading teammates. Sejuani's storm-like charge is a fusion of your leadership and assertiveness."},
+  Sett:{nameEn:"Sett",title:"The Boss",reason:"Intense presence and overwhelming assertiveness. You naturally attract those around you as a boss and resolve things by force. Sett's 'I am the law' style is the extreme of your desire for dominance and extroversion."},
+  Zed:{nameEn:"Zed",title:"The Master of Shadows",reason:"Cold planning devoid of emotion and overwhelming assertiveness. You control everything alone and take down opponents under perfect preparation. Zed's 'the shadow reveals truth' is the final form of your logic and assertiveness."},
+  Senna:{nameEn:"Senna",title:"The Redeemer",reason:"Deep emotionality and planned support ability. You gather souls and keep strengthening the team from a long-term perspective. Senna's light is a fusion of healing and power born from your emotionality and planning."},
+  Xerath:{nameEn:"Xerath",title:"The Magus Ascendant",reason:"Deep intuition and planned long-range dominance. You unleash overwhelming power from a safe distance and maintain perfect control from a position opponents can't reach."},
+  Seraphine:{nameEn:"Seraphine",title:"The Starry-Eyed Songstress",reason:"Overflowing empathy, social expressiveness, and deep love for the team. You move people's hearts like music and inspire the entire team to draw out their strength. Seraphine's song is the most beautiful note born from your emotionality and extroversion."},
+  Zeri:{nameEn:"Zeri",title:"The Spark of Zaun",reason:"Overflowing energy, social extroversion, and active mobility. You keep moving without stopping and change situations with electric speed. Zeri's lightning fast movements are a bolt of your extroversion and risk orientation."},
+  Zoe:{nameEn:"Zoe",title:"The Aspect of Twilight",reason:"Overflowing extroversion, overwhelming intuition, and a free-spirited personality. You have cosmic curiosity and appear from directions no one can predict. Zoe's innocent chaos is the finest expression of your intuition and free spirit."},
+  Sona:{nameEn:"Sona",title:"Maven of the Strings",reason:"Deep emotionality, overwhelming cooperativeness, and music-like empathy. You connect with teammates' hearts without words and keep protecting everyone with that emotion. Sona's music is the purest melody played by your emotionality and cooperativeness."},
+  Soraka:{nameEn:"Soraka",title:"The Starchild",reason:"Deeper empathy than anyone, and unwavering dedication to serving the team. You feel your teammates' pain as your own and find joy in giving even so. Soraka's 'healing never ends' is the highest form of your emotionality and cooperativeness."},
+  Diana:{nameEn:"Diana",title:"Scorn of the Moon",reason:"Introverted but burning assertiveness and high intuition. You believe in your own truth and forge your own path while resisting existing values. Diana's moon blade is a symbol of your rebellious spirit and iron will."},
+  TahmKench:{nameEn:"Tahm Kench",title:"The River King",reason:"Unique intuition, planned support ability, and a strangely benevolent heart. You have an all-encompassing acceptance while protectively planning for teammates. Tahm Kench's smile is a strange fusion of your intuition and planning."},
+  Darius:{nameEn:"Darius",title:"The Hand of Noxus",reason:"Overwhelming assertiveness and obsession with victory. You have the courage to face forward without fearing risk and possess strength no one can stop. Like the Noxian ruler, you believe power is everything."},
+  Taric:{nameEn:"Taric",title:"The Shield of Valoran",reason:"Deep emotionality, overwhelming cooperativeness, and unwavering patience. You convert love for teammates into strength and protect the team in the most beautiful way. Taric's radiance is the most noble crystallization of your emotionality and cooperativeness."},
+  Taliyah:{nameEn:"Taliyah",title:"The Stoneweaver",reason:"Rich intuition, emotionality, and well-balanced abilities across the board. You walk with the earth and use your strength to protect teammates and the world. Taliyah's earthen power is a product of your sense of balance and empathy."},
+  Talon:{nameEn:"Talon",title:"The Blade's Shadow",reason:"Solitary assertiveness and a planned single strike. You resolve everything alone and achieve goals by the shortest route. Talon's movements scaling walls embody your assertiveness and individualism."},
+  Chogath:{nameEn:"Cho'Gath",title:"The Terror of the Void",reason:"Growing immense with overwhelming patience over time and ultimately consuming everything. You have a long-term vision and find joy in steadily accumulating power."},
+  TwistedFate:{nameEn:"Twisted Fate",title:"The Card Master",reason:"High intuition and calculated risk preference. You attract fate yourself and identify the winning moment by reading the big picture. Twisted Fate's 'always grab a chance' spirit is the extreme of your intuition and risk orientation."},
+  Teemo:{nameEn:"Teemo",title:"The Swift Scout",reason:"Unique ideas, a spirit of enjoying risk, and steady accumulation of preparation. You're not afraid to face the world alone and confound opponents in ways no one can predict."},
+  Twitch:{nameEn:"Twitch",title:"The Plague Rat",reason:"Planned ambush, unique risk orientation, and introverted strategy. You prepare in the shadows and wait for the moment to deal maximum damage. Twitch's poison is a product of your planning and patience."},
+  DrMundo:{nameEn:"Dr. Mundo",title:"The Madman of Zaun",reason:"Risk orientation that ignores calculation and unwavering patience. You convert pain into pleasure and never give up in any situation. Like Mundo, there's a strange power that turns everything into strength."},
+  Trundle:{nameEn:"Trundle",title:"The Troll King",reason:"Rough-cut assertiveness and unwavering patience. You prioritize effectiveness over sophistication and become the strongest by stealing opponents' strength. Trundle's stealing power embodies your pragmatism and assertiveness."},
+  Tristana:{nameEn:"Tristana",title:"The Yordle Gunner",reason:"Bright, assertive energy and explosive mobility. You jump further than anyone and blow up opponents while having fun. Tristana's explosion is a fun product of your extroversion and risk orientation."},
+  Tryndamere:{nameEn:"Tryndamere",title:"The Barbarian King",reason:"All-or-nothing risk orientation and explosive assertiveness. You prefer to carve your own destiny and bet everything on the ultimate moment. Tryndamere's last stand is your indomitable soul itself."},
+  Draven:{nameEn:"Draven",title:"The Glorious Executioner",reason:"Overwhelming extroversion, desire for self-expression, and a strong obsession with victory. You take pride in your own performance and demonstrate your greatest strength in the spotlight. Draven's 'Draven does things the Draven way' is the embodiment of your assertiveness and self-expression."},
+  Gnar:{nameEn:"Gnar",title:"The Missing Link",reason:"Emotionally volatile, energetic, and social. You demonstrate explosive power in unexpected moments, making cuteness and ferocity coexist. Gnar's duality is an expression of your diverse emotions."},
+  Nasus:{nameEn:"Nasus",title:"The Curator of the Sands",reason:"Overwhelming patience and long-term planning. You don't rush and steadily accumulate strength, becoming someone no one can resist when the time comes. Like Nasus, you believe time is always on your side."},
+  Naafiri:{nameEn:"Naafiri",title:"The Hound of a Hundred Bites",reason:"Pack-leading assertiveness and instinctive aggression. You overwhelm opponents with direct charging power and coordinate with the team to take down prey. Naafiri's pack power is a release of your assertiveness and instincts."},
+  Nami:{nameEn:"Nami",title:"The Tidecaller",reason:"Deep empathy and spirit of service to the team. You sensitively sense teammates' states and provide optimal support when needed. Nami's tidal current is a healing wave born from your emotionality and cooperativeness."},
+  Neeko:{nameEn:"Neeko",title:"The Curious Chameleon",reason:"High intuition, rich emotionality, and a playful personality full of curiosity. You have diverse expressions and enjoy continuously confounding opponents' predictions. Neeko's ever-changing form reflects your diverse inner world."},
+  Nilah:{nameEn:"Nilah",title:"The Joy Unbound",reason:"Overflowing joy, extroverted energy, and passionate assertiveness. You enjoy battle as joy and convert emotion into strength. Nilah's blissful smile is the happiest form of your extroversion and richness of emotion."},
+  Nidalee:{nameEn:"Nidalee",title:"The Bestial Huntress",reason:"Wild intuition, mobility, and a calculated hunting style. You roam freely and create the most advantageous situations. Nidalee's wild instinct embodies your intuition and free spirit."},
+  Nunu:{nameEn:"Nunu & Willump",title:"The Boy and His Yeti",reason:"Overflowing extroversion, love for teammates, and a free adventurous spirit. You have the social ability to get along with anyone and pure curiosity for fun. Nunu and Willump's adventure is a pure expression of your social nature and richness of emotion."},
+  Nautilus:{nameEn:"Nautilus",title:"The Titan of the Depths",reason:"Planned assertiveness and unwavering sense of mission. You have presence like the weight of the deep sea and contribute to team victory by systematically catching opponents. Nautilus's deep sea power is a symbol of your planning and sense of mission."},
+  Nocturne:{nameEn:"Nocturne",title:"The Eternal Nightmare",reason:"Introverted but burning assertiveness and planned fear. You convert solitude into strength and end everything at the perfect timing by manipulating opponents' psychology. Nocturne's eternal nightmare is a product of your solitary strategy."},
+  Bard:{nameEn:"Bard",title:"The Wandering Caretaker",reason:"Overwhelming intuition and the spirit of a free wanderer. You have eyes that see through cosmic truth and protect the team and world with a unique perspective. Bard's mysterious journey is the cosmic exploration that your intuition and emotionality are headed toward."},
+  Pyke:{nameEn:"Pyke",title:"The Bloodharbor Ripper",reason:"Introverted yet burning assertiveness, combined with high intuition and cold risk orientation. You discard emotion and bet everything on a meticulously planned risky strike. Pyke's single-minded will of 'everyone gets their due' is your solitary planning."},
+  Heimerdinger:{nameEn:"Heimerdinger",title:"The Revered Inventor",reason:"Overwhelming intuition, planning, and inventor-like creativity. You surpass opponents with knowledge and planning and completely control the battlefield with complex preparation. Heimerdinger's inventions are products of your intuition and planning."},
+  Pantheon:{nameEn:"Pantheon",title:"The Unbreakable Spear",reason:"Assertiveness and presence as a war god. You challenge battle head-on with complete power, appearing anywhere on the battlefield to inspire the team. Pantheon's spear is a symbol of your assertiveness and combat instinct."},
+  Fiora:{nameEn:"Fiora",title:"The Grand Duelist",reason:"Perfect planning and passion for the duel. You find joy in honing logic and technique, calmly identifying opponents' weaknesses before moving. Fiora's precisely matchless swordsmanship is the extreme of your perfectionism."},
+  Fizz:{nameEn:"Fizz",title:"The Tidal Trickster",reason:"Explosive risk orientation and bright assertiveness. You enjoy diving into dangerous situations and confound opponents with nimble movements. Fizz's reckless adventurous spirit is your free spirit itself."},
+  Fiddlesticks:{nameEn:"Fiddlesticks",title:"The Ancient Fear",reason:"Deep intuition, planning, and an introverted, eerie stillness. You set everything in motion at the most unexpected moment, maximally utilizing opponents' fear. Fiddlesticks's silence is a fearsome fusion of your introversion and strategism."},
+  Hwei:{nameEn:"Hwei",title:"The Visionary",reason:"Rich intuition, emotionality, and artistic planning. You convert emotion into power and color the battlefield with diverse expressions. Hwei's complex emotional brush is a product of the richness of your inner world and intuition."},
+  Briar:{nameEn:"Briar",title:"The Restrained Hunger",reason:"Overwhelming assertiveness and risk orientation acting on pure instinct. You move on instinct and impulse, and that recklessness becomes your greatest weapon. Briar's uncontrollable power is an expression of your liberated soul."},
+  Braum:{nameEn:"Braum",title:"The Heart of the Freljord",reason:"Overflowing empathy, infinite dedication to the team, and a big heart. You find the greatest joy in becoming a shield for teammates and face hardships with a smile. Braum's big heart is the warmest form of your cooperativeness and emotionality."},
+  Vladimir:{nameEn:"Vladimir",title:"The Crimson Reaper",reason:"Long-term planning and overwhelming patience. You take time as your ally and become an untouchable existence after enduring the early game. Vladimir's blood magic is immortal power born from your patience and planning."},
+  Brand:{nameEn:"Brand",title:"The Burning Vengeance",reason:"Burning passion and planned aggression. You sometimes involve the surroundings with explosive power and are an existence that influences the entire battlefield. Brand's fiery temperament burns from your passion and assertiveness."},
+  Blitzcrank:{nameEn:"Blitzcrank",title:"The Great Steam Golem",reason:"Courage to act aggressively and dedication to the team. You're not afraid to initiate yourself and don't mind bold plays for the team. Blitzcrank's hook is a symbol of your assertiveness and cooperativeness."},
+  Veigar:{nameEn:"Veigar",title:"The Tiny Master of Evil",reason:"Overwhelming patience and planning. You steadily accumulate strength and ultimately become someone no one can stop. Veigar's immeasurable power is the infinite potential born from your patience and planning."},
+  Hecarim:{nameEn:"Hecarim",title:"The Shadow of War",reason:"Assertiveness that sweeps everything away with speed and momentum. You don't overthink and control the battlefield with speed and instinct. Hecarim's philosophy of charging without fearing risk embodies your assertiveness."},
+  BelVeth:{nameEn:"Bel'Veth",title:"The Empress of the Void",reason:"Intuition on a cosmic scale and cold strategism. You grasp the essence of things with overwhelming insight that overlooks the whole and advance toward truths no one else can reach."},
+  Poppy:{nameEn:"Poppy",title:"Keeper of the Hammer",reason:"Sincere conviction, a sense of mission to protect teammates, and certain assertiveness. You're honest with yourself and give your all to protect what matters. Poppy's pure strength comes from your sincerity and courage."},
+  Volibear:{nameEn:"Volibear",title:"The Relentless Storm",reason:"Primal strength, assertiveness, and risk orientation like a storm. You charge forward with all your might and overwhelm opponents like the fury of nature. Volibear's thunder is a symbol of your anger and strength."},
+  Maokai:{nameEn:"Maokai",title:"The Twisted Treant",reason:"Deep patience, team contribution consciousness, and love for nature. You find joy in protecting teammates and support them with steady preparation and planning. Maokai's roots are the symbol of your cooperativeness and patience spreading through the earth."},
+  MasterYi:{nameEn:"Master Yi",title:"The Wuju Bladesman",reason:"Overwhelming patience and unwavering planning. You continue long training and release everything when perfectly prepared. Master Yi's zen state is the extreme of your patience and self-discipline."},
+  Malzahar:{nameEn:"Malzahar",title:"The Prophet of the Void",reason:"Deep intuition and planned desire for dominance. You see the big picture and slowly draw opponents into the void. Malzahar's prophecy is an unavoidable fate born from your intuition and planning."},
+  Malphite:{nameEn:"Malphite",title:"Shard of the Monolith",reason:"Patient durability type that accumulates strength slowly and unleashes everything at the perfect timing. You move planned and steadily, choosing to be a shield for the team. Malphite expresses you like an immovable rock."},
+  MissFortune:{nameEn:"Miss Fortune",title:"The Bounty Hunter",reason:"Balanced assertiveness, planning, and a will toward a clear goal. You skillfully control your emotions and steadily advance toward your objective. Like Miss Fortune, fate is something you seize yourself."},
+  Milio:{nameEn:"Milio",title:"The Gentle Flame",reason:"Overflowing gentleness, overwhelming cooperativeness, and pure love for the team. You dedicate everything for teammates' smiles and keep protecting everyone with that warmth. Milio's flame-like warmth is the purest expression of your emotionality and cooperativeness."},
+  Mel:{nameEn:"Mel",title:"The Inspiring Light",reason:"Balance of intuition and planning, fusion of emotion and logic. You have a unique way of fighting that turns opponents' strength against them and break through situations with reflective thinking. Mel's mirror is an expression of your sense of balance and intuition."},
+  Morgana:{nameEn:"Morgana",title:"The Fallen",reason:"Deep emotionality, planned defense, and a solitary sense of justice. You protect teammates from binding power while acting according to your own conviction. Morgana's black wings are the inward power of your emotionality and planning."},
+  Mordekaiser:{nameEn:"Mordekaiser",title:"The Iron Revenant",reason:"Solitary strength and unwavering patience. You don't mind facing the world alone and steadily build your own empire. Mordekaiser's solitary height as ruler of the realm of death is the extreme of your individualism."},
+  Yasuo:{nameEn:"Yasuo",title:"The Unforgiven",reason:"Extreme risk orientation and explosive assertiveness. You're not bound by rules, entrusting yourself to the flow and making bold bets. Yasuo's high-risk, high-return way of living is a symbol of your adventurous spirit and assertiveness."},
+  Yuumi:{nameEn:"Yuumi",title:"The Magical Cat",reason:"Overwhelming cooperativeness, pure love for teammates, and a free spirit. You find joy in becoming one with your partner and generate infinite support from that bond. Yuumi's charm is the most adorable expression of your emotionality and cooperativeness."},
+  Yone:{nameEn:"Yone",title:"The Unforgotten",reason:"Fusion of inner conflict and strong assertiveness. You keep advancing despite having two souls and keep burning your will against fate. Yone's eternal battle is an expression of your inner conflict and assertiveness."},
+  Yorick:{nameEn:"Yorick",title:"Shepherd of Souls",reason:"Deep patience, planning, and solitary conviction. You build your own world steadily and obtain overwhelming power with time and planning. Yorick's quiet will is a symbol of your solitary strength."},
+  Ryze:{nameEn:"Ryze",title:"The Rune Mage",reason:"Overwhelming patience, planning, and deep intuition. You dedicate your life to pursuing knowledge and keep honing your strength under a long-term vision. Ryze's eternal quest embodies your patience and intellectual intuition."},
+  Rakan:{nameEn:"Rakan",title:"The Charmer",reason:"Overwhelming extroversion, social charm, and love for teammates. It's natural for you to be at the center of the party and you feel the greatest joy in making teammates smile. Rakan's charm is the most glamorous expression of your extroversion and emotionality."},
+  Lux:{nameEn:"Lux",title:"The Lady of Luminosity",reason:"Bright, social extroversion and rich emotionality for teammates. You move planned while valuing connections with people and bring light to the team. Lux's radiance is the light itself born from your social nature and empathy."},
+  Rumble:{nameEn:"Rumble",title:"The Mechanized Menace",reason:"Passionate personality and a unique strategic sense. You persevere against superior opponents with ingenuity while sticking to your convictions. Rumble's handmade mecha is packed with your rebellious spirit and creativity."},
+  LeeSin:{nameEn:"Lee Sin",title:"The Blind Monk",reason:"Instantaneous judgment, explosive assertiveness, and the courage to take high risk. You move on instinct rather than routine and dive with full force into dangerous bets. Lee Sin's style of betting on a moment is your intuition and assertiveness itself."},
+  Riven:{nameEn:"Riven",title:"The Exile",reason:"High assertiveness and commitment to your own style. You resolve everything with technique and will, forging ahead without relying on anyone. Riven's solitary strength as an exile is a symbol of your independence."},
+  Lissandra:{nameEn:"Lissandra",title:"The Ice Witch",reason:"Cold planning, high intuition, and overwhelming patience. You have a long-term vision and execute a perfect plan while discarding emotion. Lissandra's ice will is the extreme of your planning and patience."},
+  Lillia:{nameEn:"Lillia",title:"The Bashful Bloom",reason:"Rich intuition and dreamy emotionality. You have imagination that transcends real-world boundaries and see the world from a unique perspective. Lillia's dream world is a beautiful world born from your intuition and emotionality."},
+  Lucian:{nameEn:"Lucian",title:"The Purifier",reason:"Strong sense of justice, active combat style, and emotional motivation. You fight with all your strength for what you protect and control the frontline with overwhelming firepower. Lucian's oath is a product of your emotionality and assertiveness."},
+  LeBlanc:{nameEn:"LeBlanc",title:"The Deceiver",reason:"High intuition, planned assertiveness, and a perfect technique of deception. You always surpass opponents' reading and confound them between the real and fake. LeBlanc's clone is a fearsome product of your strategism and intuition."},
+  Lulu:{nameEn:"Lulu",title:"The Fae Sorceress",reason:"Overflowing extroversion, deep love for teammates, rich intuition, and emotionality. You have the social ability to get along with anyone and a pure wish to make teammates happy. Lulu's 'the most fun is together with everyone' is your essence."},
+  Leona:{nameEn:"Leona",title:"The Radiant Dawn",reason:"Strong assertiveness and sense of mission for teammates. You step forward like the sun and absorb all attacks for the team. Leona's golden shield is a fusion of your assertiveness and cooperativeness."},
+  RekSai:{nameEn:"Rek'Sai",title:"The Void Burrower",reason:"Instinctive assertiveness and calculated movement. You hit opponents' blind spots appearing suddenly and eliminate escape routes with overwhelming mobility. Rek'Sai's hunt is a fusion of your assertiveness and instincts."},
+  Renata:{nameEn:"Renata Glasc",title:"The Chem-Baroness",reason:"High intuition, planned desire for dominance, and cold strategism. You use everything as an asset and control opponents with meticulous planning. Renata's investment is a fearsome product of dominance born from your planning and intuition."},
+  Renekton:{nameEn:"Renekton",title:"The Butcher of the Sands",reason:"Explosive assertiveness and overwhelming early strength. You are quick to get started and grab the initiative from the early game with momentum that devours opponents. Renekton's anger is unstoppable impulse itself."},
+  Rengar:{nameEn:"Rengar",title:"The Pridestalker",reason:"Pure passion for hunting, meticulous planning, and overwhelming assertiveness. You pursue the finest prey and pounce at the perfect timing. Rengar's pride is a ferocious art born from your hunting instinct and planning."},
+  Warwick:{nameEn:"Warwick",title:"The Uncaged Wrath of Zaun",reason:"Instinctive hunting desire and active pursuit. Once you set a target, you don't give up, and with razor-sharp situational judgment like a sense of smell, you take them down for certain. Warwick's ability to smell blood is an expression of your keen assertiveness."},
+};
+
 const DIMENSIONS=[
   {key:'V',name:'外向性',en:'VANGUARD',color:'#C89B3C'},
   {key:'I',name:'直感力',en:'INSIGHT',color:'#0BC4E3'},
@@ -878,6 +1120,7 @@ function startDiagnosis(){
   scores={V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0};
   laneResultsCache={};lastNormalized=null;answerHistory=[];
   allActiveQuestions=initQuestions();
+  document.getElementById('lang-toggle').style.display='none';
   showScreen('question-screen');renderQuestion();
 }
 
@@ -891,15 +1134,20 @@ function renderQuestion(){
   document.getElementById('progress-bar').style.width=Math.max(2,pct)+'%';
   document.getElementById('q-current').textContent=offset+currentQ+1;
   document.getElementById('q-total').textContent=currentPhaseEnd;
-  document.getElementById('question-text').textContent=q.q;
-  document.getElementById('choice-a').textContent=q.a;
-  document.getElementById('choice-b').textContent=q.b;
+  let displayQ=q;
+  if(currentLang==='en'){
+    const idx=QUESTION_DATA.indexOf(q);
+    if(idx>=0&&QUESTION_DATA_EN[idx])displayQ=QUESTION_DATA_EN[idx];
+  }
+  document.getElementById('question-text').textContent=displayQ.q;
+  document.getElementById('choice-a').textContent=displayQ.a;
+  document.getElementById('choice-b').textContent=displayQ.b;
   document.getElementById('choice-a').classList.remove('selected');
   document.getElementById('choice-b').classList.remove('selected');
   document.getElementById('choice-a').disabled=false;
   document.getElementById('choice-b').disabled=false;
   const di=DIM_LABELS[q.dim];
-  document.getElementById('dim-label').textContent=di.name;
+  document.getElementById('dim-label').textContent=currentLang==='en'?di.en:di.name;
   document.getElementById('dimension-tag').textContent=di.en;
   const card=document.getElementById('question-card');
   card.style.animation='none';card.offsetHeight;card.style.animation='';
@@ -996,6 +1244,43 @@ function buildLaneResultsCache(normalized){
   laneResultsCache['ANY']={champ:allRanked[0],matchPct:anyPct,alts:allRanked.slice(1,5)};
 }
 
+function applyResultLang(){
+  const L=LANG_DATA[currentLang];
+  const set=(id,t)=>{const el=document.getElementById(id);if(el)el.textContent=t;};
+  set('result-screen-title',L.resultTitle||'あなたのチャンピオンが決まりました');
+  set('champ-link-text',L.champLink||'チャンピオンの詳しい解説はこちら');
+  set('match-label-el',L.matchLabel||'マッチ率');
+  set('reason-title-el',L.reasonTitle||'⬡ このチャンピオンがあなたに響く理由');
+  set('creed-title',L.creedTitle||'あなたの戦い方を、一言で表すなら…');
+  set('perception-main-title',L.perceptionTitle||'対戦後、あなたはこう見られているかもしれない');
+  set('perception-ally-label',L.fromAlly||'🤝 味方から');
+  set('perception-enemy-label',L.fromEnemy||'⚔️ 敵から');
+  set('sw-str-label',L.strengthLabel||'⬡ 強み');
+  set('sw-weak-label',L.weaknessLabel||'⬡ 弱み');
+  set('synergy-main-title',L.synergyTitle||'あなたの最強デュオタイプ');
+  set('opposite-main-title',L.oppositeTitle||'あなたの逆タイプ召喚士');
+  set('allies-main-title',L.alliesTitle||'相性の良いチャンピオン');
+  set('enemies-main-title',L.enemiesTitle||'あなたの天敵チャンピオン');
+  set('axis-main-title',L.axisTitle||'あなたの8軸詳細');
+  set('radar-title-el',L.radarTitle||'⬡ あなたのパーソナリティプロフィール');
+  set('btn-add-diagnosis',L.addDiagBtn||'さらに答えて精度を上げる');
+  set('download-btn-text',L.downloadBtn||'⬇ 結果カードを保存');
+  set('share-btn-text',L.shareBtn||'Xでシェアする');
+  set('btn-retry',L.retryBtn||'もう一度診断する');
+  set('rank-main-title',L.rankTitle||'みんなの診断結果');
+  set('rank-total-label',L.rankTotalLabel||'総診断回数');
+  set('rank-champ-title',L.rankChampTitle||'🏆 チャンピオンランキング');
+  set('rank-types-title',L.rankTypesTitle||'⬡ タイプランキング');
+  set('rank-roles-title',L.rankRolesTitle||'🗺️ ロールランキング');
+  set('lane-next-btn',L.laneNextBtn||'結果を見る');
+  set('back-btn',L.backBtn||'← 戻る');
+  if(L.roleDescs){
+    ['TOP','JUNGLE','MID','ADC','SUPPORT'].forEach(r=>set('role-desc-'+r,L.roleDescs[r]||''));
+  }
+  set('role-name-ANY',L.roleNameAny||'どこでも');
+  set('role-desc-ANY',L.roleDescAny||'全167体から診断');
+}
+
 function showResult(normalized){
   showScreen('result-screen');
   const roleIcons={TOP:'⚔️',JUNGLE:'🌿',MID:'⚡',ADC:'🏹',SUPPORT:'🛡️',ANY:'👑'};
@@ -1014,16 +1299,20 @@ function showResult(normalized){
   ['sec-synergy','sec-opposite','sec-allies','sec-enemies','sec-axis'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is40));
   document.getElementById('ranking-section').classList.toggle('hidden',!is40);
   let detectedTypeName='';
+  let detectedTypeNameJP='';
   if(is25){
     const type=getSummonerType(normalized);
-    detectedTypeName=type.name;
+    detectedTypeNameJP=type.name;
+    const enType=currentLang==='en'&&SUMMONER_TYPES_EN[type.id]?SUMMONER_TYPES_EN[type.id]:null;
+    detectedTypeName=enType?enType.name:type.name;
     renderTypeSection(type);
     if(is40)renderFullSection(type,normalized);
   }
   drawRadar(normalized);buildLegend(normalized);
+  applyResultLang();
   updateSharePreview(cache.champ,cache.matchPct,detectedTypeName);
   if(is40){
-    sendDiagnosisResult(cache.champ,detectedTypeName,selectedLane);
+    sendDiagnosisResult(cache.champ,detectedTypeNameJP,selectedLane);
     loadRankings();
   }
 }
@@ -1036,17 +1325,22 @@ const CHAMP_ID_TO_URL={
 };
 function champOfficialUrl(id){
   const slug=CHAMP_ID_TO_URL[id]||id.toLowerCase();
-  return`https://www.leagueoflegends.com/ja-jp/champions/${slug}/`;
+  const locale=currentLang==='en'?'en-us':'ja-jp';
+  return`https://www.leagueoflegends.com/${locale}/champions/${slug}/`;
 }
 
 function renderChampionCard(champ,matchPct,lane,roleIcons){
+  const en=currentLang==='en'&&CHAMPIONS_EN[champ.id]?CHAMPIONS_EN[champ.id]:null;
+  const displayName=en?en.nameEn:champ.name;
+  const displayTitle=en?en.title:champ.title;
+  const displayReason=en?en.reason:champ.reason;
   const banner=document.getElementById('champion-banner');
-  banner.innerHTML=`<div class="champion-banner-glow"></div><img class="champion-banner-img" src="champion_icons/${champ.id}.png" alt="${champ.name}" onerror="this.style.display='none'">`;
+  banner.innerHTML=`<div class="champion-banner-glow"></div><img class="champion-banner-img" src="champion_icons/${champ.id}.png" alt="${displayName}" onerror="this.style.display='none'">`;
   document.getElementById('result-role-badge').textContent=`${lane==='ANY'?'ALL ROLES':lane}`;
-  document.getElementById('result-name').textContent=champ.name;
-  document.getElementById('result-title').textContent=`「${champ.title}」`;
+  document.getElementById('result-name').textContent=displayName;
+  document.getElementById('result-title').textContent=en?displayTitle:`「${displayTitle}」`;
   document.getElementById('champ-official-link').href=champOfficialUrl(champ.id);
-  document.getElementById('result-reason').textContent=champ.reason;
+  document.getElementById('result-reason').textContent=displayReason;
   document.getElementById('match-pct').textContent=matchPct+'%';
   setTimeout(()=>{document.getElementById('match-bar').style.width=matchPct+'%';},900);
 }
@@ -1104,22 +1398,28 @@ function drawRadarOnCard(norm){
 }
 
 async function downloadCard(){
+  const isEN=currentLang==='en';
   const btn=document.getElementById('btn-download');
-  btn.disabled=true;btn.textContent='生成中…';
+  const genLabel=isEN?'Generating…':'生成中…';
+  const doneLabel=isEN?'⬇ Save Result Card':'⬇ 結果カードを保存';
+  btn.disabled=true;
+  const spanEl=document.getElementById('download-btn-text');
+  if(spanEl)spanEl.textContent=genLabel;else btn.textContent=genLabel;
   try{
     const norm=lastNormalized||{};
     const d=window._shareData||{};
     const champ=d.champ;
-    if(!champ){btn.disabled=false;btn.textContent='⬇ 結果カードを保存';return;}
+    if(!champ){btn.disabled=false;if(spanEl)spanEl.textContent=doneLabel;else btn.textContent=doneLabel;return;}
     const is25=currentPhaseEnd>=25;
     const is40=currentPhaseEnd>=40;
     const displayLane=selectedLane==='ANY'?getBestLane():(selectedLane||'TOP');
+    const champEN=isEN&&CHAMPIONS_EN[champ.id]?CHAMPIONS_EN[champ.id]:null;
 
     // champion block
     const iconEl=document.getElementById('ce-icon');
     iconEl.src=`champion_icons/${champ.id}.png`;
-    document.getElementById('ce-champ-name').textContent=champ.name;
-    document.getElementById('ce-champ-title').textContent=`「${champ.title}」`;
+    document.getElementById('ce-champ-name').textContent=champEN?champEN.nameEn:champ.name;
+    document.getElementById('ce-champ-title').textContent=champEN?champEN.title:`「${champ.title}」`;
     document.getElementById('ce-match-num').textContent=d.matchPct+'%';
     document.getElementById('ce-prog-fill').style.width=d.matchPct+'%';
     document.getElementById('ce-lane-tag').textContent=displayLane;
@@ -1131,10 +1431,13 @@ async function downloadCard(){
     if(is25){
       show('ce-div-type');show('ce-type-sec');
       const type=getSummonerType(norm);
-      document.getElementById('ce-type-name').textContent=type.name;
-      document.getElementById('ce-type-sub').textContent=type.subtitle;
-      document.getElementById('ce-sw-str').innerHTML=type.strengths.map(s=>`<div class="ce-sw-item">${s}</div>`).join('');
-      document.getElementById('ce-sw-weak').innerHTML=type.weaknesses.map(w=>`<div class="ce-sw-item">${w}</div>`).join('');
+      const typeEN=isEN&&SUMMONER_TYPES_EN[type.id]?SUMMONER_TYPES_EN[type.id]:null;
+      document.getElementById('ce-type-name').textContent=typeEN?typeEN.name:type.name;
+      document.getElementById('ce-type-sub').textContent=typeEN?typeEN.subtitle:type.subtitle;
+      const strs=typeEN?typeEN.strengths:type.strengths;
+      const weaks=typeEN?typeEN.weaknesses:type.weaknesses;
+      document.getElementById('ce-sw-str').innerHTML=strs.map(s=>`<div class="ce-sw-item">${s}</div>`).join('');
+      document.getElementById('ce-sw-weak').innerHTML=weaks.map(w=>`<div class="ce-sw-item">${w}</div>`).join('');
     }else{hide('ce-div-type');hide('ce-type-sec');}
 
     // radar + affinity block
@@ -1157,25 +1460,41 @@ async function downloadCard(){
       width:375,
     });
     const link=document.createElement('a');
-    link.download=`lol-diagnosis-${champ.name}.png`;
+    const dlName=champEN?champEN.nameEn:champ.name;
+    link.download=`lol-diagnosis-${dlName}.png`;
     link.href=canvas.toDataURL('image/png');
     link.click();
   }catch(e){console.error(e);}
-  btn.disabled=false;btn.textContent='⬇ 結果カードを保存';
+  btn.disabled=false;
+  if(spanEl)spanEl.textContent=doneLabel;else btn.textContent=doneLabel;
 }
 
 function shareToX(){
+  const isEN=currentLang==='en';
   const d=window._shareData||{};
   const champ=d.champ;
   const pct=d.matchPct||'??';
   const typeName=d.typeName||'';
   const lane=d.lane||selectedLane||'';
-  let text='🎮 サモナーの素質診断\n\n';
-  text+=`${lane==='ANY'?'ALL ROLES':lane} | ${champ?champ.name:'???'}\n`;
-  text+=`「${champ?champ.title:''}」\n`;
-  text+=`適合度：${pct}%\n`;
-  if(typeName) text+=`サモナータイプ：${typeName}\n`;
-  text+='\n#LOL鑑定 #LeagueOfLegends';
+  const champEN=isEN&&champ&&CHAMPIONS_EN[champ.id]?CHAMPIONS_EN[champ.id]:null;
+  const displayName=champEN?champEN.nameEn:(champ?champ.name:'???');
+  const displayTitle=champEN?champEN.title:(champ?champ.title:'');
+  let text;
+  if(isEN){
+    text='🎮 LoL Summoner Personality Diagnosis\n\n';
+    text+=`${lane==='ANY'?'ALL ROLES':lane} | ${displayName}\n`;
+    text+=`${displayTitle}\n`;
+    text+=`Match Rate: ${pct}%\n`;
+    if(typeName) text+=`Summoner Type: ${typeName}\n`;
+    text+='\n#LOLDiagnosis #LeagueOfLegends';
+  }else{
+    text='🎮 サモナーの素質診断\n\n';
+    text+=`${lane==='ANY'?'ALL ROLES':lane} | ${displayName}\n`;
+    text+=`「${displayTitle}」\n`;
+    text+=`適合度：${pct}%\n`;
+    if(typeName) text+=`サモナータイプ：${typeName}\n`;
+    text+='\n#LOL鑑定 #LeagueOfLegends';
+  }
   text+='\n'+window.location.href;
   const twitterUrl='https://twitter.com/intent/tweet?text='+encodeURIComponent(text);
   window.open(twitterUrl,'_blank','noopener,noreferrer');
@@ -1201,8 +1520,9 @@ function buildLegend(norm){
   const legend=document.getElementById('radar-legend');legend.innerHTML='';
   DIMENSIONS.forEach(d=>{
     const val=norm[d.key];
+    const label=currentLang==='en'?d.en:d.name;
     const item=document.createElement('div');item.className='legend-item';
-    item.innerHTML=`<div class="legend-dot" style="background:${d.color}"></div><span class="legend-text">${d.name}</span><span class="legend-val">${val}</span>`;
+    item.innerHTML=`<div class="legend-dot" style="background:${d.color}"></div><span class="legend-text">${label}</span><span class="legend-val">${val}</span>`;
     legend.appendChild(item);
   });
 }
@@ -1211,6 +1531,7 @@ function retryDiagnosis(){
   selectedLane=null;currentPhase=1;currentQ=0;currentPhaseEnd=10;
   scores={V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0};
   allActiveQuestions=[];laneResultsCache={};lastNormalized=null;
+  document.getElementById('lang-toggle').style.display='flex';
   showScreen('start-screen');
 }
 
@@ -1227,14 +1548,16 @@ function getSummonerType(normalized){
 
 
 function renderTypeSection(type){
-  document.getElementById('type-name').textContent=type.name;
-  document.getElementById('type-subtitle').textContent=type.subtitle;
-  document.getElementById('type-playstyle').textContent=type.playstyle;
-  document.getElementById('sw-str').innerHTML=type.strengths.map(s=>`<div class="sw-item">${s}</div>`).join('');
-  document.getElementById('sw-weak').innerHTML=type.weaknesses.map(w=>`<div class="sw-item">${w}</div>`).join('');
-  const phrases=type.catchphrases||[];
+  const en=currentLang==='en'&&SUMMONER_TYPES_EN[type.id]?SUMMONER_TYPES_EN[type.id]:null;
+  const d=en||type;
+  document.getElementById('type-name').textContent=d.name;
+  document.getElementById('type-subtitle').textContent=d.subtitle;
+  document.getElementById('type-playstyle').textContent=d.playstyle;
+  document.getElementById('sw-str').innerHTML=d.strengths.map(s=>`<div class="sw-item">${s}</div>`).join('');
+  document.getElementById('sw-weak').innerHTML=d.weaknesses.map(w=>`<div class="sw-item">${w}</div>`).join('');
+  const phrases=d.catchphrases||[];
   document.getElementById('catchphrase-quote').textContent=phrases[Math.floor(Math.random()*phrases.length)]||'';
-  const percs=type.perceptions||[];
+  const percs=d.perceptions||[];
   const perc=percs[Math.floor(Math.random()*percs.length)]||{};
   document.getElementById('perception-ally').textContent=perc.ally||'';
   document.getElementById('perception-enemy').textContent=perc.enemy||'';
@@ -1242,9 +1565,12 @@ function renderTypeSection(type){
 
 function buildAffinityCard(champId,kind){
   const champ=CHAMPIONS.find(c=>c.id===champId)||{id:champId,name:champId,title:''};
+  const en=currentLang==='en'&&CHAMPIONS_EN[champId]?CHAMPIONS_EN[champId]:null;
+  const displayName=en?en.nameEn:(champ.name||champId);
+  const displayTitle=en?en.title:(champ.title||'');
   const card=document.createElement('div');
   card.className=`affinity-card ${kind}`;
-  card.innerHTML=`<img class="affinity-icon-img" src="champion_icons/${champId}.png" alt="${champ.name||champId}" onerror="this.style.display='none'"><div class="affinity-name">${champ.name||champId}</div><div class="affinity-title">${champ.title||''}</div>`;
+  card.innerHTML=`<img class="affinity-icon-img" src="champion_icons/${champId}.png" alt="${displayName}" onerror="this.style.display='none'"><div class="affinity-name">${displayName}</div><div class="affinity-title">${displayTitle}</div>`;
   card.onclick=()=>window.open(`?champ=${encodeURIComponent(champId)}&kind=${kind}`,'_blank');
   return card;
 }
@@ -1283,22 +1609,26 @@ function showChampDetail(champId,kind){
 }
 
 function renderFullSection(type,normalized){
+  const isEN=currentLang==='en';
+  const enType=isEN&&SUMMONER_TYPES_EN[type.id]?SUMMONER_TYPES_EN[type.id]:null;
   // シナジー召喚士タイプ
   if(type.synergy){
     const syn=SUMMONER_TYPES.find(t=>t.id===type.synergy.id);
     if(syn){
-      document.getElementById('synergy-type-name').textContent=syn.name;
-      document.getElementById('synergy-type-sub').textContent=syn.subtitle;
-      document.getElementById('synergy-reason').textContent=type.synergy.reason;
+      const synEN=isEN&&SUMMONER_TYPES_EN[syn.id]?SUMMONER_TYPES_EN[syn.id]:null;
+      document.getElementById('synergy-type-name').textContent=synEN?synEN.name:syn.name;
+      document.getElementById('synergy-type-sub').textContent=synEN?synEN.subtitle:syn.subtitle;
+      document.getElementById('synergy-reason').textContent=enType?enType.synergy.reason:type.synergy.reason;
     }
   }
   // 逆診断
   if(type.opposite){
     const opp=SUMMONER_TYPES.find(t=>t.id===type.opposite.id);
     if(opp){
-      document.getElementById('opposite-type-name').textContent=opp.name;
-      document.getElementById('opposite-type-sub').textContent=opp.subtitle;
-      document.getElementById('opposite-reason').textContent=type.opposite.reason;
+      const oppEN=isEN&&SUMMONER_TYPES_EN[opp.id]?SUMMONER_TYPES_EN[opp.id]:null;
+      document.getElementById('opposite-type-name').textContent=oppEN?oppEN.name:opp.name;
+      document.getElementById('opposite-type-sub').textContent=oppEN?oppEN.subtitle:opp.subtitle;
+      document.getElementById('opposite-reason').textContent=enType?enType.opposite.reason:type.opposite.reason;
     }
   }
   // 相性・天敵
@@ -1313,12 +1643,14 @@ function renderFullSection(type,normalized){
   axisList.innerHTML='';
   DIMENSIONS.forEach(d=>{
     const val=normalized[d.key]||0;
+    const axisDesc=isEN?getAxisDetailEN(d.key,val):getAxisDetail(d.key,val);
+    const axisName=isEN?d.en:d.name;
     const row=document.createElement('div');
     row.className='axis-row';
     row.innerHTML=`
       <div class="axis-row-left">
         <div class="axis-key" style="color:${d.color}">${d.key}</div>
-        <div class="axis-name">${d.name}</div>
+        <div class="axis-name">${axisName}</div>
       </div>
       <div class="axis-row-right">
         <div class="axis-en" style="color:${d.color}">${d.en}</div>
@@ -1326,7 +1658,7 @@ function renderFullSection(type,normalized){
           <div class="axis-bar-bg"><div class="axis-bar-fill" style="width:${val}%;background:${d.color}"></div></div>
           <div class="axis-val" style="color:${d.color}">${val}</div>
         </div>
-        <div class="axis-desc">${getAxisDetail(d.key,val)}</div>
+        <div class="axis-desc">${axisDesc}</div>
       </div>`;
     axisList.appendChild(row);
   });
@@ -1590,6 +1922,246 @@ const SUMMONER_TYPES = [
   },
 ];
 // 12 types
+
+// ===== ENGLISH TRANSLATIONS =====
+const QUESTION_DATA_EN=[
+  {dim:'V',hi:'a',q:'If you\'re hanging out with friends, you\'d rather:',a:'Go to a big party or group hangout',b:'Have dinner with just a few close friends'},
+  {dim:'V',hi:'a',q:'When meeting someone new, you tend to:',a:'Start the conversation yourself',b:'Wait for them to come to you'},
+  {dim:'V',hi:'a',q:'When you\'re stuck on something, you:',a:'Ask someone for advice or a fresh perspective',b:'Work through it alone until you figure it out'},
+  {dim:'V',hi:'a',q:'Your ideal day off is:',a:'Going out and exploring somewhere new',b:'Staying home and recharging'},
+  {dim:'V',hi:'a',q:'Being around a lot of people makes you feel:',a:'Energized',b:'Drained after a while'},
+  {dim:'V',hi:'a',q:'In a group setting, you usually:',a:'Take the lead and keep the energy up',b:'Hang back and observe'},
+  {dim:'I',hi:'b',q:'When making a call, you rely more on:',a:'Concrete facts and data',b:'Overall instinct and gut feeling'},
+  {dim:'I',hi:'b',q:'Your first impression of someone is usually based on:',a:'Their track record and actions',b:'A gut feeling'},
+  {dim:'I',hi:'b',q:'When you come up with a new idea, you:',a:'First check if it\'s actually doable',b:'Dive deep if it sounds interesting'},
+  {dim:'I',hi:'b',q:'When explaining something, you prefer to:',a:'Use specific, concrete examples',b:'Use metaphors and mental images'},
+  {dim:'I',hi:'b',q:'Thinking about the future, you:',a:'Like to make a solid, realistic plan',b:'Enjoy imagining all the possibilities'},
+  {dim:'I',hi:'b',q:'When problem-solving, you:',a:'Go with proven methods',b:'Want to try a new approach'},
+  {dim:'H',hi:'a',q:'When a friend is struggling, you:',a:'Listen and empathize first',b:'Jump straight to brainstorming solutions'},
+  {dim:'H',hi:'a',q:'When making a decision, you prioritize:',a:'Feelings and personal values',b:'Logic, reason, and efficiency'},
+  {dim:'H',hi:'a',q:'When there\'s conflict in a team, you focus on:',a:'Finding a compromise everyone can live with',b:'Figuring out the correct answer'},
+  {dim:'H',hi:'a',q:'When watching a movie or show, you:',a:'Get deeply emotionally invested in the characters',b:'Notice plot holes and inconsistencies'},
+  {dim:'H',hi:'a',q:'When someone criticizes you, you:',a:'Feel hurt or discouraged',b:'Stay calm and analyze the feedback'},
+  {dim:'H',hi:'a',q:'When you see someone struggling, you:',a:'Naturally want to help, even if not asked',b:'Step in when needed, in a practical way'},
+  {dim:'T',hi:'a',q:'Before a trip, you:',a:'Plan a detailed itinerary in advance',b:'Figure it out when you get there'},
+  {dim:'T',hi:'a',q:'With deadlines, you:',a:'Finish early with plenty of time to spare',b:'Thrive under last-minute pressure'},
+  {dim:'T',hi:'a',q:'Your space and belongings are:',a:'Organized — clutter stresses you out',b:'A little messy, but that\'s fine with you'},
+  {dim:'T',hi:'a',q:'On a long-term project, you:',a:'Plan the full structure before starting',b:'Adjust your approach as you go'},
+  {dim:'T',hi:'a',q:'When plans suddenly change, you:',a:'Feel caught off guard or uncomfortable',b:'Adapt without much trouble'},
+  {dim:'T',hi:'a',q:'Your work style is:',a:'Step-by-step, following a set order',b:'Switching tasks based on how you feel'},
+  {dim:'A',hi:'a',q:'When something is at stake, you:',a:'Get intensely focused on winning',b:'Think enjoying the process matters more'},
+  {dim:'A',hi:'a',q:'Taking on a leadership role feels:',a:'Natural — you often end up there',b:'Something you\'d rather avoid'},
+  {dim:'A',hi:'a',q:'When faced with a tough obstacle, you:',a:'Want to charge straight at it',b:'Plan carefully before making a move'},
+  {dim:'A',hi:'a',q:'When your idea gets shot down, you:',a:'Fight harder to push it through',b:'Step back and reconsider'},
+  {dim:'A',hi:'a',q:'In most situations, you prefer to:',a:'Take the initiative and lead',b:'Follow someone else\'s lead'},
+  {dim:'A',hi:'a',q:'When facing a difficult goal, you:',a:'Dive in and challenge yourself',b:'Prefer targets you know you can hit'},
+  {dim:'W',hi:'a',q:'When trying something new, you:',a:'Go for it even if there\'s a risk of failing',b:'Wait until you\'re sure it\'s safe'},
+  {dim:'W',hi:'a',q:'When making big decisions, you:',a:'Aim for the big payoff',b:'Prefer smaller but more reliable results'},
+  {dim:'W',hi:'a',q:'Life-changing decisions are made:',a:'On instinct and momentum sometimes',b:'After thorough research and deliberation'},
+  {dim:'W',hi:'a',q:'Being in unpredictable situations feels:',a:'Exciting',b:'Stressful'},
+  {dim:'W',hi:'a',q:'Jumping into a brand-new environment:',a:'Comes naturally to you',b:'Takes some effort'},
+  {dim:'W',hi:'a',q:'Stability or change — which do you prefer?',a:'Change and stimulation',b:'Stability and routine'},
+  {dim:'S',hi:'a',q:'To get results, you think it\'s better to:',a:'Work together as a team',b:'Focus on your own output'},
+  {dim:'S',hi:'a',q:'When a teammate is struggling, you:',a:'Help them even if it disrupts your rhythm',b:'Finish your own work first'},
+  {dim:'S',hi:'a',q:'In a group, you prefer to:',a:'Support the team and enable others',b:'Stay locked in on your individual play'},
+  {dim:'S',hi:'a',q:'When working with others, you prioritize:',a:'Making it easy for the other person',b:'Getting things done efficiently'},
+  {dim:'S',hi:'a',q:'Team victory vs. personal performance:',a:'A team win is enough, even if you don\'t stand out',b:'Your personal contribution is what gives it meaning'},
+  {dim:'S',hi:'a',q:'Other people\'s opinions:',a:'You actively take them on board',b:'You tend to stick with your own thinking'},
+  {dim:'D',hi:'a',q:'When results take a long time to show:',a:'You can keep grinding through it',b:'You want to see results sooner'},
+  {dim:'D',hi:'a',q:'Long, focused work sessions:',a:'You handle them well',b:'You need regular breaks'},
+  {dim:'D',hi:'a',q:'To reach your goals, you believe:',a:'Slow, steady progress is the key',b:'You\'d rather knock it out in one push'},
+  {dim:'D',hi:'a',q:'Dealing with a tough problem or opponent:',a:'You analyze and prepare methodically',b:'You power through with willpower'},
+  {dim:'D',hi:'a',q:'After failing repeatedly, you:',a:'Keep at it until you nail it',b:'Change your approach'},
+  {dim:'D',hi:'a',q:'Sustained long-term effort:',a:'You\'re confident you can keep it up',b:'Maintaining motivation is a real challenge'},
+  {dim:'I',hi:'b',q:'When asking "why?" about something:',a:'An answer is enough for you',b:'Getting an answer just makes you want to dig deeper'},
+  {dim:'S',hi:'a',q:'Your successes are:',a:'Thanks to the people around you',b:'The result of your own skill and effort'},
+];
+
+const SUMMONER_TYPES_EN={
+  ruler:{
+    name:'The Solitary Ruler',subtitle:'A king who conquers all by his own hand',
+    playstyle:"You don't wait for orders — you are the main character of every game. Fearless in a 1v9, you find your greatest joy in dominating through pure individual skill. Carrying the team isn't a burden. It's a calling.",
+    strengths:['Overwhelming mechanical skill and decision-making','Mental toughness that holds up in any adversity'],
+    weaknesses:['Struggles to ask for or rely on others','Can fall out of sync with teammates by prioritizing solo play'],
+    catchphrases:['"Victory is mine — by my hand alone."','"I\'ll close this out before anyone has to rely on anyone else."','"When I move, the game ends."'],
+    perceptions:[
+      {ally:"'If they get going, this game is over. Just follow.'",enemy:"'They just run at us alone. But we can't stop them.'"},
+      {ally:"'Let them do their thing. We just need to keep up.'",enemy:"'They solo-dived again. And somehow they made it out.'"},
+      {ally:"'Misplayed but recovered. That's the real deal.'",enemy:"'Take them down and we win. But we can't even do that.'"},
+    ],
+    synergy:{reason:'The Solitary Ruler charges forward while the Guardian Angel holds the line behind. No one can keep up with this duo.'},
+    opposite:{reason:'The Guardian dedicates everything to protecting others — a complete reversal of the Ruler who solves everything with individual power.'},
+  },
+  commander:{
+    name:'The Charismatic Commander',subtitle:'A general who leads from the front',
+    playstyle:"You're a rare type who can both lead the team and be individually dominant. You call the shots, rally your allies, and charge at the front. Charisma moves your teammates — strategy wins the game.",
+    strengths:['Natural leadership that inspires immediate action','The judgment to shift between aggression and caution on the fly'],
+    weaknesses:['Tends to shoulder everything alone','Gets frustrated when teammates don\'t follow the call'],
+    catchphrases:['"My voice moves armies."','"Leading from the front is the best strategy there is."','"We win together — so I\'ll be the one leading the charge."'],
+    perceptions:[
+      {ally:"'Their calls put me at ease. We\'re all in sync.'",enemy:"'They\'re organizing the whole enemy team. Shut them down first.'"},
+      {ally:"'They play and lead at the same time. Dream captain.'",enemy:"'That commander is the core. Focus them.'"},
+      {ally:"'Even when we\'re losing, I don\'t want to give up with this person around.'",enemy:"'Their reads are too good. They\'re dismantling our gameplan.'"},
+    ],
+    synergy:{reason:'The Commander leads the front while the Shadow Strategist designs from the back. With both in play, the game is decided before it starts.'},
+    opposite:{reason:'The Commander who rallies teams with voice and presence is the exact opposite of the Lone Hunter who operates in silence.'},
+  },
+  strategist:{
+    name:'The Shadow Strategist',subtitle:'A cold-blooded advisor who sees everything',
+    playstyle:"You don't need the spotlight — you design the game from the shadows. Logic over emotion, planning over improvisation. Every move has a deliberate purpose. You're the quiet terror who thinks ten steps ahead.",
+    strengths:['Big-picture thinking and game plan construction','Emotionless, precise situational analysis'],
+    weaknesses:['Struggles against unpredictable opponents or chaos','Takes time to recover when an overly precise plan breaks down'],
+    catchphrases:['"The outcome is decided before anyone makes a move."','"Drop the emotions. Read the board."','"Don\'t think one step ahead — think ten."'],
+    perceptions:[
+      {ally:"'I don\'t need to worry — they\'ve got it all figured out.'",enemy:"'We were already trapped before we realized it. When did this happen?'"},
+      {ally:"'They see the whole board. The game is in their head.'",enemy:"'I had a bad feeling — and sure enough.'"},
+      {ally:"'No wasted moves. Their judgment is bankable.'",enemy:"'None of this is random. Every move is calculated.'"},
+    ],
+    synergy:{reason:'A perfect plan means nothing without someone to execute it. When the Strategist and Commander align, strategy becomes reality.'},
+    opposite:{reason:'The berserker who charges on pure instinct is the polar opposite of the tactician who calculates every move.'},
+  },
+  intuitive:{
+    name:'The Intuitive Genius',subtitle:'A maverick who reads the battlefield on pure instinct',
+    playstyle:"Feeling over data, spark over plan. You operate outside the rulebook and open up plays no one saw coming. You love risk, and your greatest high is the split-second call that flips the entire game.",
+    strengths:['Instant reads and decisions that defy prediction','Clutch brilliance under maximum pressure'],
+    weaknesses:['Can lack logical consistency','Thin on backup plans when instincts misfire'],
+    catchphrases:['"Trust the gut, not the manual."','"Your body knows the answer before your brain does."','"Rules exist to be broken."'],
+    perceptions:[
+      {ally:"'I had no idea what they were doing, but somehow we\'re ahead.'",enemy:"'Their movements are completely unreadable. We can\'t predict them.'"},
+      {ally:"'Nobody thinks of plays like that. Are they a genius?'",enemy:"'Standard setups don\'t work against this person. Can\'t counter it.'"},
+      {ally:"'They just did something unbelievable. This person is insane.'",enemy:"'They went exactly the opposite of what I predicted. Unreadable.'"},
+    ],
+    synergy:{reason:'Cover the genius\'s instincts with the Guardian\'s shield. The Intuitive Genius hits peak performance with solid support behind them.'},
+    opposite:{reason:'The Fortress who builds slowly and steadily is the complete opposite of the Genius who decides everything in a single flash of intuition.'},
+  },
+  guardian:{
+    name:'The Iron Guardian',subtitle:'A shield who gives everything for the team',
+    playstyle:"You find your highest purpose in protecting others. You don't need the glory — if the team wins, that's enough. You manage the game with long-term vision and unshakable patience.",
+    strengths:['Unwavering dedication to the team in any situation','Long-term stability and endurance'],
+    weaknesses:['Struggles to assert your own opinions','Overfocusing on defense can mean missing offensive windows'],
+    catchphrases:['"As long as my teammates are standing, we haven\'t lost."','"Being the shield is my greatest weapon."','"The real victory is on the other side of holding on."'],
+    perceptions:[
+      {ally:"'They\'re always there. It just feels safe.'",enemy:"'How do we break through that wall? It\'s impossible.'"},
+      {ally:"'I was about to die and they saved me. Absolute legend.'",enemy:"'They\'re blocking everything. Can\'t get any work done.'"},
+      {ally:"'With this person around, I can focus on playing my best.'",enemy:"'Unkillable. They just stay there forever.'"},
+    ],
+    synergy:{reason:'A Tempest Warrior backed by an Iron Guardian is unstoppable. As long as the Guardian holds, the Warrior can keep going forever.'},
+    opposite:{reason:'The Free Adventurer blazing their own trail is the polar opposite of the Guardian who dedicates everything to protecting others.'},
+  },
+  berserker:{
+    name:'The Tempest Warrior',subtitle:'A force of nature who tears through the battlefield',
+    playstyle:"You act before you think. The more dangerous the situation, the hotter your instincts burn. You live for maximum risk and maximum reward. This is your playground — retreating isn't in your vocabulary.",
+    strengths:['Explosive performance under extreme pressure','Momentum that gives enemies no time to calculate'],
+    weaknesses:['Excessive risk-taking can drag teammates into trouble','Judgment drops in prolonged, grinding games'],
+    catchphrases:['"Stop and I lose. So I only look forward."','"The danger is what makes the blood pump."','"Those who fear risk never taste real victory."'],
+    perceptions:[
+      {ally:"'They charge in recklessly, but somehow it works. Insane.'",enemy:"'They won\'t stop. How are we supposed to deal with this?'"},
+      {ally:"'The mental is on another level. Their energy pulls us all forward.'",enemy:"'We have no choice but to follow their momentum. They just steamrolled us.'"},
+      {ally:"'They\'re the most fired up out here. They\'re breaking this game open.'",enemy:"'Total disregard for risk. Can\'t read them. Terrifying.'"},
+    ],
+    synergy:{reason:'A Tempest Warrior with a Guardian Angel at their back is unstoppable. Unending aggression backed by healing and protection — it\'s overkill.'},
+    opposite:{reason:'The calm tactician who calculates every move is the exact opposite of the Warrior who charges on emotion and pure instinct.'},
+  },
+  fortress:{
+    name:'The Unmovable Fortress',subtitle:'An immovable wall that makes time its ally',
+    playstyle:"No panic, no rush, just steady accumulation. You accept early hardship as part of the plan and see the game through a longer lens than anyone else. When you've had time to build, no one can touch you.",
+    strengths:['Absolute patience that survives any adversity','Long-term preparation and disciplined execution'],
+    weaknesses:['Early game decisions skew too passive','A slow pace can backfire when the enemy forces a fast game'],
+    catchphrases:['"No rush. What I\'ve built will pay off."','"Time is on my side."','"Accumulated strength never betrays you."'],
+    perceptions:[
+      {ally:"'Quiet early, but a monster in the late game. I\'m counting on them.'",enemy:"'We let them scale. It\'s over now. How did they get this strong?'"},
+      {ally:"'Absolutely unshakeable. Like a rock. So reassuring.'",enemy:"'It\'s out of hand now. We needed to deal with them earlier.'"},
+      {ally:"'No matter how far behind, they never give up. I trust them.'",enemy:"'We were winning early and then suddenly got reversed. Their patience did this.'"},
+    ],
+    synergy:{reason:'While the Commander pulls the front, the Fortress quietly builds power. When their timelines align, the perfect formation is complete.'},
+    opposite:{reason:'The Intuitive Genius who decides everything in one flash of inspiration lives in the complete opposite world from the Fortress who values steady accumulation.'},
+  },
+  empath:{
+    name:'The Guardian Angel',subtitle:'A healer who touches the soul of every teammate',
+    playstyle:"You read your teammates' emotions with uncanny precision and turn that into fuel. You know what everyone needs before they ask, and you deliver it. Your team's bond is your greatest weapon.",
+    strengths:['An empathy that tracks the team\'s state better than anyone','Emotional support that holds morale together in adversity'],
+    weaknesses:['Emotional resonance can cloud judgment','Self-sacrifice can leave you with nothing left in the tank'],
+    catchphrases:['"My biggest win is seeing my teammates smile."','"When our hearts sync, we become unstoppable."','"True strength is found in giving."'],
+    perceptions:[
+      {ally:"'We can\'t function without this person. They\'re holding everything together.'",enemy:"'We have to neutralize their support or we can\'t do anything.'"},
+      {ally:"'They\'re always looking out for everyone. This team feels connected.'",enemy:"'They\'re covering every single teammate. Can\'t find an opening.'"},
+      {ally:"'Their support lets me focus entirely on my own play.'",enemy:"'Those heals and shields are a nightmare. How do we deal with this?'"},
+    ],
+    synergy:{reason:'The Guardian Angel draws out the full potential of the Solitary Ruler. With support behind them, that solitary strength truly shines.'},
+    opposite:{reason:'The Guardian Angel who puts team bonds above all else is the shadow-and-light opposite of the Solitary Ruler who relies only on individual power.'},
+  },
+  hunter:{
+    name:'The Lone Hunter',subtitle:'An assassin who stalks from the shadows',
+    playstyle:"You don't belong to the pack — you move at your own pace, stalking the highest-value target. With precise planning and razor-sharp instincts, you pick your moment and end it cleanly. Solitude is your edge.",
+    strengths:['Pinpoint accuracy and lightning-fast decisions','Exceptional individual refinement'],
+    weaknesses:['Tends to disconnect from team coordination','Can fixate on a target and lose sight of the big picture'],
+    catchphrases:['"Once I\'ve locked in a target, there\'s no hesitation."','"Solitude isn\'t weakness — it\'s a sharpened blade."','"I only move in the perfect moment."'],
+    perceptions:[
+      {ally:"'Quiet but reliable. Gets the job done every time.'",enemy:"'I just don\'t want them targeting me. I\'m dead before I know it.'"},
+      {ally:"'Never causes drama. Just quietly secures kills.'",enemy:"'They vanished — then I got killed. Terrifying.'"},
+      {ally:"'No trash talk, just results. Respect.'",enemy:"'I had eyes on them and they disappeared. Worst matchup.'"},
+    ],
+    synergy:{reason:'A Hunter\'s kill following the Strategist\'s plan is unstoppable. The quietest, most lethal duo in the game.'},
+    opposite:{reason:'The Commander who rallies teams with their voice lives in a completely different world from the Hunter who operates in silence.'},
+  },
+  artist:{
+    name:'The Aesthetic Artist',subtitle:'A battlefield poet obsessed with perfection',
+    playstyle:"You care about how beautiful the play is, not just whether it wins. You're a perfectionist who hates sloppy execution and demands meaning in every move. Your goal is to turn the game into a work of art.",
+    strengths:['Precision and high consistency in execution','Strategy thought through down to the finest detail'],
+    weaknesses:['Perfectionism can slow clutch decision-making','Unexpected developments cause real stress'],
+    catchphrases:['"A victory without elegance means nothing."','"The perfect move changes everything."','"My playstyle is art."'],
+    perceptions:[
+      {ally:"'The plays are so clean. Genuinely satisfying to watch.'",enemy:"'No openings. Too perfect to break through.'"},
+      {ally:"'Not a single wasted movement. That\'s art.'",enemy:"'I have no idea how to play against this. Everything feels read.'"},
+      {ally:"'Sometimes too cautious, but they always deliver when it counts.'",enemy:"'That precision is impossible to counter. Absolutely insufferable.'"},
+    ],
+    synergy:{reason:"The Artist's precision doubles when shielded by the Guardian. Beautiful technique plus an iron defense — an airtight game."},
+    opposite:{reason:'The Free Adventurer who loves freedom and breaking the mold stands on the opposite end of the spectrum from the Artist who demands perfection.'},
+  },
+  adventurer:{
+    name:'The Free Adventurer',subtitle:'A pioneer blazing a trail with no map',
+    playstyle:"You trust your instincts over the meta. You bait opponents with unorthodox plays and feel most alive in uncharted situations. You always choose the thrill of the unknown over the safety of the predictable.",
+    strengths:['Off-the-wall ideas that catch opponents completely off guard','Improvisation that thrives in uncharted situations'],
+    weaknesses:['Inconsistent play can confuse and disrupt teammates','Risk management can get sloppy'],
+    catchphrases:['"The adventure without a map — that\'s the real fight."','"The meta? Doesn\'t apply to me."','"I choose the exciting danger over the boring safety."'],
+    perceptions:[
+      {ally:"'No idea what they\'re doing, but somehow we\'re winning.'",enemy:"'They just ignore standard setups. We can\'t prepare for this.'"},
+      {ally:"'The plays make no sense but they work. Somehow.'",enemy:"'Nothing in the playbook covers this. It\'s a nightmare.'"},
+      {ally:"'You can feel how much fun they\'re having. It\'s contagious.'",enemy:"'The fact they\'re enjoying themselves is the most annoying part. But they\'re strong.'"},
+    ],
+    synergy:{reason:"The Versatile Adaptor flexibly backs up the Adventurer's wild plays. A duo that adapts to anything — no weaknesses."},
+    opposite:{reason:'The Artist who pursues beauty and allows zero compromise lives in a completely different world from the free-spirited Adventurer.'},
+  },
+  balanced:{
+    name:'The Versatile Adaptor',subtitle:'Shapeshifting to fit any situation',
+    playstyle:"You don't lock into one style — you pick whatever fits the moment. No glaring strengths means no hard weaknesses. You blend into any team, fill any gap, and keep things running. The most adaptable summoner type.",
+    strengths:['Flexibility to adapt to any situation or team','Consistent, stable performance with no obvious weaknesses'],
+    weaknesses:['Lack of a standout trait can mean no decisive edge','Can drift without a clear identity'],
+    catchphrases:['"Whatever the situation, I find a way."','"Not fitting a mold is my mold."','"Flexibility is my greatest strength."'],
+    perceptions:[
+      {ally:"'They can do anything. If we need something, just ask them.'",enemy:"'No obvious weakness. Where do we even attack?'"},
+      {ally:"'Always steady. They\'re the backbone.'",enemy:"'We set up a counter and they just adapted. Annoying.'"},
+      {ally:"'They always know what the team is missing. Great game sense.'",enemy:"'No fixed pattern. Can\'t read them. It\'s a problem.'"},
+    ],
+    synergy:{reason:"The Versatile Adaptor flexibly supports the Adventurer's wild plays. A duo that handles anything — no weaknesses exist."},
+    opposite:{reason:'The Solitary Ruler who pushes all parameters to one extreme is the polar opposite of the Adaptor who stays balanced in any situation.'},
+  },
+};
+
+function getAxisDetailEN(key,val){
+  const low=val<35,high=val>65;
+  const d={
+    V:{low:'An introverted summoner. You perform best when focused alone, speaking through actions. Your true strength shines in quiet, focused conditions.',mid:'A flexible summoner who shifts between introversion and extroversion. You perform well solo or as part of a team.',high:'An extroverted summoner who thrives on communication. You energize the team, call plays, and actively shape how the game unfolds.'},
+    I:{low:'A grounded, concrete thinker. You rely on facts, track records, and proven methods — a stable player who respects the fundamentals.',mid:'A balanced summoner who blends intuition with realism. You can switch between theory and gut feeling when needed.',high:'A highly intuitive summoner. You trust sensation over data and have an uncanny nose for possibilities others miss.'},
+    H:{low:'A cool-headed, logic-first summoner. You make optimal calls without being swayed by emotion — and you don\'t get pulled into teammates\' drama.',mid:'A summoner with a healthy balance of empathy and logic. You can switch between compassion and clear-headedness as the moment demands.',high:'A highly empathetic summoner. You sense your teammates\' state acutely and serve as the emotional anchor of the team.'},
+    T:{low:'A flexible, improvisational summoner. You prioritize flow over rigid plans and adapt on the fly.',mid:'A summoner with a solid balance of structure and spontaneity. You operate effectively whether the game is scripted or chaotic.',high:'A highly structured summoner. You prepare thoroughly and execute a designed gameplan. In predictable situations, you\'re unstoppable.'},
+    A:{low:'A cautious, reserved summoner. You avoid unnecessary risk and naturally drift toward supportive roles.',mid:'A summoner with a good balance of initiative and caution. You know when to push and when to pull back.',high:'A highly assertive summoner. You have the courage to make moves others hesitate on and the drive to shape the battlefield.'},
+    W:{low:'A risk-averse summoner. You favor safe, reliable choices and build the game methodically.',mid:'A summoner with a sharp sense of risk-reward. You don\'t gamble recklessly, but you can seize real opportunities.',high:'A risk-hungry summoner. You\'re not afraid to fail for the high-value play. Unpredictable moves are your trademark.'},
+    S:{low:'An individualist summoner. Self-reliant, capable of deciding games through personal performance alone.',mid:'A summoner with a solid balance of solo play and teamwork. You adapt between carrying and enabling situationally.',high:'A highly cooperative summoner. The team comes first, and your greatest joy is enabling your teammates to shine.'},
+    D:{low:'A burst-style summoner. You excel at snap decisions and explosive plays, preferring short decisive engagements.',mid:'A summoner with a strong balance of burst and endurance. You handle both fast and slow-paced games.',high:'A highly durable summoner. You build the game with a long-term view, accumulate power patiently, and eventually dominate everything.'},
+  };
+  return low?d[key].low:high?d[key].high:d[key].mid;
+}
 
 // URL routing for champion detail pages
 (function(){
