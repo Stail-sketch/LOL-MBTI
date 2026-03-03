@@ -19,18 +19,19 @@
 <style>
   :root{--gold:#C89B3C;--gold-light:#F0E6BE;--gold-dark:#785A28;--bg:#010A13;--bg2:#0A1428;--bg3:#091428;--blue:#0BC4E3;--text:#A09B8C;--text-light:#C8AA6E;--white:#F0E6BE;--red:#C8344A}
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{width:100%;min-height:100vh;background:var(--bg);color:var(--white);font-family:'Noto Serif JP',serif;overflow-x:hidden}
+  html,body{width:100%;min-height:100vh;background:var(--bg);background-image:repeating-linear-gradient(135deg,transparent,transparent 60px,rgba(200,155,60,.022) 60px,rgba(200,155,60,.022) 61px),repeating-linear-gradient(45deg,transparent,transparent 60px,rgba(11,196,227,.01) 60px,rgba(11,196,227,.01) 61px);color:var(--white);font-family:'Noto Serif JP',serif;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse at 50% 50%,transparent 35%,rgba(0,0,0,.65) 100%)}
   #particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
   .particle{position:absolute;border-radius:50%;background:var(--gold);animation:floatUp linear infinite;opacity:0}
   @keyframes floatUp{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.6}90%{opacity:.2}100%{transform:translateY(-10vh) scale(1);opacity:0}}
-  .hex-bg{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 30px,rgba(200,155,60,.03) 30px,rgba(200,155,60,.03) 31px),repeating-linear-gradient(-60deg,transparent,transparent 30px,rgba(200,155,60,.03) 30px,rgba(200,155,60,.03) 31px)}
+  .hex-bg{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 30px,rgba(200,155,60,.05) 30px,rgba(200,155,60,.05) 31px),repeating-linear-gradient(-60deg,transparent,transparent 30px,rgba(200,155,60,.05) 30px,rgba(200,155,60,.05) 31px)}
   .screen{display:none;position:relative;z-index:1;min-height:100vh;align-items:center;justify-content:center;flex-direction:column;padding:20px}
   .screen.active{display:flex}
-  #start-screen{text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(200,155,60,.15) 0%,transparent 60%),radial-gradient(ellipse at 50% 100%,rgba(11,196,227,.08) 0%,transparent 60%)}
+  #start-screen{text-align:center;background:radial-gradient(ellipse at 50% -10%,rgba(200,155,60,.28) 0%,transparent 55%),radial-gradient(ellipse at 50% 110%,rgba(11,196,227,.14) 0%,transparent 55%),linear-gradient(180deg,rgba(1,10,19,0) 0%,rgba(1,10,19,.35) 100%)}
   .crown-icon{width:80px;height:80px;margin:0 auto 20px;animation:crownPulse 3s ease-in-out infinite}
   .crown-icon svg{width:100%;height:100%}
   @keyframes crownPulse{0%,100%{filter:drop-shadow(0 0 10px rgba(200,155,60,.5));transform:scale(1)}50%{filter:drop-shadow(0 0 25px rgba(200,155,60,.9));transform:scale(1.05)}}
-  .main-title{font-family:'Cinzel',serif;font-size:clamp(28px,5vw,56px);font-weight:900;letter-spacing:.15em;color:var(--gold);text-shadow:0 0 40px rgba(200,155,60,.5);line-height:1.2;margin-bottom:8px}
+  .main-title{font-family:'Cinzel',serif;font-size:clamp(28px,5vw,56px);font-weight:900;letter-spacing:.28em;color:var(--gold);text-shadow:0 0 60px rgba(200,155,60,.7),0 0 20px rgba(200,155,60,.4),0 2px 4px rgba(0,0,0,.6);line-height:1.2;margin-bottom:8px}
   .main-subtitle{font-family:'Cinzel',serif;font-size:clamp(11px,2vw,15px);letter-spacing:.4em;color:var(--text-light);text-transform:uppercase;margin-bottom:30px}
   .divider{display:flex;align-items:center;gap:12px;margin:0 auto 30px;max-width:400px}
   .divider-line{flex:1;height:1px;background:linear-gradient(to right,transparent,var(--gold-dark),transparent)}
@@ -45,7 +46,8 @@
   .stat-num{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:var(--gold);display:block;text-shadow:0 0 20px rgba(200,155,60,.4)}
   .stat-label{font-size:11px;color:var(--text);letter-spacing:.15em}
   #role-screen{background:radial-gradient(ellipse at 50% 50%,rgba(200,155,60,.08) 0%,transparent 70%)}
-  .section-title{font-family:'Cinzel',serif;font-size:clamp(20px,3vw,32px);color:var(--gold);text-align:center;margin-bottom:10px;letter-spacing:.1em}
+  .section-title{font-family:'Cinzel',serif;font-size:clamp(20px,3vw,32px);color:var(--gold);text-align:center;margin-bottom:10px;letter-spacing:.18em;text-transform:uppercase;position:relative;padding-bottom:16px}
+  .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:48px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);box-shadow:0 0 8px rgba(200,155,60,.6)}
   .section-desc{text-align:center;color:var(--text);font-size:13px;margin-bottom:40px;letter-spacing:.05em}
   .roles-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;max-width:900px;width:100%}
   .roles-grid .role-card:last-child{grid-column:3}
@@ -55,7 +57,7 @@
   .role-card::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(200,155,60,.15),transparent);opacity:0;transition:opacity .3s}
   .role-card:hover::after{opacity:1}
   .role-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 8px 30px rgba(200,155,60,.3)}
-  .role-card.selected{border-color:var(--gold);background:linear-gradient(135deg,rgba(200,155,60,.2),rgba(200,155,60,.05));box-shadow:0 0 30px rgba(200,155,60,.4)}
+  .role-card.selected{border-color:var(--gold);background:linear-gradient(135deg,rgba(200,155,60,.2),rgba(200,155,60,.05));animation:selectedGlow 2s ease-in-out infinite}
   .role-icon{font-size:32px;margin-bottom:10px;display:block}
   .role-name{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);letter-spacing:.1em;margin-bottom:6px}
   .role-desc{font-size:10px;color:var(--text);line-height:1.5}
@@ -96,7 +98,7 @@
   .loading-bar-fill{height:100%;background:linear-gradient(to right,var(--gold),var(--blue),var(--gold));background-size:200% 100%;animation:loadingAnim 1.5s ease-in-out infinite}
   @keyframes loadingAnim{0%{background-position:0% 0%;width:0%}50%{background-position:100% 0%;width:70%}100%{background-position:200% 0%;width:100%}}
   #result-screen{padding:40px 20px;justify-content:flex-start;min-height:100vh}
-  .result-container{max-width:760px;width:100%;margin:0 auto}
+  .result-container{max-width:880px;width:100%;margin:0 auto}
   .result-header{text-align:center;margin-bottom:32px;animation:fadeInDown .6s ease}
   @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
   .result-label{font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:.5em;color:var(--blue);text-transform:uppercase;margin-bottom:8px}
@@ -148,8 +150,9 @@
   /* ===== EXTENDED RESULT SECTIONS ===== */
   .ext-section{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid rgba(200,155,60,.2);padding:28px 32px;margin-bottom:20px;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));animation:fadeInUp .6s ease both}
   .ext-section.hidden{display:none}
-  .ext-label{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.4em;color:var(--blue);text-transform:uppercase;margin-bottom:6px}
-  .ext-title{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);margin-bottom:4px;letter-spacing:.08em}
+  /* ext-label は下部の拡張ブロックで上書き定義済み → ここは削除対象 */
+  .ext-label-placeholder{display:none}
+  .ext-title{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);margin-bottom:4px;letter-spacing:.14em}
   .ext-subtitle{font-size:12px;color:var(--text);margin-bottom:18px;font-style:italic}
   .ext-body{font-size:14px;color:var(--text);line-height:2}
   /* CATCHPHRASE */
@@ -315,6 +318,28 @@
   .rank-champ-icon{width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid rgba(200,155,60,.35);flex-shrink:0}
   .rank-name{font-family:'Noto Serif JP',serif;font-size:13px;color:var(--white);flex:1}
   .rank-count{font-family:'Rajdhani',sans-serif;font-size:12px;color:var(--text);letter-spacing:.05em}
+
+  /* ===== SHIMMER SWEEP ANIMATION ===== */
+  @keyframes shimmerSweep{0%{transform:translateX(-150%)}100%{transform:translateX(250%)}}
+  .ext-section{position:relative;overflow:hidden}
+  .radar-section,.ranking-section{position:relative;overflow:hidden}
+  .champion-card::after,.ext-section::after,.radar-section::after,.ranking-section::after{content:'';position:absolute;top:0;left:0;width:50%;height:100%;background:linear-gradient(105deg,transparent,rgba(240,230,190,.07) 50%,transparent);transform:translateX(-150%);pointer-events:none;z-index:2}
+  .champion-card:hover::after,.ext-section:hover::after,.radar-section:hover::after,.ranking-section:hover::after{animation:shimmerSweep .75s ease forwards}
+
+  /* ===== SELECTED ROLE GLOW ===== */
+  @keyframes selectedGlow{0%,100%{box-shadow:0 0 30px rgba(200,155,60,.4),0 0 60px rgba(200,155,60,.15),inset 0 0 20px rgba(200,155,60,.05)}50%{box-shadow:0 0 45px rgba(200,155,60,.65),0 0 80px rgba(200,155,60,.28),inset 0 0 25px rgba(200,155,60,.08)}}
+
+  /* ===== EXT-LABEL DECORATION ===== */
+  .ext-label{display:flex;align-items:center;gap:9px;font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.4em;color:var(--blue);text-transform:uppercase;margin-bottom:8px}
+  .ext-label::before{content:'';display:inline-block;width:18px;height:1px;background:linear-gradient(90deg,transparent,var(--blue));box-shadow:0 0 5px rgba(11,196,227,.7);flex-shrink:0}
+
+  /* ===== STATS PREVIEW DIVIDER ===== */
+  .stats-preview{position:relative;padding-top:50px}
+  .stats-preview::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:220px;height:1px;background:linear-gradient(90deg,transparent,rgba(200,155,60,.5),transparent);box-shadow:0 0 8px rgba(200,155,60,.3)}
+
+  /* ===== FOOTER ENHANCEMENT ===== */
+  .site-footer{margin-top:80px;padding:40px 32px;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.8) 100%);border-top:1px solid rgba(200,155,60,.25);text-align:center;position:relative}
+  .site-footer::before{content:'';display:block;width:80%;max-width:600px;height:1px;background:linear-gradient(90deg,transparent,rgba(200,155,60,.45),transparent);box-shadow:0 0 10px rgba(200,155,60,.3);margin:0 auto 36px}
 </style>
 </head>
 <body>
@@ -608,6 +633,9 @@ const LANG_DATA={
     statLabels:['最大質問数','チャンピオン','性格軸','ロール'],
     laneTitle:'あなたのロールを選んでください',
     laneDesc:'10問の診断結果をもとに、どのレーンで診断しますか？',
+    roleDescs:{TOP:'最前線の戦士',JUNGLE:'森の戦略家',MID:'中央の支配者',ADC:'持続火力の担い手',SUPPORT:'仲間を守る縁の下'},
+    roleNameAny:'どこでも',roleDescAny:'全167体から診断',
+    laneNextBtn:'結果を見る',backBtn:'← 戻る',
   },
   en:{
     subtitle:'Summoner Personality Analysis',
