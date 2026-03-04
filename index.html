@@ -1612,6 +1612,7 @@ function getSummonerType(normalized){
   SUMMONER_TYPES.forEach(t=>{
     let d=0;
     Object.keys(t.profile).forEach(k=>{const diff=(normalized[k]||50)-t.profile[k];d+=diff*diff;});
+    if(t.id==='balanced') d+=1800;
     if(d<bestDist){bestDist=d;best=t;}
   });
   return best;
@@ -1652,6 +1653,7 @@ function findNearestSummonerType(scores){
   SUMMONER_TYPES.forEach(t=>{
     let dist=0;
     dims.forEach(k=>{const d=(scores[k]||0)-(t.profile[k]||0);dist+=d*d;});
+    if(t.id==='balanced') dist+=1800;
     if(dist<bestDist){bestDist=dist;best=t;}
   });
   return best;
