@@ -1336,20 +1336,21 @@ function proceedFromLane(){
 
 function calculateAndShowResult(){
   showScreen('loading-screen');
-  setTimeout(()=>{
-    const answeredQs=allActiveQuestions.slice(0,currentPhaseEnd);
-    const dimCount={};
-    ['V','I','H','T','A','W','S','D'].forEach(d=>{
-      dimCount[d]=answeredQs.filter(q=>q.dim===d).length||1;
-    });
-    const normalized={};
-    Object.keys(scores).forEach(k=>{
-      normalized[k]=Math.min(100,Math.round((scores[k]/dimCount[k])*100));
-    });
-    lastNormalized=normalized;
-    buildLaneResultsCache(normalized);
-    showResult(normalized);
-  },2200);
+  const answeredQs=allActiveQuestions.slice(0,currentPhaseEnd);
+  const dimCount={};
+  ['V','I','H','T','A','W','S','D'].forEach(d=>{
+    dimCount[d]=answeredQs.filter(q=>q.dim===d).length||1;
+  });
+  const normalized={};
+  Object.keys(scores).forEach(k=>{
+    normalized[k]=Math.min(100,Math.round((scores[k]/dimCount[k])*100));
+  });
+  lastNormalized=normalized;
+  buildLaneResultsCache(normalized);
+  ['TOP','JUNGLE','MID','ADC','SUPPORT','ANY'].forEach(lane=>{
+    if(laneResultsCache[lane]){const img=new Image();img.src=`https://cdn.communitydragon.org/latest/champion/${laneResultsCache[lane].champ.id}/splash-art/centered`;}
+  });
+  setTimeout(()=>{showResult(normalized);},2200);
 }
 
 function buildLaneResultsCache(normalized){
