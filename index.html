@@ -387,6 +387,14 @@
   /* ===== QUESTION SLIDE ===== */
   @keyframes questionSlideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
   @keyframes questionSlideOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-30px)}}
+
+  /* ===== LAST RESULT BANNER ===== */
+  .last-result-banner{display:flex;align-items:center;gap:10px;background:rgba(200,155,60,.1);border:1px solid rgba(200,155,60,.3);padding:10px 18px;margin-bottom:24px;flex-wrap:wrap;justify-content:center;max-width:480px;width:100%}
+  .last-result-label{font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:.2em;color:var(--text);text-transform:uppercase}
+  .last-result-champ{font-family:'Cinzel',serif;font-size:16px;color:var(--gold)}
+  .last-result-meta{font-family:'Rajdhani',sans-serif;font-size:12px;color:var(--text);letter-spacing:.1em}
+  .last-result-clear{background:none;border:none;color:var(--text);cursor:pointer;font-size:16px;padding:0 4px;margin-left:auto;opacity:.5;transition:opacity .2s}
+  .last-result-clear:hover{opacity:1}
 </style>
 </head>
 <body>
@@ -400,6 +408,12 @@
 
 <!-- START -->
 <div id="start-screen" class="screen active">
+  <div id="last-result-banner" style="display:none" class="last-result-banner">
+    <span class="last-result-label">📋 前回の診断</span>
+    <span class="last-result-champ" id="last-result-champ"></span>
+    <span class="last-result-meta" id="last-result-meta"></span>
+    <button class="last-result-clear" onclick="clearLastResult()">×</button>
+  </div>
   <div class="crown-icon">
     <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
       <polygon points="40,8 55,32 72,18 65,55 15,55 8,18 25,32" fill="none" stroke="#C89B3C" stroke-width="2.5" stroke-linejoin="round"/>
@@ -1386,6 +1400,7 @@ function showResult(normalized){
   drawRadar(normalized);buildLegend(normalized);
   applyResultLang();
   updateSharePreview(cache.champ,cache.matchPct,detectedTypeName);
+  saveLastResult(cache.champ,cache.matchPct,detectedTypeNameJP,displayLane);
   if(is40){
     sendDiagnosisResult(cache.champ,detectedTypeNameJP,selectedLane);
     loadRankings();
@@ -1609,6 +1624,7 @@ function retryDiagnosis(){
   allActiveQuestions=[];laneResultsCache={};lastNormalized=null;
   document.getElementById('lang-toggle').style.display='flex';
   showScreen('start-screen');
+  loadLastResult();
 }
 
 // ===== SUMMONER TYPES =====
@@ -2241,6 +2257,34 @@ function getAxisDetailEN(key,val){
   return low?d[key].low:high?d[key].high:d[key].mid;
 }
 
+// ===== LOCAL STORAGE =====
+function saveLastResult(champ,matchPct,typeName,lane){
+  const data={champId:champ.id,champName:champ.name,matchPct:matchPct,typeName:typeName||'',lane:lane||'',date:new Date().toLocaleDateString('ja-JP')};
+  localStorage.setItem('lol_last_result',JSON.stringify(data));
+}
+
+function loadLastResult(){
+  const raw=localStorage.getItem('lol_last_result');
+  if(!raw)return;
+  try{
+    const d=JSON.parse(raw);
+    const banner=document.getElementById('last-result-banner');
+    const champEl=document.getElementById('last-result-champ');
+    const metaEl=document.getElementById('last-result-meta');
+    champEl.textContent=d.champName;
+    let meta=d.matchPct+'%';
+    if(d.lane)meta+='  '+d.lane;
+    if(d.date)meta+='  '+d.date;
+    metaEl.textContent=meta;
+    banner.style.display='flex';
+  }catch(e){}
+}
+
+function clearLastResult(){
+  localStorage.removeItem('lol_last_result');
+  document.getElementById('last-result-banner').style.display='none';
+}
+
 // URL routing for champion detail pages
 (function(){
   const p=new URLSearchParams(location.search);
@@ -2316,6 +2360,7 @@ function renderRankings({total,champions,types,roles}){
     },speed);
   }
   document.addEventListener('DOMContentLoaded',()=>{
+    loadLastResult();
     const el=document.getElementById('main-title');
     if(el){const orig=el.textContent;typewrite(el,orig,60);}
   });
