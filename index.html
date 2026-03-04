@@ -63,9 +63,14 @@
   .role-card:hover .role-icon{transform:scale(1.2) rotate(-8deg);display:inline-block;transition:transform .3s ease}
   .role-card.selected{border-color:var(--gold);background:linear-gradient(135deg,rgba(200,155,60,.2),rgba(200,155,60,.05));animation:selectedGlow 2s ease-in-out infinite}
   .role-icon{font-size:32px;margin-bottom:10px;display:block;transition:transform .3s ease}
+  .role-icon img{width:48px;height:48px;object-fit:contain;filter:brightness(0) invert(1);transition:transform .3s ease;display:block;margin:0 auto}
+  .role-card:hover .role-icon img{transform:scale(1.2) rotate(-8deg)}
+  .role-card.selected .role-icon img{filter:brightness(0) invert(1) sepia(1) saturate(4) hue-rotate(5deg)}
   .role-name{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);letter-spacing:.1em;margin-bottom:6px}
   .role-desc{font-size:10px;color:var(--text);line-height:1.5}
   .role-count{font-family:'Rajdhani',sans-serif;font-size:11px;color:var(--blue);margin-top:4px}
+  .lane-tab img{width:18px;height:18px;vertical-align:middle;margin-right:4px;object-fit:contain;filter:brightness(0) invert(1);opacity:.75}
+  .lane-tab:hover img,.lane-tab.active img{filter:brightness(0) invert(1) sepia(1) saturate(4) hue-rotate(5deg);opacity:1}
   .btn-secondary{display:inline-block;padding:12px 36px;background:transparent;color:var(--gold);font-family:'Cinzel',serif;font-size:13px;font-weight:600;letter-spacing:.15em;cursor:pointer;border:1px solid var(--gold-dark);margin-top:32px;transition:all .3s ease;clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 50%,calc(100% - 8px) 100%,8px 100%,0% 50%)}
   .btn-secondary:hover{background:rgba(200,155,60,.1);border-color:var(--gold);box-shadow:0 0 20px rgba(200,155,60,.2)}
   .btn-secondary:active{transform:scale(.97)}
@@ -422,11 +427,11 @@
   <h2 class="section-title" id="lane-title">あなたのロールを選んでください</h2>
   <p class="section-desc" id="lane-desc">10問の診断結果をもとに、どのレーンで診断しますか？</p>
   <div class="roles-grid">
-    <div class="role-card" onclick="selectLane('TOP',this)"><span class="role-icon">⚔️</span><div class="role-name">TOP</div><div class="role-desc" id="role-desc-TOP">最前線の戦士</div></div>
-    <div class="role-card" onclick="selectLane('JUNGLE',this)"><span class="role-icon">🌿</span><div class="role-name">JUNGLE</div><div class="role-desc" id="role-desc-JUNGLE">森の戦略家</div></div>
-    <div class="role-card" onclick="selectLane('MID',this)"><span class="role-icon">⚡</span><div class="role-name">MID</div><div class="role-desc" id="role-desc-MID">中央の支配者</div></div>
-    <div class="role-card" onclick="selectLane('ADC',this)"><span class="role-icon">🏹</span><div class="role-name">ADC</div><div class="role-desc" id="role-desc-ADC">持続火力の担い手</div></div>
-    <div class="role-card" onclick="selectLane('SUPPORT',this)"><span class="role-icon">🛡️</span><div class="role-name">SUPPORT</div><div class="role-desc" id="role-desc-SUPPORT">仲間を守る縁の下</div></div>
+    <div class="role-card" onclick="selectLane('TOP',this)"><span class="role-icon"><img src="role_icons/top.png" alt="TOP"></span><div class="role-name">TOP</div><div class="role-desc" id="role-desc-TOP">最前線の戦士</div></div>
+    <div class="role-card" onclick="selectLane('JUNGLE',this)"><span class="role-icon"><img src="role_icons/jungle.png" alt="JUNGLE"></span><div class="role-name">JUNGLE</div><div class="role-desc" id="role-desc-JUNGLE">森の戦略家</div></div>
+    <div class="role-card" onclick="selectLane('MID',this)"><span class="role-icon"><img src="role_icons/mid.png" alt="MID"></span><div class="role-name">MID</div><div class="role-desc" id="role-desc-MID">中央の支配者</div></div>
+    <div class="role-card" onclick="selectLane('ADC',this)"><span class="role-icon"><img src="role_icons/adc.png" alt="ADC"></span><div class="role-name">ADC</div><div class="role-desc" id="role-desc-ADC">持続火力の担い手</div></div>
+    <div class="role-card" onclick="selectLane('SUPPORT',this)"><span class="role-icon"><img src="role_icons/support.png" alt="SUPPORT"></span><div class="role-name">SUPPORT</div><div class="role-desc" id="role-desc-SUPPORT">仲間を守る縁の下</div></div>
     <div class="role-card" onclick="selectLane('ANY',this)"><span class="role-icon">👑</span><div class="role-name" id="role-name-ANY">どこでも</div><div class="role-desc" id="role-desc-ANY">全167体から診断</div></div>
   </div>
   <button class="btn-secondary" id="lane-next-btn" onclick="proceedFromLane()" disabled>結果を見る</button>
@@ -467,11 +472,11 @@
     </div>
     <!-- レーンタブ -->
     <div class="lane-tabs" id="lane-tabs" style="display:none">
-      <button class="lane-tab" onclick="switchLaneTab('TOP')">⚔️ TOP</button>
-      <button class="lane-tab" onclick="switchLaneTab('JUNGLE')">🌿 JUNGLE</button>
-      <button class="lane-tab" onclick="switchLaneTab('MID')">⚡ MID</button>
-      <button class="lane-tab" onclick="switchLaneTab('ADC')">🏹 ADC</button>
-      <button class="lane-tab" onclick="switchLaneTab('SUPPORT')">🛡️ SUPPORT</button>
+      <button class="lane-tab" onclick="switchLaneTab('TOP')"><img src="role_icons/top.png" width="18" height="18"> TOP</button>
+      <button class="lane-tab" onclick="switchLaneTab('JUNGLE')"><img src="role_icons/jungle.png" width="18" height="18"> JUNGLE</button>
+      <button class="lane-tab" onclick="switchLaneTab('MID')"><img src="role_icons/mid.png" width="18" height="18"> MID</button>
+      <button class="lane-tab" onclick="switchLaneTab('ADC')"><img src="role_icons/adc.png" width="18" height="18"> ADC</button>
+      <button class="lane-tab" onclick="switchLaneTab('SUPPORT')"><img src="role_icons/support.png" width="18" height="18"> SUPPORT</button>
     </div>
     <div class="champion-card">
       <div class="champion-banner" id="champion-banner"></div>
