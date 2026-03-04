@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>プライバシーポリシー | サモナーの素質診断</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+JP:wght@300;400;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--gold:#C89B3C;--gold-light:#F0E6BE;--gold-dark:#785A28;--bg:#010A13;--bg2:#0A1428;--bg3:#091428;--blue:#0BC4E3;--text:#A09B8C;--text-light:#C8AA6E;--white:#F0E6BE;--red:#C8344A}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;min-height:100vh;background:var(--bg);background-image:repeating-linear-gradient(135deg,transparent,transparent 60px,rgba(200,155,60,.022) 60px,rgba(200,155,60,.022) 61px),repeating-linear-gradient(45deg,transparent,transparent 60px,rgba(11,196,227,.01) 60px,rgba(11,196,227,.01) 61px);color:var(--white);font-family:'Noto Serif JP',serif;overflow-x:hidden;line-height:1.8}
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse at 50% 50%,transparent 35%,rgba(0,0,0,.65) 100%)}
+  .hex-bg{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 34px,rgba(200,155,60,.045) 34px,rgba(200,155,60,.045) 35px),repeating-linear-gradient(-60deg,transparent,transparent 34px,rgba(200,155,60,.045) 34px,rgba(200,155,60,.045) 35px),repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(200,155,60,.025) 59px,rgba(200,155,60,.025) 60px)}
+
+  .page-wrap{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:60px 24px 80px}
+
+  /* HEADER */
+  .page-header{text-align:center;margin-bottom:48px}
+  .back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;color:var(--text);text-decoration:none;text-transform:uppercase;border-bottom:1px solid rgba(200,155,60,.25);padding-bottom:2px;transition:color .2s,border-color .2s;margin-bottom:32px}
+  .back-link:hover{color:var(--gold);border-color:var(--gold)}
+  .page-title{font-family:'Cinzel',serif;font-size:clamp(24px,4vw,36px);color:var(--gold);letter-spacing:.18em;text-shadow:0 0 40px rgba(200,155,60,.4);margin-bottom:6px}
+  .page-title-en{font-family:'Rajdhani',sans-serif;font-size:13px;letter-spacing:.4em;color:var(--text);text-transform:uppercase;margin-bottom:20px}
+  .divider{display:flex;align-items:center;gap:12px;margin:0 auto;max-width:300px}
+  .divider-line{flex:1;height:1px;background:linear-gradient(to right,transparent,var(--gold-dark),transparent)}
+  .divider-diamond{width:7px;height:7px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+  .updated{font-family:'Rajdhani',sans-serif;font-size:11px;color:var(--text);letter-spacing:.1em;margin-top:16px}
+
+  /* LANG TOGGLE */
+  .lang-toggle{position:fixed;top:16px;right:16px;z-index:100;display:flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;letter-spacing:.15em;background:rgba(1,10,19,.8);border:1px solid rgba(200,155,60,.25);padding:6px 12px;backdrop-filter:blur(6px)}
+  .lang-toggle button{background:none;border:none;cursor:pointer;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;letter-spacing:.15em;padding:0;transition:color .2s}
+  .lang-toggle button.active{color:var(--gold)}
+  .lang-toggle button:hover{color:var(--gold)}
+  .lang-toggle span{color:rgba(200,155,60,.35);font-size:11px}
+
+  /* SECTIONS */
+  .pp-section{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid rgba(200,155,60,.2);padding:28px 32px;margin-bottom:18px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));position:relative;overflow:hidden}
+  @media(max-width:500px){.pp-section{padding:20px 18px}}
+  .pp-section-label{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.4em;color:var(--blue);text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  .pp-section-label::before{content:'';display:inline-block;width:14px;height:1px;background:linear-gradient(90deg,transparent,var(--blue));box-shadow:0 0 4px rgba(11,196,227,.7)}
+  .pp-section-title{font-family:'Cinzel',serif;font-size:16px;color:var(--gold);letter-spacing:.12em;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+  .pp-section-title::before{content:'';display:inline-block;width:3px;height:1.1em;background:linear-gradient(180deg,var(--gold-light),var(--gold-dark));box-shadow:0 0 6px rgba(200,155,60,.4);flex-shrink:0}
+  .pp-body{font-size:14px;color:var(--text);line-height:2}
+  .pp-body p{margin-bottom:12px}
+  .pp-body p:last-child{margin-bottom:0}
+
+  /* TABLE */
+  .pp-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+  .pp-table th{font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;text-align:left;padding:8px 12px;border-bottom:1px solid rgba(200,155,60,.3);background:rgba(200,155,60,.05)}
+  .pp-table td{padding:10px 12px;border-bottom:1px solid rgba(200,155,60,.1);color:var(--text);vertical-align:top;line-height:1.7}
+  .pp-table tr:last-child td{border-bottom:none}
+  .pp-table .td-type{color:var(--text-light);font-size:13px;min-width:120px}
+  .badge{display:inline-block;padding:2px 8px;background:rgba(11,196,227,.1);border:1px solid rgba(11,196,227,.3);font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--blue);text-transform:uppercase;vertical-align:middle;margin-left:6px}
+  .badge.local{background:rgba(200,155,60,.1);border-color:rgba(200,155,60,.3);color:var(--gold)}
+
+  /* FOOTER */
+  .page-footer{margin-top:48px;text-align:center;font-family:'Rajdhani',sans-serif;font-size:11px;color:rgba(255,255,255,.3);letter-spacing:.1em;border-top:1px solid rgba(200,155,60,.15);padding-top:28px}
+
+  /* LANG SWITCH */
+  [data-lang]{display:none}
+  [data-lang].shown{display:block}
+  .pp-table [data-lang]{display:none}
+  .pp-table [data-lang].shown{display:table-row}
+</style>
+</head>
+<body>
+<div class="hex-bg"></div>
+
+<div class="lang-toggle">
+  <button id="lang-jp" class="active" onclick="setLang('jp')">JP</button>
+  <span>|</span>
+  <button id="lang-en" onclick="setLang('en')">EN</button>
+</div>
+
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div><a href="index.html" class="back-link">&#8592; 診断トップへ戻る</a></div>
+    <p class="page-title">Privacy Policy</p>
+    <p class="page-title-en" data-label="jp">プライバシーポリシー</p>
+    <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
+    <p class="updated">最終更新 / Last updated: 2026-03-05</p>
+  </div>
+
+  <!-- ===== JAPANESE ===== -->
+  <div data-lang="jp" class="shown">
+
+    <div class="pp-section">
+      <div class="pp-section-label">Basic Policy</div>
+      <div class="pp-section-title">基本方針</div>
+      <div class="pp-body">
+        <p>本サイト「サモナーの素質診断」（以下「本サービス」）は、ユーザーの個人情報（氏名・メールアドレス・住所等）を一切収集しません。</p>
+        <p>本サービスはエンターテインメント目的のファンサイトであり、Riot Games Inc. とは一切関係ありません。</p>
+      </div>
+    </div>
+
+    <div class="pp-section">
+      <div class="pp-section-label">Data Collection</div>
+      <div class="pp-section-title">収集する情報と利用目的</div>
+      <div class="pp-body">
+        <table class="pp-table">
+          <thead>
+            <tr>
+              <th>データの種類</th>
+              <th>内容・利用目的</th>
+              <th>保存先</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-type">診断結果データ<span class="badge">40問完了時のみ</span></td>
+              <td>チャンピオン名・サモナータイプ・ロール・タイムスタンプ。コミュニティ統計（人気チャンピオンランキング等）の集計・表示に利用します。個人を特定できる情報は含みません。</td>
+              <td>Firebase Realtime Database<br><small>（Google LLC が運営するサーバー）</small></td>
+            </tr>
+            <tr>
+              <td class="td-type">フォント読み込み時のIPアドレス</td>
+              <td>Google Fonts のフォントを取得する際に、接続元IPアドレスが自動的に Google のサーバーへ送信されます。本サービスは当該データを取得・保存しません。</td>
+              <td>Google のサーバー（Google LLC）</td>
+            </tr>
+            <tr>
+              <td class="td-type">前回の診断結果<span class="badge local">ローカルのみ</span></td>
+              <td>「前回の診断」バナー表示のため、お使いのブラウザの LocalStorage に保存します。外部サーバーへの送信は行いません。×ボタンまたはブラウザのデータ削除で消去できます。</td>
+              <td>お使いのブラウザ（端末内）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="pp-section">
+      <div class="pp-section-label">Third Party Services</div>
+      <div class="pp-section-title">第三者サービスの利用</div>
+      <div class="pp-body">
+        <p>本サービスは以下の外部サービスを利用しています。各サービスのプライバシーポリシーもあわせてご確認ください。</p>
+        <table class="pp-table">
+          <thead>
+            <tr><th>サービス</th><th>提供者</th><th>プライバシーポリシー</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-type">Firebase Realtime Database</td>
+              <td>Google LLC</td>
+              <td><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener noreferrer" style="color:var(--blue)">firebase.google.com/support/privacy</a></td>
+            </tr>
+            <tr>
+              <td class="td-type">Google Fonts</td>
+              <td>Google LLC</td>
+              <td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="color:var(--blue)">policies.google.com/privacy</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="pp-section">
+      <div class="pp-section-label">Cookies</div>
+      <div class="pp-section-title">Cookie について</div>
+      <div class="pp-body">
+        <p>本サービスは Cookie を使用していません。ブラウザの LocalStorage のみを使用します（詳細は「収集する情報」をご参照ください）。</p>
+      </div>
+    </div>
+
+    <div class="pp-section">
+      <div class="pp-section-label">Children</div>
+      <div class="pp-section-title">未成年者の利用</div>
+      <div class="pp-body">
+        <p>本サービスは13歳未満のお子様を対象としていません。13歳未満の方がご利用になる場合は、保護者の同意のもとでご使用ください。</p>
+      </div>
+    </div>
+
+    <div class="pp-section">
+      <div class="pp-section-label">Changes</div>
+      <div class="pp-section-title">ポリシーの変更</div>
+      <div class="pp-body">
+        <p>本プライバシーポリシーは予告なく変更する場合があります。変更後は本ページの「最終更新」日付を更新します。重要な変更がある場合はサイト上でお知らせします。</p>
+      </div>
+    </div>
+
+  </div><!-- /jp -->
+
+  <!-- ===== ENGLISH ===== -->
+  <div data-lang="en">
+
+    <div class="pp-section">
+      <div class="pp-section-label">Basic Policy</div>
+      <div class="pp-section-title">Our Commitment</div>
+      <div class="pp-body">
+        <p>This site ("Summoner Personality Analysis") does not collect any personally identifiable information such as your name, email address, or location.</p>
+        <p>This is an entertainment fan site with no affiliation with Riot Games Inc.</p>
+      </div>
+    </div>
+
+    <div class="pp-section">
+      <div class="pp-section-label">Data Collection</div>
+      <div class="pp-section-title">What We Collect &amp; Why</div>
+      <div class="pp-body">
+        <table class="pp-table">
+          <thead>
+            <tr>
+              <th>Data Type</th>
+              <th>Details &amp; Purpose</th>
+              <th>Storage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-type">Diagnosis Results<span class="badge">40Q only</span></td>
+              <td>Champion name, summoner type, role, and a server-side timestamp. Used solely to aggregate and display community statistics (e.g., popular champion rankings). No personally identifiable data is included.</td>
+              <td>Firebase Realtime Database<br><small>(servers operated by Google LLC)</small></td>
+            </tr>
+            <tr>
+              <td class="td-type">IP Address (font loading)</td>
+              <td>Your IP address is automatically sent to Google's servers when Google Fonts are loaded. This site does not receive or store that data.</td>
+              <td>Google servers (Google LLC)</td>
+            </tr>
+            <tr>
+              <td class="td-type">Last Result<span class="badge local">Local only</span></td>
+              <td>Saved in your browser's LocalStorage to display the "Last Diagnosis" banner. Never transmitted to any external server. You can clear it with the × button or by clearing your browser data.</td>
+              <td>Your browser (on-device only)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="pp-section">
+      <div class="pp-section-label">Third Party Services</div>
+      <div class="pp-section-title">Third-Party Services</div>
+      <div class="pp-body">
+        <p>This site uses the following external services. We encourage you to review their privacy policies.</p>
+        <table class="pp-table">
+          <thead>
+            <tr><th>Service</th><th>Provider</th><th>Privacy Policy</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-type">Firebase Realtime Database</td>
+              <td>Google LLC</td>
+              <td><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener noreferrer" style="color:var(--blue)">firebase.google.com/support/privacy</a></td>
+            </tr>
+            <tr>
+              <td class="td-type">Google Fonts</td>
+              <td>Google LLC</td>
+              <td><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="color:var(--blue)">policies.google.com/privacy</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="pp-section">
+      <div class="pp-section-label">Cookies</div>
+      <div class="pp-section-title">Cookies</div>
+      <div class="pp-body">
+        <p>This site does not use cookies. Only browser LocalStorage is used (see "What We Collect" above for details).</p>
+      </div>
+    </div>
+
+    <div class="pp-section">
+      <div class="pp-section-label">Children</div>
+      <div class="pp-section-title">Children's Privacy</div>
+      <div class="pp-body">
+        <p>This service is not directed at children under 13. If you are under 13, please use this site only with parental consent.</p>
+      </div>
+    </div>
+
+    <div class="pp-section">
+      <div class="pp-section-label">Changes</div>
+      <div class="pp-section-title">Policy Updates</div>
+      <div class="pp-body">
+        <p>This policy may be updated without prior notice. The "Last updated" date at the top of this page will reflect any changes. Significant updates will be announced on the site.</p>
+      </div>
+    </div>
+
+  </div><!-- /en -->
+
+  <div class="page-footer">
+    &copy; 2026 Summoner Personality Analysis — Fan Site, Not affiliated with Riot Games
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+  let currentLang = 'jp';
+  function setLang(lang) {
+    currentLang = lang;
+    document.getElementById('lang-jp').classList.toggle('active', lang === 'jp');
+    document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      el.classList.toggle('shown', el.dataset.lang === lang);
+    });
+    const backLink = document.querySelector('.back-link');
+    if (backLink) backLink.textContent = lang === 'en' ? '← Back to Diagnosis' : '← 診断トップへ戻る';
+  }
+</script>
+</body>
+</html>
