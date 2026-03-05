@@ -127,7 +127,7 @@
   .match-score{display:flex;align-items:center;gap:12px;margin-bottom:20px}
   .match-label{font-size:11px;color:var(--text);letter-spacing:.1em}
   .match-bar-outer{flex:1;height:6px;background:rgba(200,155,60,.15);border-radius:3px}
-  .match-bar-inner{height:100%;border-radius:3px;background:linear-gradient(to right,var(--gold-dark),var(--gold));box-shadow:0 0 10px rgba(200,155,60,.4);animation:growBar 1.2s ease .8s both}
+  .match-bar-inner{height:100%;border-radius:3px;background:linear-gradient(to right,var(--gold-dark),var(--gold));box-shadow:0 0 10px rgba(200,155,60,.4)}
   @keyframes growBar{from{width:0 !important}}
   .match-pct{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--gold)}
   .reason-box{background:rgba(0,0,0,.3);border-left:3px solid var(--gold);padding:16px 20px;font-size:14px;line-height:2;color:var(--text)}
@@ -1475,8 +1475,12 @@ function renderChampionCard(champ,matchPct,lane,roleIcons){
   document.getElementById('result-title').textContent=en?displayTitle:`「${displayTitle}」`;
   document.getElementById('champ-official-link').href=champOfficialUrl(champ.id);
   document.getElementById('result-reason').textContent=displayReason;
-  (function(){const el=document.getElementById('match-pct');const target=matchPct;const dur=1100;const start=performance.now();el.textContent='0%';function upd(now){const p=Math.min((now-start)/dur,1);const v=Math.round(target*(1-Math.pow(1-p,3)));el.textContent=v+'%';if(p<1)requestAnimationFrame(upd);}requestAnimationFrame(upd);})();
-  setTimeout(()=>{document.getElementById('match-bar').style.width=matchPct+'%';},900);
+  const bar=document.getElementById('match-bar');bar.style.transition='none';bar.style.width='0%';
+  setTimeout(()=>{bar.style.transition='width 1.2s cubic-bezier(0.25,0.46,0.45,0.94)';bar.style.width=matchPct+'%';},50);
+  const pctEl=document.getElementById('match-pct');
+  pctEl.textContent='0%';
+  const dur=1200;const startTime=performance.now();
+  (function tick(now){const p=Math.min((now-startTime)/dur,1);const ease=1-Math.pow(1-p,3);pctEl.textContent=Math.round(ease*matchPct)+'%';if(p<1)requestAnimationFrame(tick);})(performance.now());
 }
 
 function getBestLane(){
