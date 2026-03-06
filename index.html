@@ -240,6 +240,26 @@
   .lane-toggle-btn{background:none;border:1px solid rgba(200,155,60,.3);color:var(--gold);padding:10px 28px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-size:18px;letter-spacing:.15em}
   .lane-toggle-btn:hover{background:rgba(200,155,60,.1)}
   .lane-others{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:8px}
+  /* ABOUT MODAL */
+  .about-btn{background:none;border:none;color:rgba(200,155,60,.6);font-family:'Rajdhani',sans-serif;font-size:13px;letter-spacing:.15em;cursor:pointer;text-decoration:underline;text-underline-offset:3px;margin-bottom:16px;transition:color .2s}
+  .about-btn:hover{color:var(--gold)}
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
+  .modal-box{background:linear-gradient(160deg,#0e1520,#0a1118);border:1px solid var(--gold-dark);max-width:560px;width:100%;max-height:85vh;overflow-y:auto;padding:36px 32px;position:relative}
+  .modal-box::-webkit-scrollbar{width:4px}
+  .modal-box::-webkit-scrollbar-thumb{background:var(--gold-dark)}
+  .modal-close{position:absolute;top:14px;right:18px;background:none;border:none;color:var(--gold);font-size:20px;cursor:pointer;line-height:1}
+  .modal-title{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);letter-spacing:.2em;margin-bottom:24px;text-align:center}
+  .modal-section{margin-bottom:22px}
+  .modal-section-label{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.3em;color:var(--blue);text-transform:uppercase;margin-bottom:8px}
+  .modal-section-title{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);margin-bottom:8px}
+  .modal-section p{font-size:13px;color:var(--text);line-height:1.9;margin:0}
+  .modal-steps{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+  .modal-step{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:var(--text);line-height:1.7}
+  .modal-step-num{min-width:28px;height:28px;background:rgba(200,155,60,.15);border:1px solid var(--gold-dark);font-family:'Cinzel',serif;font-size:11px;color:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .modal-divider{border:none;border-top:1px solid rgba(200,155,60,.15);margin:18px 0}
+  .modal-tips{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+  .modal-tips li{font-size:13px;color:var(--text);line-height:1.7;padding-left:16px;position:relative}
+  .modal-tips li::before{content:'⬡';position:absolute;left:0;color:var(--gold);font-size:9px;top:4px}
   /* PHASE INDICATOR */
   .phase-badge{display:inline-block;padding:3px 12px;background:rgba(11,196,227,.1);border:1px solid rgba(11,196,227,.3);font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.3em;color:var(--blue);text-transform:uppercase;margin-bottom:8px}
 
@@ -462,7 +482,55 @@
   <h1 class="main-title" id="main-title">サモナーの素質診断</h1>
   <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
   <p class="description" id="main-desc">あなたの性格・思考パターン・行動特性を分析し、<br>League of Legends でもっとも相性の良いチャンピオンを導き出します。<br>まず10問の基本診断からスタート。<br>段階的に深掘りし、最大<strong style="color:var(--gold)">40問</strong>まで挑戦できます。</p>
+  <button class="about-btn" onclick="openAboutModal()">サモナー素質診断とは？</button>
   <button class="btn-primary" id="btn-start" onclick="startDiagnosis()">診断を始める</button>
+
+  <!-- About Modal -->
+  <div class="modal-overlay" id="about-modal" style="display:none" onclick="closeAboutModal(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeAboutModal()">✕</button>
+      <div class="modal-title">サモナー素質診断とは？</div>
+
+      <div class="modal-section">
+        <div class="modal-section-label">Overview</div>
+        <div class="modal-section-title">この診断について</div>
+        <p>あなたの性格・思考パターン・行動特性を8つの軸で分析し、League of Legends の167体のチャンピオンの中からもっとも相性の良い1体を導き出します。プレイスタイルや価値観の深層まで読み解き、「あなたらしいチャンピオン」を見つけることが目的です。</p>
+      </div>
+
+      <hr class="modal-divider">
+
+      <div class="modal-section">
+        <div class="modal-section-label">How It Works</div>
+        <div class="modal-section-title">診断の流れ</div>
+        <div class="modal-steps">
+          <div class="modal-step"><div class="modal-step-num">1</div><div><strong style="color:var(--gold)">10問</strong>　まず基本診断。あなたにマッチするチャンピオンと適合度が判明します。</div></div>
+          <div class="modal-step"><div class="modal-step-num">2</div><div><strong style="color:var(--gold)">25問</strong>　さらに深掘り。サモナータイプ・強み・弱み・他者からの印象が解放されます。</div></div>
+          <div class="modal-step"><div class="modal-step-num">3</div><div><strong style="color:var(--gold)">40問</strong>　完全版。8軸詳細・相性チャンピオン・天敵チャンピオンまですべて解放されます。</div></div>
+        </div>
+      </div>
+
+      <hr class="modal-divider">
+
+      <div class="modal-section">
+        <div class="modal-section-label">Results</div>
+        <div class="modal-section-title">結果でわかること</div>
+        <p>あなたに最もマッチするチャンピオン（レーン別）／サモナータイプ（性格タイプ名）／8つの性格軸の詳細分析／相性の良いチャンピオン・天敵チャンピオン（40問）／あなたの戦い方を表すバトルクリード（25問〜）</p>
+      </div>
+
+      <hr class="modal-divider">
+
+      <div class="modal-section">
+        <div class="modal-section-label">Tips</div>
+        <div class="modal-section-title">楽しむためのコツ</div>
+        <ul class="modal-tips">
+          <li>「こうありたい」ではなく「実際の自分」で答えるほど、精度が上がります</li>
+          <li>正解・不正解はありません。直感で選ぶのが◎</li>
+          <li>40問まで挑戦すると、より深い分析結果が楽しめます</li>
+          <li>診断結果はLoLのプレイスキルとは無関係です。気軽に楽しんでください</li>
+        </ul>
+      </div>
+    </div>
+  </div>
   <div class="stats-preview">
     <div class="stat-item"><span class="stat-num">40</span><span class="stat-label" id="stat-label-0">最大質問数</span></div>
     <div class="stat-item"><span class="stat-num">167</span><span class="stat-label" id="stat-label-1">チャンピオン</span></div>
@@ -1246,6 +1314,16 @@ function initQuestions(){
   const maxLen=Math.max(...dims.map(d=>byDim[d].length));
   for(let i=0;i<maxLen;i++){dims.forEach(d=>{if(byDim[d][i])ordered.push(byDim[d][i]);});}
   return ordered;
+}
+
+function openAboutModal(){
+  document.getElementById('about-modal').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeAboutModal(e){
+  if(e&&e.target!==document.getElementById('about-modal')&&!e.target.classList.contains('modal-close'))return;
+  document.getElementById('about-modal').style.display='none';
+  document.body.style.overflow='';
 }
 
 function startDiagnosis(){
