@@ -718,6 +718,7 @@
       <button class="btn-download" id="btn-download" onclick="downloadCard()"><span id="download-btn-text">⬇ 結果カードをダウンロードする</span></button>
       <button class="btn-share-x" id="btn-share-x" onclick="shareToX()"><svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span id="share-btn-text">Xでシェアする</span></button>
       <button class="btn-secondary" id="btn-retry" onclick="retryDiagnosis()">もう一度診断する</button>
+      <button class="btn-secondary" id="btn-top" onclick="goToTop()">トップページに戻る</button>
     </div>
 
     <!-- Community Stats (40問のみ表示) -->
@@ -1779,6 +1780,15 @@ function buildLegend(norm){
 }
 
 function retryDiagnosis(){
+  selectedLane=null;currentPhase=1;currentQ=0;currentPhaseEnd=10;
+  scores={V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0};
+  laneResultsCache={};lastNormalized=null;answerHistory=[];
+  allActiveQuestions=initQuestions();
+  document.getElementById('lang-toggle').style.display='none';
+  showAdOverlay(()=>{showScreen('question-screen');renderQuestion();});
+}
+
+function goToTop(){
   selectedLane=null;currentPhase=1;currentQ=0;currentPhaseEnd=10;
   scores={V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0};
   allActiveQuestions=[];laneResultsCache={};lastNormalized=null;
