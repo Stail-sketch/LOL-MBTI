@@ -263,6 +263,10 @@
   .modal-tips li{font-size:13px;color:var(--text);line-height:1.7;padding-left:16px;position:relative}
   .modal-tips li::before{content:'⬡';position:absolute;left:0;color:var(--gold);font-size:9px;top:4px}
   .modal-result-img{display:block;width:100%;margin-top:10px;border:1px solid rgba(200,155,60,.2);border-radius:2px;opacity:.9}
+  .modal-card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .modal-card-item{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .modal-card-item img{width:100%;border:1px solid rgba(200,155,60,.2);border-radius:2px;opacity:.9}
+  .modal-card-label{font-family:'Cinzel',serif;font-size:11px;color:var(--gold);letter-spacing:.1em}
   .modal-q-cards{display:flex;flex-direction:column;gap:12px}
   .modal-q-card{border:1px solid rgba(200,155,60,.25);padding:14px 16px;background:rgba(200,155,60,.04)}
   .modal-q-badge{display:inline-block;font-family:'Cinzel',serif;font-size:12px;color:var(--bg);background:linear-gradient(135deg,var(--gold-dark),var(--gold));padding:2px 12px;letter-spacing:.1em;margin-bottom:10px}
@@ -564,7 +568,20 @@
         <div class="modal-section-label">Result Card</div>
         <div class="modal-section-title">診断カードについて</div>
         <p>診断結果はオリジナルの「診断カード」として画像保存できます。チャンピオン名・適合度・レーン・性格プロファイルがひとまとめになったカードで、SNSへのシェアにも対応しています。診断後の結果画面からワンタップで保存・X（旧Twitter）への投稿が可能です。</p>
-        <img class="modal-result-img" src="modal_images/result_card.png" alt="診断カード例">
+        <div class="modal-card-grid">
+          <div class="modal-card-item">
+            <div class="modal-card-label">10問</div>
+            <img src="modal_images/lol-diagnosis-10.png" alt="10問カード例">
+          </div>
+          <div class="modal-card-item">
+            <div class="modal-card-label">25問</div>
+            <img src="modal_images/lol-diagnosis-25.png" alt="25問カード例">
+          </div>
+          <div class="modal-card-item">
+            <div class="modal-card-label">40問</div>
+            <img src="modal_images/lol-diagnosis-40.png" alt="40問カード例">
+          </div>
+        </div>
       </div>
 
       <hr class="modal-divider">
