@@ -45,6 +45,7 @@
   .btn-primary:active{transform:scale(.97);filter:brightness(.95)}
   @keyframes pulse-btn{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
   #btn-add-diagnosis{font-size:20px;padding:20px 60px;animation:pulse-btn 1.6s ease-in-out infinite}
+  #btn-start{width:80%;max-width:600px;font-size:22px;padding:22px 0;letter-spacing:.3em}
   .stats-preview{display:flex;gap:40px;margin-top:50px;flex-wrap:wrap;justify-content:center}
   .stat-item{text-align:center}
   .stat-num{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:var(--gold);display:block;text-shadow:0 0 20px rgba(200,155,60,.4)}
@@ -495,6 +496,12 @@
         <div class="modal-section-label">Overview</div>
         <div class="modal-section-title">この診断について</div>
         <p>あなたの性格・思考パターン・行動特性を8つの軸で分析し、League of Legends の167体のチャンピオンの中からもっとも相性の良い1体を導き出します。プレイスタイルや価値観の深層まで読み解き、「あなたらしいチャンピオン」を見つけることが目的です。</p>
+        <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-top:16px">
+          <div class="stat-item"><span class="stat-num">40</span><span class="stat-label">最大質問数</span></div>
+          <div class="stat-item"><span class="stat-num">167</span><span class="stat-label">チャンピオン</span></div>
+          <div class="stat-item"><span class="stat-num">8</span><span class="stat-label">性格軸</span></div>
+          <div class="stat-item"><span class="stat-num">5</span><span class="stat-label">ロール</span></div>
+        </div>
       </div>
 
       <hr class="modal-divider">
@@ -530,12 +537,6 @@
         </ul>
       </div>
     </div>
-  </div>
-  <div class="stats-preview">
-    <div class="stat-item"><span class="stat-num">40</span><span class="stat-label" id="stat-label-0">最大質問数</span></div>
-    <div class="stat-item"><span class="stat-num">167</span><span class="stat-label" id="stat-label-1">チャンピオン</span></div>
-    <div class="stat-item"><span class="stat-num">8</span><span class="stat-label" id="stat-label-2">性格軸</span></div>
-    <div class="stat-item"><span class="stat-num">5</span><span class="stat-label" id="stat-label-3">ロール</span></div>
   </div>
 </div>
 
