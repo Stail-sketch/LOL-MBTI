@@ -43,6 +43,8 @@
   .btn-primary:hover::before{transform:translateX(100%)}
   .btn-primary:hover{transform:scale(1.05);filter:brightness(1.2) drop-shadow(0 0 20px rgba(200,155,60,.6))}
   .btn-primary:active{transform:scale(.97);filter:brightness(.95)}
+  @keyframes pulse-btn{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+  #btn-add-diagnosis{font-size:20px;padding:20px 60px;animation:pulse-btn 1.6s ease-in-out infinite}
   .stats-preview{display:flex;gap:40px;margin-top:50px;flex-wrap:wrap;justify-content:center}
   .stat-item{text-align:center}
   .stat-num{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:var(--gold);display:block;text-shadow:0 0 20px rgba(200,155,60,.4)}
@@ -230,10 +232,14 @@
   /* FAMOUS */
 
   /* LANE TABS */
-  .lane-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
-  .lane-tab{padding:8px 18px;background:transparent;border:1px solid var(--gold-dark);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;cursor:pointer;transition:all .25s;clip-path:polygon(6px 0%,calc(100% - 6px) 0%,100% 50%,calc(100% - 6px) 100%,6px 100%,0% 50%)}
+  .lane-display{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:16px}
+  .lane-tab{padding:12px 28px;background:transparent;border:1px solid var(--gold-dark);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:18px;letter-spacing:.15em;cursor:pointer;transition:all .25s;clip-path:polygon(6px 0%,calc(100% - 6px) 0%,100% 50%,calc(100% - 6px) 100%,6px 100%,0% 50%)}
   .lane-tab:hover{border-color:var(--gold);color:var(--gold)}
   .lane-tab.active{background:rgba(200,155,60,.2);border-color:var(--gold);color:var(--gold)}
+  .lane-selected .lane-tab{font-size:26px;padding:14px 44px}
+  .lane-toggle-btn{background:none;border:1px solid rgba(200,155,60,.3);color:var(--gold);padding:10px 28px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-size:18px;letter-spacing:.15em}
+  .lane-toggle-btn:hover{background:rgba(200,155,60,.1)}
+  .lane-others{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:8px}
   /* PHASE INDICATOR */
   .phase-badge{display:inline-block;padding:3px 12px;background:rgba(11,196,227,.1);border:1px solid rgba(11,196,227,.3);font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.3em;color:var(--blue);text-transform:uppercase;margin-bottom:8px}
 
@@ -512,14 +518,7 @@
     <div class="result-header">
       <p class="result-label">Your Champion Match</p>
       <h2 class="section-title" id="result-screen-title">あなたのチャンピオンが決まりました</h2>
-    </div>
-    <!-- レーンタブ -->
-    <div class="lane-tabs" id="lane-tabs" style="display:none">
-      <button class="lane-tab" onclick="switchLaneTab('TOP')"><img src="role_icons/top.png" width="18" height="18"> TOP</button>
-      <button class="lane-tab" onclick="switchLaneTab('JUNGLE')"><img src="role_icons/jungle.png" width="18" height="18"> JUNGLE</button>
-      <button class="lane-tab" onclick="switchLaneTab('MID')"><img src="role_icons/mid.png" width="18" height="18"> MID</button>
-      <button class="lane-tab" onclick="switchLaneTab('ADC')"><img src="role_icons/adc.png" width="18" height="18"> ADC</button>
-      <button class="lane-tab" onclick="switchLaneTab('SUPPORT')"><img src="role_icons/support.png" width="18" height="18"> SUPPORT</button>
+      <div class="lane-selected" id="lane-selected-tab"></div>
     </div>
     <div class="champion-card">
       <div class="champion-banner" id="champion-banner"></div>
@@ -632,6 +631,11 @@
         <canvas id="radarCanvas" width="220" height="220"></canvas>
         <div class="radar-legend" id="radar-legend"></div>
       </div>
+    </div>
+    <!-- レーンタブ -->
+    <div class="lane-display" id="lane-display" style="display:none">
+      <button class="lane-toggle-btn" id="lane-toggle-btn" onclick="toggleOtherLanes()">他レーンのタイプを見たい人はこちら ▼</button>
+      <div class="lane-others" id="lane-others" style="display:none"></div>
     </div>
     <div class="result-actions">
       <button class="btn-primary" id="btn-add-diagnosis" onclick="continueToNextPhase()" style="display:none">さらに答えて精度を上げる</button>
@@ -1417,11 +1421,9 @@ function showResult(normalized){
 function _showResultInner(normalized){
   showScreen('result-screen');
   const roleIcons={TOP:'⚔️',JUNGLE:'🌿',MID:'⚡',ADC:'🏹',SUPPORT:'🛡️',ANY:'👑'};
-  document.getElementById('lane-tabs').style.display='flex';
+  document.getElementById('lane-display').style.display='flex';
   const displayLane=selectedLane==='ANY'?getBestLane():(selectedLane||'TOP');
-  document.querySelectorAll('.lane-tab').forEach(t=>t.classList.remove('active'));
-  const activeTabEl=document.querySelector(`.lane-tab[onclick="switchLaneTab('${displayLane}')"]`);
-  if(activeTabEl)activeTabEl.classList.add('active');
+  renderLaneTabs(displayLane);
   const cache=laneResultsCache[displayLane];
   renderChampionCard(cache.champ,cache.matchPct,displayLane,roleIcons);
   const addBtn=document.getElementById('btn-add-diagnosis');
@@ -1491,16 +1493,40 @@ function getBestLane(){
   },lanes[0]);
 }
 
+function renderLaneTabs(activeLane){
+  const lanes=['TOP','JUNGLE','MID','ADC','SUPPORT'];
+  const selected=document.getElementById('lane-selected-tab');
+  const others=document.getElementById('lane-others');
+  selected.innerHTML='';
+  others.innerHTML='';
+  others.style.display='none';
+  document.getElementById('lane-toggle-btn').textContent='他レーンのタイプを見たい人はこちら ▼';
+  lanes.forEach(l=>{
+    const btn=document.createElement('button');
+    btn.className='lane-tab'+(l===activeLane?' active':'');
+    btn.textContent=l;
+    btn.onclick=()=>switchLaneTab(l);
+    if(l===activeLane)selected.appendChild(btn);
+    else others.appendChild(btn);
+  });
+}
+
+function toggleOtherLanes(){
+  const el=document.getElementById('lane-others');
+  const btn=document.getElementById('lane-toggle-btn');
+  const open=el.style.display==='flex';
+  el.style.display=open?'none':'flex';
+  btn.textContent=open?'他レーンのタイプを見たい人はこちら ▼':'閉じる ▲';
+}
+
 function switchLaneTab(lane){
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   if(lane==='ANY')lane=getBestLane();
   if(!laneResultsCache[lane])return;
   const roleIcons={TOP:'⚔️',JUNGLE:'🌿',MID:'⚡',ADC:'🏹',SUPPORT:'🛡️',ANY:'👑'};
-  document.querySelectorAll('.lane-tab').forEach(t=>t.classList.remove('active'));
-  const activeTabEl=document.querySelector(`.lane-tab[onclick="switchLaneTab('${lane}')"]`);
-  if(activeTabEl)activeTabEl.classList.add('active');
+  renderLaneTabs(lane);
   const cache=laneResultsCache[lane];
   renderChampionCard(cache.champ,cache.matchPct,lane,roleIcons);
-  window.scrollTo(0,0);
   updateSharePreview(cache.champ,cache.matchPct,'',lane);
 }
 
