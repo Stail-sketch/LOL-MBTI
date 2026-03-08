@@ -15,7 +15,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vars.css">
 <link rel="stylesheet" href="style.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <!-- CSS は style.css に分離済み -->
@@ -25,7 +24,7 @@
 <!-- ===== 広告オーバーレイ ===== -->
 <div id="ad-overlay">
   <div id="ad-overlay-inner">
-    <button id="ad-close-btn" onclick="closeAdOverlay()">✕</button>
+    <button id="ad-close-btn" aria-label="広告を閉じる" onclick="closeAdOverlay()">✕</button>
     <div id="ad-label">Advertisement</div>
     <div id="ad-unit">
       <!-- Google AdSense 審査承認後、以下のコードに差し替えてください -->
@@ -74,9 +73,9 @@
   <button class="btn-primary" id="btn-start" onclick="startDiagnosis()">診断を始める</button>
 
   <!-- About Modal -->
-  <div class="modal-overlay" id="about-modal" style="display:none" onclick="closeAboutModal(event)">
+  <div class="modal-overlay" id="about-modal" role="dialog" aria-modal="true" aria-label="このサービスについて" style="display:none" onclick="closeAboutModal(event)">
     <div class="modal-box">
-      <button class="modal-close" onclick="closeAboutModal()">✕</button>
+      <button class="modal-close" aria-label="モーダルを閉じる" onclick="closeAboutModal()">✕</button>
       <div class="modal-title">サモナー素質診断とは？</div>
 
       <div class="modal-section">
@@ -230,7 +229,7 @@
         <div id="result-role-badge" class="champion-role-badge"></div>
         <h2 class="champion-name" id="result-name"></h2>
         <p class="champion-title" id="result-title"></p>
-        <a id="champ-official-link" class="champ-official-link" href="#" target="_blank" rel="noopener noreferrer"><span id="champ-link-text">チャンピオンの詳しい解説はこちら</span><svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10L10 1M10 1H4M10 1V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a id="champ-official-link" class="champ-official-link" href="#" target="_blank" rel="noopener noreferrer"><span id="champ-link-text">チャンピオンの詳しい解説はこちら</span><svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 10L10 1M10 1H4M10 1V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <div class="match-score">
           <span class="match-label" id="match-label-el">適合度</span>
           <div class="match-bar-outer"><div class="match-bar-inner" id="match-bar" style="width:0%"></div></div>
@@ -344,7 +343,7 @@
     <div class="result-actions">
       <button class="btn-primary" id="btn-add-diagnosis" onclick="continueToNextPhase()" style="display:none">さらに答えて精度を上げる</button>
       <button class="btn-download" id="btn-download" onclick="downloadCard()"><span id="download-btn-text">⬇ 結果カードをダウンロードする</span></button>
-      <button class="btn-share-x" id="btn-share-x" onclick="shareToX()"><svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span id="share-btn-text">Xでシェアする</span></button>
+      <button class="btn-share-x" id="btn-share-x" onclick="shareToX()"><svg class="x-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span id="share-btn-text">Xでシェアする</span></button>
       <button class="btn-secondary" id="btn-retry" onclick="retryDiagnosis()">もう一度診断する</button>
       <button class="btn-secondary" id="btn-top" onclick="goToTop()">トップページに戻る</button>
     </div>

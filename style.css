@@ -37,6 +37,7 @@
   .section-desc{text-align:center;color:var(--text);font-size:13px;margin-bottom:40px;letter-spacing:.05em}
   .roles-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;max-width:900px;width:100%}
   .roles-grid .role-card:last-child{grid-column:3}
+  @media(max-width:768px){.roles-grid{grid-template-columns:repeat(4,1fr)}}
   @media(max-width:700px){.roles-grid{grid-template-columns:repeat(3,1fr)}}
   @media(max-width:420px){.roles-grid{grid-template-columns:repeat(2,1fr)}.roles-grid .role-card:last-child{grid-column:auto}}
   .role-card{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--gold-dark);padding:24px 16px;text-align:center;cursor:pointer;transition:all .3s ease;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));position:relative;overflow:hidden}
@@ -134,7 +135,6 @@
   .qcount-card.selected{border-color:var(--gold);box-shadow:0 0 28px rgba(200,155,60,.35)}
   .qcount-num{font-family:'Cinzel',serif;font-size:36px;font-weight:900;color:var(--gold);line-height:1;text-shadow:0 0 20px rgba(200,155,60,.4)}
   .qcount-unit{font-family:'Rajdhani',sans-serif;font-size:11px;color:var(--text);letter-spacing:.2em}
-  .qcount-right{}
   .qcount-tag{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.25em;color:var(--blue);text-transform:uppercase;margin-bottom:4px}
   .qcount-desc{font-size:13px;color:var(--text-light);line-height:1.6}
   .qcount-time{font-family:'Rajdhani',sans-serif;font-size:11px;color:var(--text);margin-top:4px;letter-spacing:.1em}
@@ -142,8 +142,6 @@
   /* ===== EXTENDED RESULT SECTIONS ===== */
   .ext-section{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid rgba(200,155,60,.2);padding:28px 32px;margin-bottom:20px;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));animation:fadeInUp .6s ease both}
   .ext-section.hidden{display:none}
-  /* ext-label は下部の拡張ブロックで上書き定義済み → ここは削除対象 */
-  .ext-label-placeholder{display:none}
   .ext-title{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);margin-bottom:4px;letter-spacing:.14em}
   .ext-subtitle{font-size:12px;color:var(--text);margin-bottom:18px;font-style:italic}
   .ext-body{font-size:14px;color:var(--text);line-height:2}
@@ -202,7 +200,6 @@
   .axis-row-left{text-align:right}
   .axis-key{font-family:'Cinzel',serif;font-size:22px;font-weight:700;line-height:1}
   .axis-name{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.15em;color:var(--text);margin-top:2px}
-  .axis-row-right{}
   .axis-bar-wrap{display:flex;align-items:center;gap:8px;margin-bottom:4px}
   .axis-bar-bg{flex:1;height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
   .axis-bar-fill{height:100%;border-radius:2px;transition:width 1s ease}

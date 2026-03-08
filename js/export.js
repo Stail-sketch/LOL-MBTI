@@ -5,6 +5,15 @@ function drawRadarOnCard(norm){
 }
 
 async function downloadCard(){
+  if(!window.html2canvas){
+    await new Promise((resolve,reject)=>{
+      const s=document.createElement('script');
+      s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      s.onload=resolve;
+      s.onerror=()=>reject(new Error('html2canvas読み込み失敗'));
+      document.head.appendChild(s);
+    });
+  }
   const isEN=currentLang==='en';
   const btn=document.getElementById('btn-download');
   const genLabel=isEN?'Generating…':'生成中…';
