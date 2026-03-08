@@ -12,27 +12,27 @@ function _showResultInner(normalized){
   const cache=laneResultsCache[displayLane];
   renderChampionCard(cache.champ,cache.matchPct,displayLane,roleIcons);
   const addBtn=document.getElementById('btn-add-diagnosis');
-  addBtn.style.display=currentPhaseEnd<40?'block':'none';
-  const is25=currentPhaseEnd>=25;
-  const is40=currentPhaseEnd>=40;
-  ['sec-type','sec-catchphrase','sec-perception','sec-sw'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is25));
-  ['sec-synergy','sec-opposite','sec-allies','sec-enemies','sec-axis'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is40));
-  document.getElementById('ranking-section').classList.toggle('hidden',!is40);
+  addBtn.style.display=currentPhaseEnd<32?'block':'none';
+  const is16=currentPhaseEnd>=16;
+  const is32=currentPhaseEnd>=32;
+  ['sec-type','sec-catchphrase','sec-perception','sec-sw'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is16));
+  ['sec-synergy','sec-opposite','sec-allies','sec-enemies','sec-axis'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is32));
+  document.getElementById('ranking-section').classList.toggle('hidden',!is32);
   let detectedTypeName='';
   let detectedTypeNameJP='';
-  if(is25){
+  if(is16){
     const type=getSummonerType(normalized);
     detectedTypeNameJP=type.name;
     const enType=currentLang==='en'&&SUMMONER_TYPES_EN[type.id]?SUMMONER_TYPES_EN[type.id]:null;
     detectedTypeName=enType?enType.name:type.name;
     renderTypeSection(type);
-    if(is40)renderFullSection(type,normalized);
+    if(is32)renderFullSection(type,normalized);
   }
   drawRadar(normalized);buildLegend(normalized);
   applyResultLang();
   updateSharePreview(cache.champ,cache.matchPct,detectedTypeName);
   saveLastResult(cache.champ,cache.matchPct,detectedTypeNameJP,displayLane);
-  if(is40){
+  if(is32){
     sendDiagnosisResult(cache.champ,detectedTypeNameJP,selectedLane);
     loadRankings();
   }
