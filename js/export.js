@@ -71,8 +71,10 @@ async function downloadCard(){
     await document.fonts.ready;
     const imgs=[...document.querySelectorAll('#card-export img')];
     await Promise.all(imgs.map(img=>new Promise(r=>{
-      if(img.complete&&img.naturalWidth>0)r();
-      else{img.onload=r;img.onerror=r;}
+      if(img.complete&&img.naturalWidth>0){r();return;}
+      const cleanup=()=>{img.onload=null;img.onerror=null;};
+      img.onload=()=>{cleanup();r();};
+      img.onerror=()=>{cleanup();console.warn('画像読み込み失敗:',img.src);r();};
     })));
 
     const canvas=await html2canvas(document.querySelector('#card-export .ce-wrap'),{

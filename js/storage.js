@@ -17,7 +17,10 @@ function loadLastResult(){
     if(d.date)meta+='  '+d.date;
     metaEl.textContent=meta;
     banner.style.display='flex';
-  }catch(e){}
+  }catch(e){
+    console.error('前回結果の読み込みに失敗しました。データを削除します。',e);
+    localStorage.removeItem('lol_last_result');
+  }
 }
 
 function clearLastResult(){
