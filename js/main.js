@@ -50,6 +50,10 @@ window.addEventListener('popstate',function(){
   }
 });
 
+// ===== フェーズ定数 =====
+const PHASE_OFFSET={1:0,2:10,3:25};
+const PHASE_LENGTH={1:10,2:15,3:15};
+
 // ===== STATE =====
 let selectedLane=null;
 let currentPhase=1;       // 1=1-10問, 2=11-25問, 3=26-40問
@@ -82,10 +86,14 @@ function closeAboutModal(e){
   document.body.style.overflow='';
 }
 
-function startDiagnosis(){
+function resetState(){
   selectedLane=null;currentPhase=1;currentQ=0;currentPhaseEnd=10;
   scores={V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0};
   laneResultsCache={};lastNormalized=null;answerHistory=[];
+}
+
+function startDiagnosis(){
+  resetState();
   allActiveQuestions=initQuestions();
   document.getElementById('lang-toggle').style.display='none';
   showAdOverlay(()=>{showScreen('question-screen');renderQuestion();});
@@ -113,18 +121,12 @@ function continueToNextPhase(){
 }
 
 function retryDiagnosis(){
-  selectedLane=null;currentPhase=1;currentQ=0;currentPhaseEnd=10;
-  scores={V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0};
-  laneResultsCache={};lastNormalized=null;answerHistory=[];
-  allActiveQuestions=initQuestions();
-  document.getElementById('lang-toggle').style.display='none';
-  showAdOverlay(()=>{showScreen('question-screen');renderQuestion();});
+  startDiagnosis();
 }
 
 function goToTop(){
-  selectedLane=null;currentPhase=1;currentQ=0;currentPhaseEnd=10;
-  scores={V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0};
-  allActiveQuestions=[];laneResultsCache={};lastNormalized=null;
+  resetState();
+  allActiveQuestions=[];
   document.getElementById('lang-toggle').style.display='flex';
   showScreen('start-screen');
   loadLastResult();

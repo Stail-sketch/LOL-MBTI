@@ -17,14 +17,14 @@ function answer(chosen){
   btnA.disabled=true;
   btnB.disabled=true;
   document.getElementById('back-btn').disabled=true;
-  const offset=currentPhase===1?0:currentPhase===2?10:25;
+  const offset=PHASE_OFFSET[currentPhase];
   const q=allActiveQuestions[offset+currentQ];
   const btn=chosen===1?btnA:btnB;
   btn.classList.add('selected');
   const isHigh=(q.hi==='a'&&chosen===1)||(q.hi==='b'&&chosen===0);
   if(isHigh)scores[q.dim]++;
   answerHistory.push({dim:q.dim,isHigh});
-  const phaseTotal=currentPhase===1?10:15;
+  const phaseTotal=PHASE_LENGTH[currentPhase];
   setTimeout(()=>{
     currentQ++;
     if(currentQ>=phaseTotal){

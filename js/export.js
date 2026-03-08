@@ -1,19 +1,7 @@
 // export.js - カードダウンロード・Xシェア
 
 function drawRadarOnCard(norm){
-  const canvas=document.getElementById('ce-radar');
-  const ctx=canvas.getContext('2d');
-  const W=canvas.width,H=canvas.height,cx=W/2,cy=H/2,r=Math.min(W,H)/2-20;
-  ctx.clearRect(0,0,W,H);
-  const keys=['V','I','H','T','A','W','S','D'];
-  const n=keys.length;
-  const angles=keys.map((_,i)=>(i/n)*2*Math.PI-Math.PI/2);
-  for(let lv=1;lv<=5;lv++){ctx.beginPath();angles.forEach((a,i)=>{const lr=r*lv/5,x=cx+Math.cos(a)*lr,y=cy+Math.sin(a)*lr;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.closePath();ctx.strokeStyle='rgba(200,155,60,.15)';ctx.lineWidth=1;ctx.stroke();}
-  angles.forEach(a=>{ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);ctx.strokeStyle='rgba(200,155,60,.2)';ctx.lineWidth=1;ctx.stroke();});
-  ctx.beginPath();keys.forEach((k,i)=>{const val=0.25+(norm[k]/100)*0.75,x=cx+Math.cos(angles[i])*r*val,y=cy+Math.sin(angles[i])*r*val;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.closePath();ctx.fillStyle='rgba(200,155,60,.2)';ctx.fill();ctx.strokeStyle='rgba(200,155,60,.8)';ctx.lineWidth=2;ctx.stroke();
-  keys.forEach((k,i)=>{const val=0.25+(norm[k]/100)*0.75,x=cx+Math.cos(angles[i])*r*val,y=cy+Math.sin(angles[i])*r*val;ctx.beginPath();ctx.arc(x,y,3,0,2*Math.PI);ctx.fillStyle=DIMENSIONS.find(d=>d.key===k).color;ctx.fill();});
-  ctx.font='9px Rajdhani,sans-serif';ctx.fillStyle='rgba(200,155,60,.7)';ctx.textAlign='center';
-  keys.forEach((k,i)=>{const lr=r+14,x=cx+Math.cos(angles[i])*lr,y=cy+Math.sin(angles[i])*lr+3;ctx.fillText(k,x,y);});
+  drawRadarChart(document.getElementById('ce-radar'),norm);
 }
 
 async function downloadCard(){

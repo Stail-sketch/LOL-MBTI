@@ -3,9 +3,9 @@
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
 
 function renderQuestion(){
-  const offset=currentPhase===1?0:currentPhase===2?10:25;
+  const offset=PHASE_OFFSET[currentPhase];
   const q=allActiveQuestions[offset+currentQ];
-  const phaseTotal=currentPhase===1?10:15;
+  const phaseTotal=PHASE_LENGTH[currentPhase];
   const pct=Math.round((currentQ/phaseTotal)*100);
   document.getElementById('progress-bar').style.width=Math.max(2,pct)+'%';
   document.getElementById('q-current').textContent=offset+currentQ+1;
@@ -140,8 +140,7 @@ function showChampDetail(champId,kind){
   }
 }
 
-function drawRadar(norm){
-  const canvas=document.getElementById('radarCanvas');
+function drawRadarChart(canvas,norm){
   const ctx=canvas.getContext('2d');
   const W=canvas.width,H=canvas.height,cx=W/2,cy=H/2,r=Math.min(W,H)/2-20;
   ctx.clearRect(0,0,W,H);
@@ -154,6 +153,10 @@ function drawRadar(norm){
   keys.forEach((k,i)=>{const val=0.25+(norm[k]/100)*0.75,x=cx+Math.cos(angles[i])*r*val,y=cy+Math.sin(angles[i])*r*val;ctx.beginPath();ctx.arc(x,y,3,0,2*Math.PI);ctx.fillStyle=DIMENSIONS.find(d=>d.key===k).color;ctx.fill();});
   ctx.font='9px Rajdhani,sans-serif';ctx.fillStyle='rgba(200,155,60,.7)';ctx.textAlign='center';
   keys.forEach((k,i)=>{const lr=r+14,x=cx+Math.cos(angles[i])*lr,y=cy+Math.sin(angles[i])*lr+3;ctx.fillText(k,x,y);});
+}
+
+function drawRadar(norm){
+  drawRadarChart(document.getElementById('radarCanvas'),norm);
 }
 
 function buildLegend(norm){
