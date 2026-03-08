@@ -187,10 +187,11 @@ function renderRankings({total,champions,types,roles}){
     `<div class="rank-item"><span class="rank-num">${i+1}</span><span class="rank-name">${name}</span><span class="rank-count">${cnt}回</span></div>`
   ).join('');
   const rEl=document.getElementById('rank-roles');
-  const roleIcon={TOP:'⚔️',JUNGLE:'🌿',MID:'⚡',ADC:'🏹',SUPPORT:'🛡️'};
-  rEl.innerHTML=roles.map(([role,cnt],i)=>
-    `<div class="rank-item"><span class="rank-num">${i+1}</span><span class="rank-name">${roleIcon[role]||''} ${role}</span><span class="rank-count">${cnt}回</span></div>`
-  ).join('');
+  const roleIconSrc={TOP:'role_icons/top.png',JUNGLE:'role_icons/jungle.png',MID:'role_icons/mid.png',ADC:'role_icons/adc.png',SUPPORT:'role_icons/support.png'};
+  rEl.innerHTML=roles.map(([role,cnt],i)=>{
+    const iconHtml=roleIconSrc[role]?`<img class="rank-role-icon" src="${roleIconSrc[role]}" alt="${role}">` :'';
+    return `<div class="rank-item"><span class="rank-num">${i+1}</span><span class="rank-name">${iconHtml}${role}</span><span class="rank-count">${cnt}回</span></div>`;
+  }).join('');
 }
 
 // ===== NEW ANIMATIONS =====

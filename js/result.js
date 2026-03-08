@@ -5,12 +5,11 @@ function showResult(normalized){
 }
 function _showResultInner(normalized){
   showScreen('result-screen');
-  const roleIcons={TOP:'⚔️',JUNGLE:'🌿',MID:'⚡',ADC:'🏹',SUPPORT:'🛡️',ANY:'👑'};
   document.getElementById('lane-display').style.display='flex';
   const displayLane=selectedLane==='ANY'?getBestLane():(selectedLane||'TOP');
   renderLaneTabs(displayLane);
   const cache=laneResultsCache[displayLane];
-  renderChampionCard(cache.champ,cache.matchPct,displayLane,roleIcons);
+  renderChampionCard(cache.champ,cache.matchPct,displayLane);
   const addBtn=document.getElementById('btn-add-diagnosis');
   addBtn.style.display=currentPhaseEnd<32?'block':'none';
   const is16=currentPhaseEnd>=16;
@@ -42,10 +41,9 @@ function switchLaneTab(lane){
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if(lane==='ANY')lane=getBestLane();
   if(!laneResultsCache[lane])return;
-  const roleIcons={TOP:'⚔️',JUNGLE:'🌿',MID:'⚡',ADC:'🏹',SUPPORT:'🛡️',ANY:'👑'};
   renderLaneTabs(lane);
   const cache=laneResultsCache[lane];
-  renderChampionCard(cache.champ,cache.matchPct,lane,roleIcons);
+  renderChampionCard(cache.champ,cache.matchPct,lane);
   updateSharePreview(cache.champ,cache.matchPct,'',lane);
 }
 

@@ -100,14 +100,14 @@ function shareToX(){
   const displayTitle=champEN?champEN.title:(champ?champ.title:'');
   let text;
   if(isEN){
-    text='🎮 LoL Summoner Personality Diagnosis\n\n';
+    text='LoL Summoner Personality Diagnosis\n\n';
     text+=`${lane==='ANY'?'ALL ROLES':lane} | ${displayName}\n`;
     text+=`${displayTitle}\n`;
     text+=`Match Rate: ${pct}%\n`;
     if(typeName) text+=`Summoner Type: ${typeName}\n`;
     text+='\n#LoLAnalyze #LeagueOfLegends';
   }else{
-    text='🎮 サモナーの素質診断\n\n';
+    text='サモナーの素質診断\n\n';
     text+=`${lane==='ANY'?'ALL ROLES':lane} | ${displayName}\n`;
     text+=`「${displayTitle}」\n`;
     text+=`適合度：${pct}%\n`;
