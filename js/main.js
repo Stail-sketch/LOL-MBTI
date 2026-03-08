@@ -51,16 +51,16 @@ window.addEventListener('popstate',function(){
 });
 
 // ===== フェーズ定数 =====
-const PHASE_OFFSET={1:0,2:10,3:25};
-const PHASE_LENGTH={1:10,2:15,3:15};
+const PHASE_OFFSET={1:0,2:16};
+const PHASE_LENGTH={1:16,2:16};
 
 // ===== STATE =====
 let selectedLane=null;
-let currentPhase=1;       // 1=1-10問, 2=11-25問, 3=26-40問
+let currentPhase=1;       // 1=1-16問, 2=17-32問
 let currentQ=0;           // フェーズ内の問番号(0-indexed)
-let currentPhaseEnd=10;   // フェーズ終了点(10/25/40)
+let currentPhaseEnd=16;   // フェーズ終了点(16/32)
 let scores={V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0};
-let allActiveQuestions=[]; // 40問まで利用
+let allActiveQuestions=[]; // 32問まで利用
 let laneResultsCache={};  // 全レーン結果キャッシュ
 let lastNormalized=null;
 let answerHistory=[];     // [{dim, isHigh}] フェーズ内の回答履歴（戻る機能用）
@@ -87,7 +87,7 @@ function closeAboutModal(e){
 }
 
 function resetState(){
-  selectedLane=null;currentPhase=1;currentQ=0;currentPhaseEnd=10;
+  selectedLane=null;currentPhase=1;currentQ=0;currentPhaseEnd=16;
   scores={V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0};
   laneResultsCache={};lastNormalized=null;answerHistory=[];
 }
@@ -114,7 +114,7 @@ function proceedFromLane(){
 function continueToNextPhase(){
   currentPhase++;
   currentQ=0;
-  currentPhaseEnd=currentPhase===2?25:40;
+  currentPhaseEnd=32;
   answerHistory=[];
   showScreen('question-screen');
   renderQuestion();
