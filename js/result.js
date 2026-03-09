@@ -14,8 +14,8 @@ function _showResultInner(normalized){
   addBtn.style.display=currentPhaseEnd<32?'block':'none';
   const is16=currentPhaseEnd>=16;
   const is32=currentPhaseEnd>=32;
-  ['sec-type','sec-catchphrase','sec-perception','sec-sw'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is16));
-  ['sec-synergy','sec-opposite','sec-allies','sec-enemies','sec-axis'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is32));
+  ['sec-type','sec-catchphrase'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is16));
+  ['sec-perception','sec-sw','sec-synergy','sec-opposite','sec-allies','sec-enemies','sec-axis'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is32));
   document.getElementById('ranking-section').classList.toggle('hidden',!is32);
   let detectedTypeName='';
   let detectedTypeNameJP='';

@@ -51,10 +51,13 @@ async function downloadCard(){
       const typeEN=isEN&&SUMMONER_TYPES_EN[type.id]?SUMMONER_TYPES_EN[type.id]:null;
       document.getElementById('ce-type-name').textContent=typeEN?typeEN.name:type.name;
       document.getElementById('ce-type-sub').textContent=typeEN?typeEN.subtitle:type.subtitle;
-      const strs=typeEN?typeEN.strengths:type.strengths;
-      const weaks=typeEN?typeEN.weaknesses:type.weaknesses;
-      document.getElementById('ce-sw-str').innerHTML=strs.map(s=>`<div class="ce-sw-item">${s}</div>`).join('');
-      document.getElementById('ce-sw-weak').innerHTML=weaks.map(w=>`<div class="ce-sw-item">${w}</div>`).join('');
+      if(is40){
+        const strs=typeEN?typeEN.strengths:type.strengths;
+        const weaks=typeEN?typeEN.weaknesses:type.weaknesses;
+        document.getElementById('ce-sw-str').innerHTML=strs.map(s=>`<div class="ce-sw-item">${s}</div>`).join('');
+        document.getElementById('ce-sw-weak').innerHTML=weaks.map(w=>`<div class="ce-sw-item">${w}</div>`).join('');
+        show('ce-sw-row');
+      }else{hide('ce-sw-row');}
     }else{hide('ce-div-type');hide('ce-type-sec');}
 
     // radar + affinity block
