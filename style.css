@@ -25,7 +25,7 @@
   .btn-primary:active{transform:scale(.97);filter:brightness(.95)}
   @keyframes pulse-btn{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
   #btn-add-diagnosis{font-size:20px;padding:20px 60px;animation:pulse-btn 1.6s ease-in-out infinite}
-  #btn-start{width:80%;max-width:600px;font-size:22px;padding:22px 0;letter-spacing:.3em}
+  #btn-start{letter-spacing:.2em}
   .stats-preview{display:flex;gap:40px;margin-top:50px;flex-wrap:wrap;justify-content:center}
   .stat-item{text-align:center}
   .stat-num{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:var(--gold);display:block;text-shadow:0 0 20px rgba(200,155,60,.4)}
