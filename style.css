@@ -182,7 +182,7 @@
   .sw-box.weak .sw-item::before{background:var(--red)}
 
   /* CHAMP AFFINITY GRID */
-  .affinity-grid{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+  .affinity-grid{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;justify-content:center}
   .affinity-card{flex:1;min-width:110px;max-width:160px;background:rgba(0,0,0,.35);border:1px solid;cursor:pointer;transition:transform .2s;padding:16px 12px;text-align:center;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
   .affinity-card:hover{transform:translateY(-3px)}
   .affinity-card.ally{border-color:rgba(11,196,227,.4);background:rgba(11,196,227,.05)}
