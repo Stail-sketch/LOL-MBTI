@@ -176,12 +176,11 @@ function goToTop(){
 
 // ===== FIREBASE FUNCTIONS =====
 function sendDiagnosisResult(champ,typeName,role){
-  const displayRole=role==='ANY'?getBestLane():(role||'TOP');
   db.ref('diagnoses').push({
     champId:champ.id,
     champName:champ.name,
     typeName:typeName||'',
-    role:displayRole,
+    role:role||'TOP',
     timestamp:firebase.database.ServerValue.TIMESTAMP
   }).catch(e=>console.warn('Firebase送信失敗:',e));
 }
@@ -202,7 +201,7 @@ function loadRankings(){
       total:entries.length,
       champions:top(champCount,5),
       types:top(typeCount,5),
-      roles:top(roleCount,5)
+      roles:top(roleCount,6)
     });
   });
 }
@@ -221,10 +220,11 @@ function renderRankings({total,champions,types,roles}){
     `<div class="rank-item"><span class="rank-num">${i+1}</span><span class="rank-name">${name}</span><span class="rank-count">${cnt}回</span></div>`
   ).join('');
   const rEl=document.getElementById('rank-roles');
-  const roleIconSrc={TOP:'role_icons/top.png',JUNGLE:'role_icons/jungle.png',MID:'role_icons/mid.png',ADC:'role_icons/adc.png',SUPPORT:'role_icons/support.png'};
+  const roleIconSrc={TOP:'role_icons/top.png',JUNGLE:'role_icons/jungle.png',MID:'role_icons/mid.png',ADC:'role_icons/adc.png',SUPPORT:'role_icons/support.png',ANY:'role_icons/fill.png'};
+  const roleLabel={TOP:'TOP',JUNGLE:'JUNGLE',MID:'MID',ADC:'ADC',SUPPORT:'SUPPORT',ANY:'どこでも'};
   rEl.innerHTML=roles.map(([role,cnt],i)=>{
     const iconHtml=roleIconSrc[role]?`<img class="rank-role-icon" src="${roleIconSrc[role]}" alt="${role}">` :'';
-    return `<div class="rank-item"><span class="rank-num">${i+1}</span><span class="rank-name">${iconHtml}${role}</span><span class="rank-count">${cnt}回</span></div>`;
+    return `<div class="rank-item"><span class="rank-num">${i+1}</span><span class="rank-name">${iconHtml}${roleLabel[role]||role}</span><span class="rank-count">${cnt}回</span></div>`;
   }).join('');
 }
 
