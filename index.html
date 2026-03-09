@@ -221,7 +221,14 @@
     <div class="result-header">
       <p class="result-label">Your Champion Match</p>
       <h2 class="section-title" id="result-screen-title">あなたのチャンピオンが決まりました</h2>
-      <div class="lane-selected" id="lane-selected-tab"></div>
+    </div>
+    <!-- レーンタブ -->
+    <div class="lane-tabs" id="lane-tabs" style="display:none">
+      <button class="lane-tab" onclick="switchLaneTab('TOP')"><img src="role_icons/top.png" width="18" height="18"> TOP</button>
+      <button class="lane-tab" onclick="switchLaneTab('JUNGLE')"><img src="role_icons/jungle.png" width="18" height="18"> JUNGLE</button>
+      <button class="lane-tab" onclick="switchLaneTab('MID')"><img src="role_icons/mid.png" width="18" height="18"> MID</button>
+      <button class="lane-tab" onclick="switchLaneTab('ADC')"><img src="role_icons/adc.png" width="18" height="18"> ADC</button>
+      <button class="lane-tab" onclick="switchLaneTab('SUPPORT')"><img src="role_icons/support.png" width="18" height="18"> SUPPORT</button>
     </div>
     <div class="champion-card">
       <div class="champion-banner" id="champion-banner"></div>
@@ -334,11 +341,6 @@
       <div class="ext-label">Detailed Analysis</div>
       <div class="ext-title" id="axis-main-title" style="margin-bottom:18px">あなたの8軸詳細解説</div>
       <div class="axis-list" id="axis-list"></div>
-    </div>
-    <!-- レーンタブ -->
-    <div class="lane-display" id="lane-display" style="display:none">
-      <button class="lane-toggle-btn" id="lane-toggle-btn" onclick="toggleOtherLanes()">他レーンのタイプを見たい人はこちら ▼</button>
-      <div class="lane-others" id="lane-others" style="display:none"></div>
     </div>
     <div class="result-actions">
       <button class="btn-primary" id="btn-add-diagnosis" onclick="continueToNextPhase()" style="display:none">さらに答えて精度を上げる</button>

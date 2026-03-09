@@ -5,7 +5,7 @@ function showResult(normalized){
 }
 function _showResultInner(normalized){
   showScreen('result-screen');
-  document.getElementById('lane-display').style.display='flex';
+  document.getElementById('lane-tabs').style.display='flex';
   const displayLane=selectedLane==='ANY'?getBestLane():(selectedLane||'TOP');
   renderLaneTabs(displayLane);
   const cache=laneResultsCache[displayLane];

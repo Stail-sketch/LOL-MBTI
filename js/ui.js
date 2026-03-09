@@ -65,29 +65,9 @@ function getBestLane(){
 }
 
 function renderLaneTabs(activeLane){
-  const lanes=['TOP','JUNGLE','MID','ADC','SUPPORT'];
-  const selected=document.getElementById('lane-selected-tab');
-  const others=document.getElementById('lane-others');
-  selected.innerHTML='';
-  others.innerHTML='';
-  others.style.display='none';
-  document.getElementById('lane-toggle-btn').textContent='他レーンのタイプを見たい人はこちら ▼';
-  lanes.forEach(l=>{
-    const btn=document.createElement('button');
-    btn.className='lane-tab'+(l===activeLane?' active':'');
-    btn.textContent=l;
-    btn.onclick=()=>switchLaneTab(l);
-    if(l===activeLane)selected.appendChild(btn);
-    else others.appendChild(btn);
-  });
-}
-
-function toggleOtherLanes(){
-  const el=document.getElementById('lane-others');
-  const btn=document.getElementById('lane-toggle-btn');
-  const open=el.style.display==='flex';
-  el.style.display=open?'none':'flex';
-  btn.textContent=open?'他レーンのタイプを見たい人はこちら ▼':'閉じる ▲';
+  document.querySelectorAll('.lane-tab').forEach(t=>t.classList.remove('active'));
+  const activeTabEl=document.querySelector(`.lane-tab[onclick="switchLaneTab('${activeLane}')"]`);
+  if(activeTabEl)activeTabEl.classList.add('active');
 }
 
 function renderTypeSection(type){
