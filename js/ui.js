@@ -170,8 +170,8 @@ function applyResultLang(){
   set('axis-main-title',L.axisTitle||'あなたの8軸詳細');
   set('radar-title-el',L.radarTitle||'あなたのパーソナリティプロフィール');
   set('btn-add-diagnosis',L.addDiagBtn||'さらに答えて精度を上げる');
-  set('download-btn-text',L.downloadBtn||'結果カードをダウンロードする');
-  set('share-btn-text',L.shareBtn||'Xでシェアする');
+  set('download-btn-text',L.downloadBtn||'結果カードをダウンロード');
+  set('share-btn-text',L.shareBtn||'ポストする');
   set('btn-retry',L.retryBtn||'もう一度診断する');
   set('rank-main-title',L.rankTitle||'みんなの診断結果');
   set('rank-total-label',L.rankTotalLabel||'総診断回数');
