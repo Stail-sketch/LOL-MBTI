@@ -202,7 +202,7 @@ function loadRankings(){
       total:entries.length,
       champions:top(champCount,5),
       types:top(typeCount,5),
-      roles:top(roleCount,3)
+      roles:top(roleCount,5)
     });
   });
 }
