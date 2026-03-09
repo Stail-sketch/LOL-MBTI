@@ -92,28 +92,41 @@ function resetState(){
   laneResultsCache={};lastNormalized=null;answerHistory=[];
 }
 
+// ===== テストモード（?test=1 で有効）=====
+const TEST_MODE=new URLSearchParams(location.search).get('test')==='1';
+
+function _testAutoAnswer(from,to){
+  for(let i=from;i<to;i++){
+    const q=allActiveQuestions[i];if(!q)break;
+    const isHigh=Math.random()>.5;
+    if(isHigh)scores[q.dim]++;
+    answerHistory.push({dim:q.dim,isHigh});
+  }
+}
+function _testShowResult(){
+  const answeredQs=allActiveQuestions.slice(0,currentPhaseEnd);
+  const dimCount={};
+  ['V','I','H','T','A','W','S','D'].forEach(d=>{dimCount[d]=answeredQs.filter(q=>q.dim===d).length||1;});
+  const normalized={};
+  Object.keys(scores).forEach(k=>{normalized[k]=Math.min(100,Math.round((scores[k]/dimCount[k])*100));});
+  lastNormalized=normalized;
+  buildLaneResultsCache(normalized);
+  _showResultInner(normalized);
+}
+
 function startDiagnosis(){
   resetState();
   allActiveQuestions=initQuestions();
   document.getElementById('lang-toggle').style.display='none';
-  showAdOverlay(()=>{showScreen('question-screen');renderQuestion();});
+  if(TEST_MODE){
+    _testAutoAnswer(0,16);
+    selectedLane='ANY';
+    currentPhaseEnd=16;
+    _testShowResult();
+  } else {
+    showAdOverlay(()=>{showScreen('question-screen');renderQuestion();});
+  }
 }
-
-// ===== テストモード（?test=1 で有効）=====
-function startTestDiagnosis(){
-  resetState();
-  allActiveQuestions=initQuestions();
-  selectedLane='ANY';
-  allActiveQuestions.forEach(q=>{
-    const isHigh=Math.random()>.5;
-    if(isHigh)scores[q.dim]++;
-    answerHistory.push({dim:q.dim,isHigh});
-  });
-  currentPhaseEnd=32;
-  document.getElementById('lang-toggle').style.display='none';
-  calculateAndShowResult();
-}
-(function(){if(new URLSearchParams(location.search).get('test')==='1'){document.addEventListener('DOMContentLoaded',()=>startTestDiagnosis());}})();
 
 function selectLane(lane,el){
   selectedLane=lane;
@@ -132,8 +145,13 @@ function continueToNextPhase(){
   currentQ=0;
   currentPhaseEnd=32;
   answerHistory=[];
-  showScreen('question-screen');
-  renderQuestion();
+  if(TEST_MODE){
+    _testAutoAnswer(16,32);
+    _testShowResult();
+  } else {
+    showScreen('question-screen');
+    renderQuestion();
+  }
 }
 
 function retryDiagnosis(){
