@@ -255,7 +255,7 @@
 
   /* ===== X SHARE ===== */
   .share-section{margin-bottom:24px;animation:fadeInUp .6s ease .7s both}
-.btn-share-x{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;background:#000;color:#fff;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:.15em;cursor:pointer;border:1px solid rgba(255,255,255,.2);transition:all .3s ease;clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 50%,calc(100% - 8px) 100%,8px 100%,0% 50%)}
+.btn-share-x{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 32px;width:260px;background:#000;color:#fff;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:.15em;cursor:pointer;border:1px solid rgba(255,255,255,.2);transition:all .3s ease;clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 50%,calc(100% - 8px) 100%,8px 100%,0% 50%)}
   .btn-share-x:hover{background:#111;border-color:rgba(255,255,255,.5);transform:scale(1.04);box-shadow:0 4px 20px rgba(0,0,0,.5)}
   .x-icon{width:16px;height:16px;fill:#fff;flex-shrink:0}
 
@@ -268,7 +268,7 @@
   .footer-disclaimer a:hover{color:rgba(200,155,60,1)}
   .footer-privacy,.footer-note{font-size:10px;color:rgba(255,255,255,.3);line-height:1.6}
   /* ===== DOWNLOAD BUTTON ===== */
-  .btn-download{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;background:linear-gradient(135deg,rgba(200,155,60,.18),rgba(200,155,60,.06));color:var(--gold);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:.15em;cursor:pointer;border:1px solid rgba(200,155,60,.55);transition:all .3s ease;clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 50%,calc(100% - 8px) 100%,8px 100%,0% 50%)}
+  .btn-download{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 32px;width:260px;background:linear-gradient(135deg,rgba(200,155,60,.18),rgba(200,155,60,.06));color:var(--gold);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:.15em;cursor:pointer;border:1px solid rgba(200,155,60,.55);transition:all .3s ease;clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 50%,calc(100% - 8px) 100%,8px 100%,0% 50%)}
   .btn-download:hover{background:rgba(200,155,60,.25);border-color:var(--gold);box-shadow:0 0 20px rgba(200,155,60,.25)}
   .btn-download:disabled{opacity:.45;cursor:default}
   /* ===== EXPORT CARD ===== */
