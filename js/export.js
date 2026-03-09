@@ -16,11 +16,9 @@ async function downloadCard(){
   }
   const isEN=currentLang==='en';
   const btn=document.getElementById('btn-download');
-  const genLabel=isEN?'Generating…':'生成中…';
   const doneLabel=isEN?'⬇ Save Result Card':'⬇ 結果カードをダウンロード';
   btn.disabled=true;
   const spanEl=document.getElementById('download-btn-text');
-  if(spanEl)spanEl.textContent=genLabel;else btn.textContent=genLabel;
   try{
     const norm=lastNormalized||{};
     const d=window._shareData||{};
