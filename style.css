@@ -128,7 +128,7 @@
   .legend-text{font-size:12px;color:var(--text)}
   .legend-val{font-family:'Rajdhani',sans-serif;font-size:13px;color:var(--gold);margin-left:auto;font-weight:600}
   .result-actions{display:flex;flex-direction:column;align-items:center;gap:16px;animation:fadeInUp .6s ease .6s both;margin-bottom:40px}
-  .result-actions-sub{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .result-actions-sub{display:flex;flex-direction:column;align-items:center;gap:4px}
   #qcount-screen{background:radial-gradient(ellipse at 50% 30%,rgba(11,196,227,.08) 0%,transparent 60%),radial-gradient(ellipse at 50% 80%,rgba(200,155,60,.08) 0%,transparent 60%)}
   .qcount-grid{display:grid;grid-template-columns:1fr;gap:14px;max-width:600px;width:100%}
   .qcount-card{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--gold-dark);padding:20px 28px;cursor:pointer;transition:all .3s ease;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));display:grid;grid-template-columns:80px 1fr;align-items:center;gap:16px;position:relative;overflow:hidden}
