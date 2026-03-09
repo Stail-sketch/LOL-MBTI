@@ -77,10 +77,10 @@ function renderFullSection(type,normalized){
   // 相性・天敵
   const alliesGrid=document.getElementById('allies-grid');
   alliesGrid.innerHTML='';
-  type.allies.forEach(id=>alliesGrid.appendChild(buildAffinityCard(id,'ally')));
+  type.allies.slice(0,4).forEach(id=>alliesGrid.appendChild(buildAffinityCard(id,'ally')));
   const enemiesGrid=document.getElementById('enemies-grid');
   enemiesGrid.innerHTML='';
-  type.enemies.forEach(id=>enemiesGrid.appendChild(buildAffinityCard(id,'enemy')));
+  type.enemies.slice(0,4).forEach(id=>enemiesGrid.appendChild(buildAffinityCard(id,'enemy')));
   // 8軸詳細
   const axisList=document.getElementById('axis-list');
   axisList.innerHTML='';
