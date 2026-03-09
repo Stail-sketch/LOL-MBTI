@@ -99,6 +99,22 @@ function startDiagnosis(){
   showAdOverlay(()=>{showScreen('question-screen');renderQuestion();});
 }
 
+// ===== テストモード（?test=1 で有効）=====
+function startTestDiagnosis(){
+  resetState();
+  allActiveQuestions=initQuestions();
+  selectedLane='ANY';
+  allActiveQuestions.forEach(q=>{
+    const isHigh=Math.random()>.5;
+    if(isHigh)scores[q.dim]++;
+    answerHistory.push({dim:q.dim,isHigh});
+  });
+  currentPhaseEnd=32;
+  document.getElementById('lang-toggle').style.display='none';
+  calculateAndShowResult();
+}
+(function(){if(new URLSearchParams(location.search).get('test')==='1'){document.addEventListener('DOMContentLoaded',()=>startTestDiagnosis());}})();
+
 function selectLane(lane,el){
   selectedLane=lane;
   document.querySelectorAll('#lane-screen .role-card').forEach(c=>c.classList.remove('selected'));
