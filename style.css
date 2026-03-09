@@ -24,7 +24,7 @@
   .btn-primary:hover{transform:scale(1.05);filter:brightness(1.2) drop-shadow(0 0 20px rgba(200,155,60,.6))}
   .btn-primary:active{transform:scale(.97);filter:brightness(.95)}
   @keyframes pulse-btn{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-  #btn-add-diagnosis{font-size:20px;padding:20px 60px;animation:pulse-btn 1.6s ease-in-out infinite}
+  #btn-add-diagnosis{font-size:20px;padding:20px 32px;animation:pulse-btn 1.6s ease-in-out infinite}
   #btn-start{letter-spacing:.2em}
   @media(max-width:500px){#btn-start{padding:16px 36px;font-size:16px}}
   @media(max-width:500px){#btn-add-diagnosis{font-size:14px;padding:16px 24px;white-space:nowrap}}
