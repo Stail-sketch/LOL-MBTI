@@ -26,8 +26,8 @@ async function downloadCard(){
     const d=window._shareData||{};
     const champ=d.champ;
     if(!champ){btn.disabled=false;if(spanEl)spanEl.textContent=doneLabel;else btn.textContent=doneLabel;return;}
-    const is25=currentPhaseEnd>=25;
-    const is40=currentPhaseEnd>=40;
+    const is25=currentPhaseEnd>=16;
+    const is40=currentPhaseEnd>=32;
     const displayLane=selectedLane==='ANY'?getBestLane():(selectedLane||'TOP');
     const champEN=isEN&&CHAMPIONS_EN[champ.id]?CHAMPIONS_EN[champ.id]:null;
 
