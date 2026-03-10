@@ -1,15 +1,12 @@
 // Cloudflare Worker - LOL-MBTI ランキング API
 
-const ALLOWED_ORIGIN = 'https://stail-sketch.github.io';
 const VALID_ROLES = new Set(['TOP', 'JUNGLE', 'MID', 'ADC', 'SUPPORT', 'ANY']);
 
-function corsHeaders(origin) {
-  return {
-    'Access-Control-Allow-Origin': origin === ALLOWED_ORIGIN ? ALLOWED_ORIGIN : '',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-  };
-}
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
 
 function json(data, status, headers) {
   return new Response(JSON.stringify(data), {
@@ -20,8 +17,7 @@ function json(data, status, headers) {
 
 export default {
   async fetch(request, env) {
-    const origin = request.headers.get('Origin') || '';
-    const ch = corsHeaders(origin);
+    const ch = corsHeaders;
 
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: ch });
