@@ -213,9 +213,10 @@
   /* FAMOUS */
 
   /* LANE TABS */
-  .lane-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;position:relative;overflow:hidden}
-  .lane-tabs::after{content:'';position:absolute;top:0;left:-30%;width:30%;height:100%;background:linear-gradient(105deg,transparent 20%,rgba(200,155,60,.2) 45%,rgba(200,155,60,.3) 50%,rgba(200,155,60,.2) 55%,transparent 80%);animation:tabShimmer 5s ease-in-out infinite;pointer-events:none;z-index:1}
-  .lane-tab{padding:8px 18px;background:transparent;border:1px solid var(--gold-dark);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;cursor:pointer;transition:all .25s;clip-path:polygon(6px 0%,calc(100% - 6px) 0%,100% 50%,calc(100% - 6px) 100%,6px 100%,0% 50%)}
+  .lane-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
+  .lane-tab{padding:8px 18px;background:transparent;border:1px solid var(--gold-dark);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;cursor:pointer;transition:all .25s;clip-path:polygon(6px 0%,calc(100% - 6px) 0%,100% 50%,calc(100% - 6px) 100%,6px 100%,0% 50%);position:relative;overflow:hidden}
+  .lane-tab::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(105deg,transparent 30%,rgba(200,155,60,.25) 50%,transparent 70%);animation:tabShimmer 5s ease-in-out infinite;pointer-events:none}
+  .lane-tab:hover::before,.lane-tab.active::before{animation:none;opacity:0}
   .lane-tab:hover{border-color:var(--gold);color:var(--gold)}
   .lane-tab.active{background:rgba(200,155,60,.2);border-color:var(--gold);color:var(--gold)}
   /* ABOUT MODAL */
@@ -355,7 +356,7 @@
   .champion-card:hover::after,.ext-section:hover::after,.radar-section:hover::after,.ranking-section:hover::after{animation:shimmerSweep .75s ease forwards}
 
   /* ===== LANE-TAB SHIMMER ===== */
-  @keyframes tabShimmer{0%,100%{left:-30%}35%,65%{left:100%}}
+  @keyframes tabShimmer{0%,100%{left:-100%}40%,60%{left:140%}}
 
   /* ===== IDLE ROLE ICON GLOW ===== */
   @keyframes idleIconGlow{0%,100%{filter:brightness(0) invert(1) drop-shadow(0 0 3px rgba(200,155,60,.05))}50%{filter:brightness(0) invert(1) drop-shadow(0 0 10px rgba(200,155,60,.35)) drop-shadow(0 0 20px rgba(200,155,60,.15))}}
