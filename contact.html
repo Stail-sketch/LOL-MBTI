@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>お問い合わせ | サモナーの素質診断</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+JP:wght@300;400;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vars.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;min-height:100vh;background:var(--bg);background-image:repeating-linear-gradient(135deg,transparent,transparent 60px,rgba(200,155,60,.022) 60px,rgba(200,155,60,.022) 61px),repeating-linear-gradient(45deg,transparent,transparent 60px,rgba(11,196,227,.01) 60px,rgba(11,196,227,.01) 61px);color:var(--white);font-family:'Noto Serif JP',serif;overflow-x:hidden;line-height:1.8}
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse at 50% 50%,transparent 35%,rgba(0,0,0,.65) 100%)}
+  .hex-bg{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:repeating-linear-gradient(60deg,transparent,transparent 34px,rgba(200,155,60,.045) 34px,rgba(200,155,60,.045) 35px),repeating-linear-gradient(-60deg,transparent,transparent 34px,rgba(200,155,60,.045) 34px,rgba(200,155,60,.045) 35px),repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(200,155,60,.025) 59px,rgba(200,155,60,.025) 60px)}
+
+  .page-wrap{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:60px 24px 80px}
+
+  /* HEADER */
+  .page-header{text-align:center;margin-bottom:48px}
+  .back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;color:var(--text);text-decoration:none;text-transform:uppercase;border-bottom:1px solid rgba(200,155,60,.25);padding-bottom:2px;transition:color .2s,border-color .2s;margin-bottom:32px}
+  .back-link:hover{color:var(--gold);border-color:var(--gold)}
+  .page-title{font-family:'Cinzel',serif;font-size:clamp(24px,4vw,36px);color:var(--gold);letter-spacing:.18em;text-shadow:0 0 40px rgba(200,155,60,.4);margin-bottom:6px}
+  .page-title-en{font-family:'Rajdhani',sans-serif;font-size:13px;letter-spacing:.4em;color:var(--text);text-transform:uppercase;margin-bottom:20px}
+  .divider{display:flex;align-items:center;gap:12px;margin:0 auto;max-width:300px}
+  .divider-line{flex:1;height:1px;background:linear-gradient(to right,transparent,var(--gold-dark),transparent)}
+  .divider-diamond{width:7px;height:7px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+
+  /* LANG TOGGLE */
+  .lang-toggle{position:fixed;top:16px;right:16px;z-index:100;display:flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;letter-spacing:.15em;background:rgba(1,10,19,.8);border:1px solid rgba(200,155,60,.25);padding:6px 12px;backdrop-filter:blur(6px)}
+  .lang-toggle button{background:none;border:none;cursor:pointer;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;letter-spacing:.15em;padding:0;transition:color .2s}
+  .lang-toggle button.active{color:var(--gold)}
+  .lang-toggle button:hover{color:var(--gold)}
+  .lang-toggle span{color:rgba(200,155,60,.35);font-size:11px}
+
+  /* SECTION */
+  .ct-section{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid rgba(200,155,60,.2);padding:28px 32px;margin-bottom:18px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));position:relative;overflow:hidden}
+  @media(max-width:500px){.ct-section{padding:20px 18px}}
+  .ct-section-label{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.4em;color:var(--blue);text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  .ct-section-label::before{content:'';display:inline-block;width:14px;height:1px;background:linear-gradient(90deg,transparent,var(--blue));box-shadow:0 0 4px rgba(11,196,227,.7)}
+  .ct-section-title{font-family:'Cinzel',serif;font-size:16px;color:var(--gold);letter-spacing:.12em;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+  .ct-section-title::before{content:'';display:inline-block;width:3px;height:1.1em;background:linear-gradient(180deg,var(--gold-light),var(--gold-dark));box-shadow:0 0 6px rgba(200,155,60,.4);flex-shrink:0}
+  .ct-body{font-size:14px;color:var(--text);line-height:2}
+  .ct-body p{margin-bottom:12px}
+  .ct-body p:last-child{margin-bottom:0}
+
+  /* FORM BUTTON */
+  .form-btn-wrap{margin-top:20px;text-align:center}
+  .form-btn{display:inline-flex;align-items:center;gap:10px;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--bg);background:linear-gradient(135deg,var(--gold-light),var(--gold));padding:14px 36px;text-decoration:none;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:opacity .2s,box-shadow .2s;box-shadow:0 0 20px rgba(200,155,60,.25)}
+  .form-btn:hover{opacity:.85;box-shadow:0 0 32px rgba(200,155,60,.5)}
+  .form-btn svg{width:16px;height:16px;flex-shrink:0}
+
+  /* NOTICE */
+  .notice{display:flex;align-items:flex-start;gap:10px;background:rgba(11,196,227,.06);border:1px solid rgba(11,196,227,.2);padding:14px 18px;font-size:13px;color:var(--text);line-height:1.8;margin-top:16px}
+  .notice-icon{color:var(--blue);font-size:16px;flex-shrink:0;margin-top:1px}
+
+  /* FOOTER */
+  .page-footer{margin-top:48px;text-align:center;font-family:'Rajdhani',sans-serif;font-size:11px;color:rgba(255,255,255,.3);letter-spacing:.1em;border-top:1px solid rgba(200,155,60,.15);padding-top:28px}
+
+  /* LANG SWITCH */
+  [data-lang]{display:none}
+  [data-lang].shown{display:block}
+</style>
+</head>
+<body>
+<div class="hex-bg"></div>
+
+<div class="lang-toggle">
+  <button id="lang-jp" class="active" onclick="setLang('jp')">JP</button>
+  <span>|</span>
+  <button id="lang-en" onclick="setLang('en')">EN</button>
+</div>
+
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div><a href="index.html" class="back-link" id="back-link">&#8592; 診断トップへ戻る</a></div>
+    <p class="page-title">Contact</p>
+    <p class="page-title-en">お問い合わせ</p>
+    <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
+  </div>
+
+  <!-- ===== JAPANESE ===== -->
+  <div data-lang="jp" class="shown">
+
+    <div class="ct-section">
+      <div class="ct-section-label">Contact Form</div>
+      <div class="ct-section-title">お問い合わせフォーム</div>
+      <div class="ct-body">
+        <p>ご質問・ご要望・不具合報告などは、下記のフォームよりお気軽にお送りください。</p>
+        <p>内容を確認のうえ、必要に応じてご返信いたします。返信までにお時間をいただく場合がございます。</p>
+      </div>
+      <div class="form-btn-wrap">
+        <a href="https://forms.gle/XXXXXXXXXXXXXXXX" target="_blank" rel="noopener noreferrer" class="form-btn" id="form-btn-jp">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          フォームを開く
+        </a>
+      </div>
+      <div class="notice">
+        <span class="notice-icon">&#9432;</span>
+        <span>フォームは Google フォームを使用しています。送信内容は本サービスの運営者のみが確認します。</span>
+      </div>
+    </div>
+
+    <div class="ct-section">
+      <div class="ct-section-label">About</div>
+      <div class="ct-section-title">本サービスについて</div>
+      <div class="ct-body">
+        <p>「サモナーの素質診断」は個人運営のファンサイトです。Riot Games Inc. とは一切関係ありません。</p>
+        <p>チャンピオン名・画像などの著作権は Riot Games Inc. に帰属します。</p>
+      </div>
+    </div>
+
+  </div><!-- /jp -->
+
+  <!-- ===== ENGLISH ===== -->
+  <div data-lang="en">
+
+    <div class="ct-section">
+      <div class="ct-section-label">Contact Form</div>
+      <div class="ct-section-title">Contact Form</div>
+      <div class="ct-body">
+        <p>For questions, feedback, or bug reports, please use the form below.</p>
+        <p>We will review your message and respond if necessary. Please allow some time for a reply.</p>
+      </div>
+      <div class="form-btn-wrap">
+        <a href="https://forms.gle/XXXXXXXXXXXXXXXX" target="_blank" rel="noopener noreferrer" class="form-btn" id="form-btn-en">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Open Form
+        </a>
+      </div>
+      <div class="notice">
+        <span class="notice-icon">&#9432;</span>
+        <span>This form is powered by Google Forms. Submissions are only visible to the site operator.</span>
+      </div>
+    </div>
+
+    <div class="ct-section">
+      <div class="ct-section-label">About</div>
+      <div class="ct-section-title">About This Site</div>
+      <div class="ct-body">
+        <p>Summoner Personality Analysis is an independently operated fan site. It is not affiliated with Riot Games Inc. in any way.</p>
+        <p>Champion names and images are the property of Riot Games Inc.</p>
+      </div>
+    </div>
+
+  </div><!-- /en -->
+
+  <div class="page-footer">
+    &copy; 2026 Summoner Personality Analysis — Fan Site, Not affiliated with Riot Games
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+  let currentLang = 'jp';
+  function setLang(lang) {
+    currentLang = lang;
+    document.getElementById('lang-jp').classList.toggle('active', lang === 'jp');
+    document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      el.classList.toggle('shown', el.dataset.lang === lang);
+    });
+    const backLink = document.getElementById('back-link');
+    if (backLink) backLink.textContent = lang === 'en' ? '← Back to Diagnosis' : '← 診断トップへ戻る';
+  }
+</script>
+</body>
+</html>
