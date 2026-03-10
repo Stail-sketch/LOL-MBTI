@@ -23,6 +23,7 @@ export default {
       return new Response(null, { status: 204, headers: ch });
     }
 
+    try {
     const url = new URL(request.url);
 
     // POST /record - 診断結果を記録
@@ -138,5 +139,8 @@ export default {
     }
 
     return new Response('Not Found', { status: 404, headers: ch });
+    } catch (e) {
+      return json({ error: e.message || 'Internal Server Error' }, 500, ch);
+    }
   },
 };
