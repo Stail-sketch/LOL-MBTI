@@ -138,6 +138,18 @@ export default {
       }, 200, { ...ch, 'Cache-Control': 'no-store' });
     }
 
+    // POST /reset - 集計データをリセット
+    if (url.pathname === '/reset' && request.method === 'POST') {
+      await Promise.all([
+        env.KV.put('total', '0'),
+        env.KV.put('champions', '{}'),
+        env.KV.put('types', '{}'),
+        env.KV.put('roles', '{}'),
+      ]);
+
+      return json({ ok: true, message: 'All rankings reset' }, 200, ch);
+    }
+
     return new Response('Not Found', { status: 404, headers: ch });
     } catch (e) {
       return json({ error: e.message || 'Internal Server Error' }, 500, ch);
