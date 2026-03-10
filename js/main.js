@@ -92,8 +92,10 @@ function resetState(){
   laneResultsCache={};lastNormalized=null;answerHistory=[];
 }
 
-// ===== テストモード（?test=1 で有効）=====
-const TEST_MODE=new URLSearchParams(location.search).get('test')==='1';
+// ===== テストモード（?test=1 で有効、?test=100 で100回自動診断）=====
+const _testParam=new URLSearchParams(location.search).get('test');
+const TEST_MODE=_testParam==='1'||parseInt(_testParam)>1;
+const TEST_BATCH=parseInt(_testParam)>1?parseInt(_testParam):0;
 
 function _testAutoAnswer(from,to){
   for(let i=from;i<to;i++){
@@ -114,7 +116,38 @@ function _testShowResult(){
   _showResultInner(normalized);
 }
 
+async function _testRunBatch(count){
+  console.log(`[テスト] ${count}回の自動診断を開始`);
+  const lanes=['TOP','JUNGLE','MID','ADC','SUPPORT','ANY'];
+  for(let i=0;i<count;i++){
+    resetState();
+    allActiveQuestions=initQuestions();
+    _testAutoAnswer(0,16);
+    selectedLane=lanes[Math.floor(Math.random()*lanes.length)];
+    currentPhaseEnd=16;
+    _testAutoAnswer(16,32);
+    currentPhaseEnd=32;
+    const answeredQs=allActiveQuestions.slice(0,32);
+    const dimCount={};
+    ['V','I','H','T','A','W','S','D'].forEach(d=>{dimCount[d]=answeredQs.filter(q=>q.dim===d).length||1;});
+    const normalized={};
+    Object.keys(scores).forEach(k=>{normalized[k]=Math.min(100,Math.round((scores[k]/dimCount[k])*100));});
+    lastNormalized=normalized;
+    buildLaneResultsCache(normalized);
+    const displayLane=selectedLane==='ANY'?getBestLane():(selectedLane||'TOP');
+    const cache=laneResultsCache[displayLane];
+    const type=getSummonerType(normalized);
+    const typeName=type?type.name:'不明';
+    console.log(`[テスト ${i+1}/${count}] ロール:${selectedLane} チャンプ:${cache.champ.name} タイプ:${typeName}`);
+    await sendDiagnosisResult(cache.champ,typeName,selectedLane);
+  }
+  console.log(`[テスト] ${count}回の自動診断が完了しました`);
+  alert(`${count}回の自動診断が完了しました！`);
+  loadRankings();
+}
+
 function startDiagnosis(){
+  if(TEST_BATCH>0){_testRunBatch(TEST_BATCH);return;}
   resetState();
   allActiveQuestions=initQuestions();
   document.getElementById('lang-toggle').style.display='none';
