@@ -6,7 +6,6 @@ function showResult(normalized){
 function _showResultInner(normalized){
   showScreen('result-screen');
   document.getElementById('lane-tabs').style.display='flex';
-  document.querySelectorAll('.lane-tab').forEach(t=>{t.style.animation='none';t.offsetHeight;t.style.animation='';});
   const displayLane=selectedLane==='ANY'?getBestLane():(selectedLane||'TOP');
   renderLaneTabs(displayLane);
   const cache=laneResultsCache[displayLane];
