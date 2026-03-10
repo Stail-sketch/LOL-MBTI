@@ -16,14 +16,12 @@ async function downloadCard(){
   }
   const isEN=currentLang==='en';
   const btn=document.getElementById('btn-download');
-  const doneLabel=isEN?'⬇ Save Result Card':'⬇ 結果カードをダウンロード';
   btn.disabled=true;
-  const spanEl=document.getElementById('download-btn-text');
   try{
     const norm=lastNormalized||{};
     const d=window._shareData||{};
     const champ=d.champ;
-    if(!champ){btn.disabled=false;if(spanEl)spanEl.textContent=doneLabel;else btn.textContent=doneLabel;return;}
+    if(!champ){btn.disabled=false;return;}
     const is25=currentPhaseEnd>=16;
     const is40=currentPhaseEnd>=32;
     const displayLane=selectedLane==='ANY'?getBestLane():(selectedLane||'TOP');
@@ -86,7 +84,6 @@ async function downloadCard(){
     link.click();
   }catch(e){console.error(e);}
   btn.disabled=false;
-  if(spanEl)spanEl.textContent=doneLabel;else btn.textContent=doneLabel;
 }
 
 function shareToX(){
