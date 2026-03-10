@@ -174,36 +174,23 @@ function goToTop(){
   if(champId)showChampDetail(decodeURIComponent(champId),kind);
 })();
 
-// ===== FIREBASE FUNCTIONS =====
+// ===== WORKER FUNCTIONS =====
 function sendDiagnosisResult(champ,typeName,role){
-  db.ref('diagnoses').push({
-    champId:champ.id,
-    champName:champ.name,
-    typeName:typeName||'',
-    role:role||'TOP',
-    timestamp:firebase.database.ServerValue.TIMESTAMP
-  }).catch(e=>console.warn('Firebase送信失敗:',e));
+  fetch(WORKER_URL+'/record',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({champId:champ.id,champName:champ.name,typeName:typeName||'',role:role||'TOP'})
+  }).catch(e=>console.warn('ランキング送信失敗:',e));
 }
 
 function loadRankings(){
-  db.ref('diagnoses').limitToLast(1000).once('value',snapshot=>{
-    const data=snapshot.val();
-    if(!data){renderRankings({total:0,champions:[],types:[],roles:[]});return;}
-    const entries=Object.values(data);
-    const champCount={},typeCount={},roleCount={};
-    entries.forEach(e=>{
-      if(e.champId)champCount[e.champId]=(champCount[e.champId]||0)+1;
-      if(e.typeName)typeCount[e.typeName]=(typeCount[e.typeName]||0)+1;
-      if(e.role)roleCount[e.role]=(roleCount[e.role]||0)+1;
+  fetch(WORKER_URL+'/rankings')
+    .then(r=>r.json())
+    .then(data=>renderRankings(data))
+    .catch(e=>{
+      console.warn('ランキング取得失敗:',e);
+      renderRankings({total:0,champions:[],types:[],roles:[]});
     });
-    const top=(obj,n)=>Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n);
-    renderRankings({
-      total:entries.length,
-      champions:top(champCount,5),
-      types:top(typeCount,5),
-      roles:top(roleCount,6)
-    });
-  });
 }
 
 let _rankTotalValue=0;
