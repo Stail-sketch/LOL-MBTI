@@ -95,7 +95,7 @@ function getSummonerType(normalized){
   SUMMONER_TYPES.forEach(t=>{
     let d=0;
     Object.keys(t.profile).forEach(k=>{const diff=(normalized[k]||50)-t.profile[k];d+=diff*diff;});
-    if(t.id==='balanced') d+=1800;
+    if(t.id==='balanced') d+=1000;
     if(d<bestDist){bestDist=d;best=t;}
   });
   return best;

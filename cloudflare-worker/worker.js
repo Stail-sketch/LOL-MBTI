@@ -112,6 +112,31 @@ export default {
       }, 200, { ...ch, 'Cache-Control': 'no-store' });
     }
 
+    // GET /rankings/all - 全データを取得
+    if (url.pathname === '/rankings/all' && request.method === 'GET') {
+      const [totalStr, championsStr, typesStr, rolesStr] = await Promise.all([
+        env.KV.get('total'),
+        env.KV.get('champions'),
+        env.KV.get('types'),
+        env.KV.get('roles'),
+      ]);
+
+      const total = parseInt(totalStr || '0');
+      const champObj = JSON.parse(championsStr || '{}');
+      const typeObj = JSON.parse(typesStr || '{}');
+      const roleObj = JSON.parse(rolesStr || '{}');
+
+      const sorted = (obj) =>
+        Object.entries(obj).sort((a, b) => b[1] - a[1]);
+
+      return json({
+        total,
+        champions: sorted(champObj),
+        types: sorted(typeObj),
+        roles: sorted(roleObj),
+      }, 200, { ...ch, 'Cache-Control': 'no-store' });
+    }
+
     return new Response('Not Found', { status: 404, headers: ch });
   },
 };
