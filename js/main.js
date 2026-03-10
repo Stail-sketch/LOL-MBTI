@@ -176,10 +176,14 @@ function goToTop(){
 
 // ===== WORKER FUNCTIONS =====
 function sendDiagnosisResult(champ,typeName,role){
-  fetch(WORKER_URL+'/record',{
+  console.log('[診断送信]',{champId:champ.id,champName:champ.name,typeName,role});
+  return fetch(WORKER_URL+'/record',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({champId:champ.id,champName:champ.name,typeName:typeName||'',role:role||'TOP'})
+  }).then(r=>r.json()).then(data=>{
+    console.log('[診断送信結果]',data);
+    if(data.rankings)renderRankings(data.rankings);
   }).catch(e=>console.warn('ランキング送信失敗:',e));
 }
 

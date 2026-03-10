@@ -32,8 +32,8 @@ function _showResultInner(normalized){
   updateSharePreview(cache.champ,cache.matchPct,detectedTypeName);
   saveLastResult(cache.champ,cache.matchPct,detectedTypeNameJP,displayLane);
   if(is32){
-    sendDiagnosisResult(cache.champ,detectedTypeNameJP,selectedLane);
-    loadRankings();
+    sendDiagnosisResult(cache.champ,detectedTypeNameJP,selectedLane)
+      .then(()=>loadRankings());
   }
 }
 

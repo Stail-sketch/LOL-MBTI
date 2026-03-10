@@ -72,7 +72,19 @@ export default {
         env.KV.put('roles', JSON.stringify(roles)),
       ]);
 
-      return json({ ok: true }, 200, ch);
+      // 書き込み直後のデータからランキングを生成して返す（KV eventual consistency 対策）
+      const top = (obj, n) =>
+        Object.entries(obj).sort((a, b) => b[1] - a[1]).slice(0, n);
+
+      return json({
+        ok: true,
+        rankings: {
+          total,
+          champions: top(champions, 5),
+          types: top(types, 5),
+          roles: top(roles, 6),
+        },
+      }, 200, ch);
     }
 
     // GET /rankings - ランキングデータを取得
