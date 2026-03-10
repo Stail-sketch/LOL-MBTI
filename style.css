@@ -55,8 +55,8 @@
   .role-name{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);letter-spacing:.1em;margin-bottom:6px}
   .role-desc{font-size:10px;color:var(--text);line-height:1.5}
   .role-count{font-family:'Rajdhani',sans-serif;font-size:11px;color:var(--blue);margin-top:4px}
-  .lane-tab img{width:18px;height:18px;vertical-align:middle;margin-right:4px;object-fit:contain;filter:brightness(0) invert(1);opacity:.75}
-  .lane-tab:hover img,.lane-tab.active img{filter:brightness(0) invert(1) sepia(1) saturate(4) hue-rotate(5deg);opacity:1}
+  .lane-tab img{width:18px;height:18px;vertical-align:middle;margin-right:4px;object-fit:contain;filter:brightness(0) invert(1);opacity:.75;animation:idleTabGlow 3.5s ease-in-out infinite}
+  .lane-tab:hover img,.lane-tab.active img{filter:brightness(0) invert(1) sepia(1) saturate(4) hue-rotate(5deg);opacity:1;animation:none}
   .btn-secondary{display:inline-block;padding:12px 36px;background:transparent;color:var(--gold);font-family:'Cinzel',serif;font-size:13px;font-weight:600;letter-spacing:.15em;cursor:pointer;border:1px solid var(--gold-dark);margin-top:32px;transition:all .3s ease;clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 50%,calc(100% - 8px) 100%,8px 100%,0% 50%)}
   .btn-secondary:hover{background:rgba(200,155,60,.1);border-color:var(--gold);box-shadow:0 0 20px rgba(200,155,60,.2)}
   .btn-secondary:active{transform:scale(.97)}
@@ -352,6 +352,9 @@
   .radar-section,.ranking-section{position:relative;overflow:hidden}
   .champion-card::after,.ext-section::after,.radar-section::after,.ranking-section::after{content:'';position:absolute;top:0;left:0;width:50%;height:100%;background:linear-gradient(105deg,transparent,rgba(240,230,190,.07) 50%,transparent);transform:translateX(-150%);pointer-events:none;z-index:2}
   .champion-card:hover::after,.ext-section:hover::after,.radar-section:hover::after,.ranking-section:hover::after{animation:shimmerSweep .75s ease forwards}
+
+  /* ===== IDLE LANE-TAB ICON GLOW ===== */
+  @keyframes idleTabGlow{0%,100%{filter:brightness(0) invert(1) drop-shadow(0 0 2px rgba(200,155,60,.03));opacity:.75}50%{filter:brightness(0) invert(1) drop-shadow(0 0 5px rgba(200,155,60,.25)) drop-shadow(0 0 10px rgba(200,155,60,.1));opacity:.85}}
 
   /* ===== IDLE ROLE ICON GLOW ===== */
   @keyframes idleIconGlow{0%,100%{filter:brightness(0) invert(1) drop-shadow(0 0 3px rgba(200,155,60,.05))}50%{filter:brightness(0) invert(1) drop-shadow(0 0 10px rgba(200,155,60,.35)) drop-shadow(0 0 20px rgba(200,155,60,.15))}}
