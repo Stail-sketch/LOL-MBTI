@@ -120,7 +120,8 @@ function startDiagnosis(){
   document.getElementById('lang-toggle').style.display='none';
   if(TEST_MODE){
     _testAutoAnswer(0,16);
-    selectedLane='ANY';
+    const lanes=['TOP','JUNGLE','MID','ADC','SUPPORT','ANY'];
+    selectedLane=lanes[Math.floor(Math.random()*lanes.length)];
     currentPhaseEnd=16;
     _testShowResult();
   } else {
