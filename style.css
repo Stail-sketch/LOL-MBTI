@@ -157,7 +157,7 @@
   .perception-box{padding:16px 18px;border:1px solid;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
   .perception-box.ally{border-color:rgba(11,196,227,.4);background:rgba(11,196,227,.05)}
   .perception-box.enemy{border-color:rgba(200,52,74,.4);background:rgba(200,52,74,.05)}
-  .perception-box-label{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.25em;text-transform:uppercase;margin-bottom:10px}
+  .perception-box-label{font-family:'Rajdhani',sans-serif;font-size:16px;letter-spacing:.25em;text-transform:uppercase;margin-bottom:10px}
   .perception-box.ally .perception-box-label{color:var(--blue)}
   .perception-box.enemy .perception-box-label{color:var(--red)}
   .perception-text{font-size:13px;color:var(--text);line-height:1.9;font-style:italic}
@@ -175,7 +175,7 @@
   .sw-box{padding:14px 18px;border:1px solid}
   .sw-box.str{border-color:rgba(11,196,227,.3);background:rgba(11,196,227,.05)}
   .sw-box.weak{border-color:rgba(200,52,74,.3);background:rgba(200,52,74,.05)}
-  .sw-box-label{font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.3em;margin-bottom:10px;text-transform:uppercase}
+  .sw-box-label{font-family:'Rajdhani',sans-serif;font-size:16px;letter-spacing:.3em;margin-bottom:10px;text-transform:uppercase}
   .sw-box.str .sw-box-label{color:var(--blue)}
   .sw-box.weak .sw-box-label{color:var(--red)}
   .sw-item{font-size:13px;color:var(--text);margin-bottom:6px;padding-left:12px;position:relative;line-height:1.6}
