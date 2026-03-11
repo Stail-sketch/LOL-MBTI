@@ -4,7 +4,12 @@
       <stop offset="0%" stop-color="#0A1428"/>
       <stop offset="100%" stop-color="#010A13"/>
     </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0E6BE"/>
+      <stop offset="100%" stop-color="#C89B3C"/>
+    </linearGradient>
   </defs>
   <circle cx="256" cy="256" r="256" fill="url(#bg)"/>
-  <path d="M120,340 L120,180 L180,240 L256,140 L332,240 L392,180 L392,340 Z" fill="#C89B3C"/>
+  <circle cx="256" cy="256" r="230" fill="none" stroke="#C89B3C" stroke-width="8" opacity="0.4"/>
+  <path d="M120,340 L120,180 L180,240 L256,140 L332,240 L392,180 L392,340 Z" fill="none" stroke="url(#gold)" stroke-width="12" stroke-linejoin="round"/>
 </svg>
