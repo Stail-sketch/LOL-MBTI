@@ -77,11 +77,25 @@ async function downloadCard(){
       backgroundColor:'#010A13',scale:2,useCORS:true,allowTaint:false,logging:false,
       width:375,
     });
-    const link=document.createElement('a');
     const dlName=champEN?champEN.nameEn:champ.name;
-    link.download=`lol-diagnosis-${dlName}.png`;
-    link.href=canvas.toDataURL('image/png');
-    link.click();
+    const fileName=`lol-diagnosis-${dlName}.png`;
+    const blob=await new Promise(r=>canvas.toBlob(r,'image/png'));
+    // スマホではWeb Share APIでネイティブ共有シートを表示
+    if(navigator.canShare&&navigator.canShare({files:[new File([blob],fileName,{type:'image/png'})]})){
+      const file=new File([blob],fileName,{type:'image/png'});
+      try{
+        await navigator.share({files:[file]});
+      }catch(e){
+        if(e.name!=='AbortError')console.error(e);
+      }
+    }else{
+      const url=URL.createObjectURL(blob);
+      const link=document.createElement('a');
+      link.download=fileName;
+      link.href=url;
+      link.click();
+      setTimeout(()=>URL.revokeObjectURL(url),60000);
+    }
   }catch(e){console.error(e);}
   btn.disabled=false;
 }
