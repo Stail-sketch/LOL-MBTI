@@ -106,7 +106,19 @@ function closeAdOverlay(){
 function openAboutModal(){
   document.getElementById('about-modal').style.display='flex';
   document.body.style.overflow='hidden';
+  const modal=document.querySelector('#about-modal .modal-box');
+  if(modal){const first=modal.querySelector('button,a,[tabindex]');if(first)first.focus();}
 }
+function _trapFocus(e){
+  const modal=document.querySelector('#about-modal .modal-box');
+  if(!modal||document.getElementById('about-modal').style.display==='none')return;
+  const focusable=modal.querySelectorAll('button,a,[tabindex]:not([tabindex="-1"])');
+  if(focusable.length===0)return;
+  const first=focusable[0],last=focusable[focusable.length-1];
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+}
+document.addEventListener('keydown',function(e){if(e.key==='Tab')_trapFocus(e);});
 function closeAboutModal(e){
   if(e&&e.target!==document.getElementById('about-modal')&&!e.target.classList.contains('modal-close'))return;
   document.getElementById('about-modal').style.display='none';

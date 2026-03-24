@@ -221,7 +221,7 @@
     <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar" style="width:2%"></div></div>
     <div style="margin-bottom:32px"></div>
     <div id="dimension-tag" class="dimension-tag">EXTROVERSION</div>
-    <div class="question-card" id="question-card"><p class="question-text" id="question-text"></p></div>
+    <div class="question-card" id="question-card" aria-live="polite"><p class="question-text" id="question-text"></p></div>
     <div class="choices" id="choices-container">
       <button class="choice-btn" data-label="A" id="choice-a" onclick="answer(1)"></button>
       <button class="choice-btn" data-label="B" id="choice-b" onclick="answer(0)"></button>
@@ -230,7 +230,7 @@
 </div>
 
 <!-- LOADING -->
-<div id="loading-screen" class="screen">
+<div id="loading-screen" class="screen" role="status" aria-live="polite">
   <div class="hex-loader"><div class="hex-ring"></div><div class="hex-ring"></div><div class="hex-ring"></div></div>
   <p class="loading-text">ANALYZING SUMMONER DATA</p>
   <div class="loading-bar"><div class="loading-bar-fill"></div></div>
