@@ -1,5 +1,5 @@
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{width:100%;min-height:100vh;background:var(--bg);background-image:repeating-linear-gradient(135deg,transparent,transparent 60px,rgba(200,155,60,.022) 60px,rgba(200,155,60,.022) 61px),repeating-linear-gradient(45deg,transparent,transparent 60px,rgba(11,196,227,.01) 60px,rgba(11,196,227,.01) 61px);color:var(--white);font-family:'Noto Serif JP',serif;overflow-x:hidden;line-height:1.8}
+  html,body{width:100%;min-height:100vh;background:var(--bg);color:var(--white);font-family:'Noto Serif JP',serif;overflow-x:hidden;line-height:1.8}
   body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse at 50% 50%,transparent 35%,rgba(0,0,0,.65) 100%)}
   #particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
   .particle{position:absolute;border-radius:50%;background:var(--gold);animation:floatUp linear infinite;opacity:0}
@@ -8,7 +8,7 @@
   .screen{display:none;position:relative;z-index:1;min-height:100vh;align-items:center;justify-content:center;flex-direction:column;padding:20px}
   .screen.active{display:flex;animation:screenFadeIn .45s cubic-bezier(.22,1,.36,1)}
   @keyframes screenFadeIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-  #start-screen{text-align:center;background:radial-gradient(ellipse at 50% -10%,rgba(200,155,60,.28) 0%,transparent 55%),radial-gradient(ellipse at 50% 110%,rgba(11,196,227,.14) 0%,transparent 55%),linear-gradient(180deg,rgba(1,10,19,0) 0%,rgba(1,10,19,.35) 100%)}
+  #start-screen{text-align:center;background:radial-gradient(ellipse at 50% -10%,rgba(200,155,60,.28) 0%,transparent 55%),radial-gradient(ellipse at 50% 110%,rgba(11,196,227,.14) 0%,transparent 55%)}
   .crown-icon{width:80px;height:80px;margin:0 auto 20px;animation:crownPulse 3s ease-in-out infinite}
   .crown-icon svg{width:100%;height:100%}
   @keyframes crownPulse{0%,100%{filter:drop-shadow(0 0 10px rgba(200,155,60,.5));transform:scale(1)}50%{filter:drop-shadow(0 0 25px rgba(200,155,60,.9));transform:scale(1.05)}}
@@ -102,7 +102,7 @@
   @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
   .champion-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,var(--gold-a10),transparent 60%);pointer-events:none}
   .champion-banner{width:100%;height:400px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--gold-a08) 0%,rgba(9,20,40,1) 100%)}
-  .champion-banner::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 20px,var(--gold-a03) 20px,var(--gold-a03) 21px)}
+  .champion-banner::before{display:none}
   .champion-banner-role{font-size:64px;filter:drop-shadow(0 0 24px var(--gold-a50));animation:crownPulse 3s ease-in-out infinite}
   .champion-banner-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top}
   .champion-banner::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(9,20,40,.9) 100%);pointer-events:none;z-index:1}
