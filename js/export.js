@@ -14,17 +14,17 @@ async function downloadCard(){
       document.head.appendChild(s);
     });
   }
-  const isEN=currentLang==='en';
+  const isEN=State.currentLang==='en';
   const btn=document.getElementById('btn-download');
   btn.disabled=true;
   try{
-    const norm=lastNormalized||{};
+    const norm=State.lastNormalized||{};
     const d=window._shareData||{};
     const champ=d.champ;
     if(!champ){btn.disabled=false;return;}
-    const is25=currentPhaseEnd>=16;
-    const is40=currentPhaseEnd>=32;
-    const displayLane=selectedLane==='ANY'?getBestLane():(selectedLane||'TOP');
+    const is25=State.currentPhaseEnd>=16;
+    const is40=State.currentPhaseEnd>=32;
+    const displayLane=State.selectedLane==='ANY'?getBestLane():(State.selectedLane||'TOP');
     const champEN=isEN&&CHAMPIONS_EN[champ.id]?CHAMPIONS_EN[champ.id]:null;
 
     // champion block
@@ -103,12 +103,12 @@ async function downloadCard(){
 }
 
 function shareToX(){
-  const isEN=currentLang==='en';
+  const isEN=State.currentLang==='en';
   const d=window._shareData||{};
   const champ=d.champ;
   const pct=d.matchPct||'??';
   const typeName=d.typeName||'';
-  const lane=d.lane||selectedLane||'';
+  const lane=d.lane||State.selectedLane||'';
   const champEN=isEN&&champ&&CHAMPIONS_EN[champ.id]?CHAMPIONS_EN[champ.id]:null;
   const displayName=champEN?champEN.nameEn:(champ?champ.name:'???');
   const displayTitle=champEN?champEN.title:(champ?champ.title:'');

@@ -3,15 +3,15 @@
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
 
 function renderQuestion(){
-  const offset=PHASE_OFFSET[currentPhase];
-  const q=allActiveQuestions[offset+currentQ];
-  const phaseTotal=PHASE_LENGTH[currentPhase];
-  const pct=Math.round((currentQ/phaseTotal)*100);
+  const offset=PHASE_OFFSET[State.currentPhase];
+  const q=State.allActiveQuestions[offset+State.currentQ];
+  const phaseTotal=PHASE_LENGTH[State.currentPhase];
+  const pct=Math.round((State.currentQ/phaseTotal)*100);
   document.getElementById('progress-bar').style.width=Math.max(2,pct)+'%';
-  document.getElementById('q-current').textContent=offset+currentQ+1;
-  document.getElementById('q-total').textContent=currentPhaseEnd;
+  document.getElementById('q-current').textContent=offset+State.currentQ+1;
+  document.getElementById('q-total').textContent=State.currentPhaseEnd;
   let displayQ=q;
-  if(currentLang==='en'){
+  if(State.currentLang==='en'){
     const idx=QUESTION_DATA.indexOf(q);
     if(idx>=0&&QUESTION_DATA_EN[idx])displayQ=QUESTION_DATA_EN[idx];
   }
@@ -23,15 +23,15 @@ function renderQuestion(){
   document.getElementById('choice-a').disabled=false;
   document.getElementById('choice-b').disabled=false;
   const di=DIM_LABELS[q.dim];
-  document.getElementById('dim-label').textContent=currentLang==='en'?di.en:di.name;
+  document.getElementById('dim-label').textContent=State.currentLang==='en'?di.en:di.name;
   document.getElementById('dimension-tag').textContent=di.en;
   const card=document.getElementById('question-card');
   card.style.animation='none';card.offsetHeight;card.style.animation='questionSlideIn .35s cubic-bezier(.22,1,.36,1)';
-  document.getElementById('back-btn').disabled=(currentQ===0);
+  document.getElementById('back-btn').disabled=(State.currentQ===0);
 }
 
 function renderChampionCard(champ,matchPct,lane,roleIcons){
-  const en=currentLang==='en'&&CHAMPIONS_EN[champ.id]?CHAMPIONS_EN[champ.id]:null;
+  const en=State.currentLang==='en'&&CHAMPIONS_EN[champ.id]?CHAMPIONS_EN[champ.id]:null;
   const displayName=en?en.nameEn:champ.name;
   const displayTitle=en?en.title:champ.title;
   const displayReason=en?en.reason:champ.reason;
@@ -52,15 +52,15 @@ function renderChampionCard(champ,matchPct,lane,roleIcons){
 
 function champOfficialUrl(id){
   const slug=CHAMP_ID_TO_URL[id]||id.toLowerCase();
-  const locale=currentLang==='en'?'en-us':'ja-jp';
+  const locale=State.currentLang==='en'?'en-us':'ja-jp';
   return`https://www.leagueoflegends.com/${locale}/champions/${slug}/`;
 }
 
 function getBestLane(){
   const lanes=['TOP','JUNGLE','MID','ADC','SUPPORT'];
   return lanes.reduce((best,l)=>{
-    if(!laneResultsCache[l])return best;
-    return(!best||laneResultsCache[l].matchPct>laneResultsCache[best].matchPct)?l:best;
+    if(!State.laneResultsCache[l])return best;
+    return(!best||State.laneResultsCache[l].matchPct>State.laneResultsCache[best].matchPct)?l:best;
   },lanes[0]);
 }
 
@@ -71,7 +71,7 @@ function renderLaneTabs(activeLane){
 }
 
 function renderTypeSection(type){
-  const en=currentLang==='en'&&SUMMONER_TYPES_EN[type.id]?SUMMONER_TYPES_EN[type.id]:null;
+  const en=State.currentLang==='en'&&SUMMONER_TYPES_EN[type.id]?SUMMONER_TYPES_EN[type.id]:null;
   const d=en||type;
   document.getElementById('type-name').textContent=d.name;
   document.getElementById('type-subtitle').textContent=d.subtitle;
@@ -90,7 +90,7 @@ function renderTypeSection(type){
 
 function buildAffinityCard(champId,kind){
   const champ=CHAMPIONS.find(c=>c.id===champId)||{id:champId,name:champId,title:''};
-  const en=currentLang==='en'&&CHAMPIONS_EN[champId]?CHAMPIONS_EN[champId]:null;
+  const en=State.currentLang==='en'&&CHAMPIONS_EN[champId]?CHAMPIONS_EN[champId]:null;
   const displayName=en?en.nameEn:(champ.name||champId);
   const displayTitle=en?en.title:(champ.title||'');
   const card=document.createElement('div');
@@ -147,7 +147,7 @@ function buildLegend(norm){
   const legend=document.getElementById('radar-legend');legend.innerHTML='';
   DIMENSIONS.forEach(d=>{
     const val=norm[d.key];
-    const label=currentLang==='en'?d.en:d.name;
+    const label=State.currentLang==='en'?d.en:d.name;
     const item=document.createElement('div');item.className='legend-item';
     item.innerHTML=`<div class="legend-dot" style="background:${d.color}"></div><span class="legend-text">${label}</span><span class="legend-val">${val}</span>`;
     legend.appendChild(item);
@@ -155,7 +155,7 @@ function buildLegend(norm){
 }
 
 function applyResultLang(){
-  const L=LANG_DATA[currentLang];
+  const L=LANG_DATA[State.currentLang];
   const set=(id,t)=>{const el=document.getElementById(id);if(el)el.textContent=t;};
   set('result-screen-title',L.resultTitle||'あなたのチャンピオンが決まりました');
   set('champ-link-text',L.champLink||'チャンピオンの詳しい解説はこちら');

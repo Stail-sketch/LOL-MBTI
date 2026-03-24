@@ -1,9 +1,48 @@
 // main.js - グローバルstate・イベント初期化
 
+// ===== STATE（全状態を1箇所に集約）=====
+const State={
+  currentLang:'jp',
+  selectedLane:null,
+  currentPhase:1,       // 1=1-16問, 2=17-32問
+  currentQ:0,           // フェーズ内の問番号(0-indexed)
+  currentPhaseEnd:16,   // フェーズ終了点(16/32)
+  scores:{V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0},
+  allActiveQuestions:[], // 32問まで利用
+  laneResultsCache:{},  // 全レーン結果キャッシュ
+  lastNormalized:null,
+  answerHistory:[],     // [{dim, isHigh}] フェーズ内の回答履歴（戻る機能用）
+  _adCallback:null,
+  _rankTotalValue:0,
+};
+
+// ===== 状態操作関数 =====
+function resetState(){
+  State.selectedLane=null;State.currentPhase=1;State.currentQ=0;State.currentPhaseEnd=16;
+  State.scores={V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0};
+  State.laneResultsCache={};State.lastNormalized=null;State.answerHistory=[];
+}
+function recordAnswer(dim,isHigh){
+  if(isHigh)State.scores[dim]++;
+  State.answerHistory.push({dim,isHigh});
+}
+function undoAnswer(){
+  if(State.currentQ===0)return null;
+  const last=State.answerHistory.pop();
+  if(last&&last.isHigh)State.scores[last.dim]--;
+  State.currentQ--;
+  return last;
+}
+function advancePhase(){
+  State.currentPhase++;
+  State.currentQ=0;
+  State.currentPhaseEnd=32;
+  State.answerHistory=[];
+}
+
 // ===== LANG TOGGLE =====
-let currentLang='jp';
 function setLang(lang){
-  currentLang=lang;
+  State.currentLang=lang;
   document.getElementById('lang-jp').classList.toggle('active',lang==='jp');
   document.getElementById('lang-en').classList.toggle('active',lang==='en');
   const L=LANG_DATA[lang];
@@ -54,26 +93,14 @@ window.addEventListener('popstate',function(){
 const PHASE_OFFSET={1:0,2:16};
 const PHASE_LENGTH={1:16,2:16};
 
-// ===== STATE =====
-let selectedLane=null;
-let currentPhase=1;       // 1=1-16問, 2=17-32問
-let currentQ=0;           // フェーズ内の問番号(0-indexed)
-let currentPhaseEnd=16;   // フェーズ終了点(16/32)
-let scores={V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0};
-let allActiveQuestions=[]; // 32問まで利用
-let laneResultsCache={};  // 全レーン結果キャッシュ
-let lastNormalized=null;
-let answerHistory=[];     // [{dim, isHigh}] フェーズ内の回答履歴（戻る機能用）
-
 // ===== 広告オーバーレイ =====
-let _adCallback=null;
 function showAdOverlay(callback){
-  _adCallback=callback;
+  State._adCallback=callback;
   document.getElementById('ad-overlay').classList.add('active');
 }
 function closeAdOverlay(){
   document.getElementById('ad-overlay').classList.remove('active');
-  if(_adCallback){const cb=_adCallback;_adCallback=null;cb();}
+  if(State._adCallback){const cb=State._adCallback;State._adCallback=null;cb();}
 }
 
 function openAboutModal(){
@@ -94,12 +121,6 @@ document.addEventListener('keydown',function(e){
   }
 });
 
-function resetState(){
-  selectedLane=null;currentPhase=1;currentQ=0;currentPhaseEnd=16;
-  scores={V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0};
-  laneResultsCache={};lastNormalized=null;answerHistory=[];
-}
-
 // ===== テストモード（?test=1 で有効、?test=100 で100回自動診断、本番では無効）=====
 const _testParam=new URLSearchParams(location.search).get('test');
 const _isProduction=location.hostname==='stail-sketch.github.io';
@@ -108,19 +129,18 @@ const TEST_BATCH=!_isProduction&&parseInt(_testParam)>1?parseInt(_testParam):0;
 
 function _testAutoAnswer(from,to){
   for(let i=from;i<to;i++){
-    const q=allActiveQuestions[i];if(!q)break;
+    const q=State.allActiveQuestions[i];if(!q)break;
     const isHigh=Math.random()>.5;
-    if(isHigh)scores[q.dim]++;
-    answerHistory.push({dim:q.dim,isHigh});
+    recordAnswer(q.dim,isHigh);
   }
 }
 function _testShowResult(){
-  const answeredQs=allActiveQuestions.slice(0,currentPhaseEnd);
+  const answeredQs=State.allActiveQuestions.slice(0,State.currentPhaseEnd);
   const dimCount={};
   ['V','I','H','T','A','W','S','D'].forEach(d=>{dimCount[d]=answeredQs.filter(q=>q.dim===d).length||1;});
   const normalized={};
-  Object.keys(scores).forEach(k=>{normalized[k]=Math.min(100,Math.round((scores[k]/dimCount[k])*100));});
-  lastNormalized=normalized;
+  Object.keys(State.scores).forEach(k=>{normalized[k]=Math.min(100,Math.round((State.scores[k]/dimCount[k])*100));});
+  State.lastNormalized=normalized;
   buildLaneResultsCache(normalized);
   _showResultInner(normalized);
 }
@@ -130,25 +150,25 @@ async function _testRunBatch(count){
   const lanes=['TOP','JUNGLE','MID','ADC','SUPPORT','ANY'];
   for(let i=0;i<count;i++){
     resetState();
-    allActiveQuestions=initQuestions();
+    State.allActiveQuestions=initQuestions();
     _testAutoAnswer(0,16);
-    selectedLane=lanes[Math.floor(Math.random()*lanes.length)];
-    currentPhaseEnd=16;
+    State.selectedLane=lanes[Math.floor(Math.random()*lanes.length)];
+    State.currentPhaseEnd=16;
     _testAutoAnswer(16,32);
-    currentPhaseEnd=32;
-    const answeredQs=allActiveQuestions.slice(0,32);
+    State.currentPhaseEnd=32;
+    const answeredQs=State.allActiveQuestions.slice(0,32);
     const dimCount={};
     ['V','I','H','T','A','W','S','D'].forEach(d=>{dimCount[d]=answeredQs.filter(q=>q.dim===d).length||1;});
     const normalized={};
-    Object.keys(scores).forEach(k=>{normalized[k]=Math.min(100,Math.round((scores[k]/dimCount[k])*100));});
-    lastNormalized=normalized;
+    Object.keys(State.scores).forEach(k=>{normalized[k]=Math.min(100,Math.round((State.scores[k]/dimCount[k])*100));});
+    State.lastNormalized=normalized;
     buildLaneResultsCache(normalized);
-    const displayLane=selectedLane==='ANY'?getBestLane():(selectedLane||'TOP');
-    const cache=laneResultsCache[displayLane];
+    const displayLane=State.selectedLane==='ANY'?getBestLane():(State.selectedLane||'TOP');
+    const cache=State.laneResultsCache[displayLane];
     const type=getSummonerType(normalized);
     const typeName=type?type.name:'不明';
-    console.log(`[テスト ${i+1}/${count}] ロール:${selectedLane} チャンプ:${cache.champ.name} タイプ:${typeName}`);
-    await sendDiagnosisResult(cache.champ,typeName,selectedLane);
+    console.log(`[テスト ${i+1}/${count}] ロール:${State.selectedLane} チャンプ:${cache.champ.name} タイプ:${typeName}`);
+    await sendDiagnosisResult(cache.champ,typeName,State.selectedLane);
   }
   console.log(`[テスト] ${count}回の自動診断が完了しました`);
   alert(`${count}回の自動診断が完了しました！`);
@@ -158,13 +178,13 @@ async function _testRunBatch(count){
 function startDiagnosis(){
   if(TEST_BATCH>0){_testRunBatch(TEST_BATCH);return;}
   resetState();
-  allActiveQuestions=initQuestions();
+  State.allActiveQuestions=initQuestions();
   document.getElementById('lang-toggle').style.display='none';
   if(TEST_MODE){
     _testAutoAnswer(0,16);
     const lanes=['TOP','JUNGLE','MID','ADC','SUPPORT','ANY'];
-    selectedLane=lanes[Math.floor(Math.random()*lanes.length)];
-    currentPhaseEnd=16;
+    State.selectedLane=lanes[Math.floor(Math.random()*lanes.length)];
+    State.currentPhaseEnd=16;
     _testShowResult();
   } else {
     showAdOverlay(()=>{showScreen('question-screen');renderQuestion();});
@@ -172,22 +192,19 @@ function startDiagnosis(){
 }
 
 function selectLane(lane,el){
-  selectedLane=lane;
+  State.selectedLane=lane;
   document.querySelectorAll('#lane-screen .role-card').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');
   document.getElementById('lane-next-btn').disabled=false;
 }
 
 function proceedFromLane(){
-  if(!selectedLane)return;
+  if(!State.selectedLane)return;
   calculateAndShowResult();
 }
 
 function continueToNextPhase(){
-  currentPhase++;
-  currentQ=0;
-  currentPhaseEnd=32;
-  answerHistory=[];
+  advancePhase();
   if(TEST_MODE){
     _testAutoAnswer(16,32);
     _testShowResult();
@@ -203,7 +220,7 @@ function retryDiagnosis(){
 
 function goToTop(){
   resetState();
-  allActiveQuestions=[];
+  State.allActiveQuestions=[];
   document.getElementById('lang-toggle').style.display='flex';
   showScreen('start-screen');
   loadLastResult();
@@ -240,10 +257,9 @@ function loadRankings(){
     });
 }
 
-let _rankTotalValue=0;
 function _esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function renderRankings({total,champions,types,roles}){
-  _rankTotalValue=total;
+  State._rankTotalValue=total;
   document.getElementById('rank-total').textContent=total.toLocaleString()+' 回';
   const cEl=document.getElementById('rank-champions');
   cEl.innerHTML='';
@@ -313,9 +329,9 @@ function renderRankings({total,champions,types,roles}){
 (function(){
   const obs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
-      if(e.isIntersecting&&_rankTotalValue>0){
+      if(e.isIntersecting&&State._rankTotalValue>0){
         const el=document.getElementById('rank-total');
-        if(el)animateCount(el,0,_rankTotalValue,1200);
+        if(el)animateCount(el,0,State._rankTotalValue,1200);
         obs.unobserve(e.target);
       }
     });

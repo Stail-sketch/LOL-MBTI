@@ -17,18 +17,17 @@ function answer(chosen){
   btnA.disabled=true;
   btnB.disabled=true;
   document.getElementById('back-btn').disabled=true;
-  const offset=PHASE_OFFSET[currentPhase];
-  const q=allActiveQuestions[offset+currentQ];
+  const offset=PHASE_OFFSET[State.currentPhase];
+  const q=State.allActiveQuestions[offset+State.currentQ];
   const btn=chosen===1?btnA:btnB;
   btn.classList.add('selected');
   const isHigh=(q.hi==='a'&&chosen===1)||(q.hi==='b'&&chosen===0);
-  if(isHigh)scores[q.dim]++;
-  answerHistory.push({dim:q.dim,isHigh});
-  const phaseTotal=PHASE_LENGTH[currentPhase];
+  recordAnswer(q.dim,isHigh);
+  const phaseTotal=PHASE_LENGTH[State.currentPhase];
   setTimeout(()=>{
-    currentQ++;
-    if(currentQ>=phaseTotal){
-      if(currentPhase===1){
+    State.currentQ++;
+    if(State.currentQ>=phaseTotal){
+      if(State.currentPhase===1){
         document.querySelectorAll('#lane-screen .role-card').forEach(c=>c.classList.remove('selected'));
         document.getElementById('lane-next-btn').disabled=true;
         showScreen('lane-screen');
@@ -42,28 +41,26 @@ function answer(chosen){
 }
 
 function goBack(){
-  if(currentQ===0)return;
-  const last=answerHistory.pop();
-  if(last.isHigh)scores[last.dim]--;
-  currentQ--;
+  const last=undoAnswer();
+  if(!last)return;
   renderQuestion();
 }
 
 function calculateAndShowResult(){
   showScreen('loading-screen');
-  const answeredQs=allActiveQuestions.slice(0,currentPhaseEnd);
+  const answeredQs=State.allActiveQuestions.slice(0,State.currentPhaseEnd);
   const dimCount={};
   ['V','I','H','T','A','W','S','D'].forEach(d=>{
     dimCount[d]=answeredQs.filter(q=>q.dim===d).length||1;
   });
   const normalized={};
-  Object.keys(scores).forEach(k=>{
-    normalized[k]=Math.min(100,Math.round((scores[k]/dimCount[k])*100));
+  Object.keys(State.scores).forEach(k=>{
+    normalized[k]=Math.min(100,Math.round((State.scores[k]/dimCount[k])*100));
   });
-  lastNormalized=normalized;
+  State.lastNormalized=normalized;
   buildLaneResultsCache(normalized);
   ['TOP','JUNGLE','MID','ADC','SUPPORT','ANY'].forEach(lane=>{
-    if(laneResultsCache[lane]){const img=new Image();img.src=`https://cdn.communitydragon.org/latest/champion/${laneResultsCache[lane].champ.id}/splash-art/centered`;}
+    if(State.laneResultsCache[lane]){const img=new Image();img.src=`https://cdn.communitydragon.org/latest/champion/${State.laneResultsCache[lane].champ.id}/splash-art/centered`;}
   });
   setTimeout(()=>{showResult(normalized);},2200);
 }
@@ -78,7 +75,7 @@ function buildLaneResultsCache(normalized){
       return{...c,dist};
     }).sort((a,b)=>a.dist-b.dist);
     const matchPct=Math.round(98-(Math.sqrt(ranked[0].dist)/maxDist)*33);
-    laneResultsCache[lane]={champ:ranked[0],matchPct,alts:ranked.slice(1,5)};
+    State.laneResultsCache[lane]={champ:ranked[0],matchPct,alts:ranked.slice(1,5)};
   });
   const allRanked=CHAMPIONS.map(c=>{
     let dist=0;
@@ -86,7 +83,7 @@ function buildLaneResultsCache(normalized){
     return{...c,dist};
   }).sort((a,b)=>a.dist-b.dist);
   const anyPct=Math.round(98-(Math.sqrt(allRanked[0].dist)/maxDist)*33);
-  laneResultsCache['ANY']={champ:allRanked[0],matchPct:anyPct,alts:allRanked.slice(1,5)};
+  State.laneResultsCache['ANY']={champ:allRanked[0],matchPct:anyPct,alts:allRanked.slice(1,5)};
 }
 
 // ===== SUMMONER TYPES =====

@@ -6,14 +6,14 @@ function showResult(normalized){
 function _showResultInner(normalized){
   showScreen('result-screen');
   document.getElementById('lane-tabs').style.display='flex';
-  const displayLane=selectedLane==='ANY'?getBestLane():(selectedLane||'TOP');
+  const displayLane=State.selectedLane==='ANY'?getBestLane():(State.selectedLane||'TOP');
   renderLaneTabs(displayLane);
-  const cache=laneResultsCache[displayLane];
+  const cache=State.laneResultsCache[displayLane];
   renderChampionCard(cache.champ,cache.matchPct,displayLane);
   const addBtn=document.getElementById('btn-add-diagnosis');
-  addBtn.style.display=currentPhaseEnd<32?'block':'none';
-  const is16=currentPhaseEnd>=16;
-  const is32=currentPhaseEnd>=32;
+  addBtn.style.display=State.currentPhaseEnd<32?'block':'none';
+  const is16=State.currentPhaseEnd>=16;
+  const is32=State.currentPhaseEnd>=32;
   ['sec-type','sec-catchphrase'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is16));
   ['sec-perception','sec-sw','sec-synergy','sec-opposite','sec-allies','sec-enemies','sec-axis'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is32));
   document.getElementById('ranking-section').classList.toggle('hidden',!is32);
@@ -22,7 +22,7 @@ function _showResultInner(normalized){
   if(is16){
     const type=getSummonerType(normalized);
     detectedTypeNameJP=type.name;
-    const enType=currentLang==='en'&&SUMMONER_TYPES_EN[type.id]?SUMMONER_TYPES_EN[type.id]:null;
+    const enType=State.currentLang==='en'&&SUMMONER_TYPES_EN[type.id]?SUMMONER_TYPES_EN[type.id]:null;
     detectedTypeName=enType?enType.name:type.name;
     renderTypeSection(type);
     if(is32)renderFullSection(type,normalized);
@@ -32,7 +32,7 @@ function _showResultInner(normalized){
   updateSharePreview(cache.champ,cache.matchPct,detectedTypeName);
   saveLastResult(cache.champ,cache.matchPct,detectedTypeNameJP,displayLane);
   if(is32){
-    sendDiagnosisResult(cache.champ,detectedTypeNameJP,selectedLane)
+    sendDiagnosisResult(cache.champ,detectedTypeNameJP,State.selectedLane)
       .then(()=>loadRankings());
   }
 }
@@ -40,19 +40,19 @@ function _showResultInner(normalized){
 function switchLaneTab(lane){
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if(lane==='ANY')lane=getBestLane();
-  if(!laneResultsCache[lane])return;
+  if(!State.laneResultsCache[lane])return;
   renderLaneTabs(lane);
-  const cache=laneResultsCache[lane];
+  const cache=State.laneResultsCache[lane];
   renderChampionCard(cache.champ,cache.matchPct,lane);
   updateSharePreview(cache.champ,cache.matchPct,'',lane);
 }
 
 function updateSharePreview(champ,matchPct,typeName,lane){
-  window._shareData={champ,matchPct,typeName,lane:lane!==undefined?lane:selectedLane};
+  window._shareData={champ,matchPct,typeName,lane:lane!==undefined?lane:State.selectedLane};
 }
 
 function renderFullSection(type,normalized){
-  const isEN=currentLang==='en';
+  const isEN=State.currentLang==='en';
   const enType=isEN&&SUMMONER_TYPES_EN[type.id]?SUMMONER_TYPES_EN[type.id]:null;
   // シナジー召喚士タイプ
   if(type.synergy){
