@@ -23,7 +23,6 @@
   .btn-primary:hover::before{transform:translateX(100%)}
   .btn-primary:hover{transform:scale(1.05);filter:brightness(1.2) drop-shadow(0 0 20px var(--gold-a60))}
   .btn-primary:active{transform:scale(.97);filter:brightness(.95)}
-  @keyframes pulse-btn{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
   #btn-add-diagnosis{font-size:20px;padding:20px 32px}
   #btn-start{letter-spacing:.2em}
   @media(max-width:500px){#btn-start{padding:16px 36px;font-size:16px}}
@@ -346,15 +345,6 @@
   .ext-section{position:relative}
   .radar-section,.ranking-section{position:relative}
 
-  /* ===== LANE-TAB IDLE GLOW ===== */
-  @keyframes tabIdleGlow{0%,100%{background:rgba(200,155,60,.03);border-color:var(--gold-dark)}50%{background:rgba(200,155,60,.12);border-color:rgba(200,155,60,.5)}}
-
-  /* ===== IDLE ROLE ICON GLOW ===== */
-  @keyframes idleIconGlow{0%,100%{filter:brightness(0) invert(1) drop-shadow(0 0 3px rgba(200,155,60,.05))}50%{filter:brightness(0) invert(1) drop-shadow(0 0 10px rgba(200,155,60,.35)) drop-shadow(0 0 20px rgba(200,155,60,.15))}}
-
-  /* ===== SELECTED ROLE GLOW ===== */
-  @keyframes selectedGlow{0%,100%{box-shadow:0 0 30px rgba(200,155,60,.4),0 0 60px rgba(200,155,60,.15),inset 0 0 20px rgba(200,155,60,.05)}50%{box-shadow:0 0 45px rgba(200,155,60,.65),0 0 80px rgba(200,155,60,.28),inset 0 0 25px rgba(200,155,60,.08)}}
-
   /* ===== EXT-LABEL DECORATION ===== */
   .ext-label{display:flex;align-items:center;gap:9px;font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.4em;color:var(--blue);text-transform:uppercase;margin-bottom:8px}
   .ext-label::before{content:'';display:inline-block;width:18px;height:1px;background:linear-gradient(90deg,transparent,var(--blue));flex-shrink:0}
@@ -402,7 +392,6 @@
 
   /* ===== QUESTION SLIDE ===== */
   @keyframes questionSlideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
-  @keyframes questionSlideOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-30px)}}
 
   /* ===== LAST RESULT BANNER ===== */
   .last-result-banner{display:flex;align-items:center;gap:10px;background:var(--gold-a10);border:1px solid var(--gold-a30);padding:10px 18px;margin-top:24px;flex-wrap:wrap;justify-content:center;max-width:480px;width:100%}
