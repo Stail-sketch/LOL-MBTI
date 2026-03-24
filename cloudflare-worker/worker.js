@@ -2,6 +2,10 @@
 
 const VALID_ROLES = new Set(['TOP', 'JUNGLE', 'MID', 'ADC', 'SUPPORT', 'ANY']);
 
+function sanitize(str) {
+  return String(str).replace(/[<>"&]/g, c => ({'<':'&lt;','>':'&gt;','"':'&quot;','&':'&amp;'}[c]));
+}
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -58,9 +62,11 @@ export default {
       const types = JSON.parse(typesStr || '{}');
       const roles = JSON.parse(rolesStr || '{}');
 
-      champions[champId] = (champions[champId] || 0) + 1;
+      const safeChampId = sanitize(champId);
+      champions[safeChampId] = (champions[safeChampId] || 0) + 1;
       if (typeName && typeof typeName === 'string' && typeName.length <= 60) {
-        types[typeName] = (types[typeName] || 0) + 1;
+        const safeTypeName = sanitize(typeName);
+        types[safeTypeName] = (types[safeTypeName] || 0) + 1;
       }
       if (role) {
         roles[role] = (roles[role] || 0) + 1;

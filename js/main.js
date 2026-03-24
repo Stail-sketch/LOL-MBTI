@@ -86,16 +86,25 @@ function closeAboutModal(e){
   document.body.style.overflow='';
 }
 
+// ===== キーボード操作 =====
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    if(document.getElementById('about-modal').style.display!=='none')closeAboutModal();
+    if(document.getElementById('ad-overlay').classList.contains('active'))closeAdOverlay();
+  }
+});
+
 function resetState(){
   selectedLane=null;currentPhase=1;currentQ=0;currentPhaseEnd=16;
   scores={V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0};
   laneResultsCache={};lastNormalized=null;answerHistory=[];
 }
 
-// ===== テストモード（?test=1 で有効、?test=100 で100回自動診断）=====
+// ===== テストモード（?test=1 で有効、?test=100 で100回自動診断、本番では無効）=====
 const _testParam=new URLSearchParams(location.search).get('test');
-const TEST_MODE=_testParam==='1'||parseInt(_testParam)>1;
-const TEST_BATCH=parseInt(_testParam)>1?parseInt(_testParam):0;
+const _isProduction=location.hostname==='stail-sketch.github.io';
+const TEST_MODE=!_isProduction&&(_testParam==='1'||parseInt(_testParam)>1);
+const TEST_BATCH=!_isProduction&&parseInt(_testParam)>1?parseInt(_testParam):0;
 
 function _testAutoAnswer(from,to){
   for(let i=from;i<to;i++){
@@ -215,42 +224,59 @@ function sendDiagnosisResult(champ,typeName,role){
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({champId:champ.id,champName:champ.name,typeName:typeName||'',role:role||'TOP'})
-  }).then(r=>r.json()).then(data=>{
+  }).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(data=>{
     console.log('[診断送信結果]',data);
     if(data.rankings)renderRankings(data.rankings);
-  }).catch(e=>console.warn('ランキング送信失敗:',e));
+  }).catch(e=>{console.error('ランキング送信失敗:',e);});
 }
 
 function loadRankings(){
   fetch(WORKER_URL+'/rankings')
-    .then(r=>r.json())
+    .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
     .then(data=>renderRankings(data))
     .catch(e=>{
-      console.warn('ランキング取得失敗:',e);
+      console.error('ランキング取得失敗:',e);
       renderRankings({total:0,champions:[],types:[],roles:[]});
     });
 }
 
 let _rankTotalValue=0;
+function _esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function renderRankings({total,champions,types,roles}){
   _rankTotalValue=total;
   document.getElementById('rank-total').textContent=total.toLocaleString()+' 回';
   const cEl=document.getElementById('rank-champions');
-  cEl.innerHTML=champions.map(([id,cnt],i)=>{
+  cEl.innerHTML='';
+  champions.forEach(([id,cnt],i)=>{
     const c=CHAMPIONS.find(x=>x.id===id)||{id,name:id};
-    return `<div class="rank-item"><span class="rank-num">${i+1}</span><img class="rank-champ-icon" src="champion_icons/${id}.png" alt="${c.name}" onerror="this.style.display='none'"><span class="rank-name">${c.name}</span><span class="rank-count">${cnt}回</span></div>`;
-  }).join('');
+    const div=document.createElement('div');div.className='rank-item';
+    div.innerHTML=`<span class="rank-num">${i+1}</span><img class="rank-champ-icon" src="champion_icons/${_esc(id)}.png" alt="${_esc(c.name)}" onerror="this.style.display='none'">`;
+    const nameSpan=document.createElement('span');nameSpan.className='rank-name';nameSpan.textContent=c.name;
+    const cntSpan=document.createElement('span');cntSpan.className='rank-count';cntSpan.textContent=cnt+'回';
+    div.appendChild(nameSpan);div.appendChild(cntSpan);cEl.appendChild(div);
+  });
   const tEl=document.getElementById('rank-types');
-  tEl.innerHTML=types.map(([name,cnt],i)=>
-    `<div class="rank-item"><span class="rank-num">${i+1}</span><span class="rank-name">${name}</span><span class="rank-count">${cnt}回</span></div>`
-  ).join('');
+  tEl.innerHTML='';
+  types.forEach(([name,cnt],i)=>{
+    const div=document.createElement('div');div.className='rank-item';
+    const numSpan=document.createElement('span');numSpan.className='rank-num';numSpan.textContent=i+1;
+    const nameSpan=document.createElement('span');nameSpan.className='rank-name';nameSpan.textContent=name;
+    const cntSpan=document.createElement('span');cntSpan.className='rank-count';cntSpan.textContent=cnt+'回';
+    div.appendChild(numSpan);div.appendChild(nameSpan);div.appendChild(cntSpan);tEl.appendChild(div);
+  });
   const rEl=document.getElementById('rank-roles');
   const roleIconSrc={TOP:'role_icons/top.png',JUNGLE:'role_icons/jungle.png',MID:'role_icons/mid.png',ADC:'role_icons/adc.png',SUPPORT:'role_icons/support.png',ANY:'role_icons/fill.png'};
   const roleLabel={TOP:'TOP',JUNGLE:'JUNGLE',MID:'MID',ADC:'ADC',SUPPORT:'SUPPORT',ANY:'どこでも'};
-  rEl.innerHTML=roles.map(([role,cnt],i)=>{
-    const iconHtml=roleIconSrc[role]?`<img class="rank-role-icon" src="${roleIconSrc[role]}" alt="${role}">` :'';
-    return `<div class="rank-item"><span class="rank-num">${i+1}</span><span class="rank-name">${iconHtml}${roleLabel[role]||role}</span><span class="rank-count">${cnt}回</span></div>`;
-  }).join('');
+  rEl.innerHTML='';
+  roles.forEach(([role,cnt],i)=>{
+    const div=document.createElement('div');div.className='rank-item';
+    const numSpan=document.createElement('span');numSpan.className='rank-num';numSpan.textContent=i+1;
+    const nameSpan=document.createElement('span');nameSpan.className='rank-name';
+    if(roleIconSrc[role]){const img=document.createElement('img');img.className='rank-role-icon';img.src=roleIconSrc[role];img.alt=role;nameSpan.appendChild(img);}
+    nameSpan.appendChild(document.createTextNode(roleLabel[role]||role));
+    const cntSpan=document.createElement('span');cntSpan.className='rank-count';cntSpan.textContent=cnt+'回';
+    div.appendChild(numSpan);div.appendChild(nameSpan);div.appendChild(cntSpan);rEl.appendChild(div);
+  });
 }
 
 // ===== NEW ANIMATIONS =====

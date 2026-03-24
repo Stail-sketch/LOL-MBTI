@@ -76,8 +76,10 @@ function renderTypeSection(type){
   document.getElementById('type-name').textContent=d.name;
   document.getElementById('type-subtitle').textContent=d.subtitle;
   document.getElementById('type-playstyle').textContent=d.playstyle;
-  document.getElementById('sw-str').innerHTML=d.strengths.map(s=>`<div class="sw-item">${s}</div>`).join('');
-  document.getElementById('sw-weak').innerHTML=d.weaknesses.map(w=>`<div class="sw-item">${w}</div>`).join('');
+  const strEl=document.getElementById('sw-str');strEl.innerHTML='';
+  d.strengths.forEach(s=>{const div=document.createElement('div');div.className='sw-item';div.textContent=s;strEl.appendChild(div);});
+  const weakEl=document.getElementById('sw-weak');weakEl.innerHTML='';
+  d.weaknesses.forEach(w=>{const div=document.createElement('div');div.className='sw-item';div.textContent=w;weakEl.appendChild(div);});
   const phrases=d.catchphrases||[];
   document.getElementById('catchphrase-quote').textContent=phrases[Math.floor(Math.random()*phrases.length)]||'';
   const percs=d.perceptions||[];
@@ -115,8 +117,10 @@ function showChampDetail(champId,kind){
     document.getElementById('cd-type-name').textContent=type.name;
     document.getElementById('cd-type-subtitle').textContent=type.subtitle;
     document.getElementById('cd-type-playstyle').textContent=type.playstyle;
-    document.getElementById('cd-sw-str').innerHTML=type.strengths.map(s=>`<div class="sw-item">${s}</div>`).join('');
-    document.getElementById('cd-sw-weak').innerHTML=type.weaknesses.map(w=>`<div class="sw-item">${w}</div>`).join('');
+    const cdStrEl=document.getElementById('cd-sw-str');cdStrEl.innerHTML='';
+    type.strengths.forEach(s=>{const div=document.createElement('div');div.className='sw-item';div.textContent=s;cdStrEl.appendChild(div);});
+    const cdWeakEl=document.getElementById('cd-sw-weak');cdWeakEl.innerHTML='';
+    type.weaknesses.forEach(w=>{const div=document.createElement('div');div.className='sw-item';div.textContent=w;cdWeakEl.appendChild(div);});
   }
 }
 

@@ -50,8 +50,10 @@ async function downloadCard(){
       if(is40){
         const strs=typeEN?typeEN.strengths:type.strengths;
         const weaks=typeEN?typeEN.weaknesses:type.weaknesses;
-        document.getElementById('ce-sw-str').innerHTML=strs.map(s=>`<div class="ce-sw-item">${s}</div>`).join('');
-        document.getElementById('ce-sw-weak').innerHTML=weaks.map(w=>`<div class="ce-sw-item">${w}</div>`).join('');
+        const ceStrEl=document.getElementById('ce-sw-str');ceStrEl.innerHTML='';
+        strs.forEach(s=>{const div=document.createElement('div');div.className='ce-sw-item';div.textContent=s;ceStrEl.appendChild(div);});
+        const ceWeakEl=document.getElementById('ce-sw-weak');ceWeakEl.innerHTML='';
+        weaks.forEach(w=>{const div=document.createElement('div');div.className='ce-sw-item';div.textContent=w;ceWeakEl.appendChild(div);});
         show('ce-sw-row');
       }else{hide('ce-sw-row');}
     }else{hide('ce-div-type');hide('ce-type-sec');}
