@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>シェアカード レイアウト3案 比較モック</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Noto+Serif+JP:wght@400;700;900&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#C89B3C; --gold-light:#F0E6BE; --gold-dark:#785A28;
+    --bg:#010A13; --cyan:#0BC4E3; --grey:#A09B8C;
+    --strength:#4ade80; --weakness:#f87171;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:#0a0a0f;
+    color:#e5e5e5;
+    font-family:'Noto Serif JP',sans-serif;
+    padding:40px 20px;
+    min-height:100vh;
+  }
+  .page-title{
+    text-align:center;
+    font-family:'Cinzel',serif;
+    color:var(--gold);
+    font-size:28px;
+    letter-spacing:.08em;
+    margin-bottom:8px;
+  }
+  .page-sub{
+    text-align:center;
+    color:#888;
+    margin-bottom:40px;
+    font-size:13px;
+  }
+  .mock-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:40px;
+    justify-content:center;
+    align-items:flex-start;
+    max-width:1600px;
+    margin:0 auto;
+  }
+  .mock-col{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .mock-label{
+    font-family:'Cinzel',serif;
+    color:var(--gold);
+    font-size:18px;
+    margin-bottom:4px;
+    letter-spacing:.05em;
+  }
+  .mock-dim{
+    color:#888;
+    font-size:12px;
+    margin-bottom:16px;
+    font-family:'Rajdhani',sans-serif;
+    letter-spacing:.1em;
+  }
+  .mock-container{
+    position:relative;
+    background:#000;
+    box-shadow:0 12px 40px rgba(0,0,0,.6);
+    border-radius:2px;
+  }
+  .mock-note{
+    max-width:440px;
+    margin-top:18px;
+    padding:14px 16px;
+    background:rgba(255,255,255,.03);
+    border-left:2px solid var(--gold);
+    font-size:12px;
+    line-height:1.7;
+    color:#bbb;
+  }
+  .mock-note strong{color:#eee;display:block;margin-bottom:4px}
+  .mock-note .ok{color:var(--strength)}
+  .mock-note .ng{color:var(--weakness)}
+
+  /* ========== 共通カード要素 ========== */
+  .card{
+    position:relative;
+    overflow:hidden;
+    color:var(--gold-light);
+    font-family:'Noto Serif JP',serif;
+    background:var(--bg);
+    border:1px solid rgba(200,155,60,.3);
+  }
+  .gold-bar{
+    height:3px;
+    background:linear-gradient(90deg,#4A3214 0%,#785A28 25%,#C89B3C 45%,#F0E6BE 50%,#C89B3C 55%,#785A28 75%,#4A3214 100%);
+    position:absolute;top:0;left:0;right:0;
+    z-index:10;
+  }
+  .splash{
+    position:absolute;
+    inset:0;
+    background-image:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ahri_0.jpg');
+    background-size:cover;
+    background-position:center 20%;
+    filter:saturate(1.1);
+  }
+  .splash-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg,rgba(1,10,19,.2) 0%,rgba(1,10,19,.75) 70%,rgba(1,10,19,.95) 100%);
+  }
+
+  /* ========== 案1: 16:9 横長 (600×337) ========== */
+  .card-1{
+    width:600px;
+    height:337px;
+  }
+  .card-1 .splash{
+    background-position:left 25%;
+    width:55%;
+    right:auto;
+  }
+  .card-1 .splash-overlay{
+    width:55%;
+    background:linear-gradient(90deg,rgba(1,10,19,.1) 0%,rgba(1,10,19,.6) 70%,rgba(1,10,19,1) 100%);
+  }
+  .card-1 .content{
+    position:absolute;
+    right:0;top:0;bottom:0;
+    width:50%;
+    padding:36px 32px 24px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .card-1 .head-label{
+    font-family:'Rajdhani',sans-serif;
+    font-size:10px;
+    letter-spacing:.35em;
+    color:var(--cyan);
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .card-1 .type-name{
+    font-family:'Noto Serif JP',serif;
+    font-weight:900;
+    font-size:32px;
+    color:var(--gold-light);
+    letter-spacing:.05em;
+    line-height:1.1;
+    margin-bottom:4px;
+    text-shadow:0 2px 12px rgba(200,155,60,.3);
+  }
+  .card-1 .type-sub{
+    font-size:11px;
+    color:var(--grey);
+    margin-bottom:20px;
+    font-style:italic;
+  }
+  .card-1 .champ-line{
+    font-family:'Cinzel',serif;
+    font-size:14px;
+    color:var(--gold);
+    letter-spacing:.1em;
+    margin-bottom:2px;
+  }
+  .card-1 .champ-title{
+    font-size:10px;
+    color:var(--grey);
+    margin-bottom:18px;
+    font-style:italic;
+  }
+  .card-1 .meta-row{
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  .card-1 .match{
+    font-family:'Cinzel',serif;
+    font-size:42px;
+    color:var(--gold);
+    font-weight:700;
+    line-height:1;
+  }
+  .card-1 .match-lbl{
+    font-family:'Rajdhani',sans-serif;
+    font-size:8px;
+    letter-spacing:.25em;
+    color:var(--grey);
+    text-transform:uppercase;
+  }
+  .card-1 .lane{
+    font-family:'Rajdhani',sans-serif;
+    font-size:12px;
+    letter-spacing:.2em;
+    color:var(--gold-light);
+    padding:4px 10px;
+    border:1px solid rgba(200,155,60,.5);
+    background:rgba(200,155,60,.08);
+  }
+  .card-1 .foot{
+    position:absolute;
+    bottom:10px;right:20px;
+    font-family:'Rajdhani',sans-serif;
+    font-size:8px;
+    color:var(--grey);
+    letter-spacing:.1em;
+  }
+
+  /* ========== 案2: 1:1 正方形 (500×500) ========== */
+  .card-2{
+    width:500px;
+    height:500px;
+  }
+  .card-2 .splash{
+    height:60%;
+    bottom:auto;
+  }
+  .card-2 .splash-overlay{
+    height:60%;
+    bottom:auto;
+  }
+  .card-2 .head{
+    position:absolute;
+    top:0;left:0;right:0;
+    padding:14px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:5;
+    background:linear-gradient(180deg,rgba(1,10,19,.7) 0%,transparent 100%);
+  }
+  .card-2 .head-lbl{
+    font-family:'Rajdhani',sans-serif;
+    font-size:9px;
+    letter-spacing:.35em;
+    color:var(--cyan);
+    text-transform:uppercase;
+  }
+  .card-2 .hero{
+    position:absolute;
+    top:35%;left:0;right:0;
+    padding:0 24px;
+    text-align:center;
+    z-index:5;
+  }
+  .card-2 .type-name{
+    font-weight:900;
+    font-size:34px;
+    color:var(--gold-light);
+    letter-spacing:.05em;
+    line-height:1.1;
+    text-shadow:0 2px 16px rgba(0,0,0,.8);
+    margin-bottom:4px;
+  }
+  .card-2 .type-sub{
+    font-size:11px;
+    color:var(--gold);
+    font-style:italic;
+    letter-spacing:.08em;
+    text-shadow:0 2px 8px rgba(0,0,0,.9);
+  }
+  .card-2 .meta-section{
+    position:absolute;
+    top:58%;left:0;right:0;
+    padding:0 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:5;
+  }
+  .card-2 .champ-block{
+    text-align:left;
+  }
+  .card-2 .champ-name{
+    font-family:'Cinzel',serif;
+    font-size:17px;
+    color:var(--gold);
+    letter-spacing:.08em;
+  }
+  .card-2 .champ-title{
+    font-size:10px;
+    color:var(--grey);
+    font-style:italic;
+    margin-top:2px;
+  }
+  .card-2 .match-block{
+    text-align:center;
+    border-left:1px solid rgba(200,155,60,.3);
+    padding-left:18px;
+  }
+  .card-2 .match{
+    font-family:'Cinzel',serif;
+    font-size:34px;
+    color:var(--gold);
+    font-weight:700;
+    line-height:1;
+  }
+  .card-2 .match-lbl{
+    font-family:'Rajdhani',sans-serif;
+    font-size:7px;
+    letter-spacing:.25em;
+    color:var(--grey);
+  }
+  .card-2 .divider-h{
+    position:absolute;
+    top:72%;left:20px;right:20px;
+    height:1px;
+    background:linear-gradient(90deg,transparent,rgba(200,155,60,.3),transparent);
+  }
+  .card-2 .creed{
+    position:absolute;
+    top:76%;left:0;right:0;
+    text-align:center;
+    padding:0 30px;
+    font-style:italic;
+    font-size:13px;
+    color:var(--gold-light);
+    line-height:1.5;
+    letter-spacing:.04em;
+  }
+  .card-2 .lane-badge{
+    position:absolute;
+    top:15px;right:20px;
+    font-family:'Rajdhani',sans-serif;
+    font-size:10px;
+    letter-spacing:.2em;
+    color:var(--gold-light);
+    padding:4px 10px;
+    border:1px solid rgba(200,155,60,.5);
+    background:rgba(1,10,19,.6);
+    z-index:6;
+  }
+  .card-2 .foot{
+    position:absolute;
+    bottom:14px;left:0;right:0;
+    text-align:center;
+    font-family:'Rajdhani',sans-serif;
+    font-size:8px;
+    color:var(--grey);
+    letter-spacing:.15em;
+  }
+
+  /* ========== 案3: 4:5 縦長 (432×540) ========== */
+  .card-3{
+    width:432px;
+    height:540px;
+  }
+  .card-3 .head{
+    position:relative;
+    z-index:5;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 18px;
+    border-bottom:1px solid rgba(200,155,60,.2);
+  }
+  .card-3 .head-lbl{
+    font-family:'Rajdhani',sans-serif;
+    font-size:8px;
+    letter-spacing:.35em;
+    color:var(--cyan);
+    text-transform:uppercase;
+  }
+  .card-3 .head-url{
+    font-family:'Rajdhani',sans-serif;
+    font-size:7px;
+    color:var(--grey);
+  }
+  .card-3 .hero-zone{
+    position:relative;
+    height:270px;
+    overflow:hidden;
+  }
+  .card-3 .splash{
+    background-position:center 15%;
+  }
+  .card-3 .hero-content{
+    position:absolute;
+    inset:0;
+    z-index:5;
+    padding:28px 20px 16px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    text-align:center;
+  }
+  .card-3 .type-name{
+    font-weight:900;
+    font-size:30px;
+    color:var(--gold-light);
+    letter-spacing:.06em;
+    line-height:1.1;
+    text-shadow:0 2px 14px rgba(0,0,0,.9);
+    margin-bottom:4px;
+  }
+  .card-3 .type-sub{
+    font-size:10px;
+    color:var(--gold);
+    font-style:italic;
+    letter-spacing:.08em;
+    text-shadow:0 1px 6px rgba(0,0,0,.9);
+    margin-bottom:14px;
+  }
+  .card-3 .hero-meta{
+    display:flex;
+    justify-content:center;
+    align-items:baseline;
+    gap:14px;
+  }
+  .card-3 .champ-name{
+    font-family:'Cinzel',serif;
+    font-size:15px;
+    color:var(--gold);
+    letter-spacing:.1em;
+    text-shadow:0 2px 6px rgba(0,0,0,.9);
+  }
+  .card-3 .match-inline{
+    font-family:'Cinzel',serif;
+    font-size:24px;
+    color:var(--gold);
+    font-weight:700;
+    text-shadow:0 2px 8px rgba(0,0,0,.9);
+  }
+  .card-3 .lane-pill{
+    font-family:'Rajdhani',sans-serif;
+    font-size:9px;
+    letter-spacing:.2em;
+    color:var(--gold-light);
+    padding:2px 8px;
+    border:1px solid rgba(200,155,60,.5);
+    background:rgba(1,10,19,.5);
+  }
+  .card-3 .detail{
+    padding:14px 18px;
+  }
+  .card-3 .sw-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .card-3 .sw-box{
+    flex:1;
+    padding:10px 12px;
+    border:1px solid rgba(200,155,60,.15);
+    background:rgba(200,155,60,.04);
+  }
+  .card-3 .sw-lbl{
+    font-family:'Rajdhani',sans-serif;
+    font-size:8px;
+    letter-spacing:.2em;
+    margin-bottom:6px;
+    text-transform:uppercase;
+  }
+  .card-3 .sw-lbl.s{color:var(--strength)}
+  .card-3 .sw-lbl.w{color:var(--weakness)}
+  .card-3 .sw-item{
+    font-size:9px;
+    color:#c8c4b8;
+    line-height:1.4;
+    margin-bottom:3px;
+    padding-left:8px;
+    position:relative;
+  }
+  .card-3 .sw-item::before{
+    content:'';
+    position:absolute;
+    left:0;top:6px;
+    width:3px;height:3px;
+    background:var(--gold);
+  }
+  .card-3 .creed-row{
+    text-align:center;
+    padding:10px 0 6px;
+    border-top:1px solid rgba(200,155,60,.15);
+    font-size:11px;
+    color:var(--gold-light);
+    font-style:italic;
+    letter-spacing:.03em;
+  }
+  .card-3 .foot{
+    padding:8px 18px;
+    display:flex;
+    justify-content:space-between;
+    font-family:'Rajdhani',sans-serif;
+    font-size:7px;
+    color:var(--grey);
+    letter-spacing:.1em;
+    border-top:1px solid rgba(200,155,60,.15);
+  }
+
+  /* ========== サムネで見えるゾーン オーバーレイ ========== */
+  .thumb-overlay{
+    position:absolute;
+    left:-2px;right:-2px;
+    border:2px dashed #ff3b3b;
+    pointer-events:none;
+    z-index:50;
+  }
+  .thumb-overlay::before{
+    content:'TL サムネで見える範囲 (1.91:1)';
+    position:absolute;
+    top:-24px;left:-2px;
+    background:#ff3b3b;
+    color:#fff;
+    font-family:'Rajdhani',sans-serif;
+    font-size:10px;
+    letter-spacing:.1em;
+    padding:2px 8px;
+    white-space:nowrap;
+  }
+  /* 4:5(432×540)の場合、センタークロップ予想域 = 432×226 */
+  .card-3 .thumb-overlay{
+    top:157px;
+    height:226px;
+  }
+
+  .toggle-row{
+    text-align:center;
+    margin:20px auto 30px;
+  }
+  .toggle-row button{
+    background:transparent;
+    border:1px solid var(--gold);
+    color:var(--gold);
+    padding:8px 18px;
+    font-family:'Rajdhani',sans-serif;
+    font-size:12px;
+    letter-spacing:.15em;
+    cursor:pointer;
+    text-transform:uppercase;
+  }
+  .toggle-row button:hover{
+    background:rgba(200,155,60,.1);
+  }
+</style>
+</head>
+<body>
+
+<h1 class="page-title">SHARE CARD LAYOUT MOCKS</h1>
+<p class="page-sub">3案比較 · サンプル: アーリ / 孤高の支配者 / Match 87% / MID</p>
+
+<div class="toggle-row">
+  <button onclick="document.querySelectorAll('.thumb-overlay').forEach(e=>e.style.display=e.style.display==='none'?'block':'none')">サムネ範囲オーバーレイ切替</button>
+</div>
+
+<div class="mock-grid">
+
+  <!-- ===== 案1: 16:9 ===== -->
+  <div class="mock-col">
+    <div class="mock-label">案1: 16:9 横長</div>
+    <div class="mock-dim">1200 × 675px · ratio 1.78</div>
+    <div class="mock-container">
+      <div class="card card-1">
+        <div class="gold-bar"></div>
+        <div class="splash"></div>
+        <div class="splash-overlay"></div>
+        <div class="content">
+          <div class="head-label">Summoner's Rift Diagnosis</div>
+          <div class="type-name">孤高の支配者</div>
+          <div class="type-sub">全てを自らの手で制する王</div>
+          <div class="champ-line">AHRI / アーリ</div>
+          <div class="champ-title">「九尾の狐」</div>
+          <div class="meta-row">
+            <div>
+              <div class="match">87%</div>
+              <div class="match-lbl">Match Rate</div>
+            </div>
+            <div class="lane">MID</div>
+          </div>
+        </div>
+        <div class="foot">stail-sketch.github.io/LOL-MBTI</div>
+      </div>
+    </div>
+    <div class="mock-note">
+      <strong>特徴</strong>
+      <span class="ok">✓ 絶対にクロップされない（全部サムネで見える）</span><br>
+      <span class="ok">✓ インパクト最強、未プレイ層に刺さる</span><br>
+      <span class="ng">✗ レーダー・長所短所・信条が全部入らない</span><br>
+      <span class="ng">✗ 25Q/40Q の情報差を出しにくい</span>
+    </div>
+  </div>
+
+  <!-- ===== 案2: 1:1 ===== -->
+  <div class="mock-col">
+    <div class="mock-label">案2: 1:1 正方形</div>
+    <div class="mock-dim">1200 × 1200px · ratio 1.00</div>
+    <div class="mock-container">
+      <div class="card card-2">
+        <div class="gold-bar"></div>
+        <div class="splash"></div>
+        <div class="splash-overlay"></div>
+        <div class="head">
+          <div class="head-lbl">Summoner's Rift Diagnosis</div>
+        </div>
+        <div class="lane-badge">MID</div>
+        <div class="hero">
+          <div class="type-name">孤高の支配者</div>
+          <div class="type-sub">全てを自らの手で制する王</div>
+        </div>
+        <div class="meta-section">
+          <div class="champ-block">
+            <div class="champ-name">AHRI / アーリ</div>
+            <div class="champ-title">「九尾の狐」</div>
+          </div>
+          <div class="match-block">
+            <div class="match">87%</div>
+            <div class="match-lbl">MATCH RATE</div>
+          </div>
+        </div>
+        <div class="divider-h"></div>
+        <div class="creed">「勝利は、全て俺の手で掴む。」</div>
+        <div class="foot">stail-sketch.github.io/LOL-MBTI &nbsp;·&nbsp; #LOL鑑定</div>
+      </div>
+    </div>
+    <div class="mock-note">
+      <strong>特徴</strong>
+      <span class="ok">✓ クロップされない</span><br>
+      <span class="ok">✓ ヒーロー + 信条まで入る。程よい密度</span><br>
+      <span class="ng">✗ 長所/短所・レーダーは入らない</span><br>
+      ─ ヒーロー + 信条で"ひと言で伝わる"設計
+    </div>
+  </div>
+
+  <!-- ===== 案3: 4:5 ===== -->
+  <div class="mock-col">
+    <div class="mock-label">案3: 4:5 縦長</div>
+    <div class="mock-dim">1080 × 1350px · ratio 0.80</div>
+    <div class="mock-container">
+      <div class="card card-3">
+        <div class="gold-bar"></div>
+        <div class="head">
+          <span class="head-lbl">Summoner's Rift Diagnosis</span>
+          <span class="head-url">stail-sketch.github.io/LOL-MBTI</span>
+        </div>
+        <div class="hero-zone">
+          <div class="splash"></div>
+          <div class="splash-overlay"></div>
+          <div class="hero-content">
+            <div class="type-name">孤高の支配者</div>
+            <div class="type-sub">全てを自らの手で制する王</div>
+            <div class="hero-meta">
+              <span class="champ-name">AHRI</span>
+              <span class="match-inline">87%</span>
+              <span class="lane-pill">MID</span>
+            </div>
+          </div>
+        </div>
+        <div class="detail">
+          <div class="sw-row">
+            <div class="sw-box">
+              <div class="sw-lbl s">Strengths</div>
+              <div class="sw-item">圧倒的な個人スキルと判断力</div>
+              <div class="sw-item">逆境でも崩れない精神的タフネス</div>
+            </div>
+            <div class="sw-box">
+              <div class="sw-lbl w">Weaknesses</div>
+              <div class="sw-item">他人への依存・サポートを求めるのが苦手</div>
+              <div class="sw-item">個人プレイを優先しチームと噛み合わない</div>
+            </div>
+          </div>
+          <div class="creed-row">「勝利は、全て俺の手で掴む。」</div>
+        </div>
+        <div class="foot">
+          <span>stail-sketch.github.io/LOL-MBTI</span>
+          <span>#LOL鑑定</span>
+        </div>
+        <div class="thumb-overlay"></div>
+      </div>
+    </div>
+    <div class="mock-note">
+      <strong>特徴</strong>
+      <span class="ok">✓ 情報密度を維持（現行と同等）</span><br>
+      <span class="ok">✓ 縦長でタイムラインで目立つ</span><br>
+      <span class="ng">⚠ センタークロップ時、上下が切れる可能性</span><br>
+      ─ 赤枠=サムネで見える範囲。ヒーロー部分を中央に配置して保険<br>
+      ─ 実機テスト必須
+    </div>
+  </div>
+
+</div>
+
+<div style="max-width:900px;margin:60px auto 20px;padding:20px;background:rgba(200,155,60,.05);border-left:3px solid var(--gold);font-size:13px;line-height:1.8;color:#ccc">
+  <strong style="color:var(--gold);font-family:Cinzel,serif;letter-spacing:.1em">NOTE</strong><br>
+  ・チャンピオンスプラッシュアートは Riot Data Dragon CDN から直読み。<br>
+  ・色味・タイポは現行カード（style.css 272-）を踏襲。<br>
+  ・レーダーチャートは省略（描画に Canvas 必要なため）。実装時は組み込む。<br>
+  ・"サムネで見える範囲" の赤枠は X で画像が 1.91:1 にセンタークロップされる挙動を想定した予測値。
+</div>
+
+</body>
+</html>
