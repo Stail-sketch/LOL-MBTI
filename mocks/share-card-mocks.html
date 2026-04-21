@@ -238,10 +238,41 @@
   }
   .card-2 .hero{
     position:absolute;
-    top:35%;left:0;right:0;
+    top:30%;left:0;right:0;
     padding:0 24px;
     text-align:center;
     z-index:5;
+  }
+  .card-2 .summoner-line{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .card-2 .summoner-line::before,
+  .card-2 .summoner-line::after{
+    content:'';
+    flex:0 0 28px;
+    height:1px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  }
+  .card-2 .summoner-name{
+    font-family:'Cinzel',serif;
+    font-size:13px;
+    color:var(--gold);
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    text-shadow:0 2px 8px rgba(0,0,0,.9);
+    white-space:nowrap;
+  }
+  .card-2 .summoner-name .jp{
+    font-family:'Noto Serif JP',serif;
+    font-weight:700;
+    letter-spacing:.08em;
+    color:var(--gold-light);
+    font-size:15px;
+    margin-left:4px;
   }
   .card-2 .type-name{
     font-weight:900;
@@ -582,8 +613,8 @@
 
   <!-- ===== 案2: 1:1 ===== -->
   <div class="mock-col">
-    <div class="mock-label">案2: 1:1 正方形</div>
-    <div class="mock-dim">1200 × 1200px · ratio 1.00</div>
+    <div class="mock-label">案2: 1:1 正方形 + 名前</div>
+    <div class="mock-dim">1200 × 1200px · ratio 1.00 · Summoner名 10字</div>
     <div class="mock-container">
       <div class="card card-2">
         <div class="gold-bar"></div>
@@ -594,6 +625,9 @@
         </div>
         <div class="lane-badge">MID</div>
         <div class="hero">
+          <div class="summoner-line">
+            <span class="summoner-name">Summoner <span class="jp">サイサイアキラ</span></span>
+          </div>
           <div class="type-name">孤高の支配者</div>
           <div class="type-sub">全てを自らの手で制する王</div>
         </div>
@@ -616,8 +650,10 @@
       <strong>特徴</strong>
       <span class="ok">✓ クロップされない</span><br>
       <span class="ok">✓ ヒーロー + 信条まで入る。程よい密度</span><br>
+      <span class="ok">✓ Summoner名で"これは私の診断"感を付与（愛着フック）</span><br>
       <span class="ng">✗ 長所/短所・レーダーは入らない</span><br>
-      ─ ヒーロー + 信条で"ひと言で伝わる"設計
+      ─ 名前はタイプ名の"署名"的配置。主役を食わない<br>
+      ─ ダウンロード押下時にモーダルで入力（任意・10字・英数/日本語）
     </div>
   </div>
 
