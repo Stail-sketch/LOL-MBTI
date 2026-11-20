@@ -135,7 +135,7 @@ document.addEventListener('keydown',function(e){
 
 // ===== テストモード（?test=1 で有効、?test=100 で100回自動診断、本番では無効）=====
 const _testParam=new URLSearchParams(location.search).get('test');
-const _isProduction=location.hostname==='stail-sketch.github.io';
+const _isProduction=['lol-type.com','www.lol-type.com','stail-sketch.github.io'].includes(location.hostname);
 const TEST_MODE=!_isProduction&&(_testParam==='1'||parseInt(_testParam)>1);
 const TEST_BATCH=!_isProduction&&parseInt(_testParam)>1?parseInt(_testParam):0;
 
