@@ -129,6 +129,5 @@ function shareToX(){
     text+='\n#LOL鑑定 #LeagueOfLegends';
   }
   text+='\n'+window.location.href;
-  const twitterUrl='https://x.com/intent/post?text='+encodeURIComponent(text)+'&in_reply_to=2123626828485263679';
-  window.location.href = twitterUrl;
+  document.getElementById('x-reply-text').value = text;
 }
