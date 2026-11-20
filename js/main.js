@@ -13,10 +13,13 @@ const State={
   lastNormalized:null,
   answerHistory:[],     // [{dim, isHigh}] フェーズ内の回答履歴（戻る機能用）
   _rankTotalValue:0,
+  _run:0,               // 診断の回。やり直し後に前の回のタイマーが動いても無視するため
+  _guardArmed:false,    // 離脱防止用の履歴を1つ積んでいるか
 };
 
 // ===== 状態操作関数 =====
 function resetState(){
+  State._run++;
   State.selectedLane=null;State.currentPhase=1;State.currentQ=0;State.currentPhaseEnd=16;
   State.scores={V:0,I:0,H:0,T:0,A:0,W:0,S:0,D:0};
   State.laneResultsCache={};State.lastNormalized=null;State.answerHistory=[];
@@ -67,24 +70,29 @@ function setLang(lang){
 (function(){const c=document.getElementById('particles');for(let i=0;i<25;i++){const p=document.createElement('div');p.className='particle';const s=Math.random()*3+1;p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*15+10}s;animation-delay:${Math.random()*15}s;`;c.appendChild(p);}})();
 
 // ===== 離脱防止 =====
-history.pushState(null,'',location.href);
+// 診断中の画面に入った時だけ履歴を1つ積む。どの画面でも積み直すと、戻るでサイトから出られなくなる
+const GUARDED_SCREENS=['question-screen','loading-screen','result-screen'];
 function isGuardedScreen(){
-  return ['question-screen','loading-screen','result-screen'].some(
+  return GUARDED_SCREENS.some(
     id=>document.getElementById(id).classList.contains('active')
   );
+}
+function armBackGuard(){
+  if(State._guardArmed)return;
+  history.pushState(null,'',location.href);
+  State._guardArmed=true;
 }
 window.addEventListener('beforeunload',function(e){
   if(isGuardedScreen()){e.preventDefault();e.returnValue='';}
 });
 window.addEventListener('popstate',function(){
+  State._guardArmed=false;
   if(isGuardedScreen()){
     if(!confirm('診断を中断しますか？\n回答データが失われます。')){
-      history.pushState(null,'',location.href);
+      armBackGuard();
     }else{
-      retryDiagnosis();
+      goToTop();
     }
-  }else{
-    history.pushState(null,'',location.href);
   }
 });
 

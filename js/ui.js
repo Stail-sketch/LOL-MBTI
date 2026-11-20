@@ -1,6 +1,6 @@
 // ui.js - UI描画・画面遷移
 
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);if(GUARDED_SCREENS.includes(id))armBackGuard();}
 
 function renderQuestion(){
   const offset=PHASE_OFFSET[State.currentPhase];

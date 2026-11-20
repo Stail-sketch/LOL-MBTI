@@ -24,7 +24,9 @@ function answer(chosen){
   const isHigh=(q.hi==='a'&&chosen===1)||(q.hi==='b'&&chosen===0);
   recordAnswer(q.dim,isHigh);
   const phaseTotal=PHASE_LENGTH[State.currentPhase];
+  const run=State._run;
   setTimeout(()=>{
+    if(run!==State._run)return;
     State.currentQ++;
     if(State.currentQ>=phaseTotal){
       if(State.currentPhase===1){
@@ -62,7 +64,8 @@ function calculateAndShowResult(){
   ['TOP','JUNGLE','MID','ADC','SUPPORT','ANY'].forEach(lane=>{
     if(State.laneResultsCache[lane]){const img=new Image();img.src=`https://cdn.communitydragon.org/latest/champion/${State.laneResultsCache[lane].champ.id}/splash-art/centered`;}
   });
-  setTimeout(()=>{showResult(normalized);},2200);
+  const run=State._run;
+  setTimeout(()=>{if(run===State._run)showResult(normalized);},2200);
 }
 
 function buildLaneResultsCache(normalized){
