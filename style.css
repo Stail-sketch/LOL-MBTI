@@ -416,3 +416,36 @@
   a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
   #ad-unit{width:300px;height:250px;background:rgba(10,20,40,.8);border:1px solid var(--gold-dark);display:flex;align-items:center;justify-content:center;color:var(--text);font-size:12px;overflow:hidden}
+
+  /* ===== 制作者をフォロー：画像内の金色ボタンをクリック可能にする ===== */
+  #ad-overlay-inner{width:auto;max-width:none;gap:0}
+  #ad-close-btn{right:0;top:-47px;z-index:5}
+  #ad-unit{
+    position:relative;
+    width:min(720px,calc(100vw - 24px),calc(91.39vh - 80px));
+    width:min(720px,calc(100vw - 24px),calc(91.39dvh - 80px));
+    height:auto;
+    aspect-ratio:1199 / 1312;
+    display:block;
+    overflow:visible;
+    border:0;
+    background:transparent;
+  }
+  #ad-unit .creator-promo-image{
+    display:block;width:100%;height:100%;object-fit:contain;
+    user-select:none;-webkit-user-drag:none;
+  }
+  #ad-unit .creator-promo-link{
+    position:absolute;top:75%;height:11%;display:block;z-index:2;
+    cursor:pointer;border-radius:8px;transition:box-shadow .2s,background .2s;
+    -webkit-tap-highlight-color:rgba(248,210,114,.25);
+  }
+  #ad-unit .creator-promo-link--stail{left:5.5%;width:42%}
+  #ad-unit .creator-promo-link--justive{left:51%;width:43%}
+  #ad-unit .creator-promo-link:hover{
+    background:rgba(255,213,124,.12);
+    box-shadow:0 0 18px rgba(255,208,102,.35),inset 0 0 18px rgba(255,208,102,.23);
+  }
+  #ad-unit .creator-promo-link:focus-visible{
+    outline:2px solid #ffe3a0;outline-offset:2px;
+  }
