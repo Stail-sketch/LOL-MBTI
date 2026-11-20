@@ -102,7 +102,7 @@ async function downloadCard(){
   btn.disabled=false;
 }
 
-function shareToX(){
+function shareToX(link){
   const isEN=State.currentLang==='en';
   const d=window._shareData||{};
   const champ=d.champ;
@@ -129,5 +129,5 @@ function shareToX(){
     text+='\n#LOL鑑定 #LeagueOfLegends';
   }
   text+='\n'+window.location.href;
-  document.getElementById('x-reply-text').value = text;
+  link.href='https://x.com/intent/post?in_reply_to=2123626828485263679&text='+encodeURIComponent(text);
 }
