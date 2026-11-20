@@ -130,5 +130,5 @@ function shareToX(){
   }
   text+='\n'+window.location.href;
   const twitterUrl='https://twitter.com/intent/tweet?text='+encodeURIComponent(text)+'&in_reply_to=2123626828485263679';
-  window.open(twitterUrl,'_blank','noopener,noreferrer');
+  window.location.href = twitterUrl;
 }
