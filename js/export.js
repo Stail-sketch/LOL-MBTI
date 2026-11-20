@@ -24,7 +24,8 @@ async function downloadCard(){
     if(!champ){btn.disabled=false;return;}
     const is25=State.currentPhaseEnd>=16;
     const is40=State.currentPhaseEnd>=32;
-    const displayLane=State.selectedLane==='ANY'?getBestLane():(State.selectedLane||'TOP');
+    // レーンタブで切り替えた後は、表示中のチャンピオンのレーンを札にする
+    const displayLane=d.lane&&d.lane!=='ANY'?d.lane:(State.selectedLane==='ANY'?getBestLane():(State.selectedLane||'TOP'));
     const champEN=isEN&&CHAMPIONS_EN[champ.id]?CHAMPIONS_EN[champ.id]:null;
 
     // champion block

@@ -4,11 +4,11 @@ const LANG_DATA={
   jp:{
     subtitle:'Summoner Personality Analysis',
     title:'サモナーの素質診断',
-    desc:'あなたの性格・思考パターン・行動特性を分析し、<br>League of Legends でもっとも相性の良いチャンピオンを導き出します。<br>まず10問の基本診断からスタート。<br>段階的に深掘りし、最大<strong style="color:var(--gold)">40問</strong>まで挑戦できます。',
+    desc:'あなたの性格・思考パターン・行動特性を分析し、<br>League of Legends でもっとも相性の良いチャンピオンを導き出します。<br>まず16問の基本診断からスタート。<br>さらに深掘りし、最大<strong style="color:var(--gold)">32問</strong>まで挑戦できます。',
     startBtn:'診断を始める',
     statLabels:['最大質問数','チャンピオン','性格軸','ロール'],
     laneTitle:'あなたのロールを選んでください',
-    laneDesc:'10問の診断結果をもとに、どのレーンで診断しますか？',
+    laneDesc:'16問の診断結果をもとに、どのレーンで診断しますか？',
     roleDescs:{TOP:'最前線の戦士',JUNGLE:'森の戦略家',MID:'中央の支配者',ADC:'持続火力の担い手',SUPPORT:'仲間を守る縁の下'},
     roleNameAny:'どこでも',roleDescAny:'全167体から診断',
     laneNextBtn:'結果を見る',backBtn:'← 戻る',
@@ -16,7 +16,7 @@ const LANG_DATA={
   en:{
     subtitle:'Summoner Personality Analysis',
     title:'Find Your Champion',
-    desc:'Analyze your personality, playstyle, and decision-making to find the champion that resonates with you most in League of Legends.<br>Start with 10 questions — go deeper up to <strong style="color:var(--gold)">40 questions</strong> for a full profile.',
+    desc:'Analyze your personality, playstyle, and decision-making to find the champion that resonates with you most in League of Legends.<br>Start with 16 questions — go deeper up to <strong style="color:var(--gold)">32 questions</strong> for a full profile.',
     startBtn:'Start Analysis',
     statLabels:['Max Questions','Champions','Traits','Roles'],
     laneTitle:'Choose Your Role',

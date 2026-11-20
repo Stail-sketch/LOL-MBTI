@@ -36,7 +36,7 @@ function renderChampionCard(champ,matchPct,lane,roleIcons){
   const displayTitle=en?en.title:champ.title;
   const displayReason=en?en.reason:champ.reason;
   const banner=document.getElementById('champion-banner');
-  banner.innerHTML=`<img class="champion-banner-img" src="https://cdn.communitydragon.org/latest/champion/${champ.id}/splash-art/centered" alt="${displayName}" onerror="this.src='champion_icons/${champ.id}.png'">`;
+  banner.innerHTML=`<img class="champion-banner-img" src="https://cdn.communitydragon.org/latest/champion/${champ.id}/splash-art/centered" alt="${displayName}" onerror="this.onerror=null;this.src='champion_icons/${champ.id}.png'">`;
   document.getElementById('result-role-badge').textContent=`${lane==='ANY'?'ALL ROLES':lane}`;
   document.getElementById('result-name').textContent=displayName;
   document.getElementById('result-title').textContent=en?displayTitle:`「${displayTitle}」`;
@@ -108,7 +108,7 @@ function showChampDetail(champId,kind){
   const isAlly=kind==='ally';
   document.getElementById('cd-label').textContent=isAlly?'Soul Resonance':'Natural Enemy';
   document.getElementById('cd-title').textContent=isAlly?'あなたと相性の良いチャンピオン':'あなたの天敵チャンピオン';
-  document.getElementById('cd-banner').innerHTML=`<div class="champion-banner-glow"></div><img class="champion-banner-img" src="https://cdn.communitydragon.org/latest/champion/${champ.id}/splash-art/centered" alt="${champ.name}" onerror="this.src='champion_icons/${champ.id}.png'">`;
+  document.getElementById('cd-banner').innerHTML=`<div class="champion-banner-glow"></div><img class="champion-banner-img" src="https://cdn.communitydragon.org/latest/champion/${champ.id}/splash-art/centered" alt="${champ.name}" onerror="this.onerror=null;this.src='champion_icons/${champ.id}.png'">`;
   document.getElementById('cd-role-badge').textContent=champ.roles.join(' / ');
   document.getElementById('cd-name').textContent=champ.name;
   document.getElementById('cd-title-text').textContent=`「${champ.title}」`;

@@ -42,7 +42,8 @@ function switchLaneTab(lane){
   renderLaneTabs(lane);
   const cache=State.laneResultsCache[lane];
   renderChampionCard(cache.champ,cache.matchPct,lane);
-  updateSharePreview(cache.champ,cache.matchPct,'',lane);
+  // タイプはレーンに関係なく同じなので、切り替えても引き継ぐ
+  updateSharePreview(cache.champ,cache.matchPct,(window._shareData||{}).typeName||'',lane);
 }
 
 function updateSharePreview(champ,matchPct,typeName,lane){

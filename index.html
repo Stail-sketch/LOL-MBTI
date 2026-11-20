@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>サモナーの素質診断 | League of Legends</title>
-<meta name="description" content="あなたの性格・思考パターンを分析し、League of Legends の167体のチャンピオンからもっとも相性の良い1体を診断。最大40問であなたのサモナータイプ・強み・弱みまで解析します。">
+<meta name="description" content="あなたの性格・思考パターンを分析し、League of Legends の167体のチャンピオンからもっとも相性の良い1体を診断。最大32問であなたのサモナータイプ・強み・弱みまで解析します。">
 <link rel="canonical" href="https://lol-type.com/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://lol-type.com/">
@@ -18,7 +18,7 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vars.css?v=2">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 <!-- CSS は style.css に分離済み -->
 <script type="application/ld+json">
 {
@@ -83,7 +83,7 @@
         <div class="modal-section-title">この診断について</div>
         <p>あなたの性格・思考パターン・行動特性を8つの軸で分析し、<br>League of Legends の167体のチャンピオンの中から<br>もっとも相性の良い1体を導き出します。<br>プレイスタイルや価値観の深層まで読み解き、<br>「あなたらしいチャンピオン」を見つけることが目的です。</p>
         <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:20px">
-          <div class="stat-item"><span class="stat-num" style="font-size:28px">40</span><span class="stat-label">最大質問数</span></div>
+          <div class="stat-item"><span class="stat-num" style="font-size:28px">32</span><span class="stat-label">最大質問数</span></div>
           <div class="stat-item"><span class="stat-num" style="font-size:28px">167</span><span class="stat-label">チャンピオン</span></div>
           <div class="stat-item"><span class="stat-num" style="font-size:28px">8</span><span class="stat-label">性格軸</span></div>
           <div class="stat-item"><span class="stat-num" style="font-size:28px">5</span><span class="stat-label">ロール</span></div>
@@ -96,8 +96,8 @@
         <div class="modal-section-label">How It Works</div>
         <div class="modal-section-title">診断の流れ</div>
         <div class="modal-steps">
-          <div class="modal-step"><div class="modal-step-num">1</div><div><strong style="color:var(--gold)">10問</strong> — まず基本診断。<br>あなたにマッチするチャンピオンと適合度が判明します。</div></div>
-          <div class="modal-step"><div class="modal-step-num">2</div><div><strong style="color:var(--gold)">25問</strong> — さらに深掘り。<br>サモナータイプ・強み・弱み・他者からの印象が解放されます。</div></div>
+          <div class="modal-step"><div class="modal-step-num">1</div><div><strong style="color:var(--gold)">16問</strong> — まず基本診断。<br>あなたにマッチするチャンピオンと適合度、サモナータイプが判明します。</div></div>
+          <div class="modal-step"><div class="modal-step-num">2</div><div><strong style="color:var(--gold)">32問</strong> — 完全版の診断。<br>強み・弱み・他者からの印象、8軸詳細・相性チャンピオン・天敵チャンピオンまですべて解放されます。</div></div>
           <div class="modal-step"><div class="modal-step-num">3</div><div><strong style="color:var(--gold)">40問</strong> — 完全版の診断。<br>8軸詳細・相性チャンピオン・天敵チャンピオンまですべて解放されます。</div></div>
         </div>
       </div>
@@ -109,27 +109,22 @@
         <div class="modal-section-title">結果でわかること</div>
         <div class="modal-q-cards">
           <div class="modal-q-card">
-            <div class="modal-q-badge">10問</div>
+            <div class="modal-q-badge">16問</div>
             <ul class="modal-q-items">
               <li>あなたに最もマッチするチャンピオン（レーン別）</li>
+              <li>サモナータイプ（性格タイプ名）</li>
             </ul>
             <img class="modal-result-img" src="modal_images/result_champion.png" alt="チャンピオンマッチ例">
-          </div>
-          <div class="modal-q-card">
-            <div class="modal-q-badge">25問〜</div>
-            <ul class="modal-q-items">
-              <li>サモナータイプ（性格タイプ名）</li>
-              <li>強み・弱み・他者からの印象</li>
-            </ul>
             <img class="modal-result-img" src="modal_images/result_summoner_type.png" alt="サモナータイプ例">
-            <img class="modal-result-img" src="modal_images/result_strengths.png" alt="強み弱み例">
           </div>
           <div class="modal-q-card">
-            <div class="modal-q-badge">40問</div>
+            <div class="modal-q-badge">32問</div>
             <ul class="modal-q-items">
+              <li>強み・弱み・他者からの印象</li>
               <li>8つの性格軸の詳細分析</li>
               <li>相性の良いチャンピオン・天敵チャンピオン</li>
             </ul>
+            <img class="modal-result-img" src="modal_images/result_strengths.png" alt="強み弱み例">
             <img class="modal-result-img" src="modal_images/result_axis.png" alt="8軸詳細例">
             <img class="modal-result-img" src="modal_images/result_affinity.png" alt="相性チャンピオン例">
           </div>
@@ -144,16 +139,12 @@
         <p>診断結果はオリジナルの「診断カード」として画像保存できます。チャンピオン名・適合度・レーン・性格プロファイルがひとまとめになったカードで、SNSへのシェアにも対応しています。診断後の結果画面からワンタップで保存・X（旧Twitter）への投稿が可能です。</p>
         <div class="modal-card-grid">
           <div class="modal-card-item">
-            <div class="modal-card-label">10問</div>
-            <img src="modal_images/lol-diagnosis-10.png" alt="10問カード例">
+            <div class="modal-card-label">16問</div>
+            <img src="modal_images/lol-diagnosis-25.png" alt="16問カード例">
           </div>
           <div class="modal-card-item">
-            <div class="modal-card-label">25問</div>
-            <img src="modal_images/lol-diagnosis-25.png" alt="25問カード例">
-          </div>
-          <div class="modal-card-item">
-            <div class="modal-card-label">40問</div>
-            <img src="modal_images/lol-diagnosis-40.png" alt="40問カード例">
+            <div class="modal-card-label">32問</div>
+            <img src="modal_images/lol-diagnosis-40.png" alt="32問カード例">
           </div>
         </div>
       </div>
@@ -166,7 +157,7 @@
         <ul class="modal-tips">
           <li>「こうありたい」ではなく「実際の自分」で答えると精度が上がります</li>
           <li>正解・不正解はありません。直感で選ぶのが◎</li>
-          <li>40問まで挑戦すると、より深い分析結果が楽しめます</li>
+          <li>32問まで挑戦すると、より深い分析結果が楽しめます</li>
           <li>診断結果はLoLのプレイスキルとは無関係です。気軽に楽しんでください</li>
         </ul>
       </div>
@@ -174,10 +165,10 @@
   </div>
 </div>
 
-<!-- LANE SELECT (10問後) -->
+<!-- LANE SELECT (16問後) -->
 <div id="lane-screen" class="screen">
   <h2 class="section-title" id="lane-title">あなたのロールを選んでください</h2>
-  <p class="section-desc" id="lane-desc">10問の診断結果をもとに、どのレーンで診断しますか？</p>
+  <p class="section-desc" id="lane-desc">16問の診断結果をもとに、どのレーンで診断しますか？</p>
   <div class="roles-grid">
     <div class="role-card" onclick="selectLane('TOP',this)"><span class="role-icon"><img src="role_icons/top.png" alt="TOP"></span><div class="role-name">TOP</div><div class="role-desc" id="role-desc-TOP">最前線の戦士</div></div>
     <div class="role-card" onclick="selectLane('JUNGLE',this)"><span class="role-icon"><img src="role_icons/jungle.png" alt="JUNGLE"></span><div class="role-name">JUNGLE</div><div class="role-desc" id="role-desc-JUNGLE">森の戦略家</div></div>
@@ -352,7 +343,7 @@
       </div>
     </div>
 
-    <!-- Community Stats (40問のみ表示) -->
+    <!-- Community Stats (32問のみ表示) -->
     <div class="ranking-section hidden" id="ranking-section">
       <div class="ext-label">Community Stats</div>
       <div class="ext-title" id="rank-main-title" style="margin-bottom:4px">みんなの診断結果</div>
@@ -483,13 +474,13 @@
   </div>
 </div>
 
-<script src="js/data.js?v=4"></script>
-<script src="js/worker-config.js?v=4"></script>
-<script src="js/storage.js?v=4"></script>
-<script src="js/diagnosis.js?v=4"></script>
-<script src="js/ui.js?v=4"></script>
-<script src="js/result.js?v=4"></script>
-<script src="js/export.js?v=4"></script>
-<script src="js/main.js?v=4"></script>
+<script src="js/data.js?v=5"></script>
+<script src="js/worker-config.js?v=5"></script>
+<script src="js/storage.js?v=5"></script>
+<script src="js/diagnosis.js?v=5"></script>
+<script src="js/ui.js?v=5"></script>
+<script src="js/result.js?v=5"></script>
+<script src="js/export.js?v=5"></script>
+<script src="js/main.js?v=5"></script>
 </body>
 </html>
