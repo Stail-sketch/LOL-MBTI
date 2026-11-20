@@ -129,5 +129,5 @@ function shareToX(link){
     text+='\n#LOL鑑定 #LeagueOfLegends';
   }
   text+='\n'+window.location.href;
-  link.href='https://x.com/intent/post?in_reply_to=2123626828485263679&text='+encodeURIComponent(text);
+  link.href='https://x.com/intent/post?text='+encodeURIComponent(text);
 }
