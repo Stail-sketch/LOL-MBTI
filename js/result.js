@@ -13,7 +13,8 @@ function showResult(normalized){
   const is32=State.currentPhaseEnd>=32;
   ['sec-type','sec-catchphrase'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is16));
   ['sec-perception','sec-sw','sec-synergy','sec-opposite','sec-allies','sec-enemies','sec-axis'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is32));
-  document.getElementById('ranking-section').classList.toggle('hidden',!is32);
+  // ランキングは取得できた時だけ renderRankings が表示する
+  document.getElementById('ranking-section').classList.add('hidden');
   let detectedTypeName='';
   let detectedTypeNameJP='';
   if(is16){

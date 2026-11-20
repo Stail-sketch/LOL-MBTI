@@ -252,13 +252,14 @@ function loadRankings(){
     .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
     .then(data=>renderRankings(data))
     .catch(e=>{
+      // 空のランキング（0回）を見せるより、欄ごと出さない
       console.error('ランキング取得失敗:',e);
-      renderRankings({total:0,champions:[],types:[],roles:[]});
     });
 }
 
 function _esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function renderRankings({total,champions,types,roles}){
+  document.getElementById('ranking-section').classList.remove('hidden');
   State._rankTotalValue=total;
   document.getElementById('rank-total').textContent=total.toLocaleString()+' 回';
   const cEl=document.getElementById('rank-champions');
