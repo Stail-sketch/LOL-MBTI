@@ -1,9 +1,6 @@
 // result.js - 結果表示・レーン切替
 
 function showResult(normalized){
-  showAdOverlay(()=>{_showResultInner(normalized);});
-}
-function _showResultInner(normalized){
   showScreen('result-screen');
   document.getElementById('lane-tabs').style.display='flex';
   const displayLane=State.selectedLane==='ANY'?getBestLane():(State.selectedLane||'TOP');

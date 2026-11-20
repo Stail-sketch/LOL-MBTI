@@ -12,7 +12,6 @@ const State={
   laneResultsCache:{},  // 全レーン結果キャッシュ
   lastNormalized:null,
   answerHistory:[],     // [{dim, isHigh}] フェーズ内の回答履歴（戻る機能用）
-  _adCallback:null,
   _rankTotalValue:0,
 };
 
@@ -93,16 +92,6 @@ window.addEventListener('popstate',function(){
 const PHASE_OFFSET={1:0,2:16};
 const PHASE_LENGTH={1:16,2:16};
 
-// ===== 広告オーバーレイ =====
-function showAdOverlay(callback){
-  State._adCallback=callback;
-  document.getElementById('ad-overlay').classList.add('active');
-}
-function closeAdOverlay(){
-  document.getElementById('ad-overlay').classList.remove('active');
-  if(State._adCallback){const cb=State._adCallback;State._adCallback=null;cb();}
-}
-
 function openAboutModal(){
   document.getElementById('about-modal').style.display='flex';
   document.body.style.overflow='hidden';
@@ -129,7 +118,6 @@ function closeAboutModal(e){
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){
     if(document.getElementById('about-modal').style.display!=='none')closeAboutModal();
-    if(document.getElementById('ad-overlay').classList.contains('active'))closeAdOverlay();
   }
 });
 
@@ -154,7 +142,7 @@ function _testShowResult(){
   Object.keys(State.scores).forEach(k=>{normalized[k]=Math.min(100,Math.round((State.scores[k]/dimCount[k])*100));});
   State.lastNormalized=normalized;
   buildLaneResultsCache(normalized);
-  _showResultInner(normalized);
+  showResult(normalized);
 }
 
 async function _testRunBatch(count){
@@ -199,7 +187,7 @@ function startDiagnosis(){
     State.currentPhaseEnd=16;
     _testShowResult();
   } else {
-    showAdOverlay(()=>{showScreen('question-screen');renderQuestion();});
+    showScreen('question-screen');renderQuestion();
   }
 }
 

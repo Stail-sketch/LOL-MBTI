@@ -401,51 +401,9 @@
   .last-result-clear{background:none;border:none;color:var(--text);cursor:pointer;font-size:16px;padding:0 4px;margin-left:auto;opacity:.5;transition:opacity .2s}
   .last-result-clear:hover{opacity:1}
 
-  /* ===== 広告オーバーレイ ===== */
-  #ad-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(1,10,19,.96);align-items:center;justify-content:center;flex-direction:column;animation:adOverlayFadeIn .3s ease}
-  #ad-overlay.active{display:flex}
-  @keyframes adOverlayFadeIn{from{opacity:0}to{opacity:1}}
-  #ad-overlay-inner{position:relative;display:flex;flex-direction:column;align-items:center;gap:16px;max-width:360px;width:90%}
-  #ad-close-btn{position:absolute;top:-48px;right:-8px;width:44px;height:44px;background:var(--gold-a15);border:1px solid var(--gold-dark);color:var(--gold-light);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:'Rajdhani',sans-serif;font-weight:700;clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 50%,calc(100% - 8px) 100%,8px 100%,0% 50%)}
-  #ad-close-btn:hover{background:var(--gold-a30);border-color:var(--gold)}
-  #ad-label{font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:.2em;color:var(--text);text-transform:uppercase}
   /* ===== FOCUS INDICATORS ===== */
   :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   button:focus-visible,.choice-btn:focus-visible,.lane-tab:focus-visible,.btn-primary:focus-visible,.btn-secondary:focus-visible,.btn-download:focus-visible,.btn-share-x:focus-visible{box-shadow:0 0 12px var(--gold-a40)}
   .role-card:focus-visible{outline:2px solid var(--gold);outline-offset:2px;box-shadow:0 0 12px var(--gold-a40)}
   a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
-  #ad-unit{width:300px;height:250px;background:rgba(10,20,40,.8);border:1px solid var(--gold-dark);display:flex;align-items:center;justify-content:center;color:var(--text);font-size:12px;overflow:hidden}
-
-  /* ===== 制作者をフォロー：画像内の金色ボタンをクリック可能にする ===== */
-  #ad-overlay-inner{width:auto;max-width:none;gap:0}
-  #ad-close-btn{right:0;top:-47px;z-index:5}
-  #ad-unit{
-    position:relative;
-    width:min(720px,calc(100vw - 24px),calc(91.39vh - 80px));
-    width:min(720px,calc(100vw - 24px),calc(91.39dvh - 80px));
-    height:auto;
-    aspect-ratio:1199 / 1312;
-    display:block;
-    overflow:visible;
-    border:0;
-    background:transparent;
-  }
-  #ad-unit .creator-promo-image{
-    display:block;width:100%;height:100%;object-fit:contain;
-    user-select:none;-webkit-user-drag:none;
-  }
-  #ad-unit .creator-promo-link{
-    position:absolute;top:75%;height:11%;display:block;z-index:2;
-    cursor:pointer;border-radius:8px;transition:box-shadow .2s,background .2s;
-    -webkit-tap-highlight-color:rgba(248,210,114,.25);
-  }
-  #ad-unit .creator-promo-link--stail{left:5.5%;width:42%}
-  #ad-unit .creator-promo-link--justive{left:51%;width:43%}
-  #ad-unit .creator-promo-link:hover{
-    background:rgba(255,213,124,.12);
-    box-shadow:0 0 18px rgba(255,208,102,.35),inset 0 0 18px rgba(255,208,102,.23);
-  }
-  #ad-unit .creator-promo-link:focus-visible{
-    outline:2px solid #ffe3a0;outline-offset:2px;
-  }
