@@ -421,6 +421,52 @@ ROUNDS.push({
       `<div class="lg"><span class="ko">LoLの攻略は${WL(26)}</span></div>`, "bottom"),
   ],
 });
+
+// ===== ROUND 4: ロゴの行（R3 #02・#05・その合わせ）× 上のアイコン4種 =====
+// ROUND 3 の結果: #02（文字を小さく薄く＋上に線）と #05（左右の線で挟む）が残った
+const LOGO_ROWS = {
+  P: { name: "R3#02 小さく薄い＋上に線", css: `#S .lg{margin:18px auto 22px;padding-top:18px;width:70%;border-top:1px solid rgba(200,155,60,.18)}#S .ko{font-size:12px;color:rgba(255,255,255,.55);gap:8px}`, h: 28 },
+  Q: { name: "R3#05 左右の線で挟む", css: `#S .lg{display:flex;align-items:center;gap:14px;margin:22px 0 24px}#S .lg::before,#S .lg::after{content:'';flex:1;height:1px;background:rgba(200,155,60,.25)}`, h: 26 },
+  R: { name: "合わせ: 左右の線＋小さく薄い", css: `#S .lg{display:flex;align-items:center;gap:14px;margin:22px 0 24px}#S .lg::before,#S .lg::after{content:'';flex:1;height:1px;background:rgba(200,155,60,.25)}#S .ko{font-size:12px;color:rgba(255,255,255,.55);gap:8px}`, h: 26 },
+};
+const ICONS = {
+  A: { name: "2列56＋@ID", css: COLS, html: () => colsHtml() },
+  B: { name: "2列48・名前だけ", css: `#S .cols{display:flex;justify-content:center;gap:48px}
+            #S .p{display:flex;flex-direction:column;align-items:center;gap:6px}
+            #S .p img{width:48px;height:48px;border-radius:50%;border:2px solid rgba(200,155,60,.55)}
+            #S .n{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:700;line-height:1.3}#S .n .f-x{width:10px;height:10px;opacity:.5}`,
+    html: () => `<div class="cols">${each((c) => `<a class="p"><img class="f-ic" src="${c.img}"><span class="n">${c.name}${X}</span></a>`)}</div>` },
+  C: { name: "2列64＋@ID", css: `#S .cols{display:flex;justify-content:center;gap:40px}
+            #S .p{display:flex;flex-direction:column;align-items:center;gap:6px}
+            #S .p img{width:64px;height:64px;border-radius:50%;border:2px solid rgba(200,155,60,.6)}
+            #S .n{font-size:14px;font-weight:700;line-height:1.3}
+            #S .h{display:flex;align-items:center;gap:4px;font:600 12px 'Rajdhani',sans-serif;color:rgba(200,155,60,.8);letter-spacing:.04em}#S .h .f-x{width:10px;height:10px}`,
+    html: () => `<div class="cols">${each((c) => `<a class="p"><img class="f-ic" src="${c.img}"><span class="n">${c.name}</span><span class="h">${X}@${c.x}</span></a>`)}</div>` },
+  D: { name: "横並び40＋@ID", css: `#S .row{display:flex;justify-content:center;gap:24px;text-align:left}
+            #S .p{display:flex;align-items:center;gap:10px}
+            #S .p img{width:40px;height:40px;border-radius:50%;border:1px solid rgba(200,155,60,.6)}
+            #S .n{display:block;font-size:13px;font-weight:700;line-height:1.3}
+            #S .h{display:flex;align-items:center;gap:4px;font:600 11px 'Rajdhani',sans-serif;color:#A09B8C;letter-spacing:.04em}#S .h .f-x{width:9px;height:9px}`,
+    html: () => `<div class="row">${each((c) => `<a class="p"><img class="f-ic" src="${c.img}"><span><span class="n">${c.name}</span><span class="h">${X}@${c.x}</span></span></a>`)}</div>` },
+};
+ROUNDS.push({
+  key: "r4",
+  label: "ROUND 4",
+  theme: "ロゴの行 × 上のアイコン",
+  h: 720,
+  items: ["P", "Q", "R"].flatMap((lk, li) => ["A", "B", "C", "D"].map((ik, ii) => {
+    const L = LOGO_ROWS[lk], I = ICONS[ik];
+    return {
+      id: li * 4 + ii + 1,
+      title: `${I.name} × ${L.name}`,
+      note: ik === "A" ? `R3 で選んだ形そのまま（アイコンは R2 #14 の2列56）` : `アイコンを${I.name}に替えた版`,
+      intensity: ik === "B" ? "chill" : ik === "C" ? "crazy" : "medium",
+      tags: [L.name, I.name],
+      css: I.css + WCSS + KO + L.css,
+      html: page({ top: I.html() + `<div class="lg"><span class="ko">LoLの攻略は${WL(L.h)}</span></div>` }),
+    };
+  })),
+});
 // ===== ここまで =====
 
 let round = ROUNDS[ROUNDS.length - 1];
