@@ -10,5 +10,10 @@ for name in ["stail", "justive"]:
     key = f'img: "{name}.jpg"'
     assert s.count(key) == 1, key
     s = s.replace(key, f'img: "{data}"')
+for svg in ["wardex-logo.svg", "wardex-logo-text-white.svg"]:
+    data = "data:image/svg+xml;base64," + base64.b64encode((here / svg).read_bytes()).decode()
+    key = f'"{svg}"'
+    assert s.count(key) == 1, key
+    s = s.replace(key, f'"{data}"')
 (here / "制作者表記ラウンド.html").write_text(s, encoding="utf-8", newline="\n")
 print("ok", len(s))

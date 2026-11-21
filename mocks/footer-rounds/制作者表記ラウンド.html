@@ -294,12 +294,15 @@ ROUNDS.push({
 });
 
 // ===== ROUND 2 の追加: WARDEX のロゴを載せる版（2026-11-21 本人の依頼） =====
-// ロゴの正本は wardex/public/favicon.svg（赤い四角に白い W）と、ヘッダーの「WARDEX」文字（Helvetica の太字）。色は WARDEX の黒版に合わせる
-const WM = `<svg class="wm" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#c62828"/><path d="M 8.83 25.00 H 13.74 L 15.34 18.48 C 15.63 17.29 15.81 15.97 15.99 14.64 C 16.18 15.98 16.38 17.30 16.67 18.48 L 18.26 25.00 H 23.17 L 27.41 9.00 H 22.55 L 21.26 15.21 C 20.95 16.71 20.71 18.58 20.47 20.33 C 20.20 18.58 19.93 16.71 19.59 15.21 L 18.17 9.00 H 13.83 L 12.41 15.21 C 12.07 16.72 11.79 18.60 11.52 20.37 C 11.28 18.60 11.04 16.72 10.73 15.21 L 9.45 9.00 H 4.59 Z" fill="#ffffff"/></svg>`;
-// 名前のリンクの中にも置くので a ではなく span（a の入れ子はブラウザが外側を閉じて列の外へ出る）
-const WL = (size = 16) => `<span class="wl" style="font-size:${size}px">${WM}<span>WARDEX</span></span>`;
-const WCSS = `#S .wl{display:inline-flex;align-items:center;gap:.45em;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;letter-spacing:-.01em;color:#E8E8E8;line-height:1}
-              #S .wl .wm{width:1.25em;height:1.25em;display:block}`;
+// 横長ロゴの正本は wardex/promo/logo/export/ の2種（赤い面に白文字 / 白文字だけ）。文字は図形なので書体に左右されない
+// 丸に入れる #15 だけは wardex/public/favicon.svg の赤い W を使う
+const LOGO = { red: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTQyLjAwIDI4NC4wMCIgd2lkdGg9IjExNDIiIGhlaWdodD0iMjg0Ij48cmVjdCB3aWR0aD0iMTE0Mi4wMCIgaGVpZ2h0PSIyODQuMDAiIGZpbGw9IiNGRjFBMUEiLz48cGF0aCBkPSJNNTUuODkyNTc4MTI1IDY3LjUzMTI1SDEwMi4wODM5ODQzNzVMMTE4LjczNDM3NSAxNTUuNTA5NzY1NjI1TDE0My4wMTE3MTg3NSA2Ny41MzEyNUgxODkuMDk1NzAzMTI1TDIxMy40ODA0Njg3NSAxNTUuNTA5NzY1NjI1TDIzMC4xMzA4NTkzNzUgNjcuNTMxMjVIMjc2LjEwNzQyMTg3NUwyNDEuNDEwMTU2MjUgMjI1LjAxMTcxODc1SDE5My43MTQ4NDM3NUwxNjYuMTA3NDIxODc1IDEyNS44NjEzMjgxMjVMMTM4LjYwNzQyMTg3NSAyMjUuMDExNzE4NzVIOTAuOTEyMTA5Mzc1Wk0zODMuNTA3ODEyNSAxOTkuMDE1NjI1SDMyOC4wNzgxMjVMMzIwLjQ1MTE3MTg3NSAyMjUuMDExNzE4NzVIMjcwLjcxNDg0Mzc1TDMyOS45MDQyOTY4NzUgNjcuNTMxMjVIMzgyLjk3MDcwMzEyNUw0NDIuMTYwMTU2MjUgMjI1LjAxMTcxODc1SDM5MS4yNDIxODc1Wk0zNzMuMzAyNzM0Mzc1IDE2NC45NjI4OTA2MjUgMzU1LjkwMDM5MDYyNSAxMDguMzUxNTYyNSAzMzguNjA1NDY4NzUgMTY0Ljk2Mjg5MDYyNVpNNDUyLjg4MDg1OTM3NSAyMjUuMDExNzE4NzVWNjcuNTMxMjVINTMzLjk4NDM3NVE1NTYuNTQyOTY4NzUgNjcuNTMxMjUgNTY4LjQ2Njc5Njg3NSA3MS4zOTg0Mzc1UTU4MC4zOTA2MjUgNzUuMjY1NjI1IDU4Ny42OTUzMTI1IDg1LjczOTI1NzgxMjVRNTk1LjAgOTYuMjEyODkwNjI1IDU5NS4wIDExMS4yNTE5NTMxMjVRNTk1LjAgMTI0LjM1NzQyMTg3NSA1ODkuNDE0MDYyNSAxMzMuODY0MjU3ODEyNVE1ODMuODI4MTI1IDE0My4zNzEwOTM3NSA1NzQuMDUyNzM0Mzc1IDE0OS4yNzkyOTY4NzVRNTY3LjgyMjI2NTYyNSAxNTMuMDM5MDYyNSA1NTYuOTcyNjU2MjUgMTU1LjUwOTc2NTYyNVE1NjUuNjczODI4MTI1IDE1OC40MTAxNTYyNSA1NjkuNjQ4NDM3NSAxNjEuMzEwNTQ2ODc1UTU3Mi4zMzM5ODQzNzUgMTYzLjI0NDE0MDYyNSA1NzcuNDM2NTIzNDM3NSAxNjkuNTgyMDMxMjVRNTgyLjUzOTA2MjUgMTc1LjkxOTkyMTg3NSA1ODQuMjU3ODEyNSAxNzkuMzU3NDIxODc1TDYwNy43ODMyMDMxMjUgMjI1LjAxMTcxODc1SDU1Mi43ODMyMDMxMjVMNTI2Ljc4NzEwOTM3NSAxNzYuODg2NzE4NzVRNTIxLjg0NTcwMzEyNSAxNjcuNTQxMDE1NjI1IDUxNy45Nzg1MTU2MjUgMTY0Ljc0ODA0Njg3NVE1MTIuNzE0ODQzNzUgMTYxLjA5NTcwMzEyNSA1MDYuMDU0Njg3NSAxNjEuMDk1NzAzMTI1SDUwMS43NTc4MTI1VjIyNS4wMTE3MTg3NVpNNTAxLjc1NzgxMjUgMTMxLjMzOTg0Mzc1SDUyMi4yNzUzOTA2MjVRNTI1LjYwNTQ2ODc1IDEzMS4zMzk4NDM3NSA1MzUuMTY2MDE1NjI1IDEyOS4xOTE0MDYyNVE1NDAuMCAxMjguMjI0NjA5Mzc1IDU0My4wNjE1MjM0Mzc1IDEyNC4yNVE1NDYuMTIzMDQ2ODc1IDEyMC4yNzUzOTA2MjUgNTQ2LjEyMzA0Njg3NSAxMTUuMTE5MTQwNjI1UTU0Ni4xMjMwNDY4NzUgMTA3LjQ5MjE4NzUgNTQxLjI4OTA2MjUgMTAzLjQxMDE1NjI1UTUzNi40NTUwNzgxMjUgOTkuMzI4MTI1IDUyMy4xMzQ3NjU2MjUgOTkuMzI4MTI1SDUwMS43NTc4MTI1Wk02MTguNTAzOTA2MjUgNjcuNTMxMjVINjkwLjc5ODgyODEyNVE3MTIuMTc1NzgxMjUgNjcuNTMxMjUgNzI1LjMzNDk2MDkzNzUgNzMuMzMyMDMxMjVRNzM4LjQ5NDE0MDYyNSA3OS4xMzI4MTI1IDc0Ny4wODc4OTA2MjUgODkuOTgyNDIxODc1UTc1NS42ODE2NDA2MjUgMTAwLjgzMjAzMTI1IDc1OS41NDg4MjgxMjUgMTE1LjIyNjU2MjVRNzYzLjQxNjAxNTYyNSAxMjkuNjIxMDkzNzUgNzYzLjQxNjAxNTYyNSAxNDUuNzM0Mzc1UTc2My40MTYwMTU2MjUgMTcwLjk3ODUxNTYyNSA3NTcuNjY4OTQ1MzEyNSAxODQuODg5NjQ4NDM3NVE3NTEuOTIxODc1IDE5OC44MDA3ODEyNSA3NDEuNzE2Nzk2ODc1IDIwOC4yMDAxOTUzMTI1UTczMS41MTE3MTg3NSAyMTcuNTk5NjA5Mzc1IDcxOS44MDI3MzQzNzUgMjIwLjcxNDg0Mzc1UTcwMy43OTY4NzUgMjI1LjAxMTcxODc1IDY5MC43OTg4MjgxMjUgMjI1LjAxMTcxODc1SDYxOC41MDM5MDYyNVpNNjY3LjE2NjAxNTYyNSAxMDMuMTk1MzEyNVYxODkuMjQwMjM0Mzc1SDY3OS4wODk4NDM3NVE2OTQuMzQzNzUgMTg5LjI0MDIzNDM3NSA3MDAuNzg5MDYyNSAxODUuODU2NDQ1MzEyNVE3MDcuMjM0Mzc1IDE4Mi40NzI2NTYyNSA3MTAuODg2NzE4NzUgMTc0LjA0MDAzOTA2MjVRNzE0LjUzOTA2MjUgMTY1LjYwNzQyMTg3NSA3MTQuNTM5MDYyNSAxNDYuNzAxMTcxODc1UTcxNC41MzkwNjI1IDEyMS42NzE4NzUgNzA2LjM3NSAxMTIuNDMzNTkzNzVRNjk4LjIxMDkzNzUgMTAzLjE5NTMxMjUgNjc5LjMwNDY4NzUgMTAzLjE5NTMxMjVaTTc4My4zNzUgNjcuNTMxMjVIOTEzLjc4NTE1NjI1VjEwMS4xNTQyOTY4NzVIODMyLjE0NDUzMTI1VjEyNi4xODM1OTM3NUg5MDcuODc2OTUzMTI1VjE1OC4zMDI3MzQzNzVIODMyLjE0NDUzMTI1VjE4OS4zNDc2NTYyNUg5MTYuMTQ4NDM3NVYyMjUuMDExNzE4NzVINzgzLjM3NVpNOTI2LjAwOTc2NTYyNSA2Ny41MzEyNUg5NzkuNjEzMjgxMjVMMTAwNy41NDI5Njg3NSAxMTUuOTc4NTE1NjI1TDEwMzQuNjEzMjgxMjUgNjcuNTMxMjVIMTA4Ny42Nzk2ODc1TDEwMzguNjk1MzEyNSAxNDMuODAwNzgxMjVMMTA5Mi4yOTg4MjgxMjUgMjI1LjAxMTcxODc1SDEwMzcuNjIxMDkzNzVMMTAwNi41NzYxNzE4NzUgMTc0LjQxNjAxNTYyNUw5NzUuNDIzODI4MTI1IDIyNS4wMTE3MTg3NUg5MjEuMDY4MzU5Mzc1TDk3NS40MjM4MjgxMjUgMTQyLjk0MTQwNjI1WiIgZmlsbD0iI0ZGRkZGRiIvPjwvc3ZnPg0K", white: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTQyLjAwIDI4NC4wMCIgd2lkdGg9IjExNDIiIGhlaWdodD0iMjg0Ij48cGF0aCBkPSJNNTUuODkyNTc4MTI1IDY3LjUzMTI1SDEwMi4wODM5ODQzNzVMMTE4LjczNDM3NSAxNTUuNTA5NzY1NjI1TDE0My4wMTE3MTg3NSA2Ny41MzEyNUgxODkuMDk1NzAzMTI1TDIxMy40ODA0Njg3NSAxNTUuNTA5NzY1NjI1TDIzMC4xMzA4NTkzNzUgNjcuNTMxMjVIMjc2LjEwNzQyMTg3NUwyNDEuNDEwMTU2MjUgMjI1LjAxMTcxODc1SDE5My43MTQ4NDM3NUwxNjYuMTA3NDIxODc1IDEyNS44NjEzMjgxMjVMMTM4LjYwNzQyMTg3NSAyMjUuMDExNzE4NzVIOTAuOTEyMTA5Mzc1Wk0zODMuNTA3ODEyNSAxOTkuMDE1NjI1SDMyOC4wNzgxMjVMMzIwLjQ1MTE3MTg3NSAyMjUuMDExNzE4NzVIMjcwLjcxNDg0Mzc1TDMyOS45MDQyOTY4NzUgNjcuNTMxMjVIMzgyLjk3MDcwMzEyNUw0NDIuMTYwMTU2MjUgMjI1LjAxMTcxODc1SDM5MS4yNDIxODc1Wk0zNzMuMzAyNzM0Mzc1IDE2NC45NjI4OTA2MjUgMzU1LjkwMDM5MDYyNSAxMDguMzUxNTYyNSAzMzguNjA1NDY4NzUgMTY0Ljk2Mjg5MDYyNVpNNDUyLjg4MDg1OTM3NSAyMjUuMDExNzE4NzVWNjcuNTMxMjVINTMzLjk4NDM3NVE1NTYuNTQyOTY4NzUgNjcuNTMxMjUgNTY4LjQ2Njc5Njg3NSA3MS4zOTg0Mzc1UTU4MC4zOTA2MjUgNzUuMjY1NjI1IDU4Ny42OTUzMTI1IDg1LjczOTI1NzgxMjVRNTk1LjAgOTYuMjEyODkwNjI1IDU5NS4wIDExMS4yNTE5NTMxMjVRNTk1LjAgMTI0LjM1NzQyMTg3NSA1ODkuNDE0MDYyNSAxMzMuODY0MjU3ODEyNVE1ODMuODI4MTI1IDE0My4zNzEwOTM3NSA1NzQuMDUyNzM0Mzc1IDE0OS4yNzkyOTY4NzVRNTY3LjgyMjI2NTYyNSAxNTMuMDM5MDYyNSA1NTYuOTcyNjU2MjUgMTU1LjUwOTc2NTYyNVE1NjUuNjczODI4MTI1IDE1OC40MTAxNTYyNSA1NjkuNjQ4NDM3NSAxNjEuMzEwNTQ2ODc1UTU3Mi4zMzM5ODQzNzUgMTYzLjI0NDE0MDYyNSA1NzcuNDM2NTIzNDM3NSAxNjkuNTgyMDMxMjVRNTgyLjUzOTA2MjUgMTc1LjkxOTkyMTg3NSA1ODQuMjU3ODEyNSAxNzkuMzU3NDIxODc1TDYwNy43ODMyMDMxMjUgMjI1LjAxMTcxODc1SDU1Mi43ODMyMDMxMjVMNTI2Ljc4NzEwOTM3NSAxNzYuODg2NzE4NzVRNTIxLjg0NTcwMzEyNSAxNjcuNTQxMDE1NjI1IDUxNy45Nzg1MTU2MjUgMTY0Ljc0ODA0Njg3NVE1MTIuNzE0ODQzNzUgMTYxLjA5NTcwMzEyNSA1MDYuMDU0Njg3NSAxNjEuMDk1NzAzMTI1SDUwMS43NTc4MTI1VjIyNS4wMTE3MTg3NVpNNTAxLjc1NzgxMjUgMTMxLjMzOTg0Mzc1SDUyMi4yNzUzOTA2MjVRNTI1LjYwNTQ2ODc1IDEzMS4zMzk4NDM3NSA1MzUuMTY2MDE1NjI1IDEyOS4xOTE0MDYyNVE1NDAuMCAxMjguMjI0NjA5Mzc1IDU0My4wNjE1MjM0Mzc1IDEyNC4yNVE1NDYuMTIzMDQ2ODc1IDEyMC4yNzUzOTA2MjUgNTQ2LjEyMzA0Njg3NSAxMTUuMTE5MTQwNjI1UTU0Ni4xMjMwNDY4NzUgMTA3LjQ5MjE4NzUgNTQxLjI4OTA2MjUgMTAzLjQxMDE1NjI1UTUzNi40NTUwNzgxMjUgOTkuMzI4MTI1IDUyMy4xMzQ3NjU2MjUgOTkuMzI4MTI1SDUwMS43NTc4MTI1Wk02MTguNTAzOTA2MjUgNjcuNTMxMjVINjkwLjc5ODgyODEyNVE3MTIuMTc1NzgxMjUgNjcuNTMxMjUgNzI1LjMzNDk2MDkzNzUgNzMuMzMyMDMxMjVRNzM4LjQ5NDE0MDYyNSA3OS4xMzI4MTI1IDc0Ny4wODc4OTA2MjUgODkuOTgyNDIxODc1UTc1NS42ODE2NDA2MjUgMTAwLjgzMjAzMTI1IDc1OS41NDg4MjgxMjUgMTE1LjIyNjU2MjVRNzYzLjQxNjAxNTYyNSAxMjkuNjIxMDkzNzUgNzYzLjQxNjAxNTYyNSAxNDUuNzM0Mzc1UTc2My40MTYwMTU2MjUgMTcwLjk3ODUxNTYyNSA3NTcuNjY4OTQ1MzEyNSAxODQuODg5NjQ4NDM3NVE3NTEuOTIxODc1IDE5OC44MDA3ODEyNSA3NDEuNzE2Nzk2ODc1IDIwOC4yMDAxOTUzMTI1UTczMS41MTE3MTg3NSAyMTcuNTk5NjA5Mzc1IDcxOS44MDI3MzQzNzUgMjIwLjcxNDg0Mzc1UTcwMy43OTY4NzUgMjI1LjAxMTcxODc1IDY5MC43OTg4MjgxMjUgMjI1LjAxMTcxODc1SDYxOC41MDM5MDYyNVpNNjY3LjE2NjAxNTYyNSAxMDMuMTk1MzEyNVYxODkuMjQwMjM0Mzc1SDY3OS4wODk4NDM3NVE2OTQuMzQzNzUgMTg5LjI0MDIzNDM3NSA3MDAuNzg5MDYyNSAxODUuODU2NDQ1MzEyNVE3MDcuMjM0Mzc1IDE4Mi40NzI2NTYyNSA3MTAuODg2NzE4NzUgMTc0LjA0MDAzOTA2MjVRNzE0LjUzOTA2MjUgMTY1LjYwNzQyMTg3NSA3MTQuNTM5MDYyNSAxNDYuNzAxMTcxODc1UTcxNC41MzkwNjI1IDEyMS42NzE4NzUgNzA2LjM3NSAxMTIuNDMzNTkzNzVRNjk4LjIxMDkzNzUgMTAzLjE5NTMxMjUgNjc5LjMwNDY4NzUgMTAzLjE5NTMxMjVaTTc4My4zNzUgNjcuNTMxMjVIOTEzLjc4NTE1NjI1VjEwMS4xNTQyOTY4NzVIODMyLjE0NDUzMTI1VjEyNi4xODM1OTM3NUg5MDcuODc2OTUzMTI1VjE1OC4zMDI3MzQzNzVIODMyLjE0NDUzMTI1VjE4OS4zNDc2NTYyNUg5MTYuMTQ4NDM3NVYyMjUuMDExNzE4NzVINzgzLjM3NVpNOTI2LjAwOTc2NTYyNSA2Ny41MzEyNUg5NzkuNjEzMjgxMjVMMTAwNy41NDI5Njg3NSAxMTUuOTc4NTE1NjI1TDEwMzQuNjEzMjgxMjUgNjcuNTMxMjVIMTA4Ny42Nzk2ODc1TDEwMzguNjk1MzEyNSAxNDMuODAwNzgxMjVMMTA5Mi4yOTg4MjgxMjUgMjI1LjAxMTcxODc1SDEwMzcuNjIxMDkzNzVMMTAwNi41NzYxNzE4NzUgMTc0LjQxNjAxNTYyNUw5NzUuNDIzODI4MTI1IDIyNS4wMTE3MTg3NUg5MjEuMDY4MzU5Mzc1TDk3NS40MjM4MjgxMjUgMTQyLjk0MTQwNjI1WiIgZmlsbD0iI0ZGRkZGRiIvPjwvc3ZnPg0K" };
+const WM =`<svg class="wm" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#c62828"/><path d="M 8.83 25.00 H 13.74 L 15.34 18.48 C 15.63 17.29 15.81 15.97 15.99 14.64 C 16.18 15.98 16.38 17.30 16.67 18.48 L 18.26 25.00 H 23.17 L 27.41 9.00 H 22.55 L 21.26 15.21 C 20.95 16.71 20.71 18.58 20.47 20.33 C 20.20 18.58 19.93 16.71 19.59 15.21 L 18.17 9.00 H 13.83 L 12.41 15.21 C 12.07 16.72 11.79 18.60 11.52 20.37 C 11.28 18.60 11.04 16.72 10.73 15.21 L 9.45 9.00 H 4.59 Z" fill="#ffffff"/></svg>`;
+// 名前のリンクの中にも置くので a で囲まない（a の入れ子はブラウザが外側を閉じて列の外へ出る）
+// h は画像の高さ。白文字版は上下に余白を含む（文字は高さの約56%）ので、赤版と同じ文字の大きさにするには約1.8倍にする
+const WL = (h = 20, kind = "red") => `<img class="wl" src="${LOGO[kind]}" style="height:${h}px" alt="WARDEX">`;
+// .p img（アイコンの丸）より強く当てて、ロゴが丸く切られないようにする
+const WCSS = `#S img.wl,#S .p img.wl,#S .av img.wl{width:auto;border:0;border-radius:0;outline:0;display:inline-block;vertical-align:middle}`;
 const ROW = `#S .row{display:flex;justify-content:center;gap:20px}
              #S .p{display:flex;align-items:center;gap:8px;font-size:12px;color:#F0E6BE}
              #S .p img{width:28px;height:28px;border-radius:50%;border:1px solid rgba(200,155,60,.6)}
@@ -323,17 +326,17 @@ ROUNDS[1].items.push(
   {
     id: 12, title: "横並び＋下にWARDEXロゴ", note: "#01 の下にロゴを1行。制作者とロゴの間は少し空ける。ロゴを押すと wardex.app へ", intensity: "chill", tags: ["WARDEX", "横並び"],
     css: ROW + WCSS + `#S .lg{margin:14px 0 20px}`,
-    html: page({ top: rowHtml() + `<div class="lg">${WL(15)}</div>` }),
+    html: page({ top: rowHtml() + `<div class="lg">${WL(22)}</div>` }),
   },
   {
     id: 13, title: "2列・じゃすちぶせぶんの下にロゴ", note: "#02 のじゃすちぶせぶんの列だけ、@IDの下に小さくロゴ。誰のサイトかが分かる", intensity: "medium", tags: ["WARDEX", "2列"],
     css: COLS + WCSS + `#S .cols{margin-bottom:20px;align-items:start}#S .p .wl{margin-top:4px}`,
-    html: page({ top: colsHtml((c, i) => (i === 1 ? WL(12) : "")) }),
+    html: page({ top: colsHtml((c, i) => (i === 1 ? WL(16) : "")) }),
   },
   {
     id: 14, title: "2列＋区切り線＋ロゴ", note: "#02 の下に細い金の線、その下にロゴを大きめに。2人とWARDEXを分けて並べる", intensity: "medium", tags: ["WARDEX", "2列"],
     css: COLS + WCSS + `#S .lg{margin:18px auto 22px;padding-top:18px;width:70%;border-top:1px solid rgba(200,155,60,.18)}`,
-    html: page({ top: colsHtml() + `<div class="lg">${WL(18)}</div>` }),
+    html: page({ top: colsHtml() + `<div class="lg">${WL(28)}</div>` }),
   },
   {
     id: 15, title: "重ね＋3つ目にWマーク", note: "#03 の重ねたアイコンに、WARDEXの赤いWを3つ目として足す。一文はそのまま", intensity: "medium", tags: ["WARDEX", "重ね"],
@@ -342,13 +345,28 @@ ROUNDS[1].items.push(
   },
   {
     id: 16, title: "一文の中、名前の後ろにロゴ", note: "#03 の一文で「じゃすちぶせぶん（WARDEX）」と名前にロゴを添える。誰のサイトかを文の中で示す", intensity: "medium", tags: ["WARDEX", "重ね"],
-    css: STACK + WCSS + `#S .w{margin-bottom:22px}#S .s .wl{vertical-align:-2px;margin:0 2px 0 6px}`,
-    html: page({ top: stackHtml().replace("<b>じゃすちぶせぶん</b>", `<b>じゃすちぶせぶん</b>${WL(12)}`) }),
+    css: STACK + WCSS + `#S .w{margin-bottom:22px}#S .s img.wl{vertical-align:-3px;margin:0 4px 0 6px}`,
+    html: page({ top: stackHtml().replace("<b>じゃすちぶせぶん</b>", `<b>じゃすちぶせぶん</b>${WL(16)}`) }),
   },
   {
     id: 17, title: "制作者は上、ロゴは一番下", note: "#01 を免責の上に置き、ロゴは注意書きのさらに下へ。サイトの「運営元」の位置", intensity: "chill", tags: ["WARDEX", "横並び", "一番下"],
     css: ROW + WCSS + `#S .row{margin-bottom:10px}#S .lg{margin-top:14px;padding-top:16px;border-top:1px solid rgba(200,155,60,.12)}`,
-    html: page({ top: rowHtml(), bottom: `<div class="lg">${WL(14)}</div>` }),
+    html: page({ top: rowHtml(), bottom: `<div class="lg">${WL(20)}</div>` }),
+  },
+  {
+    id: 18, title: "#12 の白文字版", note: "横並びの下に、背景なしの白い文字ロゴ。赤い面より静かで、紺の画面になじむ", intensity: "chill", tags: ["WARDEX白", "横並び"],
+    css: ROW + WCSS + `#S .lg{margin:6px 0 12px}`,
+    html: page({ top: rowHtml() + `<div class="lg">${WL(40, "white")}</div>` }),
+  },
+  {
+    id: 19, title: "#14 の白文字版", note: "2列＋金の線の下に、白い文字ロゴを大きめに", intensity: "medium", tags: ["WARDEX白", "2列"],
+    css: COLS + WCSS + `#S .lg{margin:14px auto 14px;padding-top:8px;width:70%;border-top:1px solid rgba(200,155,60,.18)}`,
+    html: page({ top: colsHtml() + `<div class="lg">${WL(50, "white")}</div>` }),
+  },
+  {
+    id: 20, title: "#17 の白文字版", note: "制作者は免責の上、白い文字ロゴは一番下。運営元の位置を静かに", intensity: "chill", tags: ["WARDEX白", "横並び", "一番下"],
+    css: ROW + WCSS + `#S .row{margin-bottom:10px}#S .lg{margin-top:8px;padding-top:6px;border-top:1px solid rgba(200,155,60,.12)}#S .lg img.wl{opacity:.85}`,
+    html: page({ top: rowHtml(), bottom: `<div class="lg">${WL(36, "white")}</div>` }),
   },
 );
 // ===== ここまで =====
