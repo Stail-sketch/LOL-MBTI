@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>フッター制作者表記ラウンド</title>
+<!--
+  design-rounds の比較ページ（フッターに制作者情報を入れる案）。ブラウザで開くだけで動く。
+  - 各案はスマホ幅 390px の「結果画面の終わり〜フッター」を実寸で描く（フッターは主にスマホで見られるため）
+  - アイコンは使われなくなった ../../creator-follow.webp から切り出した物（stail.jpg / justive.jpg）
+  - Pick・★・メモはこのブラウザ（localStorage）にだけ保存。「選んだ案をコピー」の文章を会話に貼って次のラウンドへ
+-->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+JP:wght@400;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f0f0f0; --ink: #0a0a0a; --red: #ff1a1a; --dim: rgba(10,10,10,.55); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: system-ui, "Noto Sans JP", sans-serif; }
+  header { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 16px 24px 12px; border-bottom: 2px solid rgba(10,10,10,.08); }
+  .rounds button { background: none; border: 0; font-weight: 800; letter-spacing: .3em; font-size: 13px; color: rgba(10,10,10,.3); cursor: pointer; padding: 0 12px 0 0; }
+  .rounds button.on { color: var(--ink); }
+  h1 { margin: 4px 0 8px; font-size: 28px; font-weight: 900; }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .chip { height: 32px; padding: 0 12px; font-weight: 800; font-size: 13px; border: 2px solid rgba(10,10,10,.2); background: none; cursor: pointer; color: var(--ink); }
+  .chip.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .copy { margin-left: auto; height: 32px; padding: 0 16px; background: var(--red); color: #fff; border: 0; font-weight: 900; cursor: pointer; }
+  main { padding: 24px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, 390px); gap: 40px 24px; justify-content: center; }
+  .thumb { position: relative; overflow: hidden; outline: 2px solid rgba(10,10,10,.15); cursor: zoom-in; background: #010A13; }
+  .thumb.pick { outline: 4px solid var(--red); }
+  .stage { position: absolute; left: 0; top: 0; overflow: hidden; transform-origin: 0 0; background: #010A13; }
+  .meta { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+  .no { font-weight: 900; font-size: 20px; }
+  .tag { font-size: 12px; font-weight: 800; color: var(--dim); }
+  .base { background: var(--ink); color: #fff; font-size: 11px; font-weight: 800; padding: 2px 6px; }
+  .star { margin-left: auto; background: none; border: 0; font-size: 20px; color: rgba(10,10,10,.25); cursor: pointer; }
+  .star.on { color: var(--red); }
+  .title { margin: 4px 0 0; font-weight: 900; font-size: 17px; }
+  .note { margin: 2px 0 0; font-size: 13px; line-height: 1.6; color: rgba(10,10,10,.8); }
+  textarea { width: 100%; margin-top: 8px; border: 2px solid rgba(10,10,10,.2); background: var(--bg); font: inherit; font-size: 13px; padding: 8px; resize: none; }
+  .overall { max-width: 900px; margin: 48px auto 0; }
+  .zoom { position: fixed; inset: 0; z-index: 10; background: var(--ink); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: zoom-out; }
+  .zoom .frame { position: relative; overflow: hidden; }
+  .zoom p { color: #fff; font-weight: 900; margin-top: 12px; }
+
+  /* ===== 案の舞台の共通部品（本番 style.css の値を写したもの。名前は f- で比較ページと分ける） ===== */
+  .stage { color: #F0E6BE; font-family: 'Noto Serif JP', serif; line-height: 1.8; }
+  .stage a { color: inherit; text-decoration: none; }
+  .f-ctx { padding: 32px 20px 0; text-align: center; }
+  .f-share { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 32px; width: 260px; background: #000; color: #fff; font: 700 14px 'Rajdhani', sans-serif; letter-spacing: .15em; border: 1px solid rgba(255,255,255,.2); clip-path: polygon(8px 0%,calc(100% - 8px) 0%,100% 50%,calc(100% - 8px) 100%,8px 100%,0% 50%); }
+  .f-x { width: 1em; height: 1em; fill: currentColor; flex-shrink: 0; }
+  .f-foot { margin-top: 56px; padding: 40px 20px 32px; background: linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.8) 100%); border-top: 1px solid rgba(200,155,60,.25); text-align: center; display: flex; flex-direction: column; gap: 10px; }
+  .f-foot::before { content: ''; display: block; width: 80%; height: 1px; background: linear-gradient(90deg,transparent,rgba(200,155,60,.45),transparent); margin: 0 auto 26px; }
+  .f-disc { margin: 0; font-size: 11px; color: rgba(255,255,255,.45); line-height: 1.7; }
+  .f-disc strong { color: rgba(200,155,60,.7); }
+  .f-disc a, .f-priv a { color: rgba(200,155,60,.6) !important; text-decoration: underline !important; }
+  .f-priv, .f-note { margin: 0; font-size: 10px; color: rgba(255,255,255,.3); line-height: 1.6; }
+  .f-ic { display: block; object-fit: cover; }
+</style>
+</head>
+<body>
+<header>
+  <div class="rounds" id="rounds"></div>
+  <h1 id="theme"></h1>
+  <div class="bar" id="bar"></div>
+</header>
+<main>
+  <div class="grid" id="grid"></div>
+  <section class="overall">
+    <div class="tag">全体の感想</div>
+    <textarea id="overall" rows="4" placeholder="例: アイコンは要らない、名前だけで十分 / 免責の下に置きたい"></textarea>
+  </section>
+</main>
+<style id="cand-css"></style>
+<script>
+// ===== 共通のデータと部品 =====
+const SW = 390, SH = 830;
+const X = `<svg class="f-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`;
+const CR = [
+  { name: "スタイル", x: "Stail21San", img: "stail.jpg" },
+  { name: "じゃすちぶせぶん", x: "Justive_4", img: "justive.jpg" },
+];
+const LEGAL = `<p class="f-disc">このサイトは <strong>Riot Games</strong> および <strong>League of Legends</strong> と一切関係のない非公式のファンサイトです。<br>League of Legends および関連コンテンツはすべて Riot Games, Inc. の商標または登録商標です。<br>本サイトのコンテンツは <a>Riot Games Fan Content Policy</a> に基づいて制作されています。</p>
+<p class="f-priv">本サイトはフォント読み込みに Google Fonts を利用しており、その際に接続元 IP アドレスが Google に送信されます。その他の個人情報の収集・外部送信は行っていません。<br><a>プライバシーポリシー / Privacy Policy</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a>お問い合わせ / Contact</a></p>
+<p class="f-note">診断結果はエンターテインメント目的であり、性格診断の正確性を保証するものではありません。</p>`;
+// top: 免責の上 / bottom: 一番下 / outside: フッターの外（結果の直後）
+const page = ({ top = "", bottom = "", outside = "" } = {}) =>
+  `<div class="f-ctx"><span class="f-share">${X}ポストする</span></div>${outside}<footer class="f-foot">${top}${LEGAL}${bottom}</footer>`;
+const each = (fn, sep = "") => CR.map(fn).join(sep);
+
+// ===== 候補 =====
+const ROUNDS = [
+  {
+    key: "r1",
+    label: "ROUND 1",
+    theme: "フッターの制作者表記: 濃さ × 置き場所",
+    items: [
+      {
+        id: 1, title: "今のフッター（基準）", note: "制作者の表記なし。以下はこれとの差で見る", intensity: "chill", tags: ["基準"], base: true,
+        css: ``, html: page(),
+      },
+      {
+        id: 2, title: "名前だけ1行", note: "免責の上に「制作 スタイル ／ じゃすちぶせぶん」。名前を押すとXへ。いちばん静か", intensity: "chill", tags: ["文字だけ", "免責の上"],
+        css: `#S .cr{font-size:12px;color:rgba(255,255,255,.5);margin:0 0 6px}
+              #S .cr a{color:rgba(200,155,60,.85);margin:0 2px}`,
+        html: page({ top: `<p class="cr">制作　${each((c) => `<a>${c.name}</a>`, "／")}</p>` }),
+      },
+      {
+        id: 3, title: "コピーライトの行に混ぜる", note: "一番下に「© 2026 lol-type.com · 制作 …」。法的な文と同じ扱いで目立たせない", intensity: "chill", tags: ["文字だけ", "一番下"],
+        css: `#S .cp{margin:12px 0 0;padding-top:14px;border-top:1px solid rgba(200,155,60,.12);font:400 11px 'Rajdhani',sans-serif;letter-spacing:.06em;color:rgba(255,255,255,.4)}
+              #S .cp a{font-family:'Noto Serif JP',serif;color:rgba(200,155,60,.75)}`,
+        html: page({ bottom: `<p class="cp">© 2026 lol-type.com　·　制作 ${each((c) => `<a>${c.name}</a>`, " & ")}</p>` }),
+      },
+      {
+        id: 4, title: "小さい丸アイコン＋名前を横に2つ", note: "顔が小さく見えるので「人が作った」感じが出る。1行に収まる大きさ", intensity: "chill", tags: ["アイコン小", "免責の上"],
+        css: `#S .row{display:flex;justify-content:center;gap:20px;margin-bottom:10px}
+              #S .p{display:flex;align-items:center;gap:8px;font-size:12px;color:#F0E6BE}
+              #S .p img{width:28px;height:28px;border-radius:50%;border:1px solid rgba(200,155,60,.6)}
+              #S .p .f-x{width:10px;height:10px;opacity:.5}`,
+        html: page({ top: `<div class="row">${each((c) => `<a class="p"><img class="f-ic" src="${c.img}">${c.name}${X}</a>`)}</div>` }),
+      },
+      {
+        id: 5, title: "丸アイコンを縦に2列", note: "アイコン56px・金の輪。名前の下に @ID。フッターの頭に制作者がはっきり出る", intensity: "medium", tags: ["アイコン中", "免責の上"],
+        css: `#S .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+              #S .p{display:flex;flex-direction:column;align-items:center;gap:6px}
+              #S .p img{width:56px;height:56px;border-radius:50%;border:2px solid rgba(200,155,60,.55)}
+              #S .n{font-size:13px;font-weight:700;line-height:1.3}
+              #S .h{display:flex;align-items:center;gap:4px;font:600 12px 'Rajdhani',sans-serif;letter-spacing:.04em;color:rgba(200,155,60,.8)}
+              #S .h .f-x{width:10px;height:10px}`,
+        html: page({ top: `<div class="cols">${each((c) => `<a class="p"><img class="f-ic" src="${c.img}"><span class="n">${c.name}</span><span class="h">${X}@${c.x}</span></a>`)}</div>` }),
+      },
+      {
+        id: 6, title: "行のリスト", note: "左に四角アイコン、右に名前と@ID、右端に「フォロー」。押せる所が広い", intensity: "medium", tags: ["アイコン中", "免責の上"],
+        css: `#S .list{border-top:1px solid rgba(200,155,60,.15);margin-bottom:22px;text-align:left}
+              #S .r{display:flex;align-items:center;gap:12px;padding:10px 4px;border-bottom:1px solid rgba(200,155,60,.15)}
+              #S .r img{width:40px;height:40px;border:1px solid rgba(200,155,60,.6)}
+              #S .t{flex:1;line-height:1.35}
+              #S .n{display:block;font-size:13px;font-weight:700}
+              #S .h{display:block;font:600 12px 'Rajdhani',sans-serif;color:#A09B8C;letter-spacing:.04em}
+              #S .f{display:flex;align-items:center;gap:6px;font:700 12px 'Rajdhani',sans-serif;letter-spacing:.12em;color:#C89B3C}
+              #S .f .f-x{width:11px;height:11px}`,
+        html: page({ top: `<div class="list">${each((c) => `<a class="r"><img class="f-ic" src="${c.img}"><span class="t"><span class="n">${c.name}</span><span class="h">@${c.x}</span></span><span class="f">${X}フォロー</span></a>`)}</div>` }),
+      },
+      {
+        id: 7, title: "金枠のカード2枚（前の画像の作り直し）", note: "使われなくなった「制作者をフォロー！」画像をHTMLで小さく。六角形の金ボタン付き", intensity: "crazy", tags: ["アイコン大", "免責の上"],
+        css: `#S .hd{font-size:16px;font-weight:700;color:#C89B3C;margin-bottom:14px;letter-spacing:.08em}
+              #S .cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px}
+              #S .c{display:flex;flex-direction:column;align-items:center;gap:8px}
+              #S .c img{width:100%;aspect-ratio:1;border:2px solid #C89B3C;outline:1px solid rgba(200,155,60,.35);outline-offset:3px}
+              #S .n{font-size:14px;font-weight:700;line-height:1.3;margin-top:4px}
+              #S .b{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:8px 0;background:linear-gradient(180deg,#F0E6BE,#C89B3C 55%,#785A28);color:#010A13;font:700 13px 'Noto Serif JP',serif;clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 50%,calc(100% - 8px) 100%,8px 100%,0% 50%)}`,
+        html: page({ top: `<div class="hd">制作者をフォロー</div><div class="cards">${each((c) => `<a class="c"><img class="f-ic" src="${c.img}"><span class="n">${c.name}</span><span class="b">${X}でフォロー</span></a>`)}</div>` }),
+      },
+      {
+        id: 8, title: "Cinzel の「Created by」＋名前を×でつなぐ", note: "サイトの題字と同じ書体で一言。名前は大きめ、@IDは下に小さく", intensity: "medium", tags: ["文字だけ", "免責の上"],
+        css: `#S .cb{display:flex;align-items:center;justify-content:center;gap:12px;font:400 13px 'Cinzel',serif;letter-spacing:.2em;color:#C89B3C}
+              #S .cb::before,#S .cb::after{content:'';width:40px;height:1px;background:rgba(200,155,60,.45)}
+              #S .nm{font-size:17px;font-weight:700;margin:6px 0 2px}
+              #S .nm i{font-style:normal;color:#C89B3C;margin:0 10px;font-family:'Cinzel',serif}
+              #S .hs{display:flex;justify-content:center;gap:18px;font:600 12px 'Rajdhani',sans-serif;color:#A09B8C;margin-bottom:22px}
+              #S .hs a{display:flex;align-items:center;gap:4px}#S .hs .f-x{width:10px;height:10px}`,
+        html: page({ top: `<div class="cb">Created by</div><div class="nm">${each((c) => c.name, "<i>×</i>")}</div><div class="hs">${each((c) => `<a>${X}@${c.x}</a>`)}</div>` }),
+      },
+      {
+        id: 9, title: "重ねたアイコン＋一文", note: "2つの丸を少し重ねて「2人で作った」を見せる。文は1行、@IDは下に", intensity: "medium", tags: ["アイコン小", "免責の上"],
+        css: `#S .w{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:22px}
+              #S .av{display:flex}
+              #S .av img{width:44px;height:44px;border-radius:50%;border:2px solid #010A13;outline:1px solid rgba(200,155,60,.6)}
+              #S .av img+img{margin-left:-12px}
+              #S .s{font-size:13px;line-height:1.5}#S .s b{color:#C89B3C}
+              #S .hs{display:flex;gap:16px;font:600 12px 'Rajdhani',sans-serif;color:#A09B8C}
+              #S .hs a{display:flex;align-items:center;gap:4px}#S .hs .f-x{width:10px;height:10px}`,
+        html: page({ top: `<div class="w"><div class="av">${each((c) => `<img class="f-ic" src="${c.img}">`)}</div><div class="s">${each((c) => `<b>${c.name}</b>`, " と ")} が作りました</div><div class="hs">${each((c) => `<a>${X}@${c.x}</a>`)}</div></div>` }),
+      },
+      {
+        id: 10, title: "シェアカード風の札", note: "診断カードと同じ金のグラデ帯＋紺の札に2行。結果画面の部品と見た目がそろう", intensity: "medium", tags: ["アイコン中", "免責の上"],
+        css: `#S .pn{background:#0A1428;border:1px solid rgba(200,155,60,.3);margin-bottom:24px;text-align:left}
+              #S .gb{height:3px;background:linear-gradient(90deg,#4A3214 0%,#785A28 25%,#C89B3C 45%,#F0E6BE 50%,#C89B3C 55%,#785A28 75%,#4A3214 100%)}
+              #S .lb{padding:10px 14px 4px;font-size:12px;color:#0BC4E3;letter-spacing:.1em}
+              #S .r{display:flex;align-items:center;gap:10px;padding:8px 14px}
+              #S .r+.r{border-top:1px solid rgba(200,155,60,.12)}
+              #S .r img{width:36px;height:36px;border-radius:50%;border:1px solid rgba(200,155,60,.55)}
+              #S .n{flex:1;font-size:13px;font-weight:700}
+              #S .h{display:flex;align-items:center;gap:4px;font:600 12px 'Rajdhani',sans-serif;color:#A09B8C}#S .h .f-x{width:10px;height:10px}`,
+        html: page({ top: `<div class="pn"><div class="gb"></div><div class="lb">この診断を作った人</div>${each((c) => `<a class="r"><img class="f-ic" src="${c.img}"><span class="n">${c.name}</span><span class="h">${X}@${c.x}</span></a>`)}</div>` }),
+      },
+      {
+        id: 11, title: "Xのボタンだけ2つ", note: "共有ボタンと同じ黒い六角形で「@ID」。アイコンなし、押す物だけ置く", intensity: "medium", tags: ["ボタン", "免責の上"],
+        css: `#S .lb{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:8px}
+              #S .bs{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:24px}
+              #S .b{display:flex;align-items:center;justify-content:center;gap:8px;width:240px;padding:10px 0;background:#000;color:#fff;border:1px solid rgba(200,155,60,.35);font:700 14px 'Rajdhani',sans-serif;letter-spacing:.08em;clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 50%,calc(100% - 8px) 100%,8px 100%,0% 50%)}
+              #S .b small{font:400 11px 'Noto Serif JP',serif;color:#A09B8C;letter-spacing:0}`,
+        html: page({ top: `<div class="lb">制作者</div><div class="bs">${each((c) => `<a class="b">${X}@${c.x}<small>${c.name}</small></a>`)}</div>` }),
+      },
+      {
+        id: 12, title: "フッターの外、結果のすぐ下に置く", note: "法的な文とは分けて、ポストボタンの下に「この診断を作った人」。見られやすいが本文寄り", intensity: "crazy", tags: ["アイコン中", "フッターの外"],
+        css: `#S .out{margin:40px 20px 0;padding-top:24px;border-top:1px solid rgba(200,155,60,.2);text-align:center}
+              #S .lb{font-size:13px;color:#A09B8C;margin-bottom:14px}
+              #S .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+              #S .p{display:flex;flex-direction:column;align-items:center;gap:6px}
+              #S .p img{width:64px;height:64px;border-radius:50%;border:2px solid rgba(200,155,60,.55)}
+              #S .n{font-size:13px;font-weight:700;line-height:1.3}
+              #S .h{display:flex;align-items:center;gap:4px;font:600 12px 'Rajdhani',sans-serif;color:rgba(200,155,60,.8)}#S .h .f-x{width:10px;height:10px}`,
+        html: page({ outside: `<section class="out"><div class="lb">この診断を作った人</div><div class="cols">${each((c) => `<a class="p"><img class="f-ic" src="${c.img}"><span class="n">${c.name}</span><span class="h">${X}@${c.x}</span></a>`)}</div></section>` }),
+      },
+    ],
+  },
+];
+// ===== ここまで =====
+
+let round = ROUNDS[ROUNDS.length - 1];
+let filter = "all";
+const store = (k) => `design-rounds:${location.pathname}:${k}`;
+const load = (k) => { try { return JSON.parse(localStorage.getItem(store(k)) || "null"); } catch { return null; } };
+const save = (k, v) => { try { localStorage.setItem(store(k), JSON.stringify(v)); } catch {} };
+let marks = {};
+
+function stageOf(c) {
+  const s = document.createElement("div");
+  s.className = "stage"; s.id = `c${round.key}-${c.id}`; s.innerHTML = c.html;
+  s.style.width = SW + "px"; s.style.height = SH + "px";
+  return s;
+}
+
+function render() {
+  marks = load(round.key) || {};
+  document.getElementById("theme").textContent = round.theme;
+  document.getElementById("rounds").innerHTML = ROUNDS.map((r) => `<button class="${r === round ? "on" : ""}" data-r="${r.key}">${r.label}</button>`).join("");
+  document.querySelectorAll("#rounds button").forEach((b) => (b.onclick = () => { round = ROUNDS.find((r) => r.key === b.dataset.r); render(); }));
+  document.getElementById("cand-css").textContent = round.items.map((c) => c.css.replaceAll("#S", `#c${round.key}-${c.id}`)).join("\n");
+  const bar = document.getElementById("bar");
+  bar.innerHTML = ["all", "chill", "medium", "crazy", "pick", "star"].map((f) => `<button class="chip ${filter === f ? "on" : ""}" data-f="${f}">${{ all: "全部", chill: "控えめ", medium: "ふつう", crazy: "強め", pick: "Pick だけ", star: "★ だけ" }[f]}</button>`).join("")
+    + `<button class="copy" id="copy">選んだ案をコピー（${round.items.filter((c) => marks[c.id]?.pick).length}）</button>`;
+  bar.querySelectorAll(".chip").forEach((b) => (b.onclick = () => { filter = b.dataset.f; render(); }));
+  document.getElementById("copy").onclick = copy;
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+  for (const c of round.items) {
+    const m = marks[c.id] || {};
+    if (["chill", "medium", "crazy"].includes(filter) && c.intensity !== filter) continue;
+    if (filter === "pick" && !m.pick) continue;
+    if (filter === "star" && !m.star) continue;
+    const a = document.createElement("article");
+    a.innerHTML = `<div class="thumb ${m.pick ? "pick" : ""}" style="width:${SW}px;height:${SH}px"></div>
+      <div class="meta"><span class="no">#${String(c.id).padStart(2, "0")}</span><span class="tag">${{ chill: "控えめ", medium: "ふつう", crazy: "強め" }[c.intensity]}</span>${c.base ? `<span class="base">今の本番</span>` : ""}
+        <button class="star ${m.star ? "on" : ""}">★</button><button class="chip ${m.pick ? "on" : ""}">Pick</button></div>
+      <p class="title"></p><div class="tag tags"></div><p class="note"></p>`;
+    a.querySelector(".title").textContent = c.title;
+    a.querySelector(".tags").textContent = (c.tags || []).join(" · ");
+    a.querySelector(".note").textContent = c.note;
+    const thumb = a.querySelector(".thumb"); thumb.appendChild(stageOf(c)); thumb.onclick = () => big(c);
+    a.querySelector(".star").onclick = () => mark(c.id, { star: !m.star });
+    a.querySelector(".meta .chip").onclick = () => mark(c.id, { pick: !m.pick });
+    if (m.pick || m.star) {
+      const t = document.createElement("textarea"); t.rows = 2; t.placeholder = "どこが良いか／直したい所"; t.value = m.memo || "";
+      t.oninput = () => { marks[c.id] = { ...marks[c.id], memo: t.value }; save(round.key, marks); };
+      a.appendChild(t);
+    }
+    grid.appendChild(a);
+  }
+  const ov = document.getElementById("overall");
+  ov.value = load(round.key + ":overall") || "";
+  ov.oninput = () => save(round.key + ":overall", ov.value);
+}
+
+function mark(id, patch) { marks[id] = { ...marks[id], ...patch }; save(round.key, marks); render(); }
+
+function big(c) {
+  const s = Math.min((innerWidth - 64) / SW, (innerHeight - 80) / SH, 2);
+  const d = document.createElement("div"); d.className = "zoom";
+  d.innerHTML = `<div class="frame" style="width:${SW * s}px;height:${SH * s}px"></div><p></p>`;
+  d.querySelector("p").textContent = `#${String(c.id).padStart(2, "0")} ${c.title}（クリックか Esc で閉じる）`;
+  const st = stageOf(c); st.style.transform = `scale(${s})`; d.querySelector(".frame").appendChild(st);
+  const close = () => { d.remove(); removeEventListener("keydown", esc); };
+  const esc = (e) => e.key === "Escape" && close();
+  d.onclick = close; addEventListener("keydown", esc); document.body.appendChild(d);
+}
+
+async function copy() {
+  const line = (c) => { const memo = (marks[c.id]?.memo || "").trim(); return `- #${String(c.id).padStart(2, "0")} ${c.title}（${(c.tags || []).join("・")}）${memo ? `: ${memo}` : ""}`; };
+  const picks = round.items.filter((c) => marks[c.id]?.pick);
+  const stars = round.items.filter((c) => marks[c.id]?.star && !marks[c.id]?.pick);
+  const overall = (load(round.key + ":overall") || "").trim();
+  const text = [`デザイン候補 ${round.label} ${round.theme} の選択結果`, "", "Pick:", ...(picks.length ? picks.map(line) : ["- なし"]),
+    ...(stars.length ? ["", "気になる（スター）:", ...stars.map(line)] : []), ...(overall ? ["", "全体の感想:", overall] : [])].join("\n");
+  try { await navigator.clipboard.writeText(text); document.getElementById("copy").textContent = "コピーしました"; setTimeout(render, 1200); } catch { prompt("コピーしてください", text); }
+}
+
+render();
+</script>
+</body>
+</html>
