@@ -215,7 +215,7 @@ ROUNDS.push({
   key: "r2",
   label: "ROUND 2",
   theme: "アイコン付き・免責の上: 大きさ × 添える情報",
-  h: 660,
+  h: 700,
   items: [
     again(4, 1), again(5, 2), again(9, 3),
     {
@@ -292,6 +292,65 @@ ROUNDS.push({
     },
   ],
 });
+
+// ===== ROUND 2 の追加: WARDEX のロゴを載せる版（2026-11-21 本人の依頼） =====
+// ロゴの正本は wardex/public/favicon.svg（赤い四角に白い W）と、ヘッダーの「WARDEX」文字（Helvetica の太字）。色は WARDEX の黒版に合わせる
+const WM = `<svg class="wm" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#c62828"/><path d="M 8.83 25.00 H 13.74 L 15.34 18.48 C 15.63 17.29 15.81 15.97 15.99 14.64 C 16.18 15.98 16.38 17.30 16.67 18.48 L 18.26 25.00 H 23.17 L 27.41 9.00 H 22.55 L 21.26 15.21 C 20.95 16.71 20.71 18.58 20.47 20.33 C 20.20 18.58 19.93 16.71 19.59 15.21 L 18.17 9.00 H 13.83 L 12.41 15.21 C 12.07 16.72 11.79 18.60 11.52 20.37 C 11.28 18.60 11.04 16.72 10.73 15.21 L 9.45 9.00 H 4.59 Z" fill="#ffffff"/></svg>`;
+// 名前のリンクの中にも置くので a ではなく span（a の入れ子はブラウザが外側を閉じて列の外へ出る）
+const WL = (size = 16) => `<span class="wl" style="font-size:${size}px">${WM}<span>WARDEX</span></span>`;
+const WCSS = `#S .wl{display:inline-flex;align-items:center;gap:.45em;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;letter-spacing:-.01em;color:#E8E8E8;line-height:1}
+              #S .wl .wm{width:1.25em;height:1.25em;display:block}`;
+const ROW = `#S .row{display:flex;justify-content:center;gap:20px}
+             #S .p{display:flex;align-items:center;gap:8px;font-size:12px;color:#F0E6BE}
+             #S .p img{width:28px;height:28px;border-radius:50%;border:1px solid rgba(200,155,60,.6)}
+             #S .p .f-x{width:10px;height:10px;opacity:.5}`;
+const rowHtml = () => `<div class="row">${each((c) => `<a class="p"><img class="f-ic" src="${c.img}">${c.name}${X}</a>`)}</div>`;
+const COLS = `#S .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+              #S .p{display:flex;flex-direction:column;align-items:center;gap:6px}
+              #S .p img{width:56px;height:56px;border-radius:50%;border:2px solid rgba(200,155,60,.55)}
+              #S .n{font-size:13px;font-weight:700;line-height:1.3}
+              #S .h{display:flex;align-items:center;gap:4px;font:600 12px 'Rajdhani',sans-serif;letter-spacing:.04em;color:rgba(200,155,60,.8)}
+              #S .h .f-x{width:10px;height:10px}`;
+const colsHtml = (extra = () => "") => `<div class="cols">${each((c, i) => `<a class="p"><img class="f-ic" src="${c.img}"><span class="n">${c.name}</span><span class="h">${X}@${c.x}</span>${extra(c, i)}</a>`)}</div>`;
+const STACK = `#S .w{display:flex;flex-direction:column;align-items:center;gap:8px}
+               #S .av{display:flex}
+               #S .av img,#S .av .wm{width:44px;height:44px;border-radius:50%;border:2px solid #010A13;outline:1px solid rgba(200,155,60,.6)}
+               #S .av > *+*{margin-left:-12px}
+               #S .s{font-size:13px;line-height:1.5}#S .s b{color:#C89B3C}` + HS;
+const stackHtml = (av = "", s = "") => `<div class="w"><div class="av">${each((c) => `<img class="f-ic" src="${c.img}">`)}${av}</div><div class="s">${each((c) => `<b>${c.name}</b>`, " と ")} が作りました${s}</div><div class="hs">${each((c) => `<a>${X}@${c.x}</a>`)}</div></div>`;
+
+ROUNDS[1].items.push(
+  {
+    id: 12, title: "横並び＋下にWARDEXロゴ", note: "#01 の下にロゴを1行。制作者とロゴの間は少し空ける。ロゴを押すと wardex.app へ", intensity: "chill", tags: ["WARDEX", "横並び"],
+    css: ROW + WCSS + `#S .lg{margin:14px 0 20px}`,
+    html: page({ top: rowHtml() + `<div class="lg">${WL(15)}</div>` }),
+  },
+  {
+    id: 13, title: "2列・じゃすちぶせぶんの下にロゴ", note: "#02 のじゃすちぶせぶんの列だけ、@IDの下に小さくロゴ。誰のサイトかが分かる", intensity: "medium", tags: ["WARDEX", "2列"],
+    css: COLS + WCSS + `#S .cols{margin-bottom:20px;align-items:start}#S .p .wl{margin-top:4px}`,
+    html: page({ top: colsHtml((c, i) => (i === 1 ? WL(12) : "")) }),
+  },
+  {
+    id: 14, title: "2列＋区切り線＋ロゴ", note: "#02 の下に細い金の線、その下にロゴを大きめに。2人とWARDEXを分けて並べる", intensity: "medium", tags: ["WARDEX", "2列"],
+    css: COLS + WCSS + `#S .lg{margin:18px auto 22px;padding-top:18px;width:70%;border-top:1px solid rgba(200,155,60,.18)}`,
+    html: page({ top: colsHtml() + `<div class="lg">${WL(18)}</div>` }),
+  },
+  {
+    id: 15, title: "重ね＋3つ目にWマーク", note: "#03 の重ねたアイコンに、WARDEXの赤いWを3つ目として足す。一文はそのまま", intensity: "medium", tags: ["WARDEX", "重ね"],
+    css: STACK + WCSS + `#S .av .wm{border-radius:50%;overflow:hidden}#S .w{margin-bottom:22px}`,
+    html: page({ top: stackHtml(WM) }),
+  },
+  {
+    id: 16, title: "一文の中、名前の後ろにロゴ", note: "#03 の一文で「じゃすちぶせぶん（WARDEX）」と名前にロゴを添える。誰のサイトかを文の中で示す", intensity: "medium", tags: ["WARDEX", "重ね"],
+    css: STACK + WCSS + `#S .w{margin-bottom:22px}#S .s .wl{vertical-align:-2px;margin:0 2px 0 6px}`,
+    html: page({ top: stackHtml().replace("<b>じゃすちぶせぶん</b>", `<b>じゃすちぶせぶん</b>${WL(12)}`) }),
+  },
+  {
+    id: 17, title: "制作者は上、ロゴは一番下", note: "#01 を免責の上に置き、ロゴは注意書きのさらに下へ。サイトの「運営元」の位置", intensity: "chill", tags: ["WARDEX", "横並び", "一番下"],
+    css: ROW + WCSS + `#S .row{margin-bottom:10px}#S .lg{margin-top:14px;padding-top:16px;border-top:1px solid rgba(200,155,60,.12)}`,
+    html: page({ top: rowHtml(), bottom: `<div class="lg">${WL(14)}</div>` }),
+  },
+);
 // ===== ここまで =====
 
 let round = ROUNDS[ROUNDS.length - 1];
