@@ -65,6 +65,29 @@ function summary(stats) {
   };
 }
 
+// /record の連打で、ランキングと8軸の点数に偽の記録が混ざるのを防ぐ回数制限。
+// 組み込みの Rate Limiting binding は無料プランのこのアカウントでは常に success:true を返し効かなかった（2026-11-21 実測）ため、
+// 1か所で数えられる Durable Object で数える。IP はメモリ上で1分だけ持ち、ストレージには書かない
+const LIMIT_PER_MINUTE = 5;
+export class RecordLimiter {
+  constructor() {
+    this.hits = new Map();
+  }
+  async fetch(request) {
+    const ip = await request.text();
+    const now = Date.now();
+    for (const [k, list] of this.hits) {
+      const recent = list.filter(t => now - t < 60_000);
+      if (recent.length) this.hits.set(k, recent); else this.hits.delete(k);
+    }
+    const list = this.hits.get(ip) || [];
+    if (list.length >= LIMIT_PER_MINUTE) return new Response('limited', { status: 429 });
+    list.push(now);
+    this.hits.set(ip, list);
+    return new Response('ok');
+  }
+}
+
 export default {
   async fetch(request, env) {
     const ch = corsHeaders;
@@ -78,6 +101,14 @@ export default {
 
     // POST /record - 診断結果を記録
     if (url.pathname === '/record' && request.method === 'POST') {
+      // 接続元IPは回数を数えるだけに使い、保存しない（プライバシーポリシーの「IPは含まない」と合わせる）
+      if (env.LIMITER) {
+        const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+        const stub = env.LIMITER.get(env.LIMITER.idFromName('record'));
+        const res = await stub.fetch('https://limiter/check', { method: 'POST', body: ip });
+        if (res.status === 429) return json({ error: 'Too Many Requests' }, 429, ch);
+      }
+
       let body;
       try {
         body = await request.json();

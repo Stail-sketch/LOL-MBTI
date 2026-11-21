@@ -8,3 +8,13 @@ compatibility_date = "2024-01-01"
 binding = "DB"
 database_name = "lol-mbti-ranking"
 database_id = "7aa26ebe-18fc-4f85-b9a1-b519c56e8010"
+
+# /record の連打で、ランキングと8軸の点数に偽の記録が混ざるのを防ぐ回数制限（同じ接続元から1分に5回まで）。
+# 組み込みの [[ratelimits]] は無料プランで効かなかったので Durable Object で数える（worker.js の RecordLimiter）
+[[durable_objects.bindings]]
+name = "LIMITER"
+class_name = "RecordLimiter"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["RecordLimiter"]

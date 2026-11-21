@@ -244,6 +244,8 @@ function goToTop(){
 
 // ===== WORKER FUNCTIONS =====
 function sendDiagnosisResult(champ,typeName,role){
+  // 手元やプレビュー（テストモード含む）の結果を、本番のランキングと点数のデータに混ぜない
+  if(!_isProduction){console.log('[診断送信] 本番以外なので送らない',{champId:champ.id,typeName,role});return Promise.resolve();}
   console.log('[診断送信]',{champId:champ.id,champName:champ.name,typeName,role});
   return fetch(WORKER_URL+'/record',{
     method:'POST',

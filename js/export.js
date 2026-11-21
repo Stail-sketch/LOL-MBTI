@@ -9,6 +9,9 @@ async function downloadCard(){
     await new Promise((resolve,reject)=>{
       const s=document.createElement('script');
       s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      // CDN の中身がすり替わっていたら読み込まない（値は cdnjs の公開値。版を変える時はこの値も替える）
+      s.integrity='sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==';
+      s.crossOrigin='anonymous';
       s.onload=resolve;
       s.onerror=()=>reject(new Error('html2canvas読み込み失敗'));
       document.head.appendChild(s);
