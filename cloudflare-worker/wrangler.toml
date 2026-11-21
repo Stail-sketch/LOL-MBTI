@@ -2,6 +2,9 @@ name = "lol-mbti-ranking"
 main = "worker.js"
 compatibility_date = "2024-01-01"
 
-[[kv_namespaces]]
-binding = "KV"
-id = "abc533c5b90d4d1e866040dc7aeed474"
+# 集計は D1（2026-11-21 に KV から移行。KV の無料枠は書き込み1日1,000回で足りなくなったため）。
+# 表の定義は schema.sql。旧 KV（RANKING_KV, abc533c5b90d4d1e866040dc7aeed474）は消さずに残している
+[[d1_databases]]
+binding = "DB"
+database_name = "lol-mbti-ranking"
+database_id = "7aa26ebe-18fc-4f85-b9a1-b519c56e8010"

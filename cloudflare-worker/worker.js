@@ -1,10 +1,8 @@
 // Cloudflare Worker - LOL-MBTI ランキング API
+// 集計は D1 の counts 表（schema.sql）。KV だった頃は無料枠の書き込みが1日1,000回で、
+// 公開翌日に1晩で400件を超えたため D1 に移した。D1 の加算は表の中で行うので同時送信でも数え落とさない
 
 const VALID_ROLES = new Set(['TOP', 'JUNGLE', 'MID', 'ADC', 'SUPPORT', 'ANY']);
-
-// 集計はすべて1つのキーにまとめる。KV の無料枠は書き込みが1日1,000回なので、
-// 4キーに分けていた頃は1日250件で記録が止まっていた
-const STATS_KEY = 'stats';
 
 // でたらめな名前を大量に送られて集計が膨らみ続けないよう、種類の数に上限を置く。
 // チャンピオンは現在167体、タイプは12種なので、新チャンピオン追加の余裕を見た値
@@ -29,19 +27,23 @@ function json(data, status, headers) {
   });
 }
 
-async function loadStats(env) {
-  const stats = await env.KV.get(STATS_KEY, 'json');
-  return {
-    total: stats?.total || 0,
-    champions: stats?.champions || {},
-    types: stats?.types || {},
-    roles: stats?.roles || {},
-  };
-}
+// 既にある key は +1。新しい key は、その kind の種類数が上限未満の時だけ追加する
+const INCREMENT_SQL = `
+  INSERT INTO counts (kind, key, n)
+  SELECT ?1, ?2, 1
+  WHERE EXISTS (SELECT 1 FROM counts WHERE kind = ?1 AND key = ?2)
+     OR (SELECT COUNT(*) FROM counts WHERE kind = ?1) < ?3
+  ON CONFLICT (kind, key) DO UPDATE SET n = n + 1`;
 
-function increment(obj, key, max) {
-  if (!(key in obj) && Object.keys(obj).length >= max) return;
-  obj[key] = (obj[key] || 0) + 1;
+async function loadStats(env) {
+  const { results } = await env.DB.prepare('SELECT kind, key, n FROM counts').all();
+  const stats = { total: 0, champions: {}, types: {}, roles: {} };
+  const bucket = { champion: stats.champions, type: stats.types, role: stats.roles };
+  for (const { kind, key, n } of results) {
+    if (kind === 'total') stats.total = n;
+    else if (bucket[kind]) bucket[kind][key] = n;
+  }
+  return stats;
 }
 
 const top = (obj, n) => Object.entries(obj).sort((a, b) => b[1] - a[1]).slice(0, n);
@@ -84,20 +86,20 @@ export default {
         return json({ error: 'Invalid role' }, 400, ch);
       }
 
-      // 読む→足す→書き戻す。同時に送られると後勝ちで数え落とすことがあるが、規模からみて許容
-      const stats = await loadStats(env);
-      stats.total += 1;
-      increment(stats.champions, champId, MAX_CHAMPIONS);
+      const inc = env.DB.prepare(INCREMENT_SQL);
+      const steps = [
+        inc.bind('total', '', 1),
+        inc.bind('champion', champId, MAX_CHAMPIONS),
+      ];
       if (typeName && typeof typeName === 'string' && typeName.length <= 60) {
-        increment(stats.types, sanitize(typeName), MAX_TYPES);
+        steps.push(inc.bind('type', sanitize(typeName), MAX_TYPES));
       }
       if (role) {
-        increment(stats.roles, role, VALID_ROLES.size);
+        steps.push(inc.bind('role', role, VALID_ROLES.size));
       }
-      await env.KV.put(STATS_KEY, JSON.stringify(stats));
+      await env.DB.batch(steps);
 
-      // 書き込み直後のデータからランキングを返す（KV は反映に時間がかかるため）
-      return json({ ok: true, rankings: summary(stats) }, 200, ch);
+      return json({ ok: true, rankings: summary(await loadStats(env)) }, 200, ch);
     }
 
     // GET /rankings - ランキングデータを取得
