@@ -370,9 +370,10 @@ ROUNDS[1].items.push(
   },
 );
 
-// ===== ROUND 3: 「攻略は＋WARDEXロゴ」の置き方だけを振る =====
-// ROUND 2 の結果: #14（2列＋区切り線＋赤ロゴ）に決定。「攻略は」をロゴの左に置き、2つをまとめて中央揃え（本人指定）
-// 2人の2列と赤ロゴは固定。振るのは 線の扱い × 「攻略は」の大きさ・色・位置
+// ===== ROUND 3: 「LoLの攻略は＋WARDEXロゴ」の置き方だけを振る =====
+// 文言は「攻略は」→「LoLの攻略は」に変更（2026-11-21 本人指定）
+// ROUND 2 の結果: #14（2列＋区切り線＋赤ロゴ）に決定。「LoLの攻略は」をロゴの左に置き、2つをまとめて中央揃え（本人指定）
+// 2人の2列と赤ロゴは固定。振るのは 線の扱い × 「LoLの攻略は」の大きさ・色・位置
 const KO = `#S .ko{display:inline-flex;align-items:center;justify-content:center;gap:10px;color:#F0E6BE;font-size:14px;line-height:1}`;
 const r3 = (id, title, note, intensity, tags, css, inner, where = "top") => ({
   id, title, note, intensity, tags,
@@ -382,42 +383,42 @@ const r3 = (id, title, note, intensity, tags, css, inner, where = "top") => ({
 ROUNDS.push({
   key: "r3",
   label: "ROUND 3",
-  theme: "「攻略は WARDEX」の置き方",
+  theme: "「LoLの攻略は WARDEX」の置き方",
   h: 720,
   items: [
-    r3(1, "#14 に「攻略は」を足しただけ（基準）", "ROUND 2 の #14 の線とロゴの大きさのまま、左に「攻略は」。2つで中央揃え", "medium", ["基準", "線あり"],
+    r3(1, "#14 に「LoLの攻略は」を足しただけ（基準）", "ROUND 2 の #14 の線とロゴの大きさのまま、左に「LoLの攻略は」。2つで中央揃え", "medium", ["基準", "線あり"],
       `#S .lg{margin:18px auto 22px;padding-top:18px;width:70%;border-top:1px solid rgba(200,155,60,.18)}`,
-      `<div class="lg"><span class="ko">攻略は${WL(28)}</span></div>`),
-    r3(2, "「攻略は」を小さく・薄く", "ロゴが主役。「攻略は」は12pxの薄い色で添えるだけ", "chill", ["線あり", "文字小"],
+      `<div class="lg"><span class="ko">LoLの攻略は${WL(28)}</span></div>`),
+    r3(2, "「LoLの攻略は」を小さく・薄く", "ロゴが主役。「LoLの攻略は」は12pxの薄い色で添えるだけ", "chill", ["線あり", "文字小"],
       `#S .lg{margin:18px auto 22px;padding-top:18px;width:70%;border-top:1px solid rgba(200,155,60,.18)}#S .ko{font-size:12px;color:rgba(255,255,255,.55);gap:8px}`,
-      `<div class="lg"><span class="ko">攻略は${WL(28)}</span></div>`),
-    r3(3, "「攻略は」を太く、ロゴと同じ高さに", "「攻略は」を16pxの太字にして、ロゴと並ぶ一言として読ませる", "medium", ["線あり", "文字大"],
+      `<div class="lg"><span class="ko">LoLの攻略は${WL(28)}</span></div>`),
+    r3(3, "「LoLの攻略は」を太く、ロゴと同じ高さに", "「LoLの攻略は」を16pxの太字にして、ロゴと並ぶ一言として読ませる", "medium", ["線あり", "文字大"],
       `#S .lg{margin:18px auto 22px;padding-top:18px;width:70%;border-top:1px solid rgba(200,155,60,.18)}#S .ko{font-size:16px;font-weight:700}`,
-      `<div class="lg"><span class="ko">攻略は${WL(28)}</span></div>`),
-    r3(4, "「攻略は」を金色に", "文字をサイトの金に。紺・金・赤の3色が1行に並ぶ", "medium", ["線あり", "金"],
+      `<div class="lg"><span class="ko">LoLの攻略は${WL(28)}</span></div>`),
+    r3(4, "「LoLの攻略は」を金色に", "文字をサイトの金に。紺・金・赤の3色が1行に並ぶ", "medium", ["線あり", "金"],
       `#S .lg{margin:18px auto 22px;padding-top:18px;width:70%;border-top:1px solid rgba(200,155,60,.18)}#S .ko{color:#C89B3C;font-weight:700}`,
-      `<div class="lg"><span class="ko">攻略は${WL(28)}</span></div>`),
-    r3(5, "線を左右に伸ばして挟む", "——攻略は WARDEX——。線が見出しの飾りになり、区切りと一体になる", "medium", ["線で挟む"],
+      `<div class="lg"><span class="ko">LoLの攻略は${WL(28)}</span></div>`),
+    r3(5, "線を左右に伸ばして挟む", "——LoLの攻略は WARDEX——。線が見出しの飾りになり、区切りと一体になる", "medium", ["線で挟む"],
       `#S .lg{display:flex;align-items:center;gap:14px;margin:22px 0 24px}#S .lg::before,#S .lg::after{content:'';flex:1;height:1px;background:rgba(200,155,60,.25)}`,
-      `<div class="lg"><span class="ko">攻略は${WL(26)}</span></div>`),
+      `<div class="lg"><span class="ko">LoLの攻略は${WL(26)}</span></div>`),
     r3(6, "線なし、間を広く", "区切り線を外し、2人との間を余白だけで分ける", "chill", ["線なし"],
       `#S .lg{margin:30px 0 30px}`,
-      `<div class="lg"><span class="ko">攻略は${WL(28)}</span></div>`),
+      `<div class="lg"><span class="ko">LoLの攻略は${WL(28)}</span></div>`),
     r3(7, "ロゴを大きく（36px）", "WARDEX への入口として目立たせる。線は同じ", "crazy", ["線あり", "ロゴ大"],
       `#S .lg{margin:18px auto 22px;padding-top:20px;width:76%;border-top:1px solid rgba(200,155,60,.18)}#S .ko{font-size:15px;gap:12px}`,
-      `<div class="lg"><span class="ko">攻略は${WL(36)}</span></div>`),
+      `<div class="lg"><span class="ko">LoLの攻略は${WL(36)}</span></div>`),
     r3(8, "ロゴを小さく（22px）", "クレジットの一部として控えめに。線も短く", "chill", ["線あり", "ロゴ小"],
       `#S .lg{margin:16px auto 20px;padding-top:16px;width:50%;border-top:1px solid rgba(200,155,60,.18)}#S .ko{font-size:12px;gap:8px}`,
-      `<div class="lg"><span class="ko">攻略は${WL(22)}</span></div>`),
-    r3(9, "細い金の枠で囲む", "「攻略は WARDEX」を1つの押せる帯にする。サイトの六角形のボタンの形", "crazy", ["枠"],
+      `<div class="lg"><span class="ko">LoLの攻略は${WL(22)}</span></div>`),
+    r3(9, "細い金の枠で囲む", "「LoLの攻略は WARDEX」を1つの押せる帯にする。サイトの六角形のボタンの形", "crazy", ["枠"],
       `#S .lg{margin:22px 0 24px}#S .ko{padding:10px 22px;border:1px solid rgba(200,155,60,.45);background:rgba(200,155,60,.06);clip-path:polygon(10px 0%,calc(100% - 10px) 0%,100% 50%,calc(100% - 10px) 100%,10px 100%,0% 50%)}`,
-      `<div class="lg"><span class="ko">攻略は${WL(26)}</span></div>`),
+      `<div class="lg"><span class="ko">LoLの攻略は${WL(26)}</span></div>`),
     r3(10, "右に「↗」を足す", "押すと外のサイトへ行くことを矢印で示す", "medium", ["線あり", "矢印"],
       `#S .lg{margin:18px auto 22px;padding-top:18px;width:70%;border-top:1px solid rgba(200,155,60,.18)}#S .ar{font-size:14px;color:rgba(255,255,255,.5)}`,
-      `<div class="lg"><span class="ko">攻略は${WL(28)}<span class="ar">↗</span></span></div>`),
-    r3(11, "一番下に置く", "2人は免責の上のまま、「攻略は WARDEX」だけ注意書きの下へ", "chill", ["一番下"],
+      `<div class="lg"><span class="ko">LoLの攻略は${WL(28)}<span class="ar">↗</span></span></div>`),
+    r3(11, "一番下に置く", "2人は免責の上のまま、「LoLの攻略は WARDEX」だけ注意書きの下へ", "chill", ["一番下"],
       `#S .lg{margin-top:12px;padding-top:18px;border-top:1px solid rgba(200,155,60,.12)}`,
-      `<div class="lg"><span class="ko">攻略は${WL(26)}</span></div>`, "bottom"),
+      `<div class="lg"><span class="ko">LoLの攻略は${WL(26)}</span></div>`, "bottom"),
   ],
 });
 // ===== ここまで =====
