@@ -10,6 +10,14 @@ const MAX_CHAMPIONS = 250;
 const MAX_TYPES = 30;
 const CHAMP_ID_RE = /^[A-Za-z]{2,30}$/;
 
+// 判定の偏りを実際の答え方で調整するため、32問の8軸の点数を1回ごとに残す（answers 表）
+const AXES = ['V', 'I', 'H', 'T', 'A', 'W', 'S', 'D'];
+function validScores(scores) {
+  if (!scores || typeof scores !== 'object') return null;
+  const vals = AXES.map(k => scores[k]);
+  return vals.every(v => Number.isInteger(v) && v >= 0 && v <= 100) ? vals : null;
+}
+
 function sanitize(str) {
   return String(str).replace(/[<>"&]/g, c => ({'<':'&lt;','>':'&gt;','"':'&quot;','&':'&amp;'}[c]));
 }
@@ -77,7 +85,7 @@ export default {
         return json({ error: 'Invalid JSON' }, 400, ch);
       }
 
-      const { champId, typeName, role } = body;
+      const { champId, typeName, role, scores } = body;
 
       if (typeof champId !== 'string' || !CHAMP_ID_RE.test(champId)) {
         return json({ error: 'Invalid champId' }, 400, ch);
@@ -96,6 +104,15 @@ export default {
       }
       if (role) {
         steps.push(inc.bind('role', role, VALID_ROLES.size));
+      }
+      // 点数が無い・形が違う時は点数だけ残さない（点数を送らない古いページのキャッシュでも集計は続ける）
+      const vals = validScores(scores);
+      if (vals) {
+        const day = new Date().toISOString().slice(0, 10);
+        const safeType = typeof typeName === 'string' && typeName.length <= 60 ? sanitize(typeName) : null;
+        steps.push(env.DB.prepare(
+          'INSERT INTO answers (day, role, champ_id, type_name, v, i, h, t, a, w, s, d) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+        ).bind(day, role || null, champId, safeType, ...vals));
       }
       await env.DB.batch(steps);
 
