@@ -73,10 +73,11 @@
 <style id="cand-css"></style>
 <script>
 // ===== 共通のデータと部品 =====
-const SW = 390, SH = 830;
+const SW = 390;
+let SH = 830; // ラウンドごとに h で上書き（一番長い案が収まる高さ）
 const X = `<svg class="f-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`;
 const CR = [
-  { name: "スタイル", x: "Stail21San", img: "stail.jpg" },
+  { name: "すたいる", x: "Stail21San", img: "stail.jpg" }, // 表記はひらがな（2026-11-21 本人指定）
   { name: "じゃすちぶせぶん", x: "Justive_4", img: "justive.jpg" },
 ];
 const LEGAL = `<p class="f-disc">このサイトは <strong>Riot Games</strong> および <strong>League of Legends</strong> と一切関係のない非公式のファンサイトです。<br>League of Legends および関連コンテンツはすべて Riot Games, Inc. の商標または登録商標です。<br>本サイトのコンテンツは <a>Riot Games Fan Content Policy</a> に基づいて制作されています。</p>
@@ -99,7 +100,7 @@ const ROUNDS = [
         css: ``, html: page(),
       },
       {
-        id: 2, title: "名前だけ1行", note: "免責の上に「制作 スタイル ／ じゃすちぶせぶん」。名前を押すとXへ。いちばん静か", intensity: "chill", tags: ["文字だけ", "免責の上"],
+        id: 2, title: "名前だけ1行", note: "免責の上に「制作 すたいる ／ じゃすちぶせぶん」。名前を押すとXへ。いちばん静か", intensity: "chill", tags: ["文字だけ", "免責の上"],
         css: `#S .cr{font-size:12px;color:rgba(255,255,255,.5);margin:0 0 6px}
               #S .cr a{color:rgba(200,155,60,.85);margin:0 2px}`,
         html: page({ top: `<p class="cr">制作　${each((c) => `<a>${c.name}</a>`, "／")}</p>` }),
@@ -205,6 +206,92 @@ const ROUNDS = [
     ],
   },
 ];
+// ROUND 1 で残ったのは #04・#05・#09（アイコン付き・免責の上・小〜中）。文字だけ・ボタン・札・大カード・フッターの外は落ちた
+const R1 = (id) => ROUNDS[0].items.find((c) => c.id === id);
+const again = (id, newId) => ({ ...R1(id), id: newId, title: `${R1(id).title}（R1 #${String(id).padStart(2, "0")}）`, note: "前のラウンドで Pick。基準として再掲", base: false, tags: ["R1 Pick"] });
+const HS = `#S .hs{display:flex;justify-content:center;gap:16px;font:600 12px 'Rajdhani',sans-serif;color:#A09B8C;letter-spacing:.04em}
+            #S .hs a{display:flex;align-items:center;gap:4px}#S .hs .f-x{width:10px;height:10px}`;
+ROUNDS.push({
+  key: "r2",
+  label: "ROUND 2",
+  theme: "アイコン付き・免責の上: 大きさ × 添える情報",
+  h: 660,
+  items: [
+    again(4, 1), again(5, 2), again(9, 3),
+    {
+      id: 4, title: "横並び・アイコン40＋下に@ID", note: "#01 の横並びのまま、アイコンを少し大きくして名前の下に@ID。#01と#02の間", intensity: "medium", tags: ["横並び", "@IDあり"],
+      css: `#S .row{display:flex;justify-content:center;gap:24px;margin-bottom:18px;text-align:left}
+            #S .p{display:flex;align-items:center;gap:10px}
+            #S .p img{width:40px;height:40px;border-radius:50%;border:1px solid rgba(200,155,60,.6)}
+            #S .n{display:block;font-size:13px;font-weight:700;line-height:1.3}
+            #S .h{display:flex;align-items:center;gap:4px;font:600 11px 'Rajdhani',sans-serif;color:#A09B8C;letter-spacing:.04em}#S .h .f-x{width:9px;height:9px}`,
+      html: page({ top: `<div class="row">${each((c) => `<a class="p"><img class="f-ic" src="${c.img}"><span><span class="n">${c.name}</span><span class="h">${X}@${c.x}</span></span></a>`)}</div>` }),
+    },
+    {
+      id: 5, title: "横並び・アイコン32、区切り線つき", note: "#01 を少し大きく。下に細い金の線を引き、免責の文と分ける", intensity: "chill", tags: ["横並び", "@IDなし"],
+      css: `#S .row{display:flex;justify-content:center;gap:24px;padding-bottom:18px;margin-bottom:12px;border-bottom:1px solid rgba(200,155,60,.15)}
+            #S .p{display:flex;align-items:center;gap:8px;font-size:13px;color:#F0E6BE}
+            #S .p img{width:32px;height:32px;border-radius:50%;border:1px solid rgba(200,155,60,.6)}
+            #S .p .f-x{width:10px;height:10px;opacity:.5}`,
+      html: page({ top: `<div class="row">${each((c) => `<a class="p"><img class="f-ic" src="${c.img}">${c.name}${X}</a>`)}</div>` }),
+    },
+    {
+      id: 6, title: "2列・アイコン48、@IDなし", note: "#02 から@IDを外して名前だけ。押すとXへ。少し静か", intensity: "chill", tags: ["2列", "@IDなし"],
+      css: `#S .cols{display:flex;justify-content:center;gap:48px;margin-bottom:20px}
+            #S .p{display:flex;flex-direction:column;align-items:center;gap:6px}
+            #S .p img{width:48px;height:48px;border-radius:50%;border:2px solid rgba(200,155,60,.55)}
+            #S .n{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:700;line-height:1.3}#S .n .f-x{width:10px;height:10px;opacity:.5}`,
+      html: page({ top: `<div class="cols">${each((c) => `<a class="p"><img class="f-ic" src="${c.img}"><span class="n">${c.name}${X}</span></a>`)}</div>` }),
+    },
+    {
+      id: 7, title: "2列・アイコン64、@IDあり", note: "#02 をひと回り大きく。2人の顔がフッターの主役になる", intensity: "crazy", tags: ["2列", "@IDあり"],
+      css: `#S .cols{display:flex;justify-content:center;gap:40px;margin-bottom:22px}
+            #S .p{display:flex;flex-direction:column;align-items:center;gap:6px}
+            #S .p img{width:64px;height:64px;border-radius:50%;border:2px solid rgba(200,155,60,.6)}
+            #S .n{font-size:14px;font-weight:700;line-height:1.3}
+            #S .h{display:flex;align-items:center;gap:4px;font:600 12px 'Rajdhani',sans-serif;color:rgba(200,155,60,.8);letter-spacing:.04em}#S .h .f-x{width:10px;height:10px}`,
+      html: page({ top: `<div class="cols">${each((c) => `<a class="p"><img class="f-ic" src="${c.img}"><span class="n">${c.name}</span><span class="h">${X}@${c.x}</span></a>`)}</div>` }),
+    },
+    {
+      id: 8, title: "2列＋「が作りました」", note: "#02 と #03 を合わせた形。顔の下に@ID、その下に一文で2人で作ったことを言葉でも出す", intensity: "medium", tags: ["2列", "一文あり"],
+      css: `#S .cols{display:flex;justify-content:center;gap:40px}
+            #S .p{display:flex;flex-direction:column;align-items:center;gap:6px}
+            #S .p img{width:48px;height:48px;border-radius:50%;border:2px solid rgba(200,155,60,.55)}
+            #S .h{display:flex;align-items:center;gap:4px;font:600 12px 'Rajdhani',sans-serif;color:#A09B8C;letter-spacing:.04em}#S .h .f-x{width:10px;height:10px}
+            #S .s{font-size:13px;margin:10px 0 20px}#S .s b{color:#C89B3C}`,
+      html: page({ top: `<div class="cols">${each((c) => `<a class="p"><img class="f-ic" src="${c.img}"><span class="h">${X}@${c.x}</span></a>`)}</div><div class="s">${each((c) => `<b>${c.name}</b>`, " と ")} が作りました</div>` }),
+    },
+    {
+      id: 9, title: "重ね・一文だけ", note: "#03 から@IDの行を外し、アイコンと一文を横に1行。名前を押すとXへ。いちばん短い", intensity: "chill", tags: ["重ね", "一文あり"],
+      css: `#S .w{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px}
+            #S .av{display:flex}
+            #S .av img{width:32px;height:32px;border-radius:50%;border:2px solid #010A13;outline:1px solid rgba(200,155,60,.6)}
+            #S .av img+img{margin-left:-10px}
+            #S .s{font-size:12px;line-height:1.5;color:rgba(255,255,255,.6)}#S .s a{color:#C89B3C}`,
+      html: page({ top: `<div class="w"><div class="av">${each((c) => `<img class="f-ic" src="${c.img}">`)}</div><div class="s">${each((c) => `<a>${c.name}</a>`, " と ")} が作りました</div></div>` }),
+    },
+    {
+      id: 10, title: "重ね・アイコン56", note: "#03 を大きく。重なった2人の顔が印になる。@IDは下に", intensity: "crazy", tags: ["重ね", "一文あり", "@IDあり"],
+      css: `#S .w{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:22px}
+            #S .av{display:flex}
+            #S .av img{width:56px;height:56px;border-radius:50%;border:3px solid #010A13;outline:1px solid rgba(200,155,60,.6)}
+            #S .av img+img{margin-left:-14px}
+            #S .s{font-size:14px;line-height:1.5}#S .s b{color:#C89B3C}` + HS,
+      html: page({ top: `<div class="w"><div class="av">${each((c) => `<img class="f-ic" src="${c.img}">`)}</div><div class="s">${each((c) => `<b>${c.name}</b>`, " と ")} が作りました</div><div class="hs">${each((c) => `<a>${X}@${c.x}</a>`)}</div></div>` }),
+    },
+    {
+      id: 11, title: "重ね・左寄せの2行", note: "重ねたアイコンの右に一文と@IDを2行で。#01 の低さと #03 の言葉を合わせる", intensity: "medium", tags: ["重ね", "一文あり", "@IDあり"],
+      css: `#S .w{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:18px;text-align:left}
+            #S .av{display:flex}
+            #S .av img{width:40px;height:40px;border-radius:50%;border:2px solid #010A13;outline:1px solid rgba(200,155,60,.6)}
+            #S .av img+img{margin-left:-12px}
+            #S .s{font-size:13px;line-height:1.4}#S .s b{color:#C89B3C}
+            #S .hs{display:flex;gap:12px;font:600 11px 'Rajdhani',sans-serif;color:#A09B8C;margin-top:2px}
+            #S .hs a{display:flex;align-items:center;gap:4px}#S .hs .f-x{width:9px;height:9px}`,
+      html: page({ top: `<div class="w"><div class="av">${each((c) => `<img class="f-ic" src="${c.img}">`)}</div><div><div class="s">${each((c) => `<b>${c.name}</b>`, " と ")} が作りました</div><div class="hs">${each((c) => `<a>${X}@${c.x}</a>`)}</div></div></div>` }),
+    },
+  ],
+});
 // ===== ここまで =====
 
 let round = ROUNDS[ROUNDS.length - 1];
@@ -223,6 +310,7 @@ function stageOf(c) {
 
 function render() {
   marks = load(round.key) || {};
+  SH = round.h || 830;
   document.getElementById("theme").textContent = round.theme;
   document.getElementById("rounds").innerHTML = ROUNDS.map((r) => `<button class="${r === round ? "on" : ""}" data-r="${r.key}">${r.label}</button>`).join("");
   document.querySelectorAll("#rounds button").forEach((b) => (b.onclick = () => { round = ROUNDS.find((r) => r.key === b.dataset.r); render(); }));
