@@ -1,4 +1,5 @@
--- ランキングの集計。kind は total / champion / type / role。total は key を空文字にした1行
+-- ランキングの集計。kind は total / champion / type / role。total は key を空文字にした1行。
+-- day16 / day32 は日ごとの回数で、key は日本時間の日付（2026-11-21〜。それより前の32問は total にだけ入っている）
 CREATE TABLE IF NOT EXISTS counts (
   kind TEXT NOT NULL,
   key  TEXT NOT NULL,

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 作る側が数字を見るためのページ。検索結果には出さない -->
+<meta name="robots" content="noindex,nofollow">
+<title>LOL診断 集計</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+  /* 見た目は診断本体と別（WARDEX デザインの黒版）。遊ぶ人に見せるページではないため */
+  :root{--bg:#141414;--surface:#1C1C1C;--surface2:#242424;--text:#E8E8E8;--sub:#9A9A9A;--line:rgba(255,255,255,.18);--accent:#FF3333}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:Helvetica,Arial,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;font-weight:700;line-height:1.4;-webkit-font-smoothing:antialiased}
+  main{max-width:960px;margin:0 auto;padding:32px 16px 80px}
+  header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+  h1{font-size:22px;letter-spacing:.02em}
+  button{font:inherit;font-size:13px;color:var(--text);background:none;border:1px solid var(--text);border-radius:999px;padding:8px 18px;cursor:pointer}
+  button:hover{background:var(--text);color:var(--bg)}
+  .nums{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line)}
+  .num{padding:28px 0}
+  .num+.num{border-left:1px solid var(--line);padding-left:24px}
+  .num dt{font-size:13px;color:var(--sub)}
+  .num dd{font-size:56px;line-height:1.1;font-variant-numeric:tabular-nums;margin-top:6px}
+  .num dd small{font-size:20px;margin-left:2px}
+  .num.rate dd{color:var(--accent)}
+  .num p{font-size:12px;color:var(--sub);font-weight:400;margin-top:6px}
+  h2{font-size:15px;margin:40px 0 12px}
+  .row{display:grid;grid-template-columns:96px 1fr 132px;align-items:center;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:13px;font-variant-numeric:tabular-nums}
+  .row:last-child{border-bottom:1px solid var(--line)}
+  .row .name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row .val{text-align:right;white-space:nowrap}
+  .row .val span{color:var(--sub);font-weight:400;margin-left:8px}
+  .bar{position:relative;height:14px;border:1px solid var(--line)}
+  .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--text)}
+  .bar.plain{border:0}
+  .head{display:grid;grid-template-columns:96px 1fr 132px;gap:12px;font-size:12px;color:var(--sub);font-weight:400;padding-bottom:8px}
+  .head div:last-child{text-align:right}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+  .wide .row,.wide .head{grid-template-columns:150px 1fr 100px}
+  #error{color:var(--accent);padding:24px 0;display:none}
+  @media(max-width:640px){
+    .num dd{font-size:36px}.num+.num{padding-left:14px}
+    .cols{grid-template-columns:1fr}
+    .row,.head{grid-template-columns:76px 1fr 108px}
+    .wide .row,.wide .head{grid-template-columns:110px 1fr 88px}
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>LOL診断 集計</h1>
+    <button id="reload">更新</button>
+  </header>
+  <p id="error">集計を読み込めませんでした</p>
+
+  <dl class="nums">
+    <div class="num"><dt>16問</dt><dd id="n16">–</dd><p id="since16"></p></div>
+    <div class="num"><dt>32問</dt><dd id="n32">–</dd><p id="since32"></p></div>
+    <div class="num rate"><dt>32問まで進んだ割合</dt><dd id="rate">–</dd><p id="rate-note"></p></div>
+  </dl>
+
+  <h2>日ごと</h2>
+  <div class="head"><div>日付</div><div>枠＝16問　塗り＝32問</div><div>16問 / 32問</div></div>
+  <div id="days"></div>
+
+  <div class="cols">
+    <section class="wide"><h2>タイプ</h2><div id="types"></div></section>
+    <section class="wide"><h2>ロール</h2><div id="roles"></div></section>
+  </div>
+  <section class="wide"><h2>チャンピオン</h2><div class="cols" id="champs"></div></section>
+</main>
+
+<script src="js/worker-config.js?v=8"></script>
+<script>
+const $=id=>document.getElementById(id);
+const el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e;};
+const fmt=n=>n.toLocaleString('ja-JP');
+// タイプ名は記録時に < > & を文字参照へ置き換えて保存しているので、表示の前に戻す
+const decode=s=>s.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&amp;/g,'&');
+
+function row(name,ratio,value,sub,plain){
+  const r=el('div','row');
+  r.append(el('div','name',name));
+  const bar=el('div','bar'+(plain?' plain':''));
+  const fill=el('i');fill.style.width=Math.max(0,Math.min(100,ratio*100))+'%';
+  bar.append(fill);r.append(bar);
+  const v=el('div','val',value);if(sub)v.append(el('span','',sub));
+  r.append(v);
+  return r;
+}
+
+function renderList(target,list,total){
+  target.replaceChildren();
+  const max=list.length?list[0][1]:1;
+  for(const [name,n] of list){
+    target.append(row(decode(name),n/max,fmt(n),total?(n/total*100).toFixed(1)+'%':'',true));
+  }
+}
+
+function render(d){
+  // 16問の回数を数え始めた日より後だけで割合を出す（それより前は32問しか数えていない）
+  const days=d.days||[];
+  const counted=days.filter(x=>x.n16>0);
+  const sum16=counted.reduce((a,x)=>a+x.n16,0);
+  const sum32=counted.reduce((a,x)=>a+x.n32,0);
+  $('n16').textContent=fmt(sum16);
+  $('n32').textContent=fmt(d.total);
+  $('since16').textContent=counted.length?counted[0].day+' から':'';
+  $('since32').textContent='2026-11-21 の数え直しから';
+  $('rate').replaceChildren(sum16?(sum32/sum16*100).toFixed(1):'–',el('small','',sum16?'%':''));
+  $('rate-note').textContent=sum16?fmt(sum32)+' / '+fmt(sum16)+'（16問を数え始めてからの分）':'';
+
+  const box=$('days');box.replaceChildren();
+  const max=Math.max(1,...days.map(x=>Math.max(x.n16,x.n32)));
+  for(const x of days.slice().reverse()){
+    const r=row(x.day.slice(5).replace('-','/'),0,fmt(x.n16)+' / '+fmt(x.n32),x.n16?Math.round(x.n32/x.n16*100)+'%':'');
+    const bar=r.querySelector('.bar');
+    bar.style.width=Math.max(x.n16,x.n32)/max*100+'%';
+    bar.firstChild.style.width=(x.n16?Math.min(1,x.n32/x.n16):1)*100+'%';
+    box.append(r);
+  }
+
+  renderList($('types'),d.types,d.total);
+  renderList($('roles'),d.roles,d.total);
+  // チャンピオンは数が多いので2列に分ける
+  const half=Math.ceil(d.champions.length/2);
+  const left=el('div'),right=el('div');
+  renderList(left,d.champions.slice(0,half),d.total);
+  renderList(right,d.champions.slice(half),d.total);
+  const max0=d.champions.length?d.champions[0][1]:1;
+  right.querySelectorAll('.row').forEach((r,i)=>{r.querySelector('i').style.width=d.champions[half+i][1]/max0*100+'%';});
+  $('champs').replaceChildren(left,right);
+}
+
+function load(){
+  // ?api= は手元の worker で確かめる時用
+  const api=new URLSearchParams(location.search).get('api')||WORKER_URL;
+  fetch(api+'/stats').then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+    .then(d=>{$('error').style.display='none';render(d);})
+    .catch(e=>{console.error(e);$('error').style.display='block';});
+}
+$('reload').addEventListener('click',load);
+load();
+</script>
+</body>
+</html>

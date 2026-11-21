@@ -32,6 +32,8 @@ function showResult(normalized){
   if(is32){
     sendDiagnosisResult(cache.champ,detectedTypeNameJP,State.selectedLane)
       .then(()=>loadRankings());
+  }else if(is16){
+    sendHalfwayCount();
   }
 }
 

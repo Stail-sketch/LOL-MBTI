@@ -10,6 +10,12 @@ const MAX_CHAMPIONS = 250;
 const MAX_TYPES = 30;
 const CHAMP_ID_RE = /^[A-Za-z]{2,30}$/;
 
+// 16問で結果を見た回数（day16）と32問まで進んだ回数（day32）を日ごとに数える。
+// 16問でやめた人がどれだけいるかを知るため（32問の送信だけでは分からなかった）。
+// 日付は日本時間。見る人が日本にいて、UTC だと朝9時に日が変わってしまうため
+const MAX_DAYS = 4000;
+const jstDay = () => new Date(Date.now() + 9 * 3600_000).toISOString().slice(0, 10);
+
 // 判定の偏りを実際の答え方で調整するため、32問の8軸の点数を1回ごとに残す（answers 表）
 const AXES = ['V', 'I', 'H', 'T', 'A', 'W', 'S', 'D'];
 function validScores(scores) {
@@ -116,7 +122,13 @@ export default {
         return json({ error: 'Invalid JSON' }, 400, ch);
       }
 
-      const { champId, typeName, role, scores } = body;
+      // 16問の結果を見た時の送信。回数だけを数え、結果の中身は受け取らない
+      if (body && body.stage === 16) {
+        await env.DB.prepare(INCREMENT_SQL).bind('day16', jstDay(), MAX_DAYS).run();
+        return json({ ok: true }, 200, ch);
+      }
+
+      const { champId, typeName, role, scores } = body || {};
 
       if (typeof champId !== 'string' || !CHAMP_ID_RE.test(champId)) {
         return json({ error: 'Invalid champId' }, 400, ch);
@@ -129,6 +141,7 @@ export default {
       const steps = [
         inc.bind('total', '', 1),
         inc.bind('champion', champId, MAX_CHAMPIONS),
+        inc.bind('day32', jstDay(), MAX_DAYS),
       ];
       if (typeName && typeof typeName === 'string' && typeName.length <= 60) {
         steps.push(inc.bind('type', sanitize(typeName), MAX_TYPES));
@@ -166,6 +179,25 @@ export default {
         types: sorted(stats.types),
         roles: sorted(stats.roles),
       }, 200, { ...ch, 'Cache-Control': 'no-store' });
+    }
+
+    // GET /stats - ダッシュボード（stats.html）用。日ごとの16問・32問の回数と全ランキング
+    if (url.pathname === '/stats' && request.method === 'GET') {
+      const { results } = await env.DB.prepare('SELECT kind, key, n FROM counts').all();
+      const out = { total: 0, champions: [], types: [], roles: [] };
+      const lists = { champion: out.champions, type: out.types, role: out.roles };
+      const days = {};
+      for (const { kind, key, n } of results) {
+        if (kind === 'total') out.total = n;
+        else if (lists[kind]) lists[kind].push([key, n]);
+        else if (kind === 'day16' || kind === 'day32') {
+          days[key] = days[key] || { day: key, n16: 0, n32: 0 };
+          days[key][kind === 'day16' ? 'n16' : 'n32'] = n;
+        }
+      }
+      for (const list of Object.values(lists)) list.sort((a, b) => b[1] - a[1]);
+      out.days = Object.values(days).sort((a, b) => (a.day < b.day ? -1 : 1));
+      return json(out, 200, { ...ch, 'Cache-Control': 'no-store' });
     }
 
     return new Response('Not Found', { status: 404, headers: ch });

@@ -258,6 +258,16 @@ function sendDiagnosisResult(champ,typeName,role){
   }).catch(e=>{console.error('ランキング送信失敗:',e);});
 }
 
+// 16問の結果を見た回数だけを数える（16問でやめた人の割合を知るため）。結果の中身は送らない
+function sendHalfwayCount(){
+  if(!_isProduction)return;
+  fetch(WORKER_URL+'/record',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({stage:16})
+  }).catch(()=>{});
+}
+
 function loadRankings(){
   fetch(WORKER_URL+'/rankings')
     .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
