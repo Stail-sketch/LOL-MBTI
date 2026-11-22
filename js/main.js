@@ -251,7 +251,7 @@ function sendDiagnosisResult(champ,typeName,role){
     method:'POST',
     headers:{'Content-Type':'application/json'},
     // scores（8軸の点数）は判定の偏りの調整用。プライバシーポリシーの「診断結果データ」に記載
-    body:JSON.stringify({champId:champ.id,champName:champ.name,typeName:typeName||'',role:role||'TOP',scores:State.lastNormalized})
+    body:JSON.stringify({champId:champ.id,champName:champ.name,typeName:typeName||'',role:role||'TOP',scores:State.lastNormalized,judge:JUDGE_VERSION})
   }).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(data=>{
     console.log('[診断送信結果]',data);
     if(data.rankings)renderRankings(data.rankings);

@@ -24,6 +24,10 @@ function validScores(scores) {
   return vals.every(v => Number.isInteger(v) && v >= 0 && v <= 100) ? vals : null;
 }
 
+// どの判定で出した結果か（診断ページの JUDGE_VERSION）。1＝2026-11-22 のチューニング前、2＝後。
+// 判定を変えた前後で、タイプやチャンピオンの出方を比べるために answers 表へ残す。印の無い古い送信は1として扱う
+const validJudge = j => (Number.isInteger(j) && j >= 1 && j <= 99 ? j : null);
+
 function sanitize(str) {
   return String(str).replace(/[<>"&]/g, c => ({'<':'&lt;','>':'&gt;','"':'&quot;','&':'&amp;'}[c]));
 }
@@ -128,7 +132,7 @@ export default {
         return json({ ok: true }, 200, ch);
       }
 
-      const { champId, typeName, role, scores } = body || {};
+      const { champId, typeName, role, scores, judge } = body || {};
 
       if (typeof champId !== 'string' || !CHAMP_ID_RE.test(champId)) {
         return json({ error: 'Invalid champId' }, 400, ch);
@@ -155,8 +159,8 @@ export default {
         const day = new Date().toISOString().slice(0, 10);
         const safeType = typeof typeName === 'string' && typeName.length <= 60 ? sanitize(typeName) : null;
         steps.push(env.DB.prepare(
-          'INSERT INTO answers (day, role, champ_id, type_name, v, i, h, t, a, w, s, d) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-        ).bind(day, role || null, champId, safeType, ...vals));
+          'INSERT INTO answers (day, role, champ_id, type_name, v, i, h, t, a, w, s, d, judge) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+        ).bind(day, role || null, champId, safeType, ...vals, validJudge(judge)));
       }
       await env.DB.batch(steps);
 
@@ -197,6 +201,27 @@ export default {
       }
       for (const list of Object.values(lists)) list.sort((a, b) => b[1] - a[1]);
       out.days = Object.values(days).sort((a, b) => (a.day < b.day ? -1 : 1));
+
+      // 判定の版ごとの内訳。counts は通算しか持たないので、32問ごとに1行ある answers 表から数える
+      // （点数を送らない古いページの分は answers に無いので、通算の total とは少し合わない）
+      const [byType, byChamp, byRole] = await env.DB.batch([
+        env.DB.prepare('SELECT COALESCE(judge, 1) AS j, type_name AS k, COUNT(*) AS n FROM answers GROUP BY j, k'),
+        env.DB.prepare('SELECT COALESCE(judge, 1) AS j, champ_id AS k, COUNT(*) AS n FROM answers GROUP BY j, k'),
+        env.DB.prepare('SELECT COALESCE(judge, 1) AS j, role AS k, COUNT(*) AS n FROM answers GROUP BY j, k'),
+      ]);
+      const judges = {};
+      const add = (res, field) => {
+        for (const { j, k, n } of res.results) {
+          judges[j] = judges[j] || { total: 0, champions: [], types: [], roles: [] };
+          if (k != null) judges[j][field].push([k, n]);
+          if (field === 'champions') judges[j].total += n;
+        }
+      };
+      add(byType, 'types');
+      add(byChamp, 'champions');
+      add(byRole, 'roles');
+      for (const g of Object.values(judges)) for (const f of ['champions', 'types', 'roles']) g[f].sort((a, b) => b[1] - a[1]);
+      out.judges = judges;
       return json(out, 200, { ...ch, 'Cache-Control': 'no-store' });
     }
 

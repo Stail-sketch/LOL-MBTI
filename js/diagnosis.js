@@ -74,6 +74,9 @@ function calculateAndShowResult(){
 // そのままだと誰でも内向的・協調的なチャンピオン（アムム6%など）や守護者・万能に寄るので、平均の差だけ足す。
 // 平均と散らばりの両方を合わせる方式も試したが、タイプが万能・天才直感師に寄り直して偏りが残った
 const MATCH_SHIFT={V:30,I:2,H:-13,T:29,A:28,W:16,S:-13,D:20};
+// 判定の版。記録に付けて送り、集計ページ（stats.html）で判定を変えた前後を分けて見る。
+// MATCH_SHIFT・チャンピオンやタイプの値など、結果の出方を変えたら1つ上げる（1＝2026-11-22 のチューニング前）
+const JUDGE_VERSION=2;
 function toMatchSpace(normalized){
   const out={};
   Object.keys(MATCH_SHIFT).forEach(k=>{out[k]=(normalized[k]??50)+MATCH_SHIFT[k];});

@@ -38,6 +38,9 @@
   .head div:last-child{text-align:right}
   .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
   .wide .row,.wide .head{grid-template-columns:150px 1fr 100px}
+  .judge{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:40px}
+  .judge button.on{background:var(--text);color:var(--bg)}
+  .judge span{font-size:13px;color:var(--sub);font-weight:400;margin-left:8px;font-variant-numeric:tabular-nums}
   #error{color:var(--accent);padding:24px 0;display:none}
   @media(max-width:640px){
     .num dd{font-size:36px}.num+.num{padding-left:14px}
@@ -64,6 +67,13 @@
   <h2>日ごと</h2>
   <div class="head"><div>日付</div><div>枠＝16問　塗り＝32問</div><div>16問 / 32問</div></div>
   <div id="days"></div>
+
+  <div class="judge" id="judge">
+    <button data-j="all" class="on">全期間</button>
+    <button data-j="1">調整前</button>
+    <button data-j="2">調整後</button>
+    <span id="judge-n"></span>
+  </div>
 
   <div class="cols">
     <section class="wide"><h2>タイプ</h2><div id="types"></div></section>
@@ -99,7 +109,18 @@ function renderList(target,list,total){
   }
 }
 
+// 判定を変えた前後で分けて見る。全期間は counts の通算、調整前・調整後は answers 表の内訳（Worker の /stats の judges）。
+// 1＝2026-11-22 のチューニング前、2＝後（js/diagnosis.js の JUDGE_VERSION）
+let judge='all',last=null;
+$('judge').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  judge=b.dataset.j;
+  $('judge').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+  if(last)renderBreakdown(last);
+});
+
 function render(d){
+  last=d;
   // 16問の回数を数え始めた日より後だけで割合を出す（それより前は32問しか数えていない）
   const days=d.days||[];
   const counted=days.filter(x=>x.n16>0);
@@ -122,6 +143,12 @@ function render(d){
     box.append(r);
   }
 
+  renderBreakdown(d);
+}
+
+function renderBreakdown(all){
+  const d=judge==='all'?all:((all.judges||{})[judge]||{total:0,champions:[],types:[],roles:[]});
+  $('judge-n').textContent=fmt(d.total)+'件';
   renderList($('types'),d.types,d.total);
   renderList($('roles'),d.roles,d.total);
   // チャンピオンは数が多いので2列に分ける
