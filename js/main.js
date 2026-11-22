@@ -80,7 +80,7 @@ function isGuardedScreen(){
   );
 }
 function armBackGuard(){
-  if(State._guardArmed||State._replay)return;
+  if(State._guardArmed)return;
   history.pushState(null,'',location.href);
   State._guardArmed=true;
 }
@@ -89,6 +89,8 @@ window.addEventListener('beforeunload',function(e){
 });
 window.addEventListener('popstate',function(){
   State._guardArmed=false;
+  // 「前回の診断」を開き直して見ている時は、失う回答が無いので確認せずにトップへ戻す（履歴を積まないとサイトから出てしまう）
+  if(State._replay){goToTop();return;}
   if(isGuardedScreen()){
     if(!confirm('診断を中断しますか？\n回答データが失われます。')){
       armBackGuard();

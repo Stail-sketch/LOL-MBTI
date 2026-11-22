@@ -16,7 +16,11 @@ function _readLastResult(){
   let raw=null;
   try{raw=localStorage.getItem('lol_last_result');}catch(e){return null;}
   if(!raw)return null;
-  try{return JSON.parse(raw);}
+  try{
+    const d=JSON.parse(raw);
+    if(!d||typeof d!=='object'||typeof d.champName!=='string')throw new Error('形式が違う');
+    return d;
+  }
   catch(e){
     console.error('前回結果の読み込みに失敗しました。データを削除します。',e);
     try{localStorage.removeItem('lol_last_result');}catch(_){}
@@ -25,8 +29,17 @@ function _readLastResult(){
 }
 
 // 2026-11-22 より前の保存はチャンピオン名しか無く、結果画面を組み直せない
+// 手で書き換えた・途中で切れた保存でも結果画面が崩れないよう、描画に使う物が全部揃っている時だけ開ける
 function _canReopen(d){
-  return !!(d&&d.normalized&&d.lanes&&d.phaseEnd&&Object.values(d.lanes).every(l=>CHAMPIONS.some(c=>c.id===l.champId)));
+  if(!d||(d.phaseEnd!==16&&d.phaseEnd!==32))return false;
+  const n=d.normalized;
+  if(!n||typeof n!=='object'||!['V','I','H','T','A','W','S','D'].every(k=>typeof n[k]==='number'&&isFinite(n[k])))return false;
+  if(!['TOP','JUNGLE','MID','ADC','SUPPORT','ANY'].includes(d.selectedLane))return false;
+  if(!d.lanes||typeof d.lanes!=='object')return false;
+  return ['TOP','JUNGLE','MID','ADC','SUPPORT','ANY'].every(l=>{
+    const x=d.lanes[l];
+    return x&&typeof x.matchPct==='number'&&CHAMPIONS.some(c=>c.id===x.champId);
+  });
 }
 
 function loadLastResult(){
