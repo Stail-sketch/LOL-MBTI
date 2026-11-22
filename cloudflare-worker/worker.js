@@ -18,6 +18,13 @@ const jstDay = () => new Date(Date.now() + 9 * 3600_000).toISOString().slice(0, 
 // 同じ回数を1時間ごとにも数える（hour16 / hour32、key は日本時間の「YYYY-MM-DD HH」）。
 // どの時間帯に、どの国の夜に伸びたかを見るため（2026-11-22〜。それより前は日ごとしか無い）
 const MAX_HOURS = 24 * 400;
+// 国ごとの回数（country16 / country32、key は Cloudflare が付ける2文字の国コード）。どの国で広まっているかを見るため（2026-11-22〜）。
+// 国だけを数え、診断1件ごとの記録（answers）には結び付けない。国が分からない時は XX
+const MAX_COUNTRIES = 300;
+const countryOf = request => {
+  const c = request.cf && request.cf.country;
+  return typeof c === 'string' && /^[A-Z]{2}$/.test(c) ? c : 'XX';
+};
 const jstHour = () => new Date(Date.now() + 9 * 3600_000).toISOString().slice(0, 13).replace('T', ' ');
 
 // 判定の偏りを実際の答え方で調整するため、32問の8軸の点数を1回ごとに残す（answers 表）
@@ -154,7 +161,11 @@ export default {
       // 16問の結果を見た時の送信。回数だけを数え、結果の中身は受け取らない
       if (body && body.stage === 16) {
         const inc16 = env.DB.prepare(INCREMENT_SQL);
-        await env.DB.batch([inc16.bind('day16', jstDay(), MAX_DAYS), inc16.bind('hour16', jstHour(), MAX_HOURS)]);
+        await env.DB.batch([
+          inc16.bind('day16', jstDay(), MAX_DAYS),
+          inc16.bind('hour16', jstHour(), MAX_HOURS),
+          inc16.bind('country16', countryOf(request), MAX_COUNTRIES),
+        ]);
         return json({ ok: true }, 200, ch);
       }
 
@@ -174,6 +185,7 @@ export default {
         inc.bind('champion' + sx, champId, MAX_CHAMPIONS),
         inc.bind('day32', jstDay(), MAX_DAYS),
         inc.bind('hour32', jstHour(), MAX_HOURS),
+        inc.bind('country32', countryOf(request), MAX_COUNTRIES),
       ];
       if (typeName && typeof typeName === 'string' && typeName.length <= 60) {
         steps.push(inc.bind('type' + sx, sanitize(typeName), MAX_TYPES));
@@ -220,6 +232,7 @@ export default {
       const lists = { champion: out.champions, type: out.types, role: out.roles };
       const days = {};
       const hours = {};
+      const countries = {};
       // 全期間は、印なしと公開ランキングの版（@2）を合わせた数
       const merged = { champion: {}, type: {}, role: {} };
       for (const { kind: rawKind, key, n } of results) {
@@ -232,12 +245,16 @@ export default {
         } else if (kind === 'hour16' || kind === 'hour32') {
           hours[key] = hours[key] || { hour: key, n16: 0, n32: 0 };
           hours[key][kind === 'hour16' ? 'n16' : 'n32'] = n;
+        } else if (kind === 'country16' || kind === 'country32') {
+          countries[key] = countries[key] || { country: key, n16: 0, n32: 0 };
+          countries[key][kind === 'country16' ? 'n16' : 'n32'] = n;
         }
       }
       for (const [kind, obj] of Object.entries(merged)) lists[kind].push(...Object.entries(obj));
       for (const list of Object.values(lists)) list.sort((a, b) => b[1] - a[1]);
       out.days = Object.values(days).sort((a, b) => (a.day < b.day ? -1 : 1));
       // 時間ごとは直近48時間だけ返す
+      out.countries = Object.values(countries).sort((a, b) => b.n16 - a.n16 || b.n32 - a.n32);
       out.hours = Object.values(hours).sort((a, b) => (a.hour < b.hour ? -1 : 1)).slice(-48);
 
       // 判定の版ごとの内訳。counts は通算しか持たないので、32問ごとに1行ある answers 表から数える

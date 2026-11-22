@@ -113,6 +113,10 @@
   <div class="head" style="margin-top:16px"><div id="period-label">日付</div><div>枠＝16問　塗り＝32問</div><div>16問 / 32問</div></div>
   <div id="days"></div>
 
+  <h2>国</h2>
+  <div class="head"><div>国</div><div>枠＝16問　塗り＝32問</div><div>16問 / 32問</div></div>
+  <div id="countries"></div>
+
   <div class="judge" id="judge">
     <button data-j="all" class="on">全期間</button>
     <button data-j="1">調整前</button>
@@ -179,7 +183,28 @@ function render(d){
   $('rate-note').textContent=sum16?fmt(sum32)+' / '+fmt(sum16)+'（16問を数え始めてからの分）':'';
 
   renderPeriod(d);
+  renderCountries(d);
   renderBreakdown(d);
+}
+
+// 国ごと（Worker が数え始めた 2026-11-22 夜から）。上位20か国と、それ以外の合計
+const regionName=(()=>{try{const n=new Intl.DisplayNames(['ja'],{type:'region'});return c=>c==='XX'?'不明':(n.of(c)||c);}catch(e){return c=>c;}})();
+function renderCountries(d){
+  const list=d.countries||[];
+  const top=list.slice(0,20);
+  const rest=list.slice(20).reduce((a,x)=>({n16:a.n16+x.n16,n32:a.n32+x.n32}),{n16:0,n32:0});
+  const sum16=list.reduce((a,x)=>a+x.n16,0);
+  const box=$('countries');box.replaceChildren();
+  const max=Math.max(1,...top.map(x=>Math.max(x.n16,x.n32)));
+  const add=(name,x)=>{
+    const r=row(name,0,fmt(x.n16)+' / '+fmt(x.n32),sum16?(x.n16/sum16*100).toFixed(1)+'%':'');
+    const bar=r.querySelector('.bar');
+    bar.style.width=Math.max(x.n16,x.n32)/max*100+'%';
+    bar.firstChild.style.width=(x.n16?Math.min(1,x.n32/x.n16):1)*100+'%';
+    box.append(r);
+  };
+  top.forEach(x=>add(regionName(x.country),x));
+  if(list.length>20)add('ほか'+(list.length-20)+'か国',rest);
 }
 
 // 日ごと／時間ごと（時間ごとは Worker が数え始めた 2026-11-22 夜から、直近48時間）
