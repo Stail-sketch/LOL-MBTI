@@ -10,6 +10,8 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://lol-type.com';
 const OUT_DIR = path.join(ROOT, 'types');
+// ads.txt・index.html・privacy.html・contact.html の AdSense タグと同じ ID
+const ADSENSE_CLIENT = 'ca-pub-4680194085215369';
 
 // ブラウザと同じ判定を使うため、data.js と diagnosis.js をそのまま読み込む（判定を書き写すと、直した時にずれる）
 const ctx = { console };
@@ -93,6 +95,7 @@ function page({ title, description, urlPath, body }) {
 <link rel="stylesheet" href="/vars.css?v=${cssVer('vars')}">
 <link rel="stylesheet" href="/style.css?v=${cssVer('style')}">
 <style>${PAGE_CSS}</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="hex-bg"></div>
