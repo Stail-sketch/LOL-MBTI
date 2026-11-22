@@ -28,6 +28,13 @@ function validScores(scores) {
 // 判定を変えた前後で、タイプやチャンピオンの出方を比べるために answers 表へ残す。印の無い古い送信は1として扱う
 const validJudge = j => (Number.isInteger(j) && j >= 1 && j <= 99 ? j : null);
 
+// 公開ランキングに載せる判定の版。この版の記録は counts の kind に「@2」を付けて別に数え、ランキングはそれだけを出す。
+// 印の無い記録（調整前の判定や古いページ）は今までどおり印なしの kind に入り、表には残るが公開ランキングには出ない
+// （調整前の数字を消さずに隠すため。2026-11-22）。集計ページの全期間は両方の合計。
+// 版を上げる時は RANK_JUDGE を変える。前の版の「@2」の行はそのまま残る
+const RANK_JUDGE = 2;
+const RANK_SUFFIX = '@' + RANK_JUDGE;
+
 function sanitize(str) {
   return String(str).replace(/[<>"&]/g, c => ({'<':'&lt;','>':'&gt;','"':'&quot;','&':'&amp;'}[c]));
 }
@@ -53,14 +60,28 @@ const INCREMENT_SQL = `
      OR (SELECT COUNT(*) FROM counts WHERE kind = ?1) < ?3
   ON CONFLICT (kind, key) DO UPDATE SET n = n + 1`;
 
-async function loadStats(env) {
-  const { results } = await env.DB.prepare('SELECT kind, key, n FROM counts').all();
+// suffix: '' は印なし（調整前など）、RANK_SUFFIX は公開ランキングの版
+async function loadStats(env, suffix) {
+  const { results } = await env.DB.prepare('SELECT kind, key, n FROM counts WHERE kind IN (?1, ?2, ?3, ?4)')
+    .bind('total' + suffix, 'champion' + suffix, 'type' + suffix, 'role' + suffix).all();
   const stats = { total: 0, champions: {}, types: {}, roles: {} };
-  const bucket = { champion: stats.champions, type: stats.types, role: stats.roles };
+  const bucket = { ['champion' + suffix]: stats.champions, ['type' + suffix]: stats.types, ['role' + suffix]: stats.roles };
   for (const { kind, key, n } of results) {
-    if (kind === 'total') stats.total = n;
+    if (kind === 'total' + suffix) stats.total = n;
     else if (bucket[kind]) bucket[kind][key] = n;
   }
+  return stats;
+}
+
+// 公開ランキングは30秒だけ覚えて使い回す。記録1件ごと・表示1回ごとに counts を読み直していて、
+// D1 無料枠の読み取り（1日500万行）に届きかけたため（2026-11-22、直近24時間で455万行）。
+// 覚えるのは Worker の実体（isolate）ごとのメモリなので、場所によって最大30秒古い数が出ることがある
+const RANK_CACHE_MS = 30_000;
+let rankCache = { at: 0, stats: null };
+async function rankingStats(env) {
+  if (rankCache.stats && Date.now() - rankCache.at < RANK_CACHE_MS) return rankCache.stats;
+  const stats = await loadStats(env, RANK_SUFFIX);
+  rankCache = { at: Date.now(), stats };
   return stats;
 }
 
@@ -142,16 +163,17 @@ export default {
       }
 
       const inc = env.DB.prepare(INCREMENT_SQL);
+      const sx = validJudge(judge) === RANK_JUDGE ? RANK_SUFFIX : '';
       const steps = [
-        inc.bind('total', '', 1),
-        inc.bind('champion', champId, MAX_CHAMPIONS),
+        inc.bind('total' + sx, '', 1),
+        inc.bind('champion' + sx, champId, MAX_CHAMPIONS),
         inc.bind('day32', jstDay(), MAX_DAYS),
       ];
       if (typeName && typeof typeName === 'string' && typeName.length <= 60) {
-        steps.push(inc.bind('type', sanitize(typeName), MAX_TYPES));
+        steps.push(inc.bind('type' + sx, sanitize(typeName), MAX_TYPES));
       }
       if (role) {
-        steps.push(inc.bind('role', role, VALID_ROLES.size));
+        steps.push(inc.bind('role' + sx, role, VALID_ROLES.size));
       }
       // 点数が無い・形が違う時は点数だけ残さない（点数を送らない古いページのキャッシュでも集計は続ける）
       const vals = validScores(scores);
@@ -164,18 +186,18 @@ export default {
       }
       await env.DB.batch(steps);
 
-      return json({ ok: true, rankings: summary(await loadStats(env)) }, 200, ch);
+      return json({ ok: true, rankings: summary(await rankingStats(env)) }, 200, ch);
     }
 
     // GET /rankings - ランキングデータを取得
     if (url.pathname === '/rankings' && request.method === 'GET') {
-      const stats = await loadStats(env);
+      const stats = await rankingStats(env);
       return json(summary(stats), 200, { ...ch, 'Cache-Control': 'no-store' });
     }
 
     // GET /rankings/all - 全データを取得
     if (url.pathname === '/rankings/all' && request.method === 'GET') {
-      const stats = await loadStats(env);
+      const stats = await rankingStats(env);
       const sorted = (obj) => Object.entries(obj).sort((a, b) => b[1] - a[1]);
       return json({
         total: stats.total,
@@ -191,14 +213,18 @@ export default {
       const out = { total: 0, champions: [], types: [], roles: [] };
       const lists = { champion: out.champions, type: out.types, role: out.roles };
       const days = {};
-      for (const { kind, key, n } of results) {
-        if (kind === 'total') out.total = n;
-        else if (lists[kind]) lists[kind].push([key, n]);
+      // 全期間は、印なしと公開ランキングの版（@2）を合わせた数
+      const merged = { champion: {}, type: {}, role: {} };
+      for (const { kind: rawKind, key, n } of results) {
+        const kind = rawKind.endsWith(RANK_SUFFIX) ? rawKind.slice(0, -RANK_SUFFIX.length) : rawKind;
+        if (kind === 'total') out.total += n;
+        else if (merged[kind]) merged[kind][key] = (merged[kind][key] || 0) + n;
         else if (kind === 'day16' || kind === 'day32') {
           days[key] = days[key] || { day: key, n16: 0, n32: 0 };
           days[key][kind === 'day16' ? 'n16' : 'n32'] = n;
         }
       }
+      for (const [kind, obj] of Object.entries(merged)) lists[kind].push(...Object.entries(obj));
       for (const list of Object.values(lists)) list.sort((a, b) => b[1] - a[1]);
       out.days = Object.values(days).sort((a, b) => (a.day < b.day ? -1 : 1));
 
