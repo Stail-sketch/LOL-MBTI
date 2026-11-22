@@ -68,7 +68,20 @@ function calculateAndShowResult(){
   setTimeout(()=>{if(run===State._run)showResult(normalized);},2200);
 }
 
+// 回答の点数をチャンピオン・タイプの値と同じ物差しに直すための足し算（照合にだけ使い、画面の数字と記録は生の点数のまま）。
+// チャンピオンとタイプの値は「普通の人＝50前後」で作ってあるが、実際の回答者は外向性・計画性・積極性をずっと低く答える
+// （2026-11-22、32問10,505件の平均 V26 I55 H55 T35 A42 W45 S56 D43 に対し、チャンピオン平均 V56 I57 H42 T64 A70 W61 S43 D63）。
+// そのままだと誰でも内向的・協調的なチャンピオン（アムム6%など）や守護者・万能に寄るので、平均の差だけ足す。
+// 平均と散らばりの両方を合わせる方式も試したが、タイプが万能・天才直感師に寄り直して偏りが残った
+const MATCH_SHIFT={V:30,I:2,H:-13,T:29,A:28,W:16,S:-13,D:20};
+function toMatchSpace(normalized){
+  const out={};
+  Object.keys(MATCH_SHIFT).forEach(k=>{out[k]=(normalized[k]??50)+MATCH_SHIFT[k];});
+  return out;
+}
+
 function buildLaneResultsCache(normalized){
+  normalized=toMatchSpace(normalized);
   const maxDist=Math.sqrt(8*100*100);
   ['TOP','JUNGLE','MID','ADC','SUPPORT'].forEach(lane=>{
     const pool=CHAMPIONS.filter(c=>c.roles.includes(lane));
@@ -91,6 +104,7 @@ function buildLaneResultsCache(normalized){
 
 // ===== SUMMONER TYPES =====
 function getSummonerType(normalized){
+  normalized=toMatchSpace(normalized);
   let best=null,bestDist=Infinity;
   SUMMONER_TYPES.forEach(t=>{
     let d=0;
