@@ -8,6 +8,7 @@
   - GitHub Pages の設定も残っていて、www.lol-type.com と stail-sketch.github.io は今も GitHub Pages が lol-type.com へ転送している
   - Pages は URL の `.html` を省いた形に転送する（`privacy.html` → `/privacy`）。リンクは `.html` 付きのままで動く
 - ビルド手順はない。リポジトリ直下の HTML / CSS / JS がそのまま配信される
+  - 例外: `types/`（サモナータイプの解説ページ）は `js/data.js` から書き出した物。data.js・diagnosis.js・index.html のフッターを直したら `node scripts/build-type-pages.mjs` を流し、書き出した `types/` も一緒にコミットする。`types/` を手で直さない
 - リポジトリ内のファイルは、このファイルや各種メモも含めて、URLを知っていれば誰でも読める。鍵・パスワード・個人情報を置かない
 - エックスサーバーへの手作業アップロードは 2026-11-20 に廃止した
 

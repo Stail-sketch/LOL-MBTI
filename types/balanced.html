@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- このファイルは scripts/build-type-pages.mjs が書き出す。直接直さず、data.js を直してから書き出し直す -->
+<title>万能の適応者（状況に応じて変幻自在に形を変える）| サモナーの素質診断</title>
+<meta name="description" content="LoLのサモナータイプ「万能の適応者」の特徴。特定の型にはまらず、状況に応じて最適なスタイルを選べる万能型。突出した個性がない分、弱点も少ない。どんなチームにも溶け込み、必要なピースとして機能する、最も「使いやすい」サモナータイプ。">
+<link rel="canonical" href="https://lol-type.com/types/balanced">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lol-type.com/types/balanced">
+<meta property="og:title" content="万能の適応者（状況に応じて変幻自在に形を変える）| サモナーの素質診断">
+<meta property="og:description" content="LoLのサモナータイプ「万能の適応者」の特徴。特定の型にはまらず、状況に応じて最適なスタイルを選べる万能型。突出した個性がない分、弱点も少ない。どんなチームにも溶け込み、必要なピースとして機能する、最も「使いやすい」サモナータイプ。">
+<meta property="og:image" content="https://lol-type.com/image.png?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="万能の適応者（状況に応じて変幻自在に形を変える）| サモナーの素質診断">
+<meta name="twitter:description" content="LoLのサモナータイプ「万能の適応者」の特徴。特定の型にはまらず、状況に応じて最適なスタイルを選べる万能型。突出した個性がない分、弱点も少ない。どんなチームにも溶け込み、必要なピースとして機能する、最も「使いやすい」サモナータイプ。">
+<meta name="twitter:image" content="https://lol-type.com/image.png?v=2">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vars.css?v=2">
+<link rel="stylesheet" href="/style.css?v=8">
+<style>
+  .tp-wrap{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:56px 20px 20px}
+  .tp-header{text-align:center;margin-bottom:36px}
+  .tp-back{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;color:var(--text);text-decoration:none;border:1px solid var(--gold-a20);padding:6px 16px;margin-bottom:32px;transition:color .2s,border-color .2s}
+  .tp-back:hover{color:var(--gold);border-color:var(--gold)}
+  .tp-label{font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.4em;color:var(--blue);text-transform:uppercase;margin-bottom:10px}
+  .tp-title{font-family:'Noto Serif JP',serif;font-weight:700;font-size:clamp(28px,6vw,42px);color:var(--gold);letter-spacing:.12em;line-height:1.4}
+  .tp-subtitle{font-size:15px;color:var(--text-light);margin-top:8px}
+  .tp-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+  .tp-list li{font-size:14px;color:var(--white);line-height:1.9;padding-left:16px;border-left:2px solid var(--gold-a30)}
+  .tp-quotes{display:flex;flex-direction:column;gap:10px}
+  .tp-link-card{display:block;text-decoration:none;color:inherit;transition:transform .2s}
+  .tp-link-card:hover{transform:translateY(-2px)}
+  .tp-more{display:block;margin-top:10px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;color:var(--gold)}
+  .tp-static .affinity-card{cursor:default}
+  .tp-static .affinity-card:hover{transform:none}
+  .tp-champs{display:flex;flex-direction:column;gap:14px}
+  .tp-champ{display:grid;grid-template-columns:56px 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--gold-a12)}
+  .tp-champ:first-child{border-top:none;padding-top:0}
+  .tp-champ img{width:56px;height:56px;border:1px solid var(--gold-a40)}
+  .tp-champ-name{font-size:16px;font-weight:700;color:var(--gold-light)}
+  .tp-champ-meta{font-size:12px;color:var(--text);margin-left:8px}
+  .tp-champ-reason{font-size:13px;color:var(--text);line-height:1.9;margin-top:4px}
+  .tp-cta{text-align:center;margin:36px 0 12px}
+  .tp-cta .btn-primary{text-decoration:none}
+  .tp-types{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .tp-types .ext-section{margin-bottom:0;height:100%}
+  .tp-type-icons{display:flex;gap:6px;margin-top:14px}
+  .tp-type-icons img{width:36px;height:36px;border:1px solid var(--gold-a30)}
+  @media(max-width:500px){.tp-wrap{padding:40px 16px 12px}.ext-section{padding:22px 18px}}
+</style>
+</head>
+<body>
+<div class="hex-bg"></div>
+<main class="tp-wrap">
+
+  <header class="tp-header">
+    <a class="tp-back" href="/types/">← サモナータイプ一覧</a>
+    <p class="tp-label">Summoner Type</p>
+    <h1 class="tp-title">万能の適応者</h1>
+    <p class="tp-subtitle">状況に応じて変幻自在に形を変える</p>
+  </header>
+
+  <section class="ext-section">
+    <div class="ext-label">Play Style</div>
+    
+    <p class="ext-body">特定の型にはまらず、状況に応じて最適なスタイルを選べる万能型。突出した個性がない分、弱点も少ない。どんなチームにも溶け込み、必要なピースとして機能する、最も「使いやすい」サモナータイプ。</p>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Strengths &amp; Weaknesses</div>
+    
+    
+    <div class="sw-grid">
+      <div class="sw-box str"><div class="sw-box-label">⬡ 強み</div><div class="sw-item">どんな状況・チームにも適応できる柔軟性</div><div class="sw-item">特定の弱点がなく安定したパフォーマンス</div></div>
+      <div class="sw-box weak"><div class="sw-box-label">⬡ 弱み</div><div class="sw-item">突出した強みがないため決め手に欠けることがある</div><div class="sw-item">自分のスタイルを確立しにくく迷走するケースも</div></div>
+    </div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Battle Creed</div>
+    <h2 class="ext-title" style="margin-bottom:14px">このタイプの戦い方を一言で表すと</h2>
+    
+    <div class="tp-quotes"><div class="catchphrase-card"><div class="catchphrase-quote">「どんな状況でも、俺は答えを見つける。」</div></div><div class="catchphrase-card"><div class="catchphrase-quote">「型にはまらないことが、俺の型だ。」</div></div><div class="catchphrase-card"><div class="catchphrase-quote">「柔軟性こそが、俺の最強の武器だ。」</div></div></div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">After Game Chat</div>
+    <h2 class="ext-title" style="margin-bottom:14px">試合後、このタイプはこう思われているかも</h2>
+    
+    <div class="perception-grid" style="margin-bottom:12px">
+      <div class="perception-box ally"><div class="perception-box-label">味方から</div><div class="perception-text">「何でもできる安心感。困ったらこの人に聞けばいい。」あなたの万能さがチームのリソースになる。</div></div>
+      <div class="perception-box enemy"><div class="perception-box-label">敵から</div><div class="perception-text">「弱点がない。どこから攻めればいいんだ。」あなたのバランスが敵の戦略を悩ませる。</div></div>
+    </div>
+    <div class="perception-grid" style="margin-bottom:12px">
+      <div class="perception-box ally"><div class="perception-box-label">味方から</div><div class="perception-text">「どんな状況でも安定してる。頼りになる。」あなたの安定感がチームの柱になる。</div></div>
+      <div class="perception-box enemy"><div class="perception-box-label">敵から</div><div class="perception-text">「対策を立てても対応してくる。厄介だ。」あなたの適応力が敵の計画を崩す。</div></div>
+    </div>
+    <div class="perception-grid" style="margin-bottom:12px">
+      <div class="perception-box ally"><div class="perception-box-label">味方から</div><div class="perception-text">「チームに何が足りないかわかってくれてる。空気が読める人。」あなたの柔軟性がチームを補完する。</div></div>
+      <div class="perception-box enemy"><div class="perception-box-label">敵から</div><div class="perception-text">「あいつに型がない。読めないから困る。」あなたの変幻自在さが敵を翻弄する。</div></div>
+    </div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Signature Champions</div>
+    <h2 class="ext-title" style="margin-bottom:14px">このタイプを体現するチャンピオン</h2>
+    
+    <ul class="tp-list"><li>アッシュ。シンプルでありながら、どんな状況でも安定した力を発揮する。あなたの適応力は彼女の普遍的な強さと似ている。</li><li>ガレン。シンプルで力強く、どんな状況でも安定して戦える。あなたの適応力は彼の揺るぎない普遍的な強さと重なる。</li><li>ルシアン。多様な戦術と柔軟な対応力で、どんな敵にも渡り合える。あなたの万能性は彼のバランスの取れた強さと共鳴する。</li></ul>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Summoner Synergy</div>
+    <h2 class="ext-title" style="margin-bottom:14px">組むと最強のタイプ</h2>
+    
+    <a class="tp-link-card" href="/types/adventurer"><div class="synergy-card">
+      <div class="synergy-type-name">自由の冒険者</div>
+      <div class="synergy-type-sub">地図のない道を走る開拓者</div>
+      <div class="synergy-reason">型破りな冒険者の奇策を、万能の適応者が柔軟に補佐する。どんな状況にも対応できる二人のコンビに、弱点は存在しない。</div>
+      <span class="tp-more">自由の冒険者を読む →</span>
+    </div></a>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Shadow Self</div>
+    <h2 class="ext-title" style="margin-bottom:14px">真逆のタイプ</h2>
+    
+    <a class="tp-link-card" href="/types/ruler"><div class="opposite-card">
+      <div class="opposite-type-name">孤高の支配者</div>
+      <div class="opposite-type-sub">全てを自らの手で制する王</div>
+      <div class="opposite-reason">全てのパラメーターを一点に極限まで集中させる孤高の覇者は、どんな状況にも中庸に適応する万能者とは真逆の存在だ。</div>
+      <span class="tp-more">孤高の支配者を読む →</span>
+    </div></a>
+  </section>
+  <div class="tp-static">
+
+  <section class="ext-section">
+    <div class="ext-label">Soul Resonance</div>
+    <h2 class="ext-title" style="margin-bottom:14px">相性の良いチャンピオン</h2>
+    <div class="affinity-grid">
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Thresh.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">スレッシュ</div><div class="affinity-title">縛鎖の看守</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Ashe.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">アッシュ</div><div class="affinity-title">氷の射手</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Lux.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ラックス</div><div class="affinity-title">光の才女</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/JarvanIV.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ジャーヴァン IV</div><div class="affinity-title">デマーシアの儀範</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Karma.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">カルマ</div><div class="affinity-title">目覚めし者</div></div></div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Natural Enemy</div>
+    <h2 class="ext-title" style="margin-bottom:14px">天敵のチャンピオン</h2>
+    <div class="affinity-grid">
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Nasus.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ナサス</div><div class="affinity-title">砂漠の司書</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Samira.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">サミーラ</div><div class="affinity-title">砂漠の薔薇</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Yasuo.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ヤスオ</div><div class="affinity-title">赦されざる者</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Veigar.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ベイガー</div><div class="affinity-title">小さき大魔王</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Katarina.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">カタリナ</div><div class="affinity-title">凶兆の刃</div></div></div>
+  </section>
+  </div>
+
+  <section class="ext-section">
+    <div class="ext-label">Champions</div>
+    <h2 class="ext-title" style="margin-bottom:14px">万能の適応者のチャンピオン（7体）</h2>
+    
+    <div class="tp-champs">
+      <div class="tp-champ">
+        <img src="/champion_icons/Taliyah.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">タリヤ</span><span class="tp-champ-meta">ストーンウィーバー ・ MID</span></div>
+          <p class="tp-champ-reason">豊かな直感力と感情性、バランスのとれた全能力。あなたは大地と共に歩み、仲間と世界を守るために力を使う。タリヤの大地の力はあなたのバランス感覚と共感力の産物だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Mel.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">メル</span><span class="tp-champ-meta">魂の反照 ・ MID</span></div>
+          <p class="tp-champ-reason">直感力と計画性のバランス、感情と論理の融合。あなたは相手の力を逆用する独自の戦い方を持ち、反射的な思考で状況を打開する。メルの鏡はあなたのバランス感覚と直感の表れだ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Smolder.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">スモルダー</span><span class="tp-champ-meta">炎の幼龍 ・ ADC</span></div>
+          <p class="tp-champ-reason">成長への意欲と感情豊かな個性。あなたは少しずつ力をつけ、可愛らしさと強さを同時に発揮する。スモルダーの成長物語はあなたの好奇心と粘り強さの表れだ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Thresh.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">スレッシュ</span><span class="tp-champ-meta">縛鎖の看守 ・ SUPPORT</span></div>
+          <p class="tp-champ-reason">高い直感力と戦略的な思考、積極的な仕掛けを好む気性。あなたはゲームの流れを読んで能動的に動き、チームと個人のバランスを保つ。スレッシュの魂への渇望はあなたの直感と戦略性の融合だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Lillia.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">リリア</span><span class="tp-champ-meta">はにかみ屋の花 ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">豊かな直感力と夢見る感情性。あなたは現実の枠を超えた想像力を持ち、独特の視点で世界を見る。リリアの夢の世界はあなたの直感と感情性が生み出す美しい世界だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/TahmKench.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">タム・ケンチ</span><span class="tp-champ-meta">川の王様 ・ SUPPORT</span></div>
+          <p class="tp-champ-reason">独特の直感力と計画的なサポート能力、どこか不気味な親切心。あなたは全てを飲み込む包容力を持ちながら、計画的に仲間を守る。タム・ケンチの笑顔はあなたの直感と計画性の奇妙な融合だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Kalista.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">カリスタ</span><span class="tp-champ-meta">復讐の槍 ・ ADC</span></div>
+          <p class="tp-champ-reason">信頼する仲間との深い絆と強い積極性。あなたは誓いを守ることを何より大切にし、パートナーとの連携で真の力を発揮する。カリスタの誓いはあなたの協調性と積極性の融合の証だ。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tp-cta">
+    <a class="btn-primary" href="/">診断してみる</a>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <!-- 制作者表記: mocks/footer-rounds の ROUND 4 #12 で決定（2026-11-21） -->
+    <div class="footer-creators">
+      <a class="footer-creator" href="https://x.com/Stail21San" target="_blank" rel="noopener noreferrer">
+        <img src="/footer_images/stail.jpg" alt="" width="40" height="40" loading="lazy">
+        <span><span class="footer-creator-name">すたいる</span><span class="footer-creator-x"><svg class="footer-x-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@Stail21San</span></span>
+      </a>
+      <a class="footer-creator" href="https://x.com/Justive_4" target="_blank" rel="noopener noreferrer">
+        <img src="/footer_images/justive.jpg" alt="" width="40" height="40" loading="lazy">
+        <span><span class="footer-creator-name">じゃすちぶせぶん</span><span class="footer-creator-x"><svg class="footer-x-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@Justive_4</span></span>
+      </a>
+    </div>
+    <div class="footer-wardex">
+      <a href="https://wardex.app" target="_blank" rel="noopener noreferrer">LoLの攻略は<img src="/footer_images/wardex-logo.svg" alt="WARDEX" width="105" height="26" loading="lazy"></a>
+    </div>
+    <p class="footer-disclaimer">
+      このサイトは <strong>Riot Games</strong> および <strong>League of Legends</strong> と一切関係のない非公式のファンサイトです。<br>
+      League of Legends および関連コンテンツはすべて Riot Games, Inc. の商標または登録商標です。<br>
+      本サイトのコンテンツは <a href="https://www.riotgames.com/en/legal" target="_blank" rel="noopener noreferrer">Riot Games Fan Content Policy</a> に基づいて制作されています。
+    </p>
+    <p class="footer-privacy">
+      本サイトはフォント読み込みに Google Fonts を利用しており、その際に接続元 IP アドレスが Google に送信されます。その他の個人情報の収集・外部送信は行っていません。<br>
+      <a href="/privacy.html" style="color:rgba(200,155,60,.6);text-decoration:underline">プライバシーポリシー / Privacy Policy</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="/contact.html" style="color:rgba(200,155,60,.6);text-decoration:underline">お問い合わせ / Contact</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="/types/" style="color:rgba(200,155,60,.6);text-decoration:underline">サモナータイプ一覧</a>
+    </p>
+    <p class="footer-note">
+      診断結果はエンターテインメント目的であり、性格診断の正確性を保証するものではありません。
+    </p>
+  </div>
+</footer>
+</body>
+</html>

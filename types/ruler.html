@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- このファイルは scripts/build-type-pages.mjs が書き出す。直接直さず、data.js を直してから書き出し直す -->
+<title>孤高の支配者（全てを自らの手で制する王）| サモナーの素質診断</title>
+<meta name="description" content="LoLのサモナータイプ「孤高の支配者」の特徴。誰かの指示を待たず、自らが主役となって試合を動かすタイプ。1v9でも恐れず突き進み、個人の技量でゲームを支配することに最大の喜びを見出す。チームの勝敗を自分の肩に背負うことを、負担ではなく使命と">
+<link rel="canonical" href="https://lol-type.com/types/ruler">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lol-type.com/types/ruler">
+<meta property="og:title" content="孤高の支配者（全てを自らの手で制する王）| サモナーの素質診断">
+<meta property="og:description" content="LoLのサモナータイプ「孤高の支配者」の特徴。誰かの指示を待たず、自らが主役となって試合を動かすタイプ。1v9でも恐れず突き進み、個人の技量でゲームを支配することに最大の喜びを見出す。チームの勝敗を自分の肩に背負うことを、負担ではなく使命と">
+<meta property="og:image" content="https://lol-type.com/image.png?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="孤高の支配者（全てを自らの手で制する王）| サモナーの素質診断">
+<meta name="twitter:description" content="LoLのサモナータイプ「孤高の支配者」の特徴。誰かの指示を待たず、自らが主役となって試合を動かすタイプ。1v9でも恐れず突き進み、個人の技量でゲームを支配することに最大の喜びを見出す。チームの勝敗を自分の肩に背負うことを、負担ではなく使命と">
+<meta name="twitter:image" content="https://lol-type.com/image.png?v=2">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vars.css?v=2">
+<link rel="stylesheet" href="/style.css?v=8">
+<style>
+  .tp-wrap{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:56px 20px 20px}
+  .tp-header{text-align:center;margin-bottom:36px}
+  .tp-back{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;color:var(--text);text-decoration:none;border:1px solid var(--gold-a20);padding:6px 16px;margin-bottom:32px;transition:color .2s,border-color .2s}
+  .tp-back:hover{color:var(--gold);border-color:var(--gold)}
+  .tp-label{font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.4em;color:var(--blue);text-transform:uppercase;margin-bottom:10px}
+  .tp-title{font-family:'Noto Serif JP',serif;font-weight:700;font-size:clamp(28px,6vw,42px);color:var(--gold);letter-spacing:.12em;line-height:1.4}
+  .tp-subtitle{font-size:15px;color:var(--text-light);margin-top:8px}
+  .tp-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+  .tp-list li{font-size:14px;color:var(--white);line-height:1.9;padding-left:16px;border-left:2px solid var(--gold-a30)}
+  .tp-quotes{display:flex;flex-direction:column;gap:10px}
+  .tp-link-card{display:block;text-decoration:none;color:inherit;transition:transform .2s}
+  .tp-link-card:hover{transform:translateY(-2px)}
+  .tp-more{display:block;margin-top:10px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;color:var(--gold)}
+  .tp-static .affinity-card{cursor:default}
+  .tp-static .affinity-card:hover{transform:none}
+  .tp-champs{display:flex;flex-direction:column;gap:14px}
+  .tp-champ{display:grid;grid-template-columns:56px 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--gold-a12)}
+  .tp-champ:first-child{border-top:none;padding-top:0}
+  .tp-champ img{width:56px;height:56px;border:1px solid var(--gold-a40)}
+  .tp-champ-name{font-size:16px;font-weight:700;color:var(--gold-light)}
+  .tp-champ-meta{font-size:12px;color:var(--text);margin-left:8px}
+  .tp-champ-reason{font-size:13px;color:var(--text);line-height:1.9;margin-top:4px}
+  .tp-cta{text-align:center;margin:36px 0 12px}
+  .tp-cta .btn-primary{text-decoration:none}
+  .tp-types{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .tp-types .ext-section{margin-bottom:0;height:100%}
+  .tp-type-icons{display:flex;gap:6px;margin-top:14px}
+  .tp-type-icons img{width:36px;height:36px;border:1px solid var(--gold-a30)}
+  @media(max-width:500px){.tp-wrap{padding:40px 16px 12px}.ext-section{padding:22px 18px}}
+</style>
+</head>
+<body>
+<div class="hex-bg"></div>
+<main class="tp-wrap">
+
+  <header class="tp-header">
+    <a class="tp-back" href="/types/">← サモナータイプ一覧</a>
+    <p class="tp-label">Summoner Type</p>
+    <h1 class="tp-title">孤高の支配者</h1>
+    <p class="tp-subtitle">全てを自らの手で制する王</p>
+  </header>
+
+  <section class="ext-section">
+    <div class="ext-label">Play Style</div>
+    
+    <p class="ext-body">誰かの指示を待たず、自らが主役となって試合を動かすタイプ。1v9でも恐れず突き進み、個人の技量でゲームを支配することに最大の喜びを見出す。チームの勝敗を自分の肩に背負うことを、負担ではなく使命と感じる。</p>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Strengths &amp; Weaknesses</div>
+    
+    
+    <div class="sw-grid">
+      <div class="sw-box str"><div class="sw-box-label">⬡ 強み</div><div class="sw-item">圧倒的な個人スキルと判断力</div><div class="sw-item">逆境でも崩れない精神的タフネス</div></div>
+      <div class="sw-box weak"><div class="sw-box-label">⬡ 弱み</div><div class="sw-item">他人への依存・サポートを求めることが苦手</div><div class="sw-item">個人プレイを優先しすぎてチームと歯車が噛み合わないことがある</div></div>
+    </div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Battle Creed</div>
+    <h2 class="ext-title" style="margin-bottom:14px">このタイプの戦い方を一言で表すと</h2>
+    
+    <div class="tp-quotes"><div class="catchphrase-card"><div class="catchphrase-quote">「勝利は、全て俺の手で掴む。」</div></div><div class="catchphrase-card"><div class="catchphrase-quote">「チームを頼る前に、俺が勝ちきる。」</div></div><div class="catchphrase-card"><div class="catchphrase-quote">「俺が動けば、試合は終わる。」</div></div></div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">After Game Chat</div>
+    <h2 class="ext-title" style="margin-bottom:14px">試合後、このタイプはこう思われているかも</h2>
+    
+    <div class="perception-grid" style="margin-bottom:12px">
+      <div class="perception-box ally"><div class="perception-box-label">味方から</div><div class="perception-text">「こいつが動けば試合終わる。頼んだ。」正直あなたに全部任せたくなる。</div></div>
+      <div class="perception-box enemy"><div class="perception-box-label">敵から</div><div class="perception-text">「一人でやってくる。でも止められない。」あなたに倒されると一番悔しい。</div></div>
+    </div>
+    <div class="perception-grid" style="margin-bottom:12px">
+      <div class="perception-box ally"><div class="perception-box-label">味方から</div><div class="perception-text">「あいつがやってくれる。俺たちは付いていくだけでいい。」あなたの存在がチームの安心感。</div></div>
+      <div class="perception-box enemy"><div class="perception-box-label">敵から</div><div class="perception-text">「また一人で突っ込んできた。でも本当に強い。」脅威として常に意識される。</div></div>
+    </div>
+    <div class="perception-grid" style="margin-bottom:12px">
+      <div class="perception-box ally"><div class="perception-box-label">味方から</div><div class="perception-text">「ミスしても立て直す。本物だ。」あなたの個人スキルがチームを信じさせる。</div></div>
+      <div class="perception-box enemy"><div class="perception-box-label">敵から</div><div class="perception-text">「あいつさえ倒せれば勝てる。でもそれができない。」あなたが壁になっている。</div></div>
+    </div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Signature Champions</div>
+    <h2 class="ext-title" style="margin-bottom:14px">このタイプを体現するチャンピオン</h2>
+    
+    <ul class="tp-list"><li>ヴァイ。拳だけで全てを解決しようとする姿は、あなたの「俺がやる」という強烈な信念と完全に重なる。</li><li>ダリウス。力と圧倒的な存在感でレーンを支配するその姿は、あなたの「俺がやる」という信念と完璧に重なる。</li><li>フィオラ。決闘者として個人の技量と誇りだけで立つ姿は、あなたの孤高の強さと一致する。</li></ul>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Summoner Synergy</div>
+    <h2 class="ext-title" style="margin-bottom:14px">組むと最強のタイプ</h2>
+    
+    <a class="tp-link-card" href="/types/empath"><div class="synergy-card">
+      <div class="synergy-type-name">共感の守護天使</div>
+      <div class="synergy-type-sub">仲間の魂に触れる癒しの化身</div>
+      <div class="synergy-reason">孤高の覇者が前に立ち、守護天使が後ろを固める。このコンビに誰も追いつけない。</div>
+      <span class="tp-more">共感の守護天使を読む →</span>
+    </div></a>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Shadow Self</div>
+    <h2 class="ext-title" style="margin-bottom:14px">真逆のタイプ</h2>
+    
+    <a class="tp-link-card" href="/types/guardian"><div class="opposite-card">
+      <div class="opposite-type-name">鉄壁の守護者</div>
+      <div class="opposite-type-sub">仲間のために全てを捧げる盾</div>
+      <div class="opposite-reason">仲間を守ることに全てを捧げる守護者は、個人の力で全てを完結させようとする覇者とは正反対の価値観を持つ存在だ。</div>
+      <span class="tp-more">鉄壁の守護者を読む →</span>
+    </div></a>
+  </section>
+  <div class="tp-static">
+
+  <section class="ext-section">
+    <div class="ext-label">Soul Resonance</div>
+    <h2 class="ext-title" style="margin-bottom:14px">相性の良いチャンピオン</h2>
+    <div class="affinity-grid">
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Thresh.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">スレッシュ</div><div class="affinity-title">縛鎖の看守</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Lulu.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ルル</div><div class="affinity-title">森の妖精使い</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Renata.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">レナータ・グラスク</div><div class="affinity-title">ケミテック長者</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Karma.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">カルマ</div><div class="affinity-title">目覚めし者</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Taric.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">タリック</div><div class="affinity-title">ヴァロランの守護者</div></div></div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Natural Enemy</div>
+    <h2 class="ext-title" style="margin-bottom:14px">天敵のチャンピオン</h2>
+    <div class="affinity-grid">
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Malzahar.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">マルザハール</div><div class="affinity-title">ヴォイドの予言者</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Mordekaiser.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">モルデカイザー</div><div class="affinity-title">鋼の魂奪者</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Janna.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ジャンナ</div><div class="affinity-title">嵐の怒り</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Zilean.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ジリアン</div><div class="affinity-title">時の番人</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Camille.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">カミール</div><div class="affinity-title">スチールシャドウ</div></div></div>
+  </section>
+  </div>
+
+  <section class="ext-section">
+    <div class="ext-label">Champions</div>
+    <h2 class="ext-title" style="margin-bottom:14px">孤高の支配者のチャンピオン（17体）</h2>
+    
+    <div class="tp-champs">
+      <div class="tp-champ">
+        <img src="/champion_icons/Nocturne.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ノクターン</span><span class="tp-champ-meta">終わりなき悪夢 ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">内向的だが燃える積極性と、計画された恐怖。あなたは孤独を力に変え、相手の心理を操りながら完璧なタイミングで全てを終わらせる。ノクターンの永遠の悪夢はあなたの孤独な戦略性の産物だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/RekSai.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">レク=サイ</span><span class="tp-champ-meta">地底の恐怖 ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">本能的な積極性と計算された動き。あなたは地中から突然現れるように相手の盲点を突き、圧倒的な機動力で逃げ場をなくす。レク=サイの狩りはあなたの積極性と本能の融合だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Mordekaiser.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">モルデカイザー</span><span class="tp-champ-meta">鋼の魂奪者 ・ TOP</span></div>
+          <p class="tp-champ-reason">孤独な強さと揺るぎない忍耐力。あなたは一人で世界を相手にすることを厭わず、自分の帝国を着実に築き上げる。モルデカイザーの冥界の支配者としての孤高はあなたの個人主義の極致だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Aatrox.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">エイトロックス</span><span class="tp-champ-meta">ダーキンの暴剣 ・ TOP</span></div>
+          <p class="tp-champ-reason">圧倒的な積極性と高いリスク志向。あなたは戦場に身を投じることを恐れず、自分の力を信じて前進し続ける。ダーキンの剣のように、破壊と再生を繰り返しながら頂点を目指す魂の持ち主だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Rengar.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">レンガー</span><span class="tp-champ-meta">孤高のハンター ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">純粋な狩猟への情熱と緻密な計画性、圧倒的な積極性。あなたは最高の獲物を追い求め、完璧なタイミングで飛びかかる。レンガーの誇りはあなたの狩猟本能と計画性が生み出す凶悪な芸術だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Brand.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ブランド</span><span class="tp-champ-meta">復讐の炎 ・ MID</span></div>
+          <p class="tp-champ-reason">燃え盛る情熱と計画的な攻撃性。あなたは時に爆発的な力で周囲を巻き込み、戦場全体に影響を与える存在だ。ブランドの炎のような気性はあなたの情熱と積極性から燃え上がる。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Kayn.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ケイン</span><span class="tp-champ-meta">無情の影 ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">二面性と選択への意志、そして積極的な成長欲求。あなたは自分の本質と向き合いながら、より強い自分へと変容することを恐れない。ケインの葛藤はあなたの内面の複雑さと積極性の融合だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Jax.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ジャックス</span><span class="tp-champ-meta">最強の武器使い ・ TOP</span></div>
+          <p class="tp-champ-reason">時間をかけて最強になるスケーリングと揺るぎない積極性の組み合わせ。あなたは正々堂々と力勝負を挑み、準備が整えば誰にも負けない。ジャックスのように挑戦を続ける者が最強だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Urgot.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">アーゴット</span><span class="tp-champ-meta">ドレッドノート ・ TOP</span></div>
+          <p class="tp-champ-reason">冷徹な計画性と揺るぎない意志。あなたは弱者を淘汰し、真に強いものだけが生き残るという哲学を体現する。アーゴットの機械的な正確さはあなたの論理性と忍耐力から生まれる。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Shyvana.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">シヴァーナ</span><span class="tp-champ-meta">半龍人 ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">内なる力を時間をかけて解放する忍耐型の積極性。あなたは静かに力を蓄え、変身のタイミングで全てをぶつける。シヴァーナの竜への変身はあなたの忍耐と爆発的な積極性の象徴だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Riven.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">リヴェン</span><span class="tp-champ-meta">贖罪の追放者 ・ TOP</span></div>
+          <p class="tp-champ-reason">高い積極性と自己流のスタイルへのこだわり。あなたは技術と意志の力で全てを解決し、誰に頼ることなく突き進む。リヴェンの追放された者としての孤独な強さはあなたの自立心の象徴だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Warwick.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ワーウィック</span><span class="tp-champ-meta">解き放たれたゾウンの激憤 ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">本能的な狩猟欲求と積極的な追撃。あなたは一度目標を定めたら諦めず、嗅覚のように鋭い状況判断で確実に仕留める。ワーウィックの血の匂いを嗅ぐ能力はあなたの鋭敏な積極性の表れだ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Fiora.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">フィオラ</span><span class="tp-champ-meta">高潔なるデュエリスト ・ TOP</span></div>
+          <p class="tp-champ-reason">完璧な計画性と一騎打ちへの情熱。あなたは論理と技術を磨くことに喜びを見出し、相手の弱点を冷静に見極めてから動く。フィオラの精密無比な剣術はあなたの完璧主義の極みだ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/MasterYi.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">マスター・イー</span><span class="tp-champ-meta">ウージューの剣客 ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">圧倒的な忍耐力と揺るぎない計画性。あなたは長期にわたる鍛錬を続け、完璧に準備が整った時に全てを解き放つ。マスター・イーの禅の境地はあなたの忍耐と自己鍛錬の極みだ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Ambessa.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">アンベッサ</span><span class="tp-champ-meta">戦乱の母 ・ TOP</span></div>
+          <p class="tp-champ-reason">強い外向性と計画的な積極性。あなたは支配することを当然と感じ、戦場を自分のルールで動かす。アンベッサの帝王的な存在感はあなたのリーダーシップと戦闘本能から生まれる。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Trundle.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">トランドル</span><span class="tp-champ-meta">トロールキング ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">粗削りな積極性と揺るぎない忍耐力。あなたは洗練さより効果を優先し、相手の強さを奪いながら自分が最強になる。トランドルの奪う力はあなたの実用主義と積極性を体現する。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Kaisa.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">カイ=サ</span><span class="tp-champ-meta">虚無を知る娘 ・ ADC</span></div>
+          <p class="tp-champ-reason">高い適応力と計画的な進化、積極的な戦闘スタイル。あなたは状況に合わせて自分を変え、最適な形で力を解放する。カイ=サの進化する力はあなたの適応力と積極性の融合だ。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tp-cta">
+    <a class="btn-primary" href="/">診断してみる</a>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <!-- 制作者表記: mocks/footer-rounds の ROUND 4 #12 で決定（2026-11-21） -->
+    <div class="footer-creators">
+      <a class="footer-creator" href="https://x.com/Stail21San" target="_blank" rel="noopener noreferrer">
+        <img src="/footer_images/stail.jpg" alt="" width="40" height="40" loading="lazy">
+        <span><span class="footer-creator-name">すたいる</span><span class="footer-creator-x"><svg class="footer-x-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@Stail21San</span></span>
+      </a>
+      <a class="footer-creator" href="https://x.com/Justive_4" target="_blank" rel="noopener noreferrer">
+        <img src="/footer_images/justive.jpg" alt="" width="40" height="40" loading="lazy">
+        <span><span class="footer-creator-name">じゃすちぶせぶん</span><span class="footer-creator-x"><svg class="footer-x-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@Justive_4</span></span>
+      </a>
+    </div>
+    <div class="footer-wardex">
+      <a href="https://wardex.app" target="_blank" rel="noopener noreferrer">LoLの攻略は<img src="/footer_images/wardex-logo.svg" alt="WARDEX" width="105" height="26" loading="lazy"></a>
+    </div>
+    <p class="footer-disclaimer">
+      このサイトは <strong>Riot Games</strong> および <strong>League of Legends</strong> と一切関係のない非公式のファンサイトです。<br>
+      League of Legends および関連コンテンツはすべて Riot Games, Inc. の商標または登録商標です。<br>
+      本サイトのコンテンツは <a href="https://www.riotgames.com/en/legal" target="_blank" rel="noopener noreferrer">Riot Games Fan Content Policy</a> に基づいて制作されています。
+    </p>
+    <p class="footer-privacy">
+      本サイトはフォント読み込みに Google Fonts を利用しており、その際に接続元 IP アドレスが Google に送信されます。その他の個人情報の収集・外部送信は行っていません。<br>
+      <a href="/privacy.html" style="color:rgba(200,155,60,.6);text-decoration:underline">プライバシーポリシー / Privacy Policy</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="/contact.html" style="color:rgba(200,155,60,.6);text-decoration:underline">お問い合わせ / Contact</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="/types/" style="color:rgba(200,155,60,.6);text-decoration:underline">サモナータイプ一覧</a>
+    </p>
+    <p class="footer-note">
+      診断結果はエンターテインメント目的であり、性格診断の正確性を保証するものではありません。
+    </p>
+  </div>
+</footer>
+</body>
+</html>

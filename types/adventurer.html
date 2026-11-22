@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- このファイルは scripts/build-type-pages.mjs が書き出す。直接直さず、data.js を直してから書き出し直す -->
+<title>自由の冒険者（地図のない道を走る開拓者）| サモナーの素質診断</title>
+<meta name="description" content="LoLのサモナータイプ「自由の冒険者」の特徴。既存のセオリーより自分の感覚を信じる自由人。定石を無視した奇策で相手を翻弄し、未知の状況こそ自分のフィールドだと感じる。退屈な安定より、刺激的な冒険を常に選ぶ。">
+<link rel="canonical" href="https://lol-type.com/types/adventurer">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lol-type.com/types/adventurer">
+<meta property="og:title" content="自由の冒険者（地図のない道を走る開拓者）| サモナーの素質診断">
+<meta property="og:description" content="LoLのサモナータイプ「自由の冒険者」の特徴。既存のセオリーより自分の感覚を信じる自由人。定石を無視した奇策で相手を翻弄し、未知の状況こそ自分のフィールドだと感じる。退屈な安定より、刺激的な冒険を常に選ぶ。">
+<meta property="og:image" content="https://lol-type.com/image.png?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="自由の冒険者（地図のない道を走る開拓者）| サモナーの素質診断">
+<meta name="twitter:description" content="LoLのサモナータイプ「自由の冒険者」の特徴。既存のセオリーより自分の感覚を信じる自由人。定石を無視した奇策で相手を翻弄し、未知の状況こそ自分のフィールドだと感じる。退屈な安定より、刺激的な冒険を常に選ぶ。">
+<meta name="twitter:image" content="https://lol-type.com/image.png?v=2">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vars.css?v=2">
+<link rel="stylesheet" href="/style.css?v=8">
+<style>
+  .tp-wrap{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:56px 20px 20px}
+  .tp-header{text-align:center;margin-bottom:36px}
+  .tp-back{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;color:var(--text);text-decoration:none;border:1px solid var(--gold-a20);padding:6px 16px;margin-bottom:32px;transition:color .2s,border-color .2s}
+  .tp-back:hover{color:var(--gold);border-color:var(--gold)}
+  .tp-label{font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.4em;color:var(--blue);text-transform:uppercase;margin-bottom:10px}
+  .tp-title{font-family:'Noto Serif JP',serif;font-weight:700;font-size:clamp(28px,6vw,42px);color:var(--gold);letter-spacing:.12em;line-height:1.4}
+  .tp-subtitle{font-size:15px;color:var(--text-light);margin-top:8px}
+  .tp-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+  .tp-list li{font-size:14px;color:var(--white);line-height:1.9;padding-left:16px;border-left:2px solid var(--gold-a30)}
+  .tp-quotes{display:flex;flex-direction:column;gap:10px}
+  .tp-link-card{display:block;text-decoration:none;color:inherit;transition:transform .2s}
+  .tp-link-card:hover{transform:translateY(-2px)}
+  .tp-more{display:block;margin-top:10px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;color:var(--gold)}
+  .tp-static .affinity-card{cursor:default}
+  .tp-static .affinity-card:hover{transform:none}
+  .tp-champs{display:flex;flex-direction:column;gap:14px}
+  .tp-champ{display:grid;grid-template-columns:56px 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--gold-a12)}
+  .tp-champ:first-child{border-top:none;padding-top:0}
+  .tp-champ img{width:56px;height:56px;border:1px solid var(--gold-a40)}
+  .tp-champ-name{font-size:16px;font-weight:700;color:var(--gold-light)}
+  .tp-champ-meta{font-size:12px;color:var(--text);margin-left:8px}
+  .tp-champ-reason{font-size:13px;color:var(--text);line-height:1.9;margin-top:4px}
+  .tp-cta{text-align:center;margin:36px 0 12px}
+  .tp-cta .btn-primary{text-decoration:none}
+  .tp-types{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .tp-types .ext-section{margin-bottom:0;height:100%}
+  .tp-type-icons{display:flex;gap:6px;margin-top:14px}
+  .tp-type-icons img{width:36px;height:36px;border:1px solid var(--gold-a30)}
+  @media(max-width:500px){.tp-wrap{padding:40px 16px 12px}.ext-section{padding:22px 18px}}
+</style>
+</head>
+<body>
+<div class="hex-bg"></div>
+<main class="tp-wrap">
+
+  <header class="tp-header">
+    <a class="tp-back" href="/types/">← サモナータイプ一覧</a>
+    <p class="tp-label">Summoner Type</p>
+    <h1 class="tp-title">自由の冒険者</h1>
+    <p class="tp-subtitle">地図のない道を走る開拓者</p>
+  </header>
+
+  <section class="ext-section">
+    <div class="ext-label">Play Style</div>
+    
+    <p class="ext-body">既存のセオリーより自分の感覚を信じる自由人。定石を無視した奇策で相手を翻弄し、未知の状況こそ自分のフィールドだと感じる。退屈な安定より、刺激的な冒険を常に選ぶ。</p>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Strengths &amp; Weaknesses</div>
+    
+    
+    <div class="sw-grid">
+      <div class="sw-box str"><div class="sw-box-label">⬡ 強み</div><div class="sw-item">常識外のアプローチで相手の裏をかく発想力</div><div class="sw-item">未知の状況でのアドリブ力</div></div>
+      <div class="sw-box weak"><div class="sw-box-label">⬡ 弱み</div><div class="sw-item">一貫性のないプレイがチームを混乱させることがある</div><div class="sw-item">リスク管理が甘くなりやすい</div></div>
+    </div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Battle Creed</div>
+    <h2 class="ext-title" style="margin-bottom:14px">このタイプの戦い方を一言で表すと</h2>
+    
+    <div class="tp-quotes"><div class="catchphrase-card"><div class="catchphrase-quote">「地図のない冒険こそが、本当の戦いだ。」</div></div><div class="catchphrase-card"><div class="catchphrase-quote">「セオリー？関係ない。俺のやり方で行く。」</div></div><div class="catchphrase-card"><div class="catchphrase-quote">「退屈な安全より、刺激的な危険を選ぶ。」</div></div></div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">After Game Chat</div>
+    <h2 class="ext-title" style="margin-bottom:14px">試合後、このタイプはこう思われているかも</h2>
+    
+    <div class="perception-grid" style="margin-bottom:12px">
+      <div class="perception-box ally"><div class="perception-box-label">味方から</div><div class="perception-text">「何するか全然わからないけど、気づいたら試合有利になってる。」あなたの奇策がチームに突破口を開く。</div></div>
+      <div class="perception-box enemy"><div class="perception-box-label">敵から</div><div class="perception-text">「セオリーを無視してくる。対策が立てられない。」あなたの自由な動きが敵の準備を無意味にする。</div></div>
+    </div>
+    <div class="perception-grid" style="margin-bottom:12px">
+      <div class="perception-box ally"><div class="perception-box-label">味方から</div><div class="perception-text">「普通じゃない動きをするけど、なぜか上手くいく。」あなたの発想力がチームを前進させる。</div></div>
+      <div class="perception-box enemy"><div class="perception-box-label">敵から</div><div class="perception-text">「こいつ相手にセオリーは通用しない。困る。」あなたの型破りさが敵を頭抱えさせる。</div></div>
+    </div>
+    <div class="perception-grid" style="margin-bottom:12px">
+      <div class="perception-box ally"><div class="perception-box-label">味方から</div><div class="perception-text">「試合を楽しんでるのが伝わる。一緒にいると燃えてくる。」あなたのエネルギーがチームを活気づける。</div></div>
+      <div class="perception-box enemy"><div class="perception-box-label">敵から</div><div class="perception-text">「楽しそうにやってるのが一番腹立つ。でも強い。」あなたの自由さが敵の集中力を乱す。</div></div>
+    </div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Signature Champions</div>
+    <h2 class="ext-title" style="margin-bottom:14px">このタイプを体現するチャンピオン</h2>
+    
+    <ul class="tp-list"><li>エズリアル。地図を持たずに遺跡へ飛び込み、自分の力で道を切り開く。あなたの冒険心と直感は彼そのものだ。</li><li>ケイン。境界を越え、自分だけの道を切り開きながら進化し続ける姿はあなたの自由な精神と重なる。</li><li>キンドレッド。大地と空の間を自由に駆け、誰にも縛られない。あなたの冒険心と解放感は彼らと共鳴する。</li></ul>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Summoner Synergy</div>
+    <h2 class="ext-title" style="margin-bottom:14px">組むと最強のタイプ</h2>
+    
+    <a class="tp-link-card" href="/types/intuitive"><div class="synergy-card">
+      <div class="synergy-type-name">天才直感師</div>
+      <div class="synergy-type-sub">本能で戦場を読む異端の天才</div>
+      <div class="synergy-reason">直感同士の連携は、誰も予測できない奇跡を生む。セオリーも計画も必要ない。二人で感じたまま動けばそれが最強だ。</div>
+      <span class="tp-more">天才直感師を読む →</span>
+    </div></a>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Shadow Self</div>
+    <h2 class="ext-title" style="margin-bottom:14px">真逆のタイプ</h2>
+    
+    <a class="tp-link-card" href="/types/artist"><div class="opposite-card">
+      <div class="opposite-type-name">美学の芸術家</div>
+      <div class="opposite-type-sub">完璧を追求する戦場の詩人</div>
+      <div class="opposite-reason">美しさと完璧さを追求し、一切の妥協を許さない芸術家は、自由奔放に型を破って進む冒険者とは全く違う世界に生きている。</div>
+      <span class="tp-more">美学の芸術家を読む →</span>
+    </div></a>
+  </section>
+  <div class="tp-static">
+
+  <section class="ext-section">
+    <div class="ext-label">Soul Resonance</div>
+    <h2 class="ext-title" style="margin-bottom:14px">相性の良いチャンピオン</h2>
+    <div class="affinity-grid">
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/LeeSin.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">リー・シン</div><div class="affinity-title">盲目の修行僧</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Kayn.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ケイン</div><div class="affinity-title">無情の影</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Ekko.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">エコー</div><div class="affinity-title">砕けた時を渡る少年</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Vi.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ヴァイ</div><div class="affinity-title">ピルトーヴァーの用心棒</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Riven.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">リヴェン</div><div class="affinity-title">贖罪の追放者</div></div></div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Natural Enemy</div>
+    <h2 class="ext-title" style="margin-bottom:14px">天敵のチャンピオン</h2>
+    <div class="affinity-grid">
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Caitlyn.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ケイトリン</div><div class="affinity-title">ピルトーヴァーの保安官</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Jhin.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ジン</div><div class="affinity-title">孤高の芸術家</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Azir.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">アジール</div><div class="affinity-title">砂塵の皇帝</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Orianna.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">オリアナ</div><div class="affinity-title">時計仕掛けの舞姫</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Lissandra.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">リサンドラ</div><div class="affinity-title">氷の魔女</div></div></div>
+  </section>
+  </div>
+
+  <section class="ext-section">
+    <div class="ext-label">Champions</div>
+    <h2 class="ext-title" style="margin-bottom:14px">自由の冒険者のチャンピオン（16体）</h2>
+    
+    <div class="tp-champs">
+      <div class="tp-champ">
+        <img src="/champion_icons/Ezreal.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">エズリアル</span><span class="tp-champ-meta">光の冒険心 ・ ADC</span></div>
+          <p class="tp-champ-reason">冒険心と高い直感力、明るく社交的な外向性。あなたはリスクを楽しみ、直感を頼りに新しい場所へ踏み込む。エズリアルの「俺は自分の力で道を切り開く」はあなたの好奇心と直感の結晶だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Zoe.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ゾーイ</span><span class="tp-champ-meta">超常の遊び ・ MID</span></div>
+          <p class="tp-champ-reason">溢れる外向性と圧倒的な直感力、自由奔放な個性。あなたは宇宙的な好奇心を持ち、誰も予測できない方向から現れる。ゾーイの無邪気な混乱はあなたの直感と自由な精神の最高の表現だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Zeri.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ゼリ</span><span class="tp-champ-meta">ゾウンの火花 ・ ADC</span></div>
+          <p class="tp-champ-reason">溢れるエネルギーと社交的な外向性、積極的な機動力。あなたは止まることなく動き続け、電気のような速さで状況を変える。ゼリの電光石火の動きはあなたの外向性とリスク志向の電撃だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Gnar.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ナー</span><span class="tp-champ-meta">ミッシングリンク ・ TOP</span></div>
+          <p class="tp-champ-reason">感情の起伏が激しく、エネルギッシュで社交的。あなたはふとした瞬間に爆発的な力を発揮し、かわいらしさと恐ろしさを共存させる。ナーの二面性はあなたの多彩な感情の表れだ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Ekko.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">エコー</span><span class="tp-champ-meta">砕けた時を渡る少年 ・ MID</span></div>
+          <p class="tp-champ-reason">高い直感力と創造性、そして仲間を大切にする感情性。あなたは天才的なひらめきで局面を打開し、常に新しい可能性を探求する。エコーの時間操作はあなたの直感と創意工夫の産物だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Ahri.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">アーリ</span><span class="tp-champ-meta">九尾の狐 ・ MID</span></div>
+          <p class="tp-champ-reason">高い直感力と社交的な魅力、感情と論理のバランス。あなたは状況を直感で読み、相手の心理を読みながら動く。アーリの神秘的な知性と適応力は、あなたの直感と外向性が生み出す最高の化学反応だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Kennen.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ケネン</span><span class="tp-champ-meta">雷雲の担い手 ・ TOP</span></div>
+          <p class="tp-champ-reason">素早い判断と爆発的な積極性。あなたは考えるより先に動き、チームのために勢いよく飛び込む。ケネンの電光石火のスタイルはあなたのエネルギーと機動力の表れだ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Tristana.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">トリスターナ</span><span class="tp-champ-meta">ヨードルの主砲 ・ ADC</span></div>
+          <p class="tp-champ-reason">明るく積極的なエネルギーと爆発的な機動力。あなたは誰よりも遠くに飛び込み、楽しみながら相手を爆発させる。トリスターナの爆発はあなたの外向性とリスク志向の楽しい産物だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Jinx.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ジンクス</span><span class="tp-champ-meta">暴走パンクガール ・ ADC</span></div>
+          <p class="tp-champ-reason">爆発的なリスク志向と外向的なエネルギー。あなたは計画より本能で動き、カオスの中で最大の力を発揮する。ジンクスの「退屈より爆発」はあなたの自由な魂そのものだ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Akshan.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">アクシャン</span><span class="tp-champ-meta">流浪の番人 ・ MID</span></div>
+          <p class="tp-champ-reason">陽気な社交性と仲間のための正義感、機動力のある戦い方。あなたは仲間のためなら何度でも戦場に舞い戻り、明るいエネルギーでチームを鼓舞する。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Nilah.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ニーラ</span><span class="tp-champ-meta">放たれし喜び ・ ADC</span></div>
+          <p class="tp-champ-reason">溢れる喜びと外向的なエネルギー、情熱的な積極性。あなたは戦いを喜びとして楽しみ、感情を力に変える。ニーラの至福の笑顔はあなたの外向性と感情の豊かさの最も幸福な形だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Neeko.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ニーコ</span><span class="tp-champ-meta">不思議のカメレオン ・ SUPPORT</span></div>
+          <p class="tp-champ-reason">高い直感力と豊かな感情性、そして遊び心あふれる個性。あなたは多様な表情を持ち、相手の予測を外し続けることを楽しむ。ニーコの変幻自在な姿はあなたの多彩な内面世界の反映だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Gragas.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">グラガス</span><span class="tp-champ-meta">騒乱の飲んだくれ ・ TOP</span></div>
+          <p class="tp-champ-reason">明るく社交的な外向性と、酒のように予測不能なリスク志向。あなたは気さくな性格でチームを盛り上げながら、大胆な一手で試合を動かす。グラガスのような生き様に共鳴する。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Rakan.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ラカン</span><span class="tp-champ-meta">魅惑の翼 ・ SUPPORT</span></div>
+          <p class="tp-champ-reason">圧倒的な外向性と社交的な魅力、仲間への愛情。あなたはパーティーの中心にいることが自然で、仲間を笑顔にすることに最大の喜びを感じる。ラカンの魅力はあなたの外向性と感情性の最もきらびやかな表現だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Nunu.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ヌヌ＆ウィルンプ</span><span class="tp-champ-meta">少年とイエティ ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">溢れる外向性と仲間への愛情、自由な冒険心。あなたは誰とでも仲良くなれる社交性と、楽しいことへの純粋な好奇心を持つ。ヌヌとウィルンプの冒険はあなたの社交性と感情の豊かさの純粋な表れだ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Bard.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">バード</span><span class="tp-champ-meta">流離いの庇護者 ・ SUPPORT</span></div>
+          <p class="tp-champ-reason">圧倒的な直感力と自由な旅人の精神。あなたは宇宙の真理を見通す眼を持ち、独自の視点でチームと世界を守る。バードの神秘的な旅はあなたの直感と感情性が向かう宇宙の探求だ。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tp-cta">
+    <a class="btn-primary" href="/">診断してみる</a>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <!-- 制作者表記: mocks/footer-rounds の ROUND 4 #12 で決定（2026-11-21） -->
+    <div class="footer-creators">
+      <a class="footer-creator" href="https://x.com/Stail21San" target="_blank" rel="noopener noreferrer">
+        <img src="/footer_images/stail.jpg" alt="" width="40" height="40" loading="lazy">
+        <span><span class="footer-creator-name">すたいる</span><span class="footer-creator-x"><svg class="footer-x-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@Stail21San</span></span>
+      </a>
+      <a class="footer-creator" href="https://x.com/Justive_4" target="_blank" rel="noopener noreferrer">
+        <img src="/footer_images/justive.jpg" alt="" width="40" height="40" loading="lazy">
+        <span><span class="footer-creator-name">じゃすちぶせぶん</span><span class="footer-creator-x"><svg class="footer-x-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@Justive_4</span></span>
+      </a>
+    </div>
+    <div class="footer-wardex">
+      <a href="https://wardex.app" target="_blank" rel="noopener noreferrer">LoLの攻略は<img src="/footer_images/wardex-logo.svg" alt="WARDEX" width="105" height="26" loading="lazy"></a>
+    </div>
+    <p class="footer-disclaimer">
+      このサイトは <strong>Riot Games</strong> および <strong>League of Legends</strong> と一切関係のない非公式のファンサイトです。<br>
+      League of Legends および関連コンテンツはすべて Riot Games, Inc. の商標または登録商標です。<br>
+      本サイトのコンテンツは <a href="https://www.riotgames.com/en/legal" target="_blank" rel="noopener noreferrer">Riot Games Fan Content Policy</a> に基づいて制作されています。
+    </p>
+    <p class="footer-privacy">
+      本サイトはフォント読み込みに Google Fonts を利用しており、その際に接続元 IP アドレスが Google に送信されます。その他の個人情報の収集・外部送信は行っていません。<br>
+      <a href="/privacy.html" style="color:rgba(200,155,60,.6);text-decoration:underline">プライバシーポリシー / Privacy Policy</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="/contact.html" style="color:rgba(200,155,60,.6);text-decoration:underline">お問い合わせ / Contact</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="/types/" style="color:rgba(200,155,60,.6);text-decoration:underline">サモナータイプ一覧</a>
+    </p>
+    <p class="footer-note">
+      診断結果はエンターテインメント目的であり、性格診断の正確性を保証するものではありません。
+    </p>
+  </div>
+</footer>
+</body>
+</html>

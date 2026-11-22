@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- このファイルは scripts/build-type-pages.mjs が書き出す。直接直さず、data.js を直してから書き出し直す -->
+<title>サモナータイプ一覧 | サモナーの素質診断</title>
+<meta name="description" content="LoLのサモナーの素質診断に出てくる12のサモナータイプと、それぞれに当てはまるチャンピオンの一覧。">
+<link rel="canonical" href="https://lol-type.com/types/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lol-type.com/types/">
+<meta property="og:title" content="サモナータイプ一覧 | サモナーの素質診断">
+<meta property="og:description" content="LoLのサモナーの素質診断に出てくる12のサモナータイプと、それぞれに当てはまるチャンピオンの一覧。">
+<meta property="og:image" content="https://lol-type.com/image.png?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="サモナータイプ一覧 | サモナーの素質診断">
+<meta name="twitter:description" content="LoLのサモナーの素質診断に出てくる12のサモナータイプと、それぞれに当てはまるチャンピオンの一覧。">
+<meta name="twitter:image" content="https://lol-type.com/image.png?v=2">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vars.css?v=2">
+<link rel="stylesheet" href="/style.css?v=8">
+<style>
+  .tp-wrap{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:56px 20px 20px}
+  .tp-header{text-align:center;margin-bottom:36px}
+  .tp-back{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;color:var(--text);text-decoration:none;border:1px solid var(--gold-a20);padding:6px 16px;margin-bottom:32px;transition:color .2s,border-color .2s}
+  .tp-back:hover{color:var(--gold);border-color:var(--gold)}
+  .tp-label{font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.4em;color:var(--blue);text-transform:uppercase;margin-bottom:10px}
+  .tp-title{font-family:'Noto Serif JP',serif;font-weight:700;font-size:clamp(28px,6vw,42px);color:var(--gold);letter-spacing:.12em;line-height:1.4}
+  .tp-subtitle{font-size:15px;color:var(--text-light);margin-top:8px}
+  .tp-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+  .tp-list li{font-size:14px;color:var(--white);line-height:1.9;padding-left:16px;border-left:2px solid var(--gold-a30)}
+  .tp-quotes{display:flex;flex-direction:column;gap:10px}
+  .tp-link-card{display:block;text-decoration:none;color:inherit;transition:transform .2s}
+  .tp-link-card:hover{transform:translateY(-2px)}
+  .tp-more{display:block;margin-top:10px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;color:var(--gold)}
+  .tp-static .affinity-card{cursor:default}
+  .tp-static .affinity-card:hover{transform:none}
+  .tp-champs{display:flex;flex-direction:column;gap:14px}
+  .tp-champ{display:grid;grid-template-columns:56px 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--gold-a12)}
+  .tp-champ:first-child{border-top:none;padding-top:0}
+  .tp-champ img{width:56px;height:56px;border:1px solid var(--gold-a40)}
+  .tp-champ-name{font-size:16px;font-weight:700;color:var(--gold-light)}
+  .tp-champ-meta{font-size:12px;color:var(--text);margin-left:8px}
+  .tp-champ-reason{font-size:13px;color:var(--text);line-height:1.9;margin-top:4px}
+  .tp-cta{text-align:center;margin:36px 0 12px}
+  .tp-cta .btn-primary{text-decoration:none}
+  .tp-types{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .tp-types .ext-section{margin-bottom:0;height:100%}
+  .tp-type-icons{display:flex;gap:6px;margin-top:14px}
+  .tp-type-icons img{width:36px;height:36px;border:1px solid var(--gold-a30)}
+  @media(max-width:500px){.tp-wrap{padding:40px 16px 12px}.ext-section{padding:22px 18px}}
+</style>
+</head>
+<body>
+<div class="hex-bg"></div>
+<main class="tp-wrap">
+
+  <header class="tp-header">
+    <a class="tp-back" href="/">← 診断トップへ</a>
+    <p class="tp-label">Summoner Types</p>
+    <h1 class="tp-title">サモナータイプ一覧</h1>
+  </header>
+  <div class="tp-types">
+    <a class="tp-link-card" href="/types/ruler"><section class="ext-section">
+      <h2 class="ext-title">孤高の支配者</h2>
+      <div class="ext-subtitle">全てを自らの手で制する王</div>
+      <div class="tp-type-icons"><img src="/champion_icons/Nocturne.png" alt="ノクターン" width="36" height="36" loading="lazy"><img src="/champion_icons/RekSai.png" alt="レク=サイ" width="36" height="36" loading="lazy"><img src="/champion_icons/Mordekaiser.png" alt="モルデカイザー" width="36" height="36" loading="lazy"><img src="/champion_icons/Aatrox.png" alt="エイトロックス" width="36" height="36" loading="lazy"><img src="/champion_icons/Rengar.png" alt="レンガー" width="36" height="36" loading="lazy"></div>
+    </section></a>
+    <a class="tp-link-card" href="/types/commander"><section class="ext-section">
+      <h2 class="ext-title">カリスマ指揮官</h2>
+      <div class="ext-subtitle">仲間を鼓舞し戦場を制圧する将</div>
+      <div class="tp-type-icons"><img src="/champion_icons/JarvanIV.png" alt="ジャーヴァン IV" width="36" height="36" loading="lazy"><img src="/champion_icons/Leona.png" alt="レオナ" width="36" height="36" loading="lazy"><img src="/champion_icons/Lucian.png" alt="ルシアン" width="36" height="36" loading="lazy"><img src="/champion_icons/Pantheon.png" alt="パンテオン" width="36" height="36" loading="lazy"><img src="/champion_icons/XinZhao.png" alt="シン・ジャオ" width="36" height="36" loading="lazy"></div>
+    </section></a>
+    <a class="tp-link-card" href="/types/strategist"><section class="ext-section">
+      <h2 class="ext-title">影の軍師</h2>
+      <div class="ext-subtitle">全てを見通す冷徹な参謀</div>
+      <div class="tp-type-icons"><img src="/champion_icons/Xerath.png" alt="ゼラス" width="36" height="36" loading="lazy"><img src="/champion_icons/Malzahar.png" alt="マルザハール" width="36" height="36" loading="lazy"><img src="/champion_icons/Ryze.png" alt="ライズ" width="36" height="36" loading="lazy"><img src="/champion_icons/Lissandra.png" alt="リサンドラ" width="36" height="36" loading="lazy"><img src="/champion_icons/Karthus.png" alt="カーサス" width="36" height="36" loading="lazy"></div>
+    </section></a>
+    <a class="tp-link-card" href="/types/intuitive"><section class="ext-section">
+      <h2 class="ext-title">天才直感師</h2>
+      <div class="ext-subtitle">本能で戦場を読む異端の天才</div>
+      <div class="tp-type-icons"><img src="/champion_icons/Fizz.png" alt="フィズ" width="36" height="36" loading="lazy"><img src="/champion_icons/Sylas.png" alt="サイラス" width="36" height="36" loading="lazy"><img src="/champion_icons/Nidalee.png" alt="ニダリー" width="36" height="36" loading="lazy"><img src="/champion_icons/Irelia.png" alt="イレリア" width="36" height="36" loading="lazy"><img src="/champion_icons/Rumble.png" alt="ランブル" width="36" height="36" loading="lazy"></div>
+    </section></a>
+    <a class="tp-link-card" href="/types/guardian"><section class="ext-section">
+      <h2 class="ext-title">鉄壁の守護者</h2>
+      <div class="ext-subtitle">仲間のために全てを捧げる盾</div>
+      <div class="tp-type-icons"><img src="/champion_icons/Janna.png" alt="ジャンナ" width="36" height="36" loading="lazy"><img src="/champion_icons/Maokai.png" alt="マオカイ" width="36" height="36" loading="lazy"><img src="/champion_icons/Shen.png" alt="シェン" width="36" height="36" loading="lazy"><img src="/champion_icons/Karma.png" alt="カルマ" width="36" height="36" loading="lazy"><img src="/champion_icons/Senna.png" alt="セナ" width="36" height="36" loading="lazy"></div>
+    </section></a>
+    <a class="tp-link-card" href="/types/berserker"><section class="ext-section">
+      <h2 class="ext-title">疾風怒濤の闘士</h2>
+      <div class="ext-subtitle">嵐のように戦場を蹂躙する猛者</div>
+      <div class="tp-type-icons"><img src="/champion_icons/Olaf.png" alt="オラフ" width="36" height="36" loading="lazy"><img src="/champion_icons/Kled.png" alt="クレッド" width="36" height="36" loading="lazy"><img src="/champion_icons/Hecarim.png" alt="ヘカリム" width="36" height="36" loading="lazy"><img src="/champion_icons/Renekton.png" alt="レネクトン" width="36" height="36" loading="lazy"><img src="/champion_icons/Tryndamere.png" alt="トリンダメア" width="36" height="36" loading="lazy"></div>
+    </section></a>
+    <a class="tp-link-card" href="/types/fortress"><section class="ext-section">
+      <h2 class="ext-title">不動の要塞</h2>
+      <div class="ext-subtitle">時間を味方にする揺るぎない城壁</div>
+      <div class="tp-type-icons"><img src="/champion_icons/Ornn.png" alt="オーン" width="36" height="36" loading="lazy"><img src="/champion_icons/Kayle.png" alt="ケイル" width="36" height="36" loading="lazy"><img src="/champion_icons/Anivia.png" alt="アニビア" width="36" height="36" loading="lazy"><img src="/champion_icons/Yorick.png" alt="ヨリック" width="36" height="36" loading="lazy"><img src="/champion_icons/Varus.png" alt="ヴァルス" width="36" height="36" loading="lazy"></div>
+    </section></a>
+    <a class="tp-link-card" href="/types/empath"><section class="ext-section">
+      <h2 class="ext-title">共感の守護天使</h2>
+      <div class="ext-subtitle">仲間の魂に触れる癒しの化身</div>
+      <div class="tp-type-icons"><img src="/champion_icons/Soraka.png" alt="ソラカ" width="36" height="36" loading="lazy"><img src="/champion_icons/Taric.png" alt="タリック" width="36" height="36" loading="lazy"><img src="/champion_icons/Nami.png" alt="ナミ" width="36" height="36" loading="lazy"><img src="/champion_icons/Sona.png" alt="ソナ" width="36" height="36" loading="lazy"><img src="/champion_icons/Ivern.png" alt="アイバーン" width="36" height="36" loading="lazy"></div>
+    </section></a>
+    <a class="tp-link-card" href="/types/hunter"><section class="ext-section">
+      <h2 class="ext-title">孤独な狩人</h2>
+      <div class="ext-subtitle">影に潜み獲物を仕留める暗殺者</div>
+      <div class="tp-type-icons"><img src="/champion_icons/Khazix.png" alt="カ=ジックス" width="36" height="36" loading="lazy"><img src="/champion_icons/Talon.png" alt="タロン" width="36" height="36" loading="lazy"><img src="/champion_icons/Zed.png" alt="ゼド" width="36" height="36" loading="lazy"><img src="/champion_icons/Evelynn.png" alt="イブリン" width="36" height="36" loading="lazy"><img src="/champion_icons/Pyke.png" alt="パイク" width="36" height="36" loading="lazy"></div>
+    </section></a>
+    <a class="tp-link-card" href="/types/artist"><section class="ext-section">
+      <h2 class="ext-title">美学の芸術家</h2>
+      <div class="ext-subtitle">完璧を追求する戦場の詩人</div>
+      <div class="tp-type-icons"><img src="/champion_icons/Jhin.png" alt="ジン" width="36" height="36" loading="lazy"><img src="/champion_icons/VelKoz.png" alt="ヴェル=コズ" width="36" height="36" loading="lazy"><img src="/champion_icons/Azir.png" alt="アジール" width="36" height="36" loading="lazy"><img src="/champion_icons/Fiddlesticks.png" alt="フィドルスティックス" width="36" height="36" loading="lazy"><img src="/champion_icons/Swain.png" alt="スウェイン" width="36" height="36" loading="lazy"></div>
+    </section></a>
+    <a class="tp-link-card" href="/types/adventurer"><section class="ext-section">
+      <h2 class="ext-title">自由の冒険者</h2>
+      <div class="ext-subtitle">地図のない道を走る開拓者</div>
+      <div class="tp-type-icons"><img src="/champion_icons/Ezreal.png" alt="エズリアル" width="36" height="36" loading="lazy"><img src="/champion_icons/Zoe.png" alt="ゾーイ" width="36" height="36" loading="lazy"><img src="/champion_icons/Zeri.png" alt="ゼリ" width="36" height="36" loading="lazy"><img src="/champion_icons/Gnar.png" alt="ナー" width="36" height="36" loading="lazy"><img src="/champion_icons/Ekko.png" alt="エコー" width="36" height="36" loading="lazy"></div>
+    </section></a>
+    <a class="tp-link-card" href="/types/balanced"><section class="ext-section">
+      <h2 class="ext-title">万能の適応者</h2>
+      <div class="ext-subtitle">状況に応じて変幻自在に形を変える</div>
+      <div class="tp-type-icons"><img src="/champion_icons/Taliyah.png" alt="タリヤ" width="36" height="36" loading="lazy"><img src="/champion_icons/Mel.png" alt="メル" width="36" height="36" loading="lazy"><img src="/champion_icons/Smolder.png" alt="スモルダー" width="36" height="36" loading="lazy"><img src="/champion_icons/Thresh.png" alt="スレッシュ" width="36" height="36" loading="lazy"><img src="/champion_icons/Lillia.png" alt="リリア" width="36" height="36" loading="lazy"></div>
+    </section></a>
+  </div>
+
+  <div class="tp-cta">
+    <a class="btn-primary" href="/">診断してみる</a>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <!-- 制作者表記: mocks/footer-rounds の ROUND 4 #12 で決定（2026-11-21） -->
+    <div class="footer-creators">
+      <a class="footer-creator" href="https://x.com/Stail21San" target="_blank" rel="noopener noreferrer">
+        <img src="/footer_images/stail.jpg" alt="" width="40" height="40" loading="lazy">
+        <span><span class="footer-creator-name">すたいる</span><span class="footer-creator-x"><svg class="footer-x-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@Stail21San</span></span>
+      </a>
+      <a class="footer-creator" href="https://x.com/Justive_4" target="_blank" rel="noopener noreferrer">
+        <img src="/footer_images/justive.jpg" alt="" width="40" height="40" loading="lazy">
+        <span><span class="footer-creator-name">じゃすちぶせぶん</span><span class="footer-creator-x"><svg class="footer-x-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@Justive_4</span></span>
+      </a>
+    </div>
+    <div class="footer-wardex">
+      <a href="https://wardex.app" target="_blank" rel="noopener noreferrer">LoLの攻略は<img src="/footer_images/wardex-logo.svg" alt="WARDEX" width="105" height="26" loading="lazy"></a>
+    </div>
+    <p class="footer-disclaimer">
+      このサイトは <strong>Riot Games</strong> および <strong>League of Legends</strong> と一切関係のない非公式のファンサイトです。<br>
+      League of Legends および関連コンテンツはすべて Riot Games, Inc. の商標または登録商標です。<br>
+      本サイトのコンテンツは <a href="https://www.riotgames.com/en/legal" target="_blank" rel="noopener noreferrer">Riot Games Fan Content Policy</a> に基づいて制作されています。
+    </p>
+    <p class="footer-privacy">
+      本サイトはフォント読み込みに Google Fonts を利用しており、その際に接続元 IP アドレスが Google に送信されます。その他の個人情報の収集・外部送信は行っていません。<br>
+      <a href="/privacy.html" style="color:rgba(200,155,60,.6);text-decoration:underline">プライバシーポリシー / Privacy Policy</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="/contact.html" style="color:rgba(200,155,60,.6);text-decoration:underline">お問い合わせ / Contact</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="/types/" style="color:rgba(200,155,60,.6);text-decoration:underline">サモナータイプ一覧</a>
+    </p>
+    <p class="footer-note">
+      診断結果はエンターテインメント目的であり、性格診断の正確性を保証するものではありません。
+    </p>
+  </div>
+</footer>
+</body>
+</html>

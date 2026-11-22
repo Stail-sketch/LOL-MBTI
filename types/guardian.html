@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- このファイルは scripts/build-type-pages.mjs が書き出す。直接直さず、data.js を直してから書き出し直す -->
+<title>鉄壁の守護者（仲間のために全てを捧げる盾）| サモナーの素質診断</title>
+<meta name="description" content="LoLのサモナータイプ「鉄壁の守護者」の特徴。仲間を守ることに最大の価値を見出す、縁の下の力持ち。自分が目立たなくても、チームが勝てればそれで十分。長期的な視点で試合を管理し、揺るぎない忍耐力でチームを支え続ける。">
+<link rel="canonical" href="https://lol-type.com/types/guardian">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lol-type.com/types/guardian">
+<meta property="og:title" content="鉄壁の守護者（仲間のために全てを捧げる盾）| サモナーの素質診断">
+<meta property="og:description" content="LoLのサモナータイプ「鉄壁の守護者」の特徴。仲間を守ることに最大の価値を見出す、縁の下の力持ち。自分が目立たなくても、チームが勝てればそれで十分。長期的な視点で試合を管理し、揺るぎない忍耐力でチームを支え続ける。">
+<meta property="og:image" content="https://lol-type.com/image.png?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="鉄壁の守護者（仲間のために全てを捧げる盾）| サモナーの素質診断">
+<meta name="twitter:description" content="LoLのサモナータイプ「鉄壁の守護者」の特徴。仲間を守ることに最大の価値を見出す、縁の下の力持ち。自分が目立たなくても、チームが勝てればそれで十分。長期的な視点で試合を管理し、揺るぎない忍耐力でチームを支え続ける。">
+<meta name="twitter:image" content="https://lol-type.com/image.png?v=2">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vars.css?v=2">
+<link rel="stylesheet" href="/style.css?v=8">
+<style>
+  .tp-wrap{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:56px 20px 20px}
+  .tp-header{text-align:center;margin-bottom:36px}
+  .tp-back{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;color:var(--text);text-decoration:none;border:1px solid var(--gold-a20);padding:6px 16px;margin-bottom:32px;transition:color .2s,border-color .2s}
+  .tp-back:hover{color:var(--gold);border-color:var(--gold)}
+  .tp-label{font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.4em;color:var(--blue);text-transform:uppercase;margin-bottom:10px}
+  .tp-title{font-family:'Noto Serif JP',serif;font-weight:700;font-size:clamp(28px,6vw,42px);color:var(--gold);letter-spacing:.12em;line-height:1.4}
+  .tp-subtitle{font-size:15px;color:var(--text-light);margin-top:8px}
+  .tp-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+  .tp-list li{font-size:14px;color:var(--white);line-height:1.9;padding-left:16px;border-left:2px solid var(--gold-a30)}
+  .tp-quotes{display:flex;flex-direction:column;gap:10px}
+  .tp-link-card{display:block;text-decoration:none;color:inherit;transition:transform .2s}
+  .tp-link-card:hover{transform:translateY(-2px)}
+  .tp-more{display:block;margin-top:10px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;color:var(--gold)}
+  .tp-static .affinity-card{cursor:default}
+  .tp-static .affinity-card:hover{transform:none}
+  .tp-champs{display:flex;flex-direction:column;gap:14px}
+  .tp-champ{display:grid;grid-template-columns:56px 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--gold-a12)}
+  .tp-champ:first-child{border-top:none;padding-top:0}
+  .tp-champ img{width:56px;height:56px;border:1px solid var(--gold-a40)}
+  .tp-champ-name{font-size:16px;font-weight:700;color:var(--gold-light)}
+  .tp-champ-meta{font-size:12px;color:var(--text);margin-left:8px}
+  .tp-champ-reason{font-size:13px;color:var(--text);line-height:1.9;margin-top:4px}
+  .tp-cta{text-align:center;margin:36px 0 12px}
+  .tp-cta .btn-primary{text-decoration:none}
+  .tp-types{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .tp-types .ext-section{margin-bottom:0;height:100%}
+  .tp-type-icons{display:flex;gap:6px;margin-top:14px}
+  .tp-type-icons img{width:36px;height:36px;border:1px solid var(--gold-a30)}
+  @media(max-width:500px){.tp-wrap{padding:40px 16px 12px}.ext-section{padding:22px 18px}}
+</style>
+</head>
+<body>
+<div class="hex-bg"></div>
+<main class="tp-wrap">
+
+  <header class="tp-header">
+    <a class="tp-back" href="/types/">← サモナータイプ一覧</a>
+    <p class="tp-label">Summoner Type</p>
+    <h1 class="tp-title">鉄壁の守護者</h1>
+    <p class="tp-subtitle">仲間のために全てを捧げる盾</p>
+  </header>
+
+  <section class="ext-section">
+    <div class="ext-label">Play Style</div>
+    
+    <p class="ext-body">仲間を守ることに最大の価値を見出す、縁の下の力持ち。自分が目立たなくても、チームが勝てればそれで十分。長期的な視点で試合を管理し、揺るぎない忍耐力でチームを支え続ける。</p>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Strengths &amp; Weaknesses</div>
+    
+    
+    <div class="sw-grid">
+      <div class="sw-box str"><div class="sw-box-label">⬡ 強み</div><div class="sw-item">どんな状況でも揺れないチームへの献身</div><div class="sw-item">長期的な安定感と忍耐力</div></div>
+      <div class="sw-box weak"><div class="sw-box-label">⬡ 弱み</div><div class="sw-item">自分の意見を主張することが苦手</div><div class="sw-item">守ることに集中しすぎて攻める機会を逃すことがある</div></div>
+    </div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Battle Creed</div>
+    <h2 class="ext-title" style="margin-bottom:14px">このタイプの戦い方を一言で表すと</h2>
+    
+    <div class="tp-quotes"><div class="catchphrase-card"><div class="catchphrase-quote">「仲間が立っている限り、俺たちは負けない。」</div></div><div class="catchphrase-card"><div class="catchphrase-quote">「盾になることが、俺の最強の武器だ。」</div></div><div class="catchphrase-card"><div class="catchphrase-quote">「守り抜いた先に、本当の勝利がある。」</div></div></div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">After Game Chat</div>
+    <h2 class="ext-title" style="margin-bottom:14px">試合後、このタイプはこう思われているかも</h2>
+    
+    <div class="perception-grid" style="margin-bottom:12px">
+      <div class="perception-box ally"><div class="perception-box-label">味方から</div><div class="perception-text">「いつもそこにいてくれる。安心感が違う。」あなたの存在がチームに落ち着きをもたらす。</div></div>
+      <div class="perception-box enemy"><div class="perception-box-label">敵から</div><div class="perception-text">「あの壁をどう崩すか。本当に固い。」あなたの守りが敵の攻め手を封じる。</div></div>
+    </div>
+    <div class="perception-grid" style="margin-bottom:12px">
+      <div class="perception-box ally"><div class="perception-box-label">味方から</div><div class="perception-text">「死にそうだったのに助けてもらった。マジ神。」あなたの守護がチームを絶体絶命から救う。</div></div>
+      <div class="perception-box enemy"><div class="perception-box-label">敵から</div><div class="perception-text">「あいつがいると全然仕事できない。邪魔すぎる。」あなたの守りが敵の計画を狂わせる。</div></div>
+    </div>
+    <div class="perception-grid" style="margin-bottom:12px">
+      <div class="perception-box ally"><div class="perception-box-label">味方から</div><div class="perception-text">「この人がいると安心してプレイできる。頼りにしてる。」あなたの献身がチームの自信を支える。</div></div>
+      <div class="perception-box enemy"><div class="perception-box-label">敵から</div><div class="perception-text">「倒せない。ずっとそこにいる。」あなたの揺るぎない守りが敵の戦意を削ぐ。</div></div>
+    </div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Signature Champions</div>
+    <h2 class="ext-title" style="margin-bottom:14px">このタイプを体現するチャンピオン</h2>
+    
+    <ul class="tp-list"><li>ブラウム。強さとは盾であること。あなたの献身と守護の精神は、フレヨルドの心そのものだ。</li><li>タリック。仲間の盾となり、その命を守るために力を尽くす。あなたの献身と守護の精神は彼の誓いと重なる。</li><li>ポッピー。英雄の盾を守り続け、どんな強敵にも怯まない姿はあなたの守護者としての本質を映している。</li></ul>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Summoner Synergy</div>
+    <h2 class="ext-title" style="margin-bottom:14px">組むと最強のタイプ</h2>
+    
+    <a class="tp-link-card" href="/types/berserker"><div class="synergy-card">
+      <div class="synergy-type-name">疾風怒濤の闘士</div>
+      <div class="synergy-type-sub">嵐のように戦場を蹂躙する猛者</div>
+      <div class="synergy-reason">固い壁を背負った闘士の突撃は、誰にも止められない。守護者が守り抜く限り、闘士は無限に暴れ続けられる。</div>
+      <span class="tp-more">疾風怒濤の闘士を読む →</span>
+    </div></a>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Shadow Self</div>
+    <h2 class="ext-title" style="margin-bottom:14px">真逆のタイプ</h2>
+    
+    <a class="tp-link-card" href="/types/adventurer"><div class="opposite-card">
+      <div class="opposite-type-name">自由の冒険者</div>
+      <div class="opposite-type-sub">地図のない道を走る開拓者</div>
+      <div class="opposite-reason">地図のない自由な道を突き進む冒険者は、仲間を守ることだけに専念する守護者とは正反対の生き方をしている。</div>
+      <span class="tp-more">自由の冒険者を読む →</span>
+    </div></a>
+  </section>
+  <div class="tp-static">
+
+  <section class="ext-section">
+    <div class="ext-label">Soul Resonance</div>
+    <h2 class="ext-title" style="margin-bottom:14px">相性の良いチャンピオン</h2>
+    <div class="affinity-grid">
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Jinx.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ジンクス</div><div class="affinity-title">暴走パンクガール</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Vayne.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ヴェイン</div><div class="affinity-title">ナイトハンター</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/KogMaw.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">コグ=マウ</div><div class="affinity-title">深淵のアギト</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Aphelios.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">アフェリオス</div><div class="affinity-title">信ずる者の武器</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Xayah.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ザヤ</div><div class="affinity-title">反逆の刃</div></div></div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Natural Enemy</div>
+    <h2 class="ext-title" style="margin-bottom:14px">天敵のチャンピオン</h2>
+    <div class="affinity-grid">
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Pyke.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">パイク</div><div class="affinity-title">ブラッドハーバーの殺戮鬼</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Draven.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ドレイブン</div><div class="affinity-title">栄光ある処刑人</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Zed.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ゼド</div><div class="affinity-title">影の頭領</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Katarina.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">カタリナ</div><div class="affinity-title">凶兆の刃</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Samira.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">サミーラ</div><div class="affinity-title">砂漠の薔薇</div></div></div>
+  </section>
+  </div>
+
+  <section class="ext-section">
+    <div class="ext-label">Champions</div>
+    <h2 class="ext-title" style="margin-bottom:14px">鉄壁の守護者のチャンピオン（10体）</h2>
+    
+    <div class="tp-champs">
+      <div class="tp-champ">
+        <img src="/champion_icons/Janna.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ジャンナ</span><span class="tp-champ-meta">嵐の怒り ・ SUPPORT</span></div>
+          <p class="tp-champ-reason">チームへの深い貢献意識と感情的な共感、安定を好む堅実さ。あなたは派手さより確実性を選び、仲間を守ることに最大の価値を見出す。ジャンナの静かな風はあなたの協調性と感情性の最も美しい形だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Maokai.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">マオカイ</span><span class="tp-champ-meta">歪みし樹人 ・ SUPPORT</span></div>
+          <p class="tp-champ-reason">深い忍耐力とチームへの貢献意識、自然への愛情。あなたは仲間を守ることに喜びを見出し、着実な準備と計画でサポートする。マオカイの根はあなたの協調性と忍耐力が大地に張り巡らされた象徴だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Shen.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">シェン</span><span class="tp-champ-meta">黄昏の瞳 ・ TOP</span></div>
+          <p class="tp-champ-reason">仲間を守る強い使命感と深い協調性。あなたはどこにいてもチームのピンチに駆けつけ、忍耐強く仲間を支え続ける。シェンの精神はあなたの協調性と共感性の最高形態だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Karma.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">カルマ</span><span class="tp-champ-meta">目覚めし者 ・ SUPPORT</span></div>
+          <p class="tp-champ-reason">深い感情性と計画的な協調性。あなたはチームと個人の調和を保ちながら、精神的な安定でチームを導く。カルマの二面性はあなたの感情と計画性の美しいバランスだ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Senna.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">セナ</span><span class="tp-champ-meta">救済者 ・ ADC</span></div>
+          <p class="tp-champ-reason">深い感情性と計画的なサポート能力。あなたは仲間の魂を集め、長期的な視点でチームを強くし続ける。セナの光はあなたの感情性と計画性が生み出す癒しと力の融合だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Amumu.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">アムム</span><span class="tp-champ-meta">めそめそミイラ ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">深い共感性と仲間への強い愛情。あなたは誰かのために戦うとき最大の力を発揮し、チームの絆を何より大切にする。アムムの切なさと優しさはあなたの豊かな感情性と協調性の鏡だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Ashe.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">アッシュ</span><span class="tp-champ-meta">氷の射手 ・ ADC</span></div>
+          <p class="tp-champ-reason">計画的な視野の広さとチームへの貢献意識。あなたは常に大局を見据えてチームを支援し、確実に仕事を積み上げる。アッシュの矢はあなたの計画性と協調性が向かう先を常に示している。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/KogMaw.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">コグ=マウ</span><span class="tp-champ-meta">深淵のアギト ・ ADC</span></div>
+          <p class="tp-champ-reason">穏やかな個性と持続的な火力の持ち主。あなたは焦らずじっくりと戦況を有利に進め、サポートの守りのもとで最大の力を発揮する。コグ=マウの無邪気な好奇心はあなたの忍耐力の可愛い表れだ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Poppy.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ポッピー</span><span class="tp-champ-meta">大鎚の守護者 ・ SUPPORT</span></div>
+          <p class="tp-champ-reason">誠実な信念と仲間を守る使命感、確かな積極性の持ち主。あなたは自分に正直で、大切なものを守るために全力を尽くす。ポッピーの純粋な強さはあなたの誠実さと勇気から生まれる。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Galio.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ガリオ</span><span class="tp-champ-meta">伝説の巨像 ・ MID</span></div>
+          <p class="tp-champ-reason">仲間への強い感情と計画的な積極性、チームへの使命感。あなたは仲間が危機に陥ったとき最大の力を発揮し、どこへでも駆けつける。ガリオの咆哮はあなたの協調性と感情性の爆発だ。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tp-cta">
+    <a class="btn-primary" href="/">診断してみる</a>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <!-- 制作者表記: mocks/footer-rounds の ROUND 4 #12 で決定（2026-11-21） -->
+    <div class="footer-creators">
+      <a class="footer-creator" href="https://x.com/Stail21San" target="_blank" rel="noopener noreferrer">
+        <img src="/footer_images/stail.jpg" alt="" width="40" height="40" loading="lazy">
+        <span><span class="footer-creator-name">すたいる</span><span class="footer-creator-x"><svg class="footer-x-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@Stail21San</span></span>
+      </a>
+      <a class="footer-creator" href="https://x.com/Justive_4" target="_blank" rel="noopener noreferrer">
+        <img src="/footer_images/justive.jpg" alt="" width="40" height="40" loading="lazy">
+        <span><span class="footer-creator-name">じゃすちぶせぶん</span><span class="footer-creator-x"><svg class="footer-x-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@Justive_4</span></span>
+      </a>
+    </div>
+    <div class="footer-wardex">
+      <a href="https://wardex.app" target="_blank" rel="noopener noreferrer">LoLの攻略は<img src="/footer_images/wardex-logo.svg" alt="WARDEX" width="105" height="26" loading="lazy"></a>
+    </div>
+    <p class="footer-disclaimer">
+      このサイトは <strong>Riot Games</strong> および <strong>League of Legends</strong> と一切関係のない非公式のファンサイトです。<br>
+      League of Legends および関連コンテンツはすべて Riot Games, Inc. の商標または登録商標です。<br>
+      本サイトのコンテンツは <a href="https://www.riotgames.com/en/legal" target="_blank" rel="noopener noreferrer">Riot Games Fan Content Policy</a> に基づいて制作されています。
+    </p>
+    <p class="footer-privacy">
+      本サイトはフォント読み込みに Google Fonts を利用しており、その際に接続元 IP アドレスが Google に送信されます。その他の個人情報の収集・外部送信は行っていません。<br>
+      <a href="/privacy.html" style="color:rgba(200,155,60,.6);text-decoration:underline">プライバシーポリシー / Privacy Policy</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="/contact.html" style="color:rgba(200,155,60,.6);text-decoration:underline">お問い合わせ / Contact</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="/types/" style="color:rgba(200,155,60,.6);text-decoration:underline">サモナータイプ一覧</a>
+    </p>
+    <p class="footer-note">
+      診断結果はエンターテインメント目的であり、性格診断の正確性を保証するものではありません。
+    </p>
+  </div>
+</footer>
+</body>
+</html>

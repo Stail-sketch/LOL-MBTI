@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- このファイルは scripts/build-type-pages.mjs が書き出す。直接直さず、data.js を直してから書き出し直す -->
+<title>カリスマ指揮官（仲間を鼓舞し戦場を制圧する将）| サモナーの素質診断</title>
+<meta name="description" content="LoLのサモナータイプ「カリスマ指揮官」の特徴。チームを引っ張るリーダーシップと、個人としての強さを両立できる稀少なタイプ。声を上げてチームをまとめ、自らが先頭に立って突っ込む。カリスマで仲間を動かし、計画で試合を制圧する。">
+<link rel="canonical" href="https://lol-type.com/types/commander">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lol-type.com/types/commander">
+<meta property="og:title" content="カリスマ指揮官（仲間を鼓舞し戦場を制圧する将）| サモナーの素質診断">
+<meta property="og:description" content="LoLのサモナータイプ「カリスマ指揮官」の特徴。チームを引っ張るリーダーシップと、個人としての強さを両立できる稀少なタイプ。声を上げてチームをまとめ、自らが先頭に立って突っ込む。カリスマで仲間を動かし、計画で試合を制圧する。">
+<meta property="og:image" content="https://lol-type.com/image.png?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="カリスマ指揮官（仲間を鼓舞し戦場を制圧する将）| サモナーの素質診断">
+<meta name="twitter:description" content="LoLのサモナータイプ「カリスマ指揮官」の特徴。チームを引っ張るリーダーシップと、個人としての強さを両立できる稀少なタイプ。声を上げてチームをまとめ、自らが先頭に立って突っ込む。カリスマで仲間を動かし、計画で試合を制圧する。">
+<meta name="twitter:image" content="https://lol-type.com/image.png?v=2">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vars.css?v=2">
+<link rel="stylesheet" href="/style.css?v=8">
+<style>
+  .tp-wrap{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:56px 20px 20px}
+  .tp-header{text-align:center;margin-bottom:36px}
+  .tp-back{display:inline-flex;align-items:center;gap:6px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;color:var(--text);text-decoration:none;border:1px solid var(--gold-a20);padding:6px 16px;margin-bottom:32px;transition:color .2s,border-color .2s}
+  .tp-back:hover{color:var(--gold);border-color:var(--gold)}
+  .tp-label{font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.4em;color:var(--blue);text-transform:uppercase;margin-bottom:10px}
+  .tp-title{font-family:'Noto Serif JP',serif;font-weight:700;font-size:clamp(28px,6vw,42px);color:var(--gold);letter-spacing:.12em;line-height:1.4}
+  .tp-subtitle{font-size:15px;color:var(--text-light);margin-top:8px}
+  .tp-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+  .tp-list li{font-size:14px;color:var(--white);line-height:1.9;padding-left:16px;border-left:2px solid var(--gold-a30)}
+  .tp-quotes{display:flex;flex-direction:column;gap:10px}
+  .tp-link-card{display:block;text-decoration:none;color:inherit;transition:transform .2s}
+  .tp-link-card:hover{transform:translateY(-2px)}
+  .tp-more{display:block;margin-top:10px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.15em;color:var(--gold)}
+  .tp-static .affinity-card{cursor:default}
+  .tp-static .affinity-card:hover{transform:none}
+  .tp-champs{display:flex;flex-direction:column;gap:14px}
+  .tp-champ{display:grid;grid-template-columns:56px 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--gold-a12)}
+  .tp-champ:first-child{border-top:none;padding-top:0}
+  .tp-champ img{width:56px;height:56px;border:1px solid var(--gold-a40)}
+  .tp-champ-name{font-size:16px;font-weight:700;color:var(--gold-light)}
+  .tp-champ-meta{font-size:12px;color:var(--text);margin-left:8px}
+  .tp-champ-reason{font-size:13px;color:var(--text);line-height:1.9;margin-top:4px}
+  .tp-cta{text-align:center;margin:36px 0 12px}
+  .tp-cta .btn-primary{text-decoration:none}
+  .tp-types{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .tp-types .ext-section{margin-bottom:0;height:100%}
+  .tp-type-icons{display:flex;gap:6px;margin-top:14px}
+  .tp-type-icons img{width:36px;height:36px;border:1px solid var(--gold-a30)}
+  @media(max-width:500px){.tp-wrap{padding:40px 16px 12px}.ext-section{padding:22px 18px}}
+</style>
+</head>
+<body>
+<div class="hex-bg"></div>
+<main class="tp-wrap">
+
+  <header class="tp-header">
+    <a class="tp-back" href="/types/">← サモナータイプ一覧</a>
+    <p class="tp-label">Summoner Type</p>
+    <h1 class="tp-title">カリスマ指揮官</h1>
+    <p class="tp-subtitle">仲間を鼓舞し戦場を制圧する将</p>
+  </header>
+
+  <section class="ext-section">
+    <div class="ext-label">Play Style</div>
+    
+    <p class="ext-body">チームを引っ張るリーダーシップと、個人としての強さを両立できる稀少なタイプ。声を上げてチームをまとめ、自らが先頭に立って突っ込む。カリスマで仲間を動かし、計画で試合を制圧する。</p>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Strengths &amp; Weaknesses</div>
+    
+    
+    <div class="sw-grid">
+      <div class="sw-box str"><div class="sw-box-label">⬡ 強み</div><div class="sw-item">自然と湧き出るリーダーシップ</div><div class="sw-item">状況に応じて攻守を切り替える判断力</div></div>
+      <div class="sw-box weak"><div class="sw-box-label">⬡ 弱み</div><div class="sw-item">一人で全てを抱え込もうとする傾向</div><div class="sw-item">仲間がついてこないときにフラストレーションを感じやすい</div></div>
+    </div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Battle Creed</div>
+    <h2 class="ext-title" style="margin-bottom:14px">このタイプの戦い方を一言で表すと</h2>
+    
+    <div class="tp-quotes"><div class="catchphrase-card"><div class="catchphrase-quote">「俺の声で、仲間は動く。」</div></div><div class="catchphrase-card"><div class="catchphrase-quote">「先頭に立つことが、最強の戦術だ。」</div></div><div class="catchphrase-card"><div class="catchphrase-quote">「勝利はチームで掴む。だから俺が引っ張る。」</div></div></div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">After Game Chat</div>
+    <h2 class="ext-title" style="margin-bottom:14px">試合後、このタイプはこう思われているかも</h2>
+    
+    <div class="perception-grid" style="margin-bottom:12px">
+      <div class="perception-box ally"><div class="perception-box-label">味方から</div><div class="perception-text">「あの人の声が聞こえたら安心する。」あなたのリーダーシップがチームを一つにする。</div></div>
+      <div class="perception-box enemy"><div class="perception-box-label">敵から</div><div class="perception-text">「あいつが指示出すと連携が取れてくる。封じないと。」指揮官として恐れられている。</div></div>
+    </div>
+    <div class="perception-grid" style="margin-bottom:12px">
+      <div class="perception-box ally"><div class="perception-box-label">味方から</div><div class="perception-text">「自分で動いて、仲間も引っ張る。理想のキャプテン。」あなたの存在がチームに勢いをもたらす。</div></div>
+      <div class="perception-box enemy"><div class="perception-box-label">敵から</div><div class="perception-text">「チームを動かしてくる。一番厄介なタイプだ。」あなたを最優先ターゲットにされる。</div></div>
+    </div>
+    <div class="perception-grid" style="margin-bottom:12px">
+      <div class="perception-box ally"><div class="perception-box-label">味方から</div><div class="perception-text">「負けそうになっても、この人がいると諦めたくなくなる。」あなたの言葉がチームを鼓舞する。</div></div>
+      <div class="perception-box enemy"><div class="perception-box-label">敵から</div><div class="perception-text">「あのコールが的確すぎる。ゲームプランを崩してくる。」あなたの戦略眼が脅威として認識される。</div></div>
+    </div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Signature Champions</div>
+    <h2 class="ext-title" style="margin-bottom:14px">このタイプを体現するチャンピオン</h2>
+    
+    <ul class="tp-list"><li>ジェイス。ビジョンを持ち、人々を導こうとするその姿はあなたのカリスマ性と指導力の鏡だ。</li><li>ジャーヴァンIV。王族の誇りを背負い、仲間の先頭に立って突き進むその姿はあなたのリーダーシップを体現している。</li><li>ガリオ。仲間が窮地に立てば大陸を超えて駆けつける。あなたのカリスマと結束力は彼の魂そのものだ。</li></ul>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Summoner Synergy</div>
+    <h2 class="ext-title" style="margin-bottom:14px">組むと最強のタイプ</h2>
+    
+    <a class="tp-link-card" href="/types/strategist"><div class="synergy-card">
+      <div class="synergy-type-name">影の軍師</div>
+      <div class="synergy-type-sub">全てを見通す冷徹な参謀</div>
+      <div class="synergy-reason">現場を指揮する司令官と、裏で全てを設計する参謀。前線と頭脳が揃えば、試合は最初から決まっている。</div>
+      <span class="tp-more">影の軍師を読む →</span>
+    </div></a>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Shadow Self</div>
+    <h2 class="ext-title" style="margin-bottom:14px">真逆のタイプ</h2>
+    
+    <a class="tp-link-card" href="/types/hunter"><div class="opposite-card">
+      <div class="opposite-type-name">孤独な狩人</div>
+      <div class="opposite-type-sub">影に潜み獲物を仕留める暗殺者</div>
+      <div class="opposite-reason">声を上げてチームを動かす指揮官と、孤独に獲物を仕留める狩人は、戦い方も価値観も正反対だ。</div>
+      <span class="tp-more">孤独な狩人を読む →</span>
+    </div></a>
+  </section>
+  <div class="tp-static">
+
+  <section class="ext-section">
+    <div class="ext-label">Soul Resonance</div>
+    <h2 class="ext-title" style="margin-bottom:14px">相性の良いチャンピオン</h2>
+    <div class="affinity-grid">
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Amumu.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">アムム</div><div class="affinity-title">めそめそミイラ</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Malphite.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">マルファイト</div><div class="affinity-title">モノリスの欠片</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/JarvanIV.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ジャーヴァン IV</div><div class="affinity-title">デマーシアの儀範</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Sejuani.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">セジュアニ</div><div class="affinity-title">極北の激憤</div></div>
+      <div class="affinity-card ally"><img class="affinity-icon-img" src="/champion_icons/Galio.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ガリオ</div><div class="affinity-title">伝説の巨像</div></div></div>
+  </section>
+
+  <section class="ext-section">
+    <div class="ext-label">Natural Enemy</div>
+    <h2 class="ext-title" style="margin-bottom:14px">天敵のチャンピオン</h2>
+    <div class="affinity-grid">
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Fiora.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">フィオラ</div><div class="affinity-title">高潔なるデュエリスト</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Tryndamere.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">トリンダメア</div><div class="affinity-title">孤高の蛮王</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Jax.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ジャックス</div><div class="affinity-title">最強の武器使い</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Nasus.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ナサス</div><div class="affinity-title">砂漠の司書</div></div>
+      <div class="affinity-card enemy"><img class="affinity-icon-img" src="/champion_icons/Yorick.png" alt="" width="48" height="48" loading="lazy"><div class="affinity-name">ヨリック</div><div class="affinity-title">魂の導き手</div></div></div>
+  </section>
+  </div>
+
+  <section class="ext-section">
+    <div class="ext-label">Champions</div>
+    <h2 class="ext-title" style="margin-bottom:14px">カリスマ指揮官のチャンピオン（19体）</h2>
+    
+    <div class="tp-champs">
+      <div class="tp-champ">
+        <img src="/champion_icons/JarvanIV.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ジャーヴァン IV</span><span class="tp-champ-meta">デマーシアの儀範 ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">王者としての積極性とチームへの責任感。あなたはリーダーシップを自然と発揮し、計画的に戦いながらも仲間のために前に出る。ジャーヴァンの旗印はあなたの指導力と使命感の象徴だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Leona.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">レオナ</span><span class="tp-champ-meta">暁光の戦士 ・ SUPPORT</span></div>
+          <p class="tp-champ-reason">力強い積極性と仲間への使命感。あなたは太陽のように前に進み出て、チームのために全ての攻撃を受け止める。レオナの黄金の盾はあなたの積極性と協調性の融合だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Lucian.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ルシアン</span><span class="tp-champ-meta">不浄殲滅者 ・ ADC</span></div>
+          <p class="tp-champ-reason">強い正義感と積極的な戦闘スタイル、感情的な動機。あなたは守るべきもののために全力で戦い、圧倒的な火力で前線を制圧する。ルシアンの誓いはあなたの感情性と積極性の産物だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Pantheon.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">パンテオン</span><span class="tp-champ-meta">砕けぬ槍 ・ MID</span></div>
+          <p class="tp-champ-reason">戦神としての積極性と存在感。あなたは完全な力で正面から戦いに挑み、戦場のどこにでも現れてチームを鼓舞する。パンテオンの槍はあなたの積極性と戦闘本能の象徴だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/XinZhao.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">シン・ジャオ</span><span class="tp-champ-meta">デマーシアの家令長 ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">誠実な積極性と仲間への忠義。あなたは正々堂々と前から挑み、仲間のために命を懸けることを誇りとする。シン・ジャオの三段突きはあなたの積極性と誠実さの産物だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Blitzcrank.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ブリッツクランク</span><span class="tp-champ-meta">偉大なるスチームゴーレム ・ SUPPORT</span></div>
+          <p class="tp-champ-reason">積極的に動く勇気とチームへの献身。あなたは自分から仕掛けることを恐れず、チームのために大胆なプレイをいとわない。ブリッツのフックはあなたの積極性と協調性の象徴だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Sett.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">セト</span><span class="tp-champ-meta">ザ・ボス ・ TOP</span></div>
+          <p class="tp-champ-reason">強烈な存在感と圧倒的な積極性。あなたはボスとして自然と周りを引きつけ、力でもって物事を解決する。セトの「俺が法律だ」というスタイルはあなたの支配欲と外向性の極みだ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Sejuani.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">セジュアニ</span><span class="tp-champ-meta">極北の激憤 ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">計画的な積極性とチームへの使命感。あなたはフリュールジョルドの厳しさを体に刻み、仲間を率いて突進する。セジュアニの嵐のような突撃はあなたのリーダーシップと積極性の融合だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/MissFortune.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ミス・フォーチュン</span><span class="tp-champ-meta">美貌の賞金稼ぎ ・ ADC</span></div>
+          <p class="tp-champ-reason">バランスのとれた積極性と計画性、明確な目標への意志。あなたは感情をうまくコントロールしながら、目的に向かって着実に前進する。ミス・フォーチュンのように、運命は自分で掴み取るものだ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Vi.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ヴァイ</span><span class="tp-champ-meta">ピルトーヴァーの用心棒 ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">強い外向性と圧倒的な積極性、チームを引っ張る存在感。あなたは前に出ることを恐れず、リスクを取って真っ先に飛び込む。ヴァイの「パンチが全ての答え」はあなたの行動力と熱さを完璧に表現している。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Annie.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">アニー</span><span class="tp-champ-meta">闇の申し子 ・ MID</span></div>
+          <p class="tp-champ-reason">計画的な積極性とシンプルで強固なスタイル。あなたは準備を怠らず、完璧なタイミングで全力を解き放つ。アニーのシンプルだが破壊的な魔法はあなたの計画性と積極性の純粋な表現だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Alistar.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">アリスター</span><span class="tp-champ-meta">ミノタウロスの戦士 ・ SUPPORT</span></div>
+          <p class="tp-champ-reason">力強い積極性と仲間への深い貢献意識の融合。あなたは前に出てチームを守り、圧倒的な存在感で相手を押し返す。アリスターの怒りはあなたの協調性と積極性が合わさった純粋な力だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/KSante.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">カサンテ</span><span class="tp-champ-meta">ナズーマの誇り ・ TOP</span></div>
+          <p class="tp-champ-reason">バランスのとれた能力と誇り高い精神性。あなたは守ることと攻めることを状況に応じて切り替え、チームを鼓舞しながら戦場を制圧する。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Xayah.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ザヤ</span><span class="tp-champ-meta">反逆の刃 ・ ADC</span></div>
+          <p class="tp-champ-reason">感情と論理のバランス、計画性と直感力の均衡。あなたはどんな局面でも安定した判断力を発揮し、信頼できる人と組んだとき真の力を解放する。ザヤのバランスはあなたの多面的な性格を完璧に映し出す。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Sion.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">サイオン</span><span class="tp-champ-meta">不死身の重戦車 ・ TOP</span></div>
+          <p class="tp-champ-reason">圧倒的な耐久力と計画的な積極性。あなたは一度動き始めると止まらず、チームのために巨大な壁となる。サイオンの不死の突撃はあなたの忍耐強さと積極性の融合だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Gwen.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">グウェン</span><span class="tp-champ-meta">聖なるお針子 ・ TOP</span></div>
+          <p class="tp-champ-reason">温かな感情性と積極的な戦闘スタイルが共存する個性。あなたは誰かのために戦うとき最大の力を発揮し、自分だけの空間で無敵の強さを示す。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Sivir.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">シヴィア</span><span class="tp-champ-meta">戦場の女王 ・ ADC</span></div>
+          <p class="tp-champ-reason">計画的な積極性とチームへの貢献意識。あなたは安定したプレイでチームを支え、広範囲の攻撃で戦場を制圧する。シヴィアの戦輪はあなたの計画性と協調性の表れだ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Skarner.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">スカーナー</span><span class="tp-champ-meta">原始の守護者 ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">計画的な積極性とチームへの貢献意識。あなたは準備が整ったとき突進し、仲間のために確実な仕事をこなす。スカーナーの水晶の力はあなたの計画性と協調性の融合だ。</p>
+        </div>
+      </div>
+      <div class="tp-champ">
+        <img src="/champion_icons/Zac.png" alt="" width="56" height="56" loading="lazy">
+        <div>
+          <div><span class="tp-champ-name">ザック</span><span class="tp-champ-meta">親愛なる秘密兵器 ・ JUNGLE</span></div>
+          <p class="tp-champ-reason">チームへの協調性と明るく積極的なエネルギー。あなたは仲間のために自分を犠牲にすることを喜びとし、リスクを取ってでも仲間を守る。ザックの無邪気な強さはあなたの社交性と協調性から生まれる。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tp-cta">
+    <a class="btn-primary" href="/">診断してみる</a>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <!-- 制作者表記: mocks/footer-rounds の ROUND 4 #12 で決定（2026-11-21） -->
+    <div class="footer-creators">
+      <a class="footer-creator" href="https://x.com/Stail21San" target="_blank" rel="noopener noreferrer">
+        <img src="/footer_images/stail.jpg" alt="" width="40" height="40" loading="lazy">
+        <span><span class="footer-creator-name">すたいる</span><span class="footer-creator-x"><svg class="footer-x-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@Stail21San</span></span>
+      </a>
+      <a class="footer-creator" href="https://x.com/Justive_4" target="_blank" rel="noopener noreferrer">
+        <img src="/footer_images/justive.jpg" alt="" width="40" height="40" loading="lazy">
+        <span><span class="footer-creator-name">じゃすちぶせぶん</span><span class="footer-creator-x"><svg class="footer-x-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.263 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>@Justive_4</span></span>
+      </a>
+    </div>
+    <div class="footer-wardex">
+      <a href="https://wardex.app" target="_blank" rel="noopener noreferrer">LoLの攻略は<img src="/footer_images/wardex-logo.svg" alt="WARDEX" width="105" height="26" loading="lazy"></a>
+    </div>
+    <p class="footer-disclaimer">
+      このサイトは <strong>Riot Games</strong> および <strong>League of Legends</strong> と一切関係のない非公式のファンサイトです。<br>
+      League of Legends および関連コンテンツはすべて Riot Games, Inc. の商標または登録商標です。<br>
+      本サイトのコンテンツは <a href="https://www.riotgames.com/en/legal" target="_blank" rel="noopener noreferrer">Riot Games Fan Content Policy</a> に基づいて制作されています。
+    </p>
+    <p class="footer-privacy">
+      本サイトはフォント読み込みに Google Fonts を利用しており、その際に接続元 IP アドレスが Google に送信されます。その他の個人情報の収集・外部送信は行っていません。<br>
+      <a href="/privacy.html" style="color:rgba(200,155,60,.6);text-decoration:underline">プライバシーポリシー / Privacy Policy</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="/contact.html" style="color:rgba(200,155,60,.6);text-decoration:underline">お問い合わせ / Contact</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="/types/" style="color:rgba(200,155,60,.6);text-decoration:underline">サモナータイプ一覧</a>
+    </p>
+    <p class="footer-note">
+      診断結果はエンターテインメント目的であり、性格診断の正確性を保証するものではありません。
+    </p>
+  </div>
+</footer>
+</body>
+</html>
