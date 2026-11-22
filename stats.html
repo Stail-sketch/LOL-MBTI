@@ -106,8 +106,11 @@
     <div class="num rate"><dt>32問まで進んだ割合</dt><dd id="rate">–</dd><p id="rate-note"></p></div>
   </dl>
 
-  <h2>日ごと</h2>
-  <div class="head"><div>日付</div><div>枠＝16問　塗り＝32問</div><div>16問 / 32問</div></div>
+  <div class="judge" id="period">
+    <button data-p="day" class="on">日ごと</button>
+    <button data-p="hour">時間ごと</button>
+  </div>
+  <div class="head" style="margin-top:16px"><div id="period-label">日付</div><div>枠＝16問　塗り＝32問</div><div>16問 / 32問</div></div>
   <div id="days"></div>
 
   <div class="judge" id="judge">
@@ -175,17 +178,33 @@ function render(d){
   $('rate').replaceChildren(sum16?(sum32/sum16*100).toFixed(1):'–',el('small','',sum16?'%':''));
   $('rate-note').textContent=sum16?fmt(sum32)+' / '+fmt(sum16)+'（16問を数え始めてからの分）':'';
 
+  renderPeriod(d);
+  renderBreakdown(d);
+}
+
+// 日ごと／時間ごと（時間ごとは Worker が数え始めた 2026-11-22 夜から、直近48時間）
+let period='day';
+$('period').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  period=b.dataset.p;
+  $('period').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+  if(last)renderPeriod(last);
+});
+
+function renderPeriod(d){
+  const hourly=period==='hour';
+  const list=(hourly?d.hours:d.days)||[];
+  $('period-label').textContent=hourly?'時刻':'日付';
+  const label=x=>hourly?x.hour.slice(5,10).replace('-','/')+' '+x.hour.slice(11)+'時':x.day.slice(5).replace('-','/');
   const box=$('days');box.replaceChildren();
-  const max=Math.max(1,...days.map(x=>Math.max(x.n16,x.n32)));
-  for(const x of days.slice().reverse()){
-    const r=row(x.day.slice(5).replace('-','/'),0,fmt(x.n16)+' / '+fmt(x.n32),x.n16?Math.round(x.n32/x.n16*100)+'%':'');
+  const max=Math.max(1,...list.map(x=>Math.max(x.n16,x.n32)));
+  for(const x of list.slice().reverse()){
+    const r=row(label(x),0,fmt(x.n16)+' / '+fmt(x.n32),x.n16?Math.round(x.n32/x.n16*100)+'%':'');
     const bar=r.querySelector('.bar');
     bar.style.width=Math.max(x.n16,x.n32)/max*100+'%';
     bar.firstChild.style.width=(x.n16?Math.min(1,x.n32/x.n16):1)*100+'%';
     box.append(r);
   }
-
-  renderBreakdown(d);
 }
 
 function renderBreakdown(all){
