@@ -7,13 +7,23 @@
 <meta name="robots" content="noindex,nofollow">
 <title>LOL診断 集計</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@400;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+<script>
+  // 見た目は WARDEX の黒版（既定）と、診断本体と同じ金と紺（?design=lol）を切り替えられる。選んだ方は次に開いた時も使う。
+  // 描画の前に決めて、一瞬だけ別の見た目が出るのを防ぐ
+  (function(){
+    var q=new URLSearchParams(location.search).get('design'),d=q;
+    if(!d){try{d=localStorage.getItem('stats-design');}catch(e){}}
+    document.documentElement.dataset.design=d==='lol'?'lol':'wardex';
+  })();
+</script>
 <style>
-  /* 見た目は診断本体と別（WARDEX デザインの黒版）。遊ぶ人に見せるページではないため */
+  /* 既定は WARDEX デザインの黒版。遊ぶ人に見せるページではないため。下の [data-design="lol"] が診断本体（vars.css・style.css）に合わせた見た目 */
   :root{--bg:#141414;--surface:#1C1C1C;--surface2:#242424;--text:#E8E8E8;--sub:#9A9A9A;--line:rgba(255,255,255,.18);--accent:#FF3333}
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--text);font-family:Helvetica,Arial,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;font-weight:700;line-height:1.4;-webkit-font-smoothing:antialiased}
   main{max-width:960px;margin:0 auto;padding:32px 16px 80px}
-  header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+  header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--line)}
   h1{font-size:22px;letter-spacing:.02em}
   button{font:inherit;font-size:13px;color:var(--text);background:none;border:1px solid var(--text);border-radius:999px;padding:8px 18px;cursor:pointer}
   button:hover{background:var(--text);color:var(--bg)}
@@ -42,6 +52,32 @@
   .judge button.on{background:var(--text);color:var(--bg)}
   .judge span{font-size:13px;color:var(--sub);font-weight:400;margin-left:8px;font-variant-numeric:tabular-nums}
   #error{color:var(--accent);padding:24px 0;display:none}
+  header .tools{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .design{display:flex;gap:0}
+  .design button+button{margin-left:-1px}
+  .design button.on{background:var(--text);color:var(--bg)}
+
+  /* 診断本体の見た目（vars.css の色、Cinzel・Noto Serif JP・Rajdhani、金の線と六角のボタン） */
+  [data-design="lol"]{--bg:#010A13;--surface:#0A1428;--text:#F0E6BE;--sub:#A09B8C;--line:rgba(200,155,60,.2);--accent:#0BC4E3;--gold:#C89B3C;--gold-dark:#785A28}
+  [data-design="lol"] body{font-family:'Noto Serif JP',serif;font-weight:400;line-height:1.6;background:radial-gradient(ellipse at 50% 0%,#0A1428 0%,#010A13 70%) fixed}
+  [data-design="lol"] h1{font-family:'Cinzel','Noto Serif JP',serif;font-weight:700;color:var(--gold);letter-spacing:.12em;text-shadow:0 0 24px rgba(200,155,60,.45)}
+  [data-design="lol"] h2{font-family:'Cinzel','Noto Serif JP',serif;font-weight:700;color:var(--gold);letter-spacing:.14em}
+  [data-design="lol"] button{font-family:'Cinzel','Noto Serif JP',serif;color:var(--gold);border:1px solid var(--gold-dark);border-radius:0;padding:8px 22px;letter-spacing:.08em;clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 50%,calc(100% - 8px) 100%,8px 100%,0 50%);transition:background .2s,color .2s}
+  [data-design="lol"] button:hover,[data-design="lol"] .judge button.on,[data-design="lol"] .design button.on{background:linear-gradient(135deg,var(--gold-dark),var(--gold) 50%,var(--gold-dark));color:var(--bg)}
+  [data-design="lol"] .design button+button{margin-left:-4px}
+  [data-design="lol"] .num dt{color:var(--sub);letter-spacing:.1em}
+  [data-design="lol"] .num dd{font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--gold);text-shadow:0 0 20px rgba(200,155,60,.4)}
+  [data-design="lol"] .num.rate dd{color:var(--accent);text-shadow:0 0 20px rgba(11,196,227,.4)}
+  [data-design="lol"] .row{background:rgba(0,0,0,.25);border:1px solid rgba(200,155,60,.12);padding:8px 12px;margin-top:6px}
+  [data-design="lol"] .row:last-child{border-bottom:1px solid rgba(200,155,60,.12)}
+  [data-design="lol"] .row .val{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;color:var(--gold)}
+  [data-design="lol"] .row .val span{font-family:'Rajdhani',sans-serif;color:var(--sub)}
+  [data-design="lol"] .bar{height:6px;border:0;border-radius:3px;background:rgba(200,155,60,.15)}
+  [data-design="lol"] .bar.plain{background:none}
+  [data-design="lol"] .bar i{border-radius:3px;background:linear-gradient(to right,var(--gold-dark),var(--gold));box-shadow:0 0 10px rgba(200,155,60,.4)}
+  [data-design="lol"] .head{padding:0 12px 4px}
+  [data-design="lol"] .judge span{font-family:'Rajdhani',sans-serif;font-size:15px;color:var(--gold)}
+
   @media(max-width:640px){
     .num dd{font-size:36px}.num+.num{padding-left:14px}
     .cols{grid-template-columns:1fr}
@@ -54,7 +90,13 @@
 <main>
   <header>
     <h1>LOL診断 集計</h1>
-    <button id="reload">更新</button>
+    <div class="tools">
+      <div class="design" id="design">
+        <button data-d="wardex">WARDEX</button>
+        <button data-d="lol">診断ページ</button>
+      </div>
+      <button id="reload">更新</button>
+    </div>
   </header>
   <p id="error">集計を読み込めませんでした</p>
 
@@ -169,6 +211,18 @@ function load(){
     .catch(e=>{console.error(e);$('error').style.display='block';});
 }
 $('reload').addEventListener('click',load);
+
+function setDesign(d){
+  document.documentElement.dataset.design=d;
+  $('design').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.d===d));
+  try{localStorage.setItem('stats-design',d);}catch(e){}
+  // URL にも残して、その見た目のまま人に渡せるようにする
+  const u=new URL(location.href);
+  if(d==='lol')u.searchParams.set('design','lol');else u.searchParams.delete('design');
+  history.replaceState(null,'',u);
+}
+$('design').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setDesign(b.dataset.d);});
+setDesign(document.documentElement.dataset.design);
 load();
 </script>
 </body>
