@@ -1,6 +1,8 @@
 // result.js - 結果表示・レーン切替
 
-function showResult(normalized){
+// replay: トップの「前回の診断」から開き直した時。保存・送信をせず、残したタイプ（typeId）をそのまま出す
+function showResult(normalized,opts){
+  const replay=!!(opts&&opts.replay);
   showScreen('result-screen');
   document.getElementById('lane-tabs').style.display='flex';
   const displayLane=State.selectedLane==='ANY'?getBestLane():(State.selectedLane||'TOP');
@@ -8,7 +10,8 @@ function showResult(normalized){
   const cache=State.laneResultsCache[displayLane];
   renderChampionCard(cache.champ,cache.matchPct,displayLane);
   const addBtn=document.getElementById('btn-add-diagnosis');
-  addBtn.style.display=State.currentPhaseEnd<32?'block':'none';
+  // 開き直した時は回答を残していないので、続きから答えられない
+  addBtn.style.display=State.currentPhaseEnd<32&&!replay?'block':'none';
   const is16=State.currentPhaseEnd>=16;
   const is32=State.currentPhaseEnd>=32;
   ['sec-type','sec-catchphrase'].forEach(id=>document.getElementById(id).classList.toggle('hidden',!is16));
@@ -17,8 +20,11 @@ function showResult(normalized){
   document.getElementById('ranking-section').classList.add('hidden');
   let detectedTypeName='';
   let detectedTypeNameJP='';
+  let detectedType=null;
   if(is16){
-    const type=getSummonerType(normalized);
+    const saved=replay&&opts.typeId?SUMMONER_TYPES.find(t=>t.id===opts.typeId):null;
+    const type=saved||getSummonerType(normalized);
+    detectedType=type;
     detectedTypeNameJP=type.name;
     const enType=State.currentLang==='en'&&SUMMONER_TYPES_EN[type.id]?SUMMONER_TYPES_EN[type.id]:null;
     detectedTypeName=enType?enType.name:type.name;
@@ -28,7 +34,11 @@ function showResult(normalized){
   drawRadar(normalized);buildLegend(normalized);
   applyResultLang();
   updateSharePreview(cache.champ,cache.matchPct,detectedTypeName);
-  saveLastResult(cache.champ,cache.matchPct,detectedTypeNameJP,displayLane);
+  if(replay){
+    if(is32)loadRankings();
+    return;
+  }
+  saveLastResult(cache.champ,cache.matchPct,detectedTypeNameJP,displayLane,detectedType);
   if(is32){
     sendDiagnosisResult(cache.champ,detectedTypeNameJP,State.selectedLane)
       .then(()=>loadRankings());
