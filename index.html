@@ -18,7 +18,7 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+JP:wght@300;400;700&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vars.css?v=2">
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style.css?v=9">
 <!-- CSS は style.css に分離済み -->
 <script type="application/ld+json">
 {
@@ -346,6 +346,11 @@
       </div>
     </div>
 
+    <!-- AdSense「結果の下」。読み込みは結果画面を開いた時（result.js の loadResultAd）。隠れたまま読むと幅0で失敗するため -->
+    <div class="result-ad">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4680194085215369" data-ad-slot="7521958179" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </div>
+
     <!-- Community Stats (32問のみ表示) -->
     <div class="ranking-section hidden" id="ranking-section">
       <div class="ext-label">Community Stats</div>
@@ -498,7 +503,7 @@
 <script src="js/storage.js?v=9"></script>
 <script src="js/diagnosis.js?v=10"></script>
 <script src="js/ui.js?v=8"></script>
-<script src="js/result.js?v=9"></script>
+<script src="js/result.js?v=10"></script>
 <script src="js/export.js?v=8"></script>
 <script src="js/main.js?v=10"></script>
 </body>

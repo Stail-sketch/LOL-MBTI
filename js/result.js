@@ -1,9 +1,18 @@
 // result.js - 結果表示・レーン切替
 
 // replay: トップの「前回の診断」から開き直した時。保存・送信をせず、残したタイプ（typeId）をそのまま出す
+// 広告枠は1つを使い回す。同じ枠に2回 push すると AdSense がエラーを出すので、最初の表示の時だけ
+function loadResultAd(){
+  const ins=document.querySelector('.result-ad .adsbygoogle');
+  if(!ins||ins.dataset.pushed)return;
+  ins.dataset.pushed='1';
+  try{(window.adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}
+}
+
 function showResult(normalized,opts){
   const replay=!!(opts&&opts.replay);
   showScreen('result-screen');
+  loadResultAd();
   document.getElementById('lane-tabs').style.display='flex';
   const displayLane=State.selectedLane==='ANY'?getBestLane():(State.selectedLane||'TOP');
   renderLaneTabs(displayLane);
