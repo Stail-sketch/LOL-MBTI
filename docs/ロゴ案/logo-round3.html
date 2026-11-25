@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>LOL鑑定 ロゴ案 ラウンド3</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=Noto+Serif+JP:wght@900&display=swap" rel="stylesheet">
+<style>
+  /* vars.css の値を写したもの（確認用サーバーが docs/ しか配信しないため直書き） */
+  :root{--gold:#C89B3C;--gold-dark:#785A28;--bg:#010A13;--bg2:#0A1428;--bg3:#091428;--white:#F0E6BE;--blue:#0BC4E3;--gold-a30:rgba(200,155,60,.3)}
+  *{box-sizing:border-box;margin:0}
+  body{background:var(--bg);color:var(--white);font-family:'Noto Serif JP',serif;padding:40px}
+  header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px}
+  h1{font-family:'Cinzel',serif;font-size:24px;color:var(--gold);letter-spacing:.2em}
+  button{font-family:'Noto Serif JP',serif;background:transparent;color:var(--gold);border:1px solid var(--gold-dark);padding:8px 20px;border-radius:999px;cursor:pointer}
+  body.guides button{background:var(--gold);color:var(--bg)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:1px;background:var(--gold-a30);border:1px solid var(--gold-a30)}
+  .card{background:linear-gradient(135deg,var(--bg2),var(--bg3));padding:24px 28px 32px;display:flex;flex-direction:column;gap:16px}
+  .no{font-family:'Cinzel',serif;font-size:16px;color:var(--gold);letter-spacing:.2em}
+  .stage{min-height:160px;display:flex;align-items:center;justify-content:center;gap:28px}
+  svg{display:block;max-width:100%;overflow:visible}
+  .guide{display:none}
+  body.guides .guide{display:inline}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0E6BE"/><stop offset="100%" stop-color="#C89B3C"/>
+    </linearGradient>
+    <linearGradient id="goldPlate" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#785A28"/><stop offset="50%" stop-color="#C89B3C"/><stop offset="100%" stop-color="#785A28"/>
+    </linearGradient>
+  </defs>
+</svg>
+<header><h1>LOL鑑定 LOGO</h1><button id="toggle">ガイド線</button></header>
+<div class="grid" id="grid"></div>
+
+<script>
+/*
+  高さの合わせ方:
+  dominant-baseline="central" や font-size の一致では、英字（Cinzel）と漢字（Noto Serif JP）の
+  見た目の高さが揃わない（書体ごとに字面の余白が違うため）。
+  そこで canvas の measureText で「インクの上端・下端・左右」を測り、
+  LOL の大文字の高さ = 鑑定のインクの高さ になるよう、文字ごとに font-size を決めている。
+  板の上下余白・左右余白もインクの位置から測るので、見た目どおりに等しくなる。
+*/
+const NS = 'http://www.w3.org/2000/svg';
+const NAVY = '#010A13', GOLD = '#C89B3C', GOLD_D = '#785A28', BLUE = '#0BC4E3';
+const EN = {fam: 'Cinzel', text: 'LOL', ls: 0.06};
+const JP = {fam: "'Noto Serif JP'", text: '鑑定', ls: 0};
+const ctx = document.createElement('canvas').getContext('2d', {willReadFrequently: true});
+
+function el(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+// measureText の actualBoundingBox は Noto Serif JP の漢字で字の枠（ほぼ全角の箱）を返し、
+// インクより上下に大きく出る（鑑定が LOL より低く見えた）。そこで実際に描いて画素で測る
+const cache = {};
+function measure(fam, text, ls) {
+  const key = fam + '|' + text + '|' + ls;
+  if (cache[key]) return cache[key];
+  const F = 100, W = 1200, Hc = 300, ox = 100, oy = 200; // oy は基準線の位置
+  ctx.canvas.width = W; ctx.canvas.height = Hc;
+  ctx.clearRect(0, 0, W, Hc);
+  ctx.font = `900 ${F}px ${fam}`;
+  ctx.letterSpacing = (ls * F) + 'px';
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = '#000';
+  ctx.fillText(text, ox, oy);
+  const d = ctx.getImageData(0, 0, W, Hc).data;
+  let top = Hc, bot = -1, left = W, right = -1;
+  for (let y = 0; y < Hc; y++) for (let x = 0; x < W; x++) {
+    if (d[(y * W + x) * 4 + 3] > 127) {
+      if (y < top) top = y; if (y > bot) bot = y;
+      if (x < left) left = x; if (x > right) right = x;
+    }
+  }
+  return cache[key] = {asc: oy - top, desc: bot + 1 - oy, l: ox - left, r: right + 1 - ox};
+}
+// インクの高さを h にしたときの倍率と、インクの幅
+function scaleOf(p, h) { const m = measure(p.fam, p.ref || p.text, p.ls); return h / (m.asc + m.desc); }
+function inkW(p, h) { const m = measure(p.fam, p.text, p.ls); return (m.l + m.r) * scaleOf(p, h); }
+// インクの左上が (x0, y0)、インクの高さが h になるように文字を置く
+function put(g, p, h, x0, y0, fill) {
+  const s = scaleOf(p, h);
+  const m = measure(p.fam, p.text, p.ls);
+  const ref = measure(p.fam, p.ref || p.text, p.ls);
+  const size = 100 * s;
+  const t = el('text', {x: x0 + m.l * s, y: y0 + ref.asc * s, 'font-family': p.fam, 'font-weight': 900,
+    'font-size': size.toFixed(2), 'letter-spacing': (p.ls * size).toFixed(2), fill}, g);
+  t.textContent = p.text;
+  return (m.l + m.r) * s;
+}
+function guideH(svg, y, x1, x2) { el('line', {class: 'guide', x1, x2, y1: y, y2: y, stroke: BLUE, 'stroke-width': 1}, svg); }
+function guideV(svg, x, y1, y2) { el('line', {class: 'guide', x1: x, x2: x, y1, y2, stroke: BLUE, 'stroke-width': 1, 'stroke-dasharray': '3 3'}, svg); }
+
+// 横並びの「LOL鑑定」。gap は字間。返り値は全体のインク幅
+// 見た目の補正: 漢字はインクの上下端に届くのが一部の画だけで、本体は内側にある。
+// インクの高さを大文字と同じにすると漢字が小さく見えるので、漢字を opt 倍にして
+// 上下に同じだけはみ出させる（中心は揃えたまま）。1.0 だと実寸どおりの一致
+const JP_OPT = 1.1;
+function wordW(latin, H, gap, opt = JP_OPT) { return inkW(latin, H) + gap + inkW(JP, H * opt); }
+// y0 は大文字の上端。漢字は (opt-1)/2 だけ上下にはみ出る
+function word(svg, latin, H, gap, x0, y0, fill, opt = JP_OPT) {
+  const w1 = put(svg, latin, H, x0, y0, fill);
+  put(svg, JP, H * opt, x0 + w1 + gap, y0 - H * (opt - 1) / 2, fill);
+}
+
+function card(n, w) {
+  const div = document.createElement('div'); div.className = 'card';
+  div.innerHTML = `<div class="no">${n}</div><div class="stage"></div>`;
+  document.getElementById('grid').appendChild(div);
+  return div.querySelector('.stage');
+}
+function svgIn(stage, vw, vh, displayW) {
+  return el('svg', {viewBox: `0 0 ${vw} ${vh}`, width: displayW}, stage);
+}
+
+// 板つき横並び。shape: 'hex'（主ボタンの六角）| 'chamfer'（選択肢ボタンの角切り）
+function plated(n, {shape, plateFill, stroke, textFill, latin = EN, blueEdge = false, opt = JP_OPT}) {
+  // 余白は大文字の高さ H を基準にし、板の中で大文字を上下中央に置く（漢字のはみ出しは上下同じ）
+  const H = 60, gap = H * 0.2, padY = H * 0.5;
+  const ph = H + padY * 2;
+  const inset = shape === 'hex' ? ph * 0.26 : 0;
+  const padX = H * 0.55 + inset;
+  const ww = wordW(latin, H, gap, opt);
+  const pw = ww + padX * 2;
+  const svg = svgIn(card(n), pw, ph, Math.min(380, pw * 0.95));
+  const pts = shape === 'hex'
+    ? [[inset, 0], [pw - inset, 0], [pw, ph / 2], [pw - inset, ph], [inset, ph], [0, ph / 2]]
+    : [[0, 0], [pw - 16, 0], [pw, 16], [pw, ph], [16, ph], [0, ph - 16]];
+  el('polygon', {points: pts.map(p => p.join(',')).join(' '), fill: plateFill, stroke: stroke || 'none', 'stroke-width': 2}, svg);
+  if (blueEdge) {
+    const k = 8;
+    el('polygon', {points: `${pw - inset},0 ${pw},${ph / 2} ${pw - inset},${ph} ${pw - inset - k},${ph} ${pw - k},${ph / 2} ${pw - inset - k},0`, fill: BLUE}, svg);
+  }
+  word(svg, latin, H, gap, padX, padY, textFill, opt);
+  guideH(svg, padY, 0, pw); guideH(svg, padY + H, 0, pw);
+  guideV(svg, pw / 2, 0, ph);
+  guideV(svg, padX, 0, ph); guideV(svg, pw - padX, 0, ph);
+}
+
+// LOL だけ板、鑑定は板の外
+function split(n) {
+  const H = 60, padY = H * 0.5, ph = H + padY * 2, inset = ph * 0.26, padX = H * 0.55 + inset;
+  const lw = inkW(EN, H), lpw = lw + padX * 2, gap = H * 0.4;
+  const jw = inkW(JP, H * JP_OPT), vw = lpw + gap + jw;
+  const svg = svgIn(card(n), vw, ph, 360);
+  el('polygon', {points: `${inset},0 ${lpw - inset},0 ${lpw},${ph / 2} ${lpw - inset},${ph} ${inset},${ph} 0,${ph / 2}`, fill: 'url(#goldPlate)'}, svg);
+  put(svg, EN, H, padX, padY, NAVY);
+  put(svg, JP, H * JP_OPT, lpw + gap, padY - H * (JP_OPT - 1) / 2, 'url(#gold)');
+  guideH(svg, padY, 0, vw); guideH(svg, padY + H, 0, vw);
+}
+
+// 板なし、上下に金の線。線と文字の距離は上下で同じ
+function ruled(n) {
+  const H = 64, gap = H * 0.2, space = H * 0.42, ww = wordW(EN, H, gap), padX = H * 0.5;
+  const vw = ww + padX * 2, vh = H + space * 2 + 6;
+  const svg = svgIn(card(n), vw, vh, 360);
+  el('rect', {x: 0, y: 0, width: vw, height: 3, fill: GOLD}, svg);
+  el('polygon', {points: `${vw / 2},-6 ${vw / 2 + 7.5},1.5 ${vw / 2},9 ${vw / 2 - 7.5},1.5`, fill: GOLD}, svg);
+  el('rect', {x: 0, y: vh - 3, width: vw, height: 3, fill: GOLD_D}, svg);
+  word(svg, EN, H, gap, padX, 3 + space, 'url(#gold)');
+  guideH(svg, 3 + space, 0, vw); guideH(svg, 3 + space + H, 0, vw);
+}
+
+// 縦2段。LOL と 鑑定の幅を揃え、上下の余白と段の間を決まった比にする
+function stack(stage, {S, shape}) {
+  const svg = svgIn(stage, S, S, 150);
+  if (shape === 'circle') {
+    el('circle', {cx: S / 2, cy: S / 2, r: S / 2, fill: NAVY}, svg);
+    el('circle', {cx: S / 2, cy: S / 2, r: S / 2 - 12, fill: 'none', stroke: GOLD, 'stroke-width': 4}, svg);
+  } else {
+    el('polygon', {points: `0,0 ${S - 20},0 ${S},20 ${S},${S} 20,${S} 0,${S - 20}`, fill: NAVY, stroke: GOLD, 'stroke-width': 3}, svg);
+  }
+  const targetW = shape === 'circle' ? S * 0.5 : S * 0.62;
+  const Hj = targetW / inkW(JP, 1);
+  const Hl = targetW / inkW(EN, 1);
+  const rowGap = Hj * 0.36;
+  const total = Hl + rowGap + Hj;
+  const top = (S - total) / 2, x0 = (S - targetW) / 2;
+  put(svg, EN, Hl, x0, top, 'url(#gold)');
+  el('rect', {x: x0 + targetW * 0.15, y: top + Hl + rowGap / 2 - 1, width: targetW * 0.7, height: 2, fill: GOLD_D}, svg);
+  put(svg, JP, Hj, x0, top + Hl + rowGap, 'url(#gold)');
+  guideH(svg, top, 0, S); guideH(svg, top + total, 0, S);
+  guideV(svg, x0, 0, S); guideV(svg, x0 + targetW, 0, S);
+}
+// 小さいアイコン「鑑」。インクの中心を箱の中心に置く
+function mini(stage, shape) {
+  const S = 32, P = {fam: JP.fam, text: '鑑', ls: 0};
+  const svg = svgIn(stage, S, S, 48);
+  if (shape === 'circle') {
+    el('circle', {cx: 16, cy: 16, r: 16, fill: NAVY}, svg);
+    el('circle', {cx: 16, cy: 16, r: 14, fill: 'none', stroke: GOLD, 'stroke-width': 1.2}, svg);
+  } else {
+    el('polygon', {points: '0,0 28,0 32,4 32,32 4,32 0,28', fill: NAVY, stroke: GOLD, 'stroke-width': 1.5}, svg);
+  }
+  const h = shape === 'circle' ? 17 : 20, w = inkW(P, h);
+  put(svg, P, h, (S - w) / 2, (S - h) / 2, 'url(#gold)');
+}
+
+async function main() {
+  await Promise.all([
+    document.fonts.load("900 100px Cinzel", "#LOL"),
+    document.fonts.load("900 100px 'Noto Serif JP'", "鑑定"),
+  ]);
+  plated(1, {shape: 'hex', plateFill: 'url(#goldPlate)', textFill: NAVY});
+  // 比較用: 補正なし（インクの上下端を実寸で一致させただけ）
+  plated('1（補正なし）', {shape: 'hex', plateFill: 'url(#goldPlate)', textFill: NAVY, opt: 1});
+  plated(2, {shape: 'chamfer', plateFill: NAVY, stroke: GOLD, textFill: 'url(#gold)'});
+  split(3);
+  ruled(4);
+  // # は字の高さの基準に含めない（LOL の大文字の高さで大きさを決め、# ははみ出してよい）
+  plated(5, {shape: 'hex', plateFill: 'url(#goldPlate)', textFill: NAVY, latin: {fam: 'Cinzel', text: '#LOL', ref: 'LOL', ls: 0.06}});
+  let st = card(6); stack(st, {S: 200, shape: 'chamfer'}); mini(st, 'chamfer');
+  st = card(7); stack(st, {S: 200, shape: 'circle'}); mini(st, 'circle');
+  plated(8, {shape: 'hex', plateFill: 'url(#goldPlate)', textFill: NAVY, blueEdge: true});
+}
+main();
+document.getElementById('toggle').onclick = () => document.body.classList.toggle('guides');
+</script>
+</body>
+</html>
