@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>LOL診断 ロゴ案 ラウンド2</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Serif+JP:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  /* vars.css の値を写したもの（確認用サーバーが docs/ しか配信しないため直書き） */
+  :root{--gold:#C89B3C;--bg:#010A13;--bg2:#0A1428;--bg3:#091428;--white:#F0E6BE;--gold-a30:rgba(200,155,60,.3)}
+  *{box-sizing:border-box;margin:0}
+  body{background:var(--bg);color:var(--white);font-family:'Noto Serif JP',serif;padding:40px}
+  h1{font-family:'Cinzel',serif;font-size:24px;color:var(--gold);letter-spacing:.2em;margin-bottom:32px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:1px;background:var(--gold-a30);border:1px solid var(--gold-a30)}
+  .card{background:linear-gradient(135deg,var(--bg2),var(--bg3));padding:24px 28px 32px;display:flex;flex-direction:column;gap:16px}
+  .no{font-family:'Cinzel',serif;font-size:16px;color:var(--gold);letter-spacing:.2em}
+  .stage{min-height:150px;display:flex;align-items:center;justify-content:center;gap:24px}
+  svg{display:block;max-width:100%;overflow:visible}
+  .en{font-family:'Cinzel',serif;font-weight:900}
+  .jp{font-family:'Noto Serif JP',serif;font-weight:900}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F0E6BE"/><stop offset="100%" stop-color="#C89B3C"/>
+    </linearGradient>
+    <linearGradient id="goldPlate" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#785A28"/><stop offset="50%" stop-color="#C89B3C"/><stop offset="100%" stop-color="#785A28"/>
+    </linearGradient>
+  </defs>
+</svg>
+<h1>LOL診断 LOGO</h1>
+<div class="grid">
+
+<!-- 1: 金の板（サイトの主ボタンと同じ六角の両端）に紺文字 -->
+<div class="card"><div class="no">1</div><div class="stage">
+<svg viewBox="0 0 440 110" width="370">
+  <polygon points="28,0 412,0 440,55 412,110 28,110 0,55" fill="url(#goldPlate)"/>
+  <text x="220" y="58" text-anchor="middle" dominant-baseline="central" font-size="62" fill="#010A13"><tspan class="en" letter-spacing="4">LOL</tspan><tspan class="jp" dx="6">診断</tspan></text>
+</svg>
+</div></div>
+
+<!-- 2: 紺の板に金の線、角を斜めに切る（選択肢ボタンの形） -->
+<div class="card"><div class="no">2</div><div class="stage">
+<svg viewBox="0 0 440 110" width="370">
+  <polygon points="0,0 424,0 440,16 440,110 16,110 0,94" fill="#010A13" stroke="#C89B3C" stroke-width="2"/>
+  <text x="220" y="58" text-anchor="middle" dominant-baseline="central" font-size="62" fill="url(#gold)"><tspan class="en" letter-spacing="4">LOL</tspan><tspan class="jp" dx="6">診断</tspan></text>
+</svg>
+</div></div>
+
+<!-- 3: LOL だけ金の板、診断は金文字（WARDEX の箱＋文字の構成） -->
+<div class="card"><div class="no">3</div><div class="stage">
+<svg viewBox="0 0 440 110" width="370">
+  <polygon points="22,8 208,8 230,55 208,102 22,102 0,55" fill="url(#goldPlate)"/>
+  <text x="115" y="58" text-anchor="middle" dominant-baseline="central" class="en" font-size="58" fill="#010A13" letter-spacing="3">LOL</text>
+  <text x="335" y="56" text-anchor="middle" dominant-baseline="central" class="jp" font-size="74" fill="url(#gold)">診断</text>
+</svg>
+</div></div>
+
+<!-- 4: 文字だけ＋上下に金の線（WARDEX の上下の帯を金に） -->
+<div class="card"><div class="no">4</div><div class="stage">
+<svg viewBox="0 0 440 130" width="370">
+  <rect x="0" y="0" width="440" height="3" fill="#C89B3C"/>
+  <polygon points="220,-6 228,1.5 220,9 212,1.5" fill="#C89B3C"/>
+  <text x="220" y="66" text-anchor="middle" dominant-baseline="central" font-size="68" fill="url(#gold)"><tspan class="en" letter-spacing="6">LOL</tspan><tspan class="jp" dx="8">診断</tspan></text>
+  <rect x="0" y="127" width="440" height="3" fill="#785A28"/>
+</svg>
+</div></div>
+
+<!-- 5: 英字 LOL TYPE（ドメイン lol-type.com に合わせる） -->
+<div class="card"><div class="no">5</div><div class="stage">
+<svg viewBox="0 0 460 110" width="380">
+  <polygon points="28,0 432,0 460,55 432,110 28,110 0,55" fill="url(#goldPlate)"/>
+  <text x="230" y="58" text-anchor="middle" dominant-baseline="central" class="en" font-size="54" fill="#010A13" letter-spacing="10">LOL TYPE</text>
+</svg>
+</div></div>
+
+<!-- 6: 縦2段の正方形（アイコン・SNS用） -->
+<div class="card"><div class="no">6</div><div class="stage">
+<svg viewBox="0 0 200 200" width="150">
+  <polygon points="0,0 180,0 200,20 200,200 20,200 0,180" fill="#010A13" stroke="#C89B3C" stroke-width="3"/>
+  <text x="100" y="66" text-anchor="middle" dominant-baseline="central" class="en" font-size="62" fill="url(#gold)" letter-spacing="3">LOL</text>
+  <rect x="40" y="104" width="120" height="2" fill="#785A28"/>
+  <text x="100" y="148" text-anchor="middle" dominant-baseline="central" class="jp" font-size="60" fill="url(#gold)">診断</text>
+</svg>
+<svg viewBox="0 0 32 32" width="48">
+  <polygon points="0,0 28,0 32,4 32,32 4,32 0,28" fill="#010A13" stroke="#C89B3C" stroke-width="1.5"/>
+  <text x="16" y="17" text-anchor="middle" dominant-baseline="central" class="jp" font-size="21" fill="url(#gold)">診</text>
+</svg>
+</div></div>
+
+<!-- 7: 丸アイコン（今のファビコンの紺丸＋金の輪を引き継ぐ） -->
+<div class="card"><div class="no">7</div><div class="stage">
+<svg viewBox="0 0 200 200" width="150">
+  <circle cx="100" cy="100" r="100" fill="#010A13"/>
+  <circle cx="100" cy="100" r="88" fill="none" stroke="#C89B3C" stroke-width="4"/>
+  <text x="100" y="72" text-anchor="middle" dominant-baseline="central" class="en" font-size="44" fill="url(#gold)" letter-spacing="3">LOL</text>
+  <text x="100" y="128" text-anchor="middle" dominant-baseline="central" class="jp" font-size="50" fill="url(#gold)">診断</text>
+</svg>
+<svg viewBox="0 0 32 32" width="48">
+  <circle cx="16" cy="16" r="16" fill="#010A13"/><circle cx="16" cy="16" r="14" fill="none" stroke="#C89B3C" stroke-width="1.2"/>
+  <text x="16" y="17" text-anchor="middle" dominant-baseline="central" class="jp" font-size="18" fill="url(#gold)">診</text>
+</svg>
+</div></div>
+
+<!-- 8: 1 に青の差し色（サイトの --blue を一点だけ） -->
+<div class="card"><div class="no">8</div><div class="stage">
+<svg viewBox="0 0 440 110" width="370">
+  <polygon points="28,0 412,0 440,55 412,110 28,110 0,55" fill="url(#goldPlate)"/>
+  <text x="220" y="58" text-anchor="middle" dominant-baseline="central" font-size="62" fill="#010A13"><tspan class="en" letter-spacing="4">LOL</tspan><tspan class="jp" dx="6">診断</tspan></text>
+  <polygon points="412,0 440,55 412,110 404,110 432,55 404,0" fill="#0BC4E3"/>
+</svg>
+</div></div>
+
+</div>
+</body>
+</html>
